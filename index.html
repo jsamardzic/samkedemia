@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samkedemia - Your Path to Success</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-bold text-primary">Samkedemia</a>
+
+            <!-- Right side: links + button -->
+            <div class="flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#courses" class="text-gray-600 hover:text-primary transition">Courses</a>
+                    <a href="#why-us" class="text-gray-600 hover:text-primary transition">Why Us</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary transition">Pricing</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary transition">FAQ</a>
+                    <a href="#contact" class="text-gray-600 hover:text-primary transition">Contact</a>
+                </div>
+                <a href="#contact"
+                    class="hidden md:inline-block bg-secondary text-white font-semibold px-5 py-2 rounded-full cta-button">
+                    Book a Free Consultation
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#courses" class="block py-2 text-gray-600 hover:text-primary">Courses</a>
+            <a href="#why-us" class="block py-2 text-gray-600 hover:text-primary">Why Us</a>
+            <a href="#pricing" class="block py-2 text-gray-600 hover:text-primary">Pricing</a>
+            <a href="#faq" class="block py-2 text-gray-600 hover:text-primary">FAQ</a>
+            <a href="#contact" class="block py-2 text-gray-600 hover:text-primary">Contact</a>
+            <a href="#contact"
+                class="block mt-2 bg-secondary text-white font-semibold text-center px-5 py-2 rounded-xl cta-button">
+                Book a Free Consultation
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-pattern py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <!-- Top Part: Headline and Image -->
+                <div class="flex flex-col md:flex-row items-center relative z-10">
+                    <!-- Left side: Text -->
+                    <div class="md:w-1/2 lg:w-3/5 text-center md:text-left mb-12 md:mb-0">
+                        <div class="flex items-center justify-center md:justify-start mb-8">
+                            <div class="flex -space-x-4">
+                                <img class="relative z-40 inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                                    src="assets/images/student1.HEIC" alt="Successful Student 1">
+                                <img class="relative z-30 inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                                    src="assets/images/student2.jpeg" alt="Successful Student 2">
+                                <img class="relative z-20 inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                                    src="assets/images/student3.HEIC" alt="Successful Student 3">
+                                <!-- The placeholder is last in the code to be at the bottom of the stack -->
+                                <div
+                                    class="relative z-10 inline-block h-12 w-12 rounded-full ring-2 ring-white bg-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-500 font-bold text-xs">...</span>
+                                </div>
+                            </div>
+                            <p class="ml-4 font-semibold text-gray-700">Join 50+ Students Who Passed with Confidence</p>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
+                            Math & stats made simple.
+                            <br>
+                            <!-- Highlighter effect on the word "Tutoring" -->
+                            <span class="relative inline-block whitespace-nowrap">
+                                <span
+                                    class="absolute inset-x-0 bottom-0 md:bottom-1 h-3/5 bg-highlight transform -skew-x-12"></span>
+                                <span class="relative z-10">Tutoring</span>
+                            </span>
+                            that delivers.
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-600 max-w-xl mx-auto md:mx-0 mb-8">Proven methods. Right
+                            tools. Less stress.<br>Expert BBA support with a strong record of student success.</p>
+                        <a href="#courses"
+                            class="bg-primary text-white font-bold px-8 py-4 rounded-full text-lg cta-button inline-block">Discover
+                            Our Courses</a>
+                    </div>
+                    <!-- Right side: Illustration -->
+                    <div class="md:w-1/2 lg:w-2/5">
+                        <img src="assets/images/hero.png" alt="Online tutoring session for math and stats"
+                            class="rounded-xl">
+                    </div>
+                </div>
+
+                <!-- Bottom Part: University Logos -->
+                <div class="mt-20 md:mt-24">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/4 text-center md:text-left mb-6 md:mb-0">
+                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Trusted by students
+                                from</p>
+                        </div>
+                        <div class="w-full md:w-3/4 flex justify-center items-center gap-12 md:gap-16">
+                            <a href="https://www.kuleuven.be/" target="_blank" rel="noopener noreferrer"
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
+                                <img src="assets/images/kul.svg.png" alt="KU Leuven Logo" class="h-12">
+                            </a>
+                            <a href="https://www.eur.nl/en" target="_blank" rel="noopener noreferrer"
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
+                                <img src="assets/images/erasmus.svg.png" alt="Erasmus University Rotterdam Logo"
+                                    class="h-12">
+                            </a>
+
+                            <a href="https://www.vub.be/en" target="_blank" rel="noopener noreferrer"
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
+                                <img src="assets/images/vub.svg.png" alt="VUB Logo" class="h-12">
+                            </a>
+                            <a href="https://www.imperial.ac.uk/" target="_blank" rel="noopener noreferrer"
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
+                                <img src="assets/images/imperial.png" alt="Imperial College London Logo" class="h-6">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Course Breakdowns</h2>
+                </div>
+                <div class="relative flex justify-center p-1 bg-gray-200 rounded-full w-max mx-auto mb-12">
+                    <div id="course-tab-slider"
+                        class="absolute top-1 left-1 h-[calc(100%-0.5rem)] bg-primary rounded-full transition-all duration-300 ease-in-out">
+                    </div>
+                    <button data-index="0"
+                        class="course-tab px-6 py-2 rounded-full font-semibold relative z-10 transition">Math A</button>
+                    <button data-index="1"
+                        class="course-tab px-6 py-2 rounded-full font-semibold relative z-10 transition">Math B</button>
+                    <button data-index="2"
+                        class="course-tab px-6 py-2 rounded-full font-semibold relative z-10 transition">Stats
+                        1</button>
+                    <button data-index="3"
+                        class="course-tab px-6 py-2 rounded-full font-semibold relative z-10 transition">Stats
+                        2</button>
+                </div>
+
+                <div id="course-content-viewport" class="max-w-6xl mx-auto overflow-hidden">
+                    <div id="course-content-slider" class="flex transition-transform duration-500 ease-in-out">
+
+                        <div class="course-panel w-full flex-shrink-0 px-4">
+                            <div class="flex flex-col">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-4">
+                                    <h3 class="text-xl font-bold text-gray-800 text-center">Before Samkedemia</h3>
+                                    <h3 class="text-xl font-bold text-primary text-center">After 5 Hours with Samkedemia
+                                    </h3>
+                                </div>
+                                <div class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Feeling lost with a shaky foundation from high school.</span>
+                                        </div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You have a rock-solid foundation, ready for any problem.</span>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Derivatives, especially implicit ones, feel like a foreign
+                                                language.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You master all types of derivatives with our clear, step-by-step
+                                                methods.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Word problems are confusing and you don't know where to
+                                                start.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You have proven strategies to decode and solve any word
+                                                problem.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>The TI-84<sup>®</sup> calculator seems more complicated than the
+                                                math itself.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>Your TI-84<sup>®</sup> becomes your best friend for checking
+                                                answers and saving time.</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-panel w-full flex-shrink-0 px-4">
+                            <div class="flex flex-col">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-4">
+                                    <h3 class="text-xl font-bold text-gray-800 text-center">Before Samkedemia</h3>
+                                    <h3 class="text-xl font-bold text-primary text-center">After 5 Hours with Samkedemia
+                                    </h3>
+                                </div>
+                                <div class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Worried because your Math A skills are a bit shaky.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>All Math A concepts are reinforced so you can move forward with
+                                                confidence.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Linear programming feels like a random, confusing
+                                                process.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You have a 7-step strategy that solves any linear programming
+                                                problem.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Lagrange multipliers seem like an impossible puzzle.</span>
+                                        </div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>Lagrange is demystified with a simple, streamlined 4-step
+                                                method.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>You're not sure how to apply your calculator to two-variable
+                                                functions.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>Your TI-84<sup>®</sup> becomes an essential tool for
+                                                optimization problems.</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-panel w-full flex-shrink-0 px-4">
+                            <div class="flex flex-col">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-4">
+                                    <h3 class="text-xl font-bold text-gray-800 text-center">Before Samkedemia</h3>
+                                    <h3 class="text-xl font-bold text-primary text-center">After 5 Hours with Samkedemia
+                                    </h3>
+                                </div>
+                                <div class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Drowning in formulas and don't know what's important.</span>
+                                        </div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You focus only on the exam-essential statistics and
+                                                formulas.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Probability questions feel like trick questions every
+                                                time.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You solve probability questions easily with a clear
+                                                framework.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>The Central Limit Theorem (CLT) sounds way too
+                                                complicated.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>CLT becomes a simple and powerful formula in your
+                                                toolkit.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>You're not sure how to use your calculator for statistical
+                                                functions.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You use your TI-84<sup>®</sup> to find distributions and values
+                                                in seconds.</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-panel w-full flex-shrink-0 px-4">
+                            <div class="flex flex-col">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-4">
+                                    <h3 class="text-xl font-bold text-gray-800 text-center">Before Samkedemia</h3>
+                                    <h3 class="text-xl font-bold text-primary text-center">After 5 Hours with Samkedemia
+                                    </h3>
+                                </div>
+                                <div class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Your Stats 1 knowledge is a bit rusty and you feel
+                                                behind.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You start strong with a quick and effective Stats 1
+                                                review.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>Confidence intervals are abstract and don't make sense.</span>
+                                        </div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You apply confidence intervals to real-life examples that make
+                                                them click.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>You're overwhelmed by the dozens of different hypothesis
+                                                tests.</span></div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>You realize all hypothesis tests follow the same 5 simple
+                                                steps.</span></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg><span>ANOVA seems like a final boss you're not ready to face.</span>
+                                        </div>
+                                        <div class="flex items-start"><svg
+                                                class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg><span>ANOVA becomes one of the easiest topics on your exam.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Samkedemia & Testimonials Section -->
+        <section id="why-us" class="py-20 bg-gray-50 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">The Samkedemia Difference</h2>
+                </div>
+
+                <!-- Unified Grid for Stats, Features, and Testimonials -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 text-center">
+
+                    <!-- ROW 1: Animated Statistics -->
+                    <div>
+                        <h3 class="text-5xl md:text-6xl font-bold text-primary stat-number" data-goal="532">0</h3>
+                        <p class="text-gray-500 mt-2">Hours of Tutoring</p>
+                    </div>
+                    <div>
+                        <h3 class="text-5xl md:text-6xl font-bold text-primary stat-number" data-goal="13.4">0</h3>
+                        <p class="text-gray-500 mt-2">Average Exam Score</p>
+                    </div>
+                    <div>
+                        <h3 class="text-5xl md:text-6xl font-bold text-primary stat-number" data-goal="54">0</h3>
+                        <p class="text-gray-500 mt-2">Students Passed Their Exam</p>
+                    </div>
+                    <div>
+                        <h3 class="text-5xl md:text-6xl font-bold text-primary stat-number" data-goal="98">0</h3>
+                        <p class="text-gray-500 mt-2">Student Satisfaction Rate %</p>
+                    </div>
+
+                    <!-- ROW 2: Bulleted Features -->
+                    <!-- Expert Qualification -->
+                    <div class="pt-8 border-t">
+                        <a href="https://www.svgrepo.com/svg/20737/certificate-diploma" target="_blank"
+                            title="Certificate icon (open license)">
+                            <div
+                                class="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 mx-auto mb-4">
+                                <svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 12L11 14L15 10M12 3L13.9101 4.87147L16.5 4.20577L17.2184 6.78155L19.7942 7.5L19.1285 10.0899L21 12L19.1285 13.9101L19.7942 16.5L17.2184 17.2184L16.5 19.7942L13.9101 19.1285L12 21L10.0899 19.1285L7.5 19.7942L6.78155 17.2184L4.20577 16.5L4.87147 13.9101L3 12L4.87147 10.0899L4.20577 7.5L6.78155 6.78155L7.5 4.20577L10.0899 4.87147L12 3Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </a>
+                        <h4 class="font-semibold text-gray-800">Expert Qualification</h4>
+                        <ul class="space-y-2 text-left text-gray-500 text-sm mt-4 inline-block">
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Top-tier academic background</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Science@Leuven scholarship holders</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Magna Cum Laude Master's degree</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Unmatched Resources -->
+                    <div class="pt-8 border-t">
+                        <a href="https://www.svgrepo.com/svg/50135/library-symbol-outline" target="_blank"
+                            title="Library icon (open license)">
+                            <div
+                                class="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 mx-auto mb-4">
+                                <svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H12M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19M19 9V10M16 14H21V21L18.5 19.611L16 21V14Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </a>
+                        <h4 class="font-semibold text-gray-800">Unmatched Resources</h4>
+                        <ul class="space-y-2 text-left text-gray-500 text-sm mt-4 inline-block">
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Complete solution sets</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Vast library of past exams</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Cheat sheets</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Progress Tracking -->
+                    <div class="pt-8 border-t">
+                        <a href="https://www.svgrepo.com/svg/532241/certificate-check" target="_blank"
+                            title="Badge with check icon (open license)">
+                            <div
+                                class="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 mx-auto mb-4">
+                                <svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V3M6 15L10 11L14 15L20 9M20 9V13M20 9H16"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </a>
+                        <h4 class="font-semibold text-gray-800">Progress Tracking</h4>
+                        <ul class="space-y-2 text-left text-gray-500 text-sm mt-4 inline-block">
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Continuous weekly testing</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Regular feedback</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Stay on track all semester</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Flexible & Fun -->
+                    <div class="pt-8 border-t">
+                        <a href="https://www.svgviewer.dev/s/481080/certificate" target="_blank"
+                            title="Certificate ribbon icon (open license)">
+                            <div
+                                class="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 mx-auto mb-4">
+                                <svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.5713 14.5L9.46583 18.4141M18.9996 3.60975C17.4044 3.59505 16.6658 4.33233 16.4236 5.07743C16.2103 5.73354 16.4052 7.07735 15.896 8.0727C15.4091 9.02443 14.1204 9.5617 12.6571 9.60697M20 7.6104L20.01 7.61049M19 15.96L19.01 15.9601M7.00001 3.94926L7.01001 3.94936M19 11.1094C17.5 11.1094 16.5 11.6094 15.5949 12.5447M10.2377 7.18796C11 6.10991 11.5 5.10991 11.0082 3.52734M3.53577 20.4645L7.0713 9.85791L14.1424 16.929L3.53577 20.4645Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </a>
+                        <h4 class="font-semibold text-gray-800">Flexible & Fun</h4>
+                        <ul class="space-y-2 text-left text-gray-500 text-sm mt-4 inline-block">
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Relaxed, engaging approach</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Flexible scheduling</span></li>
+                            <li class="flex items-start"><svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 mt-1"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg><span>Clear communication</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- ROW 3: Testimonials -->
+                    <div id="testimonials" class="col-span-full mt-12">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl md:text-4xl font-bold text-gray-900">Success Stories from Our Students
+                            </h3>
+                        </div>
+                        <div class="relative">
+                            <div id="testimonial-wrapper" class="overflow-hidden w-full">
+                                <div id="testimonial-container"
+                                    class="flex transition-transform duration-500 ease-in-out">
+                                    <!-- Testimonial Slides -->
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">
+                                                    "The step-by-step approach and positive energy made all the
+                                                    difference. I never felt stressed, and my confidence grew so much
+                                                    with every session. Couldn't have asked for a better tutor."
+                                                </p>
+                                            </div>
+                                            <div class="flex items-center mt-auto">
+                                                <img class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=MJ"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Milos J.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">"My grade in Stats 1 went from a C
+                                                    to an A! My tutor was patient and explained everything clearly.
+                                                    Highly recommend!"</p>
+                                            </div>
+                                            <div class="flex items-center mt-auto"><img
+                                                    class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=JS"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Jane S.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">"My grade in Stats 1 went from a C
+                                                    to an A! My tutor was patient and explained everything clearly.
+                                                    Highly recommend!"</p>
+                                            </div>
+                                            <div class="flex items-center mt-auto"><img
+                                                    class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=JS"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Jane S.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">"My grade in Stats 1 went from a C
+                                                    to an A! My tutor was patient and explained everything clearly.
+                                                    Highly recommend!"</p>
+                                            </div>
+                                            <div class="flex items-center mt-auto"><img
+                                                    class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=JS"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Jane S.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">"My grade in Stats 1 went from a C
+                                                    to an A! My tutor was patient and explained everything clearly.
+                                                    Highly recommend!"</p>
+                                            </div>
+                                            <div class="flex items-center mt-auto"><img
+                                                    class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=JS"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Jane S.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/4 p-3"
+                                        data-rating="5">
+                                        <div class="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
+                                            <div class="flex-grow">
+                                                <div class="star-rating flex items-center mb-4"></div>
+                                                <p class="text-gray-600 text-sm mb-6">"My grade in Stats 1 went from a C
+                                                    to an A! My tutor was patient and explained everything clearly.
+                                                    Highly recommend!"</p>
+                                            </div>
+                                            <div class="flex items-center mt-auto"><img
+                                                    class="w-10 h-10 rounded-full mr-3"
+                                                    src="https://placehold.co/100x100/E2E8F0/4A5568?text=JS"
+                                                    alt="Avatar">
+                                                <div>
+                                                    <p class="font-semibold text-gray-900 text-sm">Jane S.</p>
+                                                    <p class="text-xs text-gray-500">BBA Student</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Add the other 9 testimonials here with the same structure -->
+                                </div>
+                            </div>
+                            <button id="testimonial-prev-btn"
+                                class="absolute top-1/2 -left-6 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button id="testimonial-next-btn"
+                                class="absolute top-1/2 -right-6 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Pricing</h2>
+                    <p class="text-gray-600 mt-2">Choose the plan that's right for you.</p>
+                </div>
+
+                <!-- Pricing Toggle -->
+                <div class="relative flex justify-center p-1 bg-gray-200 rounded-full w-max mx-auto mb-16">
+                    <div id="pricing-tab-slider"
+                        class="absolute top-1 left-1 h-[calc(100%-0.5rem)] bg-primary rounded-full transition-all duration-300 ease-in-out">
+                    </div>
+                    <button id="individual-btn"
+                        class="pricing-tab px-8 py-2 rounded-full font-semibold relative z-10 transition">Individual</button>
+                    <button id="group-btn"
+                        class="pricing-tab px-8 py-2 rounded-full font-semibold relative z-10 transition">Group</button>
+                </div>
+
+                <div id="pricing-cards" class="max-w-5xl mx-auto">
+                    <!-- Individual Pricing Panel -->
+                    <div id="individual-pricing-panel" class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <!-- Plan 1: Single Session -->
+                        <div class="bg-gray-50 p-8 rounded-xl shadow-md flex flex-col">
+                            <h3 class="text-2xl font-bold mb-2 text-center">Single Session</h3>
+                            <p class="text-gray-600 text-center mb-4">Perfect for a quick review.</p>
+                            <p class="text-5xl font-bold text-center">€49</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Ultra-specific, targeted problem solving</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Complete personalization for your exact issue</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Walk away with clarity in one hour</li>
+                            </ul>
+                        </div>
+                        <!-- Plan 2: Course Pack (Most Popular) -->
+                        <div
+                            class="bg-gray-50 p-8 rounded-xl shadow-lg flex flex-col border-2 border-primary transform md:scale-105 relative">
+                            <span
+                                class="absolute top-0 -translate-y-1/2 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most
+                                Popular</span>
+                            <h3 class="text-2xl font-bold mb-2 text-center">1 Course Pack</h3>
+                            <p class="text-gray-600 text-center mb-4">18 sessions for one course.</p>
+                            <p class="text-5xl font-bold text-center">€39</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Structured course with guided practice</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Walkthroughs of past exam papers</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Complete solution set book (PDF)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Weekly performance feedback</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Continuous testing along the semester</li>
+                            </ul>
+                        </div>
+                        <!-- Plan 3: Semester Pack -->
+                        <div class="bg-gray-50 p-8 rounded-xl shadow-md flex flex-col relative">
+                            <span
+                                class="absolute top-0 -translate-y-1/2 bg-secondary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best
+                                Value</span>
+                            <h3 class="text-2xl font-bold mb-2 text-center">Semester Pack</h3>
+                            <p class="text-gray-600 text-center mb-4">36 sessions for two courses.</p>
+                            <p class="text-5xl font-bold text-center">€37</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Everything in the 1 Course Pack (for two courses)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Direct help outside sessions (WhatsApp/email)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Priority scheduling & flexible rescheduling</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Group Pricing Panel -->
+                    <div id="group-pricing-panel" class="hidden grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <!-- Plan 1: Single Session -->
+                        <div class="bg-gray-50 p-8 rounded-xl shadow-md flex flex-col">
+                            <h3 class="text-2xl font-bold mb-2 text-center">Single Session</h3>
+                            <p class="text-gray-600 text-center mb-4">Perfect for a quick review.</p>
+                            <p class="text-5xl font-bold text-center">€44</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Ultra-specific, targeted problem solving</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Complete personalization for your exact issue</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Walk away with clarity in one hour</li>
+                            </ul>
+                        </div>
+                        <!-- Plan 2: Course Pack (Most Popular) -->
+                        <div
+                            class="bg-gray-50 p-8 rounded-xl shadow-lg flex flex-col border-2 border-primary transform md:scale-105 relative">
+                            <span
+                                class="absolute top-0 -translate-y-1/2 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most
+                                Popular</span>
+                            <h3 class="text-2xl font-bold mb-2 text-center">1 Course Pack</h3>
+                            <p class="text-gray-600 text-center mb-4">18 sessions for one course.</p>
+                            <p class="text-5xl font-bold text-center">€29</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Structured course with guided practice</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Walkthroughs of past exam papers</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Complete solution set book (PDF)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Weekly performance feedback</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Continuous testing along the semester</li>
+                            </ul>
+                        </div>
+                        <!-- Plan 3: Semester Pack -->
+                        <div class="bg-gray-50 p-8 rounded-xl shadow-md flex flex-col relative">
+                            <span
+                                class="absolute top-0 -translate-y-1/2 bg-secondary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best
+                                Value</span>
+                            <h3 class="text-2xl font-bold mb-2 text-center">Semester Pack</h3>
+                            <p class="text-gray-600 text-center mb-4">36 sessions for two courses.</p>
+                            <p class="text-5xl font-bold text-center">€27</p>
+                            <p class="text-gray-500 text-center mb-6">per hour</p>
+                            <a href="#contact"
+                                class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8">Book
+                                Now</a>
+                            <ul class="space-y-4 text-gray-600 flex-grow">
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Everything in the 1 Course Pack (for two courses)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Direct help outside sessions (WhatsApp/email)</li>
+                                <li><svg class="w-6 h-6 text-secondary mr-2 inline" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>Priority scheduling & flexible rescheduling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What's Next? Section -->
+        <section id="how-it-works" class="py-20 bg-gray-50 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">What's Next?</h2>
+                </div>
+
+                <!-- Desktop Roadmap -->
+                <div class="hidden md:block">
+                    <div class="relative max-w-4xl mx-auto">
+                        <!-- Solid Line -->
+                        <div class="absolute top-10 left-0 w-full h-0.5 bg-gray-300"></div>
+
+                        <!-- Steps -->
+                        <div class="relative flex justify-between">
+                            <!-- Step 1 -->
+                            <div class="group text-center w-1/3">
+                                <div class="relative">
+                                    <div
+                                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 bg-white p-4 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:-translate-y-2">
+                                        <p class="text-gray-600 text-sm">Schedule a free, no-obligation consultation to
+                                            discuss your specific needs and goals.</p>
+                                    </div>
+                                    <div
+                                        class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 group-hover:scale-110 transition-transform border-4 border-gray-50">
+                                        <span class="text-3xl font-bold">1</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-semibold mt-4">Book a Session</h3>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="group text-center w-1/3">
+                                <div class="relative">
+                                    <div
+                                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 bg-white p-4 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:-translate-y-2">
+                                        <p class="text-gray-600 text-sm">Attend personalized, one-on-one or group
+                                            sessions from the comfort of your home via Google Meet.</p>
+                                    </div>
+                                    <div
+                                        class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 group-hover:scale-110 transition-transform border-4 border-gray-50">
+                                        <span class="text-3xl font-bold">2</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-semibold mt-4">Learn Online</h3>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="group text-center w-1/3">
+                                <div class="relative">
+                                    <div
+                                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 bg-white p-4 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:-translate-y-2">
+                                        <p class="text-gray-600 text-sm">Watch your confidence and grades improve with
+                                            tailored lesson plans and expert guidance.</p>
+                                    </div>
+                                    <div
+                                        class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 group-hover:scale-110 transition-transform border-4 border-gray-50">
+                                        <span class="text-3xl font-bold">3</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-semibold mt-4">Achieve Results</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Version -->
+                <div class="md:hidden space-y-12">
+                    <!-- Step 1 -->
+                    <div class="text-center max-w-xs mx-auto">
+                        <div
+                            class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold">1</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Book a Session</h3>
+                        <p class="text-gray-600">Schedule a free consultation to discuss your needs.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="text-center max-w-xs mx-auto">
+                        <div
+                            class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold">2</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Learn Online</h3>
+                        <p class="text-gray-600">Attend personalized sessions from the comfort of home.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="text-center max-w-xs mx-auto">
+                        <div
+                            class="bg-primary text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold">3</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Achieve Results</h3>
+                        <p class="text-gray-600">Watch your confidence and grades improve.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                </div>
+
+                <!-- FAQ Category Tabs -->
+                <div
+                    class="relative flex justify-center p-1 bg-gray-200 rounded-full w-max mx-auto mb-12 overflow-x-auto">
+                    <div id="faq-tab-slider"
+                        class="absolute top-1 left-1 h-[calc(100%-0.5rem)] bg-primary rounded-full transition-all duration-300 ease-in-out">
+                    </div>
+                    <button data-index="0"
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">About
+                        Sessions</button>
+                    <button data-index="1"
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Logistics
+                        & Scheduling</button>
+                    <button data-index="2"
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Pricing
+                        & Plans</button>
+                    <button data-index="3"
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Materials</button>
+                    <button data-index="4"
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">About
+                        Us</button>
+                </div>
+
+                <!-- FAQ Content Panels -->
+                <div id="faq-content-viewport" class="max-w-3xl mx-auto">
+                    <!-- Panel 1: About Sessions -->
+                    <div class="faq-panel space-y-0.5">
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    is your teaching style like?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Think of it as a super-interactive workshop. Our sessions are engaging, goal-focused,
+                                    and always a two-way street. We're experienced, but still young enough to remember
+                                    what it's like to be in your shoes. We're not here to lecture with unnecessary
+                                    theory; we're here to get you results in a fun and relatable way.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    are group sessions structured?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We start by giving you a quick placement test to see where you're at. Then, we build
+                                    small groups (usually 3, max 4 students) of similar levels so no one feels left
+                                    behind or bored. It's a great way to learn from others' questions and maybe even
+                                    make some new friends who get the struggle.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Do
+                                    you focus more on theory or exercises?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>It's all about practical application. We focus almost entirely on solving real
+                                    exercises from your course. We'll only touch on theory when it's absolutely
+                                    necessary to understand *why* a method works. No boring lectures, just results.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    much input do I have on the session?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>In individual sessions, you're the boss—it's 100% tailored to your needs and pace. In
+                                    group sessions, we use our experience to focus on the key exercises and topics that
+                                    we know are most important for the exam.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Do
+                                    you give homework?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Yes! Research shows that a significant portion of learning happens between sessions.
+                                    We provide optional homework to help you solidify what you've learned. It's your
+                                    choice to do it, but it makes a huge difference.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    do you monitor progress?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We make it fun and keep it real. Each weekend, we send out "challenge" exercises to
+                                    test your skills. We track your performance on these and your homework in a gamified
+                                    system that gives you a unique grade, so you always know exactly where you stand.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panel 2: Logistics & Scheduling -->
+                    <div class="faq-panel space-y-4 hidden">
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    platform do you use for sessions?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We use Google Meet. At the start of our journey, you'll get a single, permanent link
+                                    for all your sessions. After each class, the recording and all the notes are
+                                    uploaded to a private Google Drive folder that only you can access, so you can
+                                    rewatch and review anytime.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    flexible is scheduling?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Absolutely. We schedule on a weekly basis to fit your busy life. While most students
+                                    prefer weekday evenings, we're very flexible and can find a time that works for you.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    is your cancellation policy?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We get it, life happens. Every student gets one "get out of jail free" card for a
+                                    last-minute cancellation. After that, we have a strict 24-hour notice policy. We
+                                    respect your time, and we appreciate the same in return.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    long is a typical session?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>A standard session is one hour. We can also do 90-minute or 2-hour sessions, which
+                                    include a free 15-minute break in the middle because no one can stay focused for
+                                    that long!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panel 3: Pricing & Plans -->
+                    <div class="faq-panel space-y-4 hidden">
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Why
+                                    should I choose a course pack?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>It's the smart choice. You get full guidance through the entire semester, it's
+                                    cheaper in the long run, and we've already curated what's most important for the
+                                    exam. All you have to do is show up and work hard in between.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    if I don't use all the sessions in a pack?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Our course packs are structured to cover the entire curriculum within the semester,
+                                    so we plan our sessions to ensure we finish everything on time. Unused sessions are
+                                    non-refundable.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Is
+                                    the consultation really free?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Yes, 100% free. It's a quick 10-minute chat for us to see if we're a good fit. We'll
+                                    discuss your specific needs, set clear expectations, and plan the next steps. No
+                                    obligations.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Are
+                                    there group discounts?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Yes! If you sign up as a group, everyone gets €5 off their first session.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Do
+                                    you have a referral discount?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Definitely! Refer a friend and you'll both get €5 off your next session.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    can I pay?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We keep it flexible. We accept bank transfers, Revolut, PayPal, and even cash.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panel 4: Materials -->
+                    <div class="faq-panel space-y-4 hidden">
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    study materials are included?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>We focus on the official course materials and exercises from your class to ensure
+                                    everything we do is directly relevant to your exam.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>When
+                                    do I get the solution book?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>You get our complete, 500+ page, step-by-step solution book (PDF) for free after your
+                                    first session. It's an invaluable resource created by Samkedemia.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Do
+                                    you provide summaries or cheat sheets?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Yes! All our students receive our custom-made cheat sheets as a bonus gift to help
+                                    with final exam prep.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Can
+                                    you help with specific assignments?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>In individual sessions, absolutely. We can focus on whatever you need help with,
+                                    including specific assignments.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panel 5: About Us -->
+                    <div class="faq-panel space-y-4 hidden">
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    is your background?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Our tutors have over a year of dedicated experience and have worked with more than 50
+                                    students, helping the vast majority pass their exams with confidence.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    makes your method so effective?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>Simple: it's fun, and it's delivered by true professionals who know the material
+                                    inside and out. We create a relaxed environment where you're not afraid to ask
+                                    questions, which is the fastest way to learn.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Which
+                                    universities do you tutor?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>While we started with KU Leuven, we're excited to be expanding to other top European
+                                    universities, including Erasmus, VUB, and Imperial College!</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
+                                    can I reach you for quick questions?</span><svg
+                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>WhatsApp is the best way to reach us for quick questions.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
+                                    does "Samkedemia" mean?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
+                                <p>It's a blend of the founder's nickname, "Samke," and "academia." It represents our
+                                    core belief: that learning should be personal, effective, and tailored to you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Column 1: Brand & Tagline -->
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold">Samkedemia</h3>
+                    <p class="mt-2 text-gray-400 text-sm">Simplifying Math & Stats for BBA Students.</p>
+                </div>
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold uppercase tracking-wider">Explore</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#courses" class="text-gray-400 hover:text-white transition">Courses</a></li>
+                        <li><a href="#why-us" class="text-gray-400 hover:text-white transition">Why Us</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Contact & Social -->
+                <div>
+                    <h4 class="text-lg font-semibold uppercase tracking-wider">Contact & Socials</h4>
+                    <div class="mt-4 space-y-3">
+                        <a href="mailto:jovan@samkedemia.com"
+                            class="flex items-center text-gray-400 hover:text-white transition">
+                            <svg class="h-6 w-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span>jovan@samkedemia.com</span>
+                        </a>
+                        <a href="https://wa.me/32123456789" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center text-gray-400 hover:text-white transition">
+                            <svg class="h-6 w-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z">
+                                </path>
+                            </svg>
+                            <span>+32 123456789</span>
+                        </a>
+                        <a href="https://www.instagram.com/samkedemia/" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center text-gray-400 hover:text-white transition">
+                            <svg class="h-6 w-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                            <span>samkedemia</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Samkedemia. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/script.js"></script>
+
+</body>
+
+</html>
