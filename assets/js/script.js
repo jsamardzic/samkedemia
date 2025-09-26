@@ -165,36 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(section);
     });
 
-    // Animated Statistics Counter
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counters = document.querySelectorAll('.stat-number');
-                counters.forEach(counter => {
-                    const animate = () => {
-                        const goal = +counter.getAttribute('data-goal');
-                        const count = +counter.innerText;
-                        const increment = goal / 100; // Animation speed
-
-                        if (count < goal) {
-                            counter.innerText = Math.ceil(count + increment);
-                            setTimeout(animate, 20);
-                        } else {
-                            counter.innerText = goal;
-                        }
-                    };
-                    animate();
-                });
-                statsObserver.unobserve(entry.target); // Animate only once
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const whyUsSection = document.getElementById('why-us');
-    if (whyUsSection) {
-        statsObserver.observe(whyUsSection);
-    }
-
     // Initial Load
     showPricing(false); // Default to group
     updateCarousel();
@@ -246,5 +216,33 @@ document.querySelectorAll('.faq-question').forEach(button => {
         } else {
             icon.style.transform = 'rotate(0deg)';
         }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+    const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.1 // Trigger when 10% of the section is visible
+    };
+
+    const sectionObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Stop observing once visible
+            }
+        });
+    }, observerOptions);
+
+    fadeInSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // Immediately display statistics goal numbers
+    document.querySelectorAll('.stat-number').forEach(counter => {
+        counter.innerText = counter.getAttribute('data-goal');
     });
 });
