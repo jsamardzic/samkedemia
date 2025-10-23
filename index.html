@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Samkedemia - Your Path to Success</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -102,8 +102,7 @@
                         <p class="text-lg md:text-xl text-gray-600 max-w-xl mx-auto md:mx-0 mb-8">Proven methods. Right
                             tools. Less stress.<br>Expert BBA support with a strong record of student success.</p>
                         <a href="#courses"
-                            class="bg-primary text-white font-bold px-8 py-4 rounded-full text-lg cta-button inline-block">Discover
-                            Our Courses</a>
+                            class="bg-primary text-white font-bold px-8 py-4 rounded-full text-lg cta-button inline-block">Book a Free Consultation</a>
                     </div>
                     <!-- Right side: Illustration -->
                     <div class="md:w-1/2 lg:w-2/5">
@@ -116,27 +115,25 @@
                 <div class="mt-20 md:mt-24">
                     <div class="flex flex-col md:flex-row items-center">
                         <div class="w-full md:w-1/4 text-center md:text-left mb-6 md:mb-0">
-                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Trusted by students
-                                from</p>
+                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Trusted by students from</p>
                         </div>
-                        <div class="w-full md:w-3/4 flex justify-center items-center gap-12 md:gap-16">
+                        <div class="w-full md:w-3/4 flex flex-wrap justify-center items-center gap-x-8 gap-y-6 md:gap-x-12 md:gap-y-0">
                             <a href="https://www.kuleuven.be/" target="_blank" rel="noopener noreferrer"
-                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
-                                <img src="assets/images/kul.svg.png" alt="KU Leuven Logo" class="h-12">
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110 flex-shrink-0">
+                                <img src="assets/images/kul.svg.png" alt="KU Leuven Logo" class="h-auto max-h-12 w-full object-contain">
                             </a>
                             <a href="https://www.eur.nl/en" target="_blank" rel="noopener noreferrer"
-                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110 flex-shrink-0">
                                 <img src="assets/images/erasmus.svg.png" alt="Erasmus University Rotterdam Logo"
-                                    class="h-12">
+                                    class="h-auto max-h-12 w-full object-contain">
                             </a>
-
                             <a href="https://www.vub.be/en" target="_blank" rel="noopener noreferrer"
-                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
-                                <img src="assets/images/vub.svg.png" alt="VUB Logo" class="h-12">
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110 flex-shrink-0">
+                                <img src="assets/images/vub.svg.png" alt="VUB Logo" class="h-auto max-h-12 w-full object-contain">
                             </a>
                             <a href="https://www.imperial.ac.uk/" target="_blank" rel="noopener noreferrer"
-                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110">
-                                <img src="assets/images/imperial.png" alt="Imperial College London Logo" class="h-6">
+                                class="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition duration-300 hover:scale-110 flex-shrink-0">
+                                <img src="assets/images/imperial.png" alt="Imperial College London Logo" class="h-auto max-h-6 w-full object-contain">
                             </a>
                         </div>
                     </div>
@@ -783,96 +780,152 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
+        <!-- Pricing -->
         <section id="pricing" class="py-20 bg-gray-50 fade-in-section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Pricing</h2>
-                    <p class="text-gray-600 mt-2">Choose the plan that's right for you.</p>
+                    <p class="text-gray-600 mt-2">Choose the program that's right for you.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch pt-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch pt-8">
                     
-                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col relative">
-                        <span class="absolute top-0 -translate-y-1/2 bg-secondary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best Value</span>
-                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">Group of 4</h3>
-                        <p class="text-gray-500 text-center mb-4 text-base">15 sessions to cover full course.</p>
-                        <p class="text-5xl font-bold text-center mt-4 text-gray-900">€25</p>
-                        <p class="text-gray-500 text-center mb-6">/ hour per student</p>
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col relative h-full">
+                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">Open Group</h3>
+                        <p class="text-gray-500 text-center mb-4 text-sm">No group size limit</p>
+                        <p class="text-5xl font-bold text-center mb-4 text-gray-900">€15<span class="text-3xl">.00</span><span class="text-gray-500 text-base ml-2">/ hr</span></p>
+                        <p class="text-gray-500 text-center mb-1 text-sm">Total: €225</p>
+                        <p class="text-gray-500 text-center mb-6 text-xs">Paid in full after the first session</p>
                         <a href="#contact" class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8 transition hover:bg-opacity-90">Book Now</a>
-                        <ul class="space-y-4 text-gray-700 flex-grow text-sm">
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session recordings
+                        <ul class="space-y-1 text-gray-700 flex-grow text-sm">
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>15 × 1 hr Sessions</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session notes
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Recordings & Notes</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Full course solution sets
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Monthly Progress Tests</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-red-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Limited personal attention
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Extra time in exam period</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Catch-up sessions</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Solution Sets & Past Exams</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Support outside of sessions</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Flexible Scheduling</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col border-2 border-primary transform md:scale-105 relative">
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col border-2 border-primary relative h-full">
                         <span class="absolute top-0 -translate-y-1/2 bg-primary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
-                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">Group of 3</h3>
-                        <p class="text-gray-500 text-center mb-4 text-base">15 sessions to cover full course.</p>
-                        <p class="text-5xl font-bold text-center mt-4 text-gray-900">€30</p>
-                        <p class="text-gray-500 text-center mb-6">per hour per student</p>
+                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">Premium Group</h3>
+                        <p class="text-gray-500 text-center mb-4 text-sm">Limited to 4 students</p>
+                        <p class="text-5xl font-bold text-center mb-4 text-gray-900">€25<span class="text-3xl">.00</span><span class="text-gray-500 text-base ml-2">/ hr</span></p>
+                        <p class="text-gray-500 text-center mb-1 text-sm">Total: €375</p>
+                        <p class="text-gray-500 text-center mb-6 text-xs">€200 after 1st session, €175 mid-semester</p>
                         <a href="#contact" class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8 transition hover:bg-opacity-90">Book Now</a>
-                        <ul class="space-y-4 text-gray-700 flex-grow text-sm">
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session recordings
+                        <ul class="space-y-1 text-gray-700 flex-grow text-sm">
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>15 × 1 hr Sessions</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session notes
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Recordings & Notes</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Full course solution sets
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Monthly Progress Tests</span>
                             </li>
-                            <li class="flex items-start">
-                                <img src="https://www.svgrepo.com/show/309427/circle-half-fill.svg" alt="Circle Half Fill Icon" class="w-6 h-6 mr-2 flex-shrink-0 mt-0.5 filter hue-rotate-30 saturate-200">
-                                Medium personal attention
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Extra time in exam period <sup class="ml-0.5">1</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Catch-up sessions <sup class="ml-0.5">2</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Solution Sets & Past Exams</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Support outside of sessions <sup class="ml-0.5">3</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Flexible Scheduling</span>
                             </li>
                         </ul>
                     </div>
                     
-                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col relative">
-                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">1-on-1 Tutoring</h3>
-                        <p class="text-gray-500 text-center mb-4 text-base">1 session only.</p>
-                        <p class="text-5xl font-bold text-center mt-4 text-gray-900">€40</p>
-                        <p class="text-gray-500 text-center mb-6">per hour</p>
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col relative h-full">
+                        <span class="absolute top-0 -translate-y-1/2 bg-secondary text-white text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best Value</span>
+                        <h3 class="text-2xl font-bold mb-2 text-center text-gray-900">Individual</h3>
+                        <p class="text-gray-500 text-center mb-4 text-sm">1-on-1 Tutoring</p>
+                        <p class="text-5xl font-bold text-center mb-4 text-gray-900">€50<span class="text-3xl">.00</span><span class="text-gray-500 text-base ml-2">/ hr</span></p>
+                        <p class="text-gray-500 text-center mb-1 text-sm">Total: €750</p>
+                        <p class="text-gray-500 text-center mb-6 text-xs">€400 after 1st session, €350 mid-semester</p>
                         <a href="#contact" class="block w-full text-center bg-primary text-white font-semibold px-5 py-3 rounded-full cta-button mb-8 transition hover:bg-opacity-90">Book Now</a>
-                        <ul class="space-y-4 text-gray-700 flex-grow text-sm">
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session recording
+                        <ul class="space-y-1 text-gray-700 flex-grow text-sm">
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>15 × 1 hr Sessions</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Session notes
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Recordings & Notes</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Full course solution sets
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Monthly Progress Tests</span>
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-6 h-6 text-secondary mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Highest personal attention
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Extra time in exam period <sup class="ml-0.5">1</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Catch-up sessions <sup class="ml-0.5">2</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Solution Sets & Past Exams</span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Support outside of sessions <sup class="ml-0.5">3</sup></span>
+                            </li>
+                            <li class="flex items-start min-h-12">
+                                <svg class="w-6 h-6 text-secondary mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Flexible Scheduling</span>
                             </li>
                         </ul>
                     </div>
-
+                </div>
+                
+                <div class="max-w-6xl mx-auto mt-12 text-gray-600 text-xs space-y-2 px-4 md:px-0">
+                    <p><sup class="mr-1">1</sup> An additional 30 minutes will be added to one session if students attend all sessions with their camera on. This bonus time must be used at least 7 days before the exam and cannot be carried over to the next semester or transferred.</p>
+                    <p><sup class="mr-1">2</sup> If a session is missed, the recording will be available for review. A 20-minute catch-up with the tutor can also be scheduled (first session free, subsequent sessions €15). Completing a catch-up restores eligibility for the bonus time.</p>
+                    <p><sup class="mr-1">3</sup> All students have access to support through a scheduled weekly Q&A session. Private session students receive priority scheduling for additional Q&A sessions as needed.</p>
                 </div>
             </div>
         </section>
@@ -981,62 +1034,46 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
                 </div>
 
-                <!-- FAQ Category Tabs -->
-                <div
-                    class="relative flex justify-center p-1 bg-gray-200 rounded-full w-max mx-auto mb-12 overflow-x-auto">
+                <div class="relative flex justify-center p-1 bg-gray-200 rounded-full w-max mx-auto mb-12 overflow-x-auto">
                     <div id="faq-tab-slider"
                         class="absolute top-1 left-1 h-[calc(100%-0.5rem)] bg-primary rounded-full transition-all duration-300 ease-in-out">
                     </div>
                     <button data-index="0"
-                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">About
-                        Sessions</button>
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Sessions</button>
                     <button data-index="1"
-                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Logistics
-                        & Scheduling</button>
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Pricing</button>
                     <button data-index="2"
-                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Pricing
-                        & Plans</button>
-                    <button data-index="3"
-                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Materials</button>
-                    <button data-index="4"
-                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">About
-                        Us</button>
+                        class="faq-tab px-6 py-2 rounded-full font-semibold relative z-10 transition whitespace-nowrap">Other</button>
                 </div>
 
-                <!-- FAQ Content Panels -->
                 <div id="faq-content-viewport" class="max-w-3xl mx-auto">
-                    <!-- Panel 1: About Sessions -->
                     <div class="faq-panel space-y-0.5">
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
-                                    is your teaching style like?</span><svg
-                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    is your teaching style like?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Think of it as a super-interactive workshop. Our sessions are engaging, goal-focused,
-                                    and always a two-way street. We're experienced, but still young enough to remember
-                                    what it's like to be in your shoes. We're not here to lecture with unnecessary
-                                    theory; we're here to get you results in a fun and relatable way.</p>
+                                <p>Think of it as a super-interactive workshop. Our sessions are engaging, goal-focused, and
+                                    always a two-way street. We're experienced, but still young enough to remember what it's
+                                    like to be in your shoes. We're not here to lecture with unnecessary theory; we're here to
+                                    get you results in a fun and relatable way.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
-                                    are group sessions structured?</span><svg
-                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    are group sessions structured?</span><svg class="w-5 h-5 transition-transform transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>We start by giving you a quick placement test to see where you're at. Then, we build
-                                    small groups (usually 3, max 4 students) of similar levels so no one feels left
-                                    behind or bored. It's a great way to learn from others' questions and maybe even
-                                    make some new friends who get the struggle.</p>
+                                <p>We start by giving you a quick placement test to see where you're at. Then, we build small
+                                    groups (usually 3, max 4 students) of similar levels so no one feels left behind or bored.
+                                    It's a great way to learn from others' questions and maybe even make some new friends who
+                                    get the struggle.</p>
                             </div>
                         </div>
                         <div>
@@ -1045,13 +1082,12 @@
                                     you focus more on theory or exercises?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>It's all about practical application. We focus almost entirely on solving real
-                                    exercises from your course. We'll only touch on theory when it's absolutely
-                                    necessary to understand *why* a method works. No boring lectures, just results.</p>
+                                <p>It's all about practical application. We focus almost entirely on solving real exercises from
+                                    your course. We'll only touch on theory when it's absolutely necessary to understand *why* a
+                                    method works. No boring lectures, just results.</p>
                             </div>
                         </div>
                         <div>
@@ -1060,27 +1096,25 @@
                                     much input do I have on the session?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>In individual sessions, you're the boss—it's 100% tailored to your needs and pace. In
-                                    group sessions, we use our experience to focus on the key exercises and topics that
-                                    we know are most important for the exam.</p>
+                                <p>In individual sessions, you're the boss—it's 100% tailored to your needs and pace. In group
+                                    sessions, we use our experience to focus on the key exercises and topics that we know are
+                                    most important for the exam.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Do
-                                    you give homework?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    you give homework?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Yes! Research shows that a significant portion of learning happens between sessions.
-                                    We provide optional homework to help you solidify what you've learned. It's your
-                                    choice to do it, but it makes a huge difference.</p>
+                                <p>Yes! Research shows that a significant portion of learning happens between sessions. We provide
+                                    optional homework to help you solidify what you've learned. It's your choice to do it, but it
+                                    makes a huge difference.</p>
                             </div>
                         </div>
                         <div>
@@ -1088,47 +1122,38 @@
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
                                     do you monitor progress?</span><svg class="w-5 h-5 transition-transform transform"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>We make it fun and keep it real. Each weekend, we send out "challenge" exercises to
-                                    test your skills. We track your performance on these and your homework in a gamified
-                                    system that gives you a unique grade, so you always know exactly where you stand.
-                                </p>
+                                <p>We make it fun and keep it real. Each weekend, we send out "challenge" exercises to test your
+                                    skills. We track your performance on these and your homework in a gamified system that gives
+                                    you a unique grade, so you always know exactly where you stand.</p>
                             </div>
                         </div>
-                    </div>
-                    <!-- Panel 2: Logistics & Scheduling -->
-                    <div class="faq-panel space-y-4 hidden">
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
                                     platform do you use for sessions?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>We use Google Meet. At the start of our journey, you'll get a single, permanent link
-                                    for all your sessions. After each class, the recording and all the notes are
-                                    uploaded to a private Google Drive folder that only you can access, so you can
-                                    rewatch and review anytime.</p>
+                                <p>We use Google Meet. At the start of our journey, you'll get a single, permanent link for all
+                                    your sessions. After each class, the recording and all the notes are uploaded to a private
+                                    Google Drive folder that only you can access, so you can rewatch and review anytime.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
-                                    flexible is scheduling?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    flexible is scheduling?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Absolutely. We schedule on a weekly basis to fit your busy life. While most students
-                                    prefer weekday evenings, we're very flexible and can find a time that works for you.
-                                </p>
+                                <p>Absolutely. We schedule on a weekly basis to fit your busy life. While most students prefer
+                                    weekday evenings, we're very flexible and can find a time that works for you.</p>
                             </div>
                         </div>
                         <div>
@@ -1137,45 +1162,40 @@
                                     is your cancellation policy?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>We get it, life happens. Every student gets one "get out of jail free" card for a
-                                    last-minute cancellation. After that, we have a strict 24-hour notice policy. We
-                                    respect your time, and we appreciate the same in return.</p>
+                                <p>We get it, life happens. Every student gets one "get out of jail free" card for a last-minute
+                                    cancellation. After that, we have a strict 24-hour notice policy. We respect your time, and
+                                    we appreciate the same in return.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
-                                    long is a typical session?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    long is a typical session?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>A standard session is one hour. We can also do 90-minute or 2-hour sessions, which
-                                    include a free 15-minute break in the middle because no one can stay focused for
-                                    that long!</p>
+                                <p>A standard session is one hour. We can also do 90-minute or 2-hour sessions, which include a
+                                    free 15-minute break in the middle because no one can stay focused for that long!</p>
                             </div>
                         </div>
                     </div>
-                    <!-- Panel 3: Pricing & Plans -->
-                    <div class="faq-panel space-y-4 hidden">
+                    <div class="faq-panel space-y-0.5 hidden">
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Why
                                     should I choose a course pack?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>It's the smart choice. You get full guidance through the entire semester, it's
-                                    cheaper in the long run, and we've already curated what's most important for the
-                                    exam. All you have to do is show up and work hard in between.</p>
+                                <p>It's the smart choice. You get full guidance through the entire semester, it's cheaper in the
+                                    long run, and we've already curated what's most important for the exam. All you have to do
+                                    is show up and work hard in between.</p>
                             </div>
                         </div>
                         <div>
@@ -1184,13 +1204,11 @@
                                     if I don't use all the sessions in a pack?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Our course packs are structured to cover the entire curriculum within the semester,
-                                    so we plan our sessions to ensure we finish everything on time. Unused sessions are
-                                    non-refundable.</p>
+                                <p>Our course packs are structured to cover the entire curriculum within the semester, so we plan
+                                    our sessions to ensure we finish everything on time. Unused sessions are non-refundable.</p>
                             </div>
                         </div>
                         <div>
@@ -1199,22 +1217,19 @@
                                     the consultation really free?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Yes, 100% free. It's a quick 10-minute chat for us to see if we're a good fit. We'll
-                                    discuss your specific needs, set clear expectations, and plan the next steps. No
-                                    obligations.</p>
+                                <p>Yes, 100% free. It's a quick 10-minute chat for us to see if we're a good fit. We'll discuss
+                                    your specific needs, set clear expectations, and plan the next steps. No obligations.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Are
-                                    there group discounts?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    there group discounts?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
                                 <p>Yes! If you sign up as a group, everyone gets €5 off their first session.</p>
@@ -1226,8 +1241,7 @@
                                     you have a referral discount?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
                                 <p>Definitely! Refer a friend and you'll both get €5 off your next session.</p>
@@ -1238,28 +1252,25 @@
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
                                     can I pay?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
                                 <p>We keep it flexible. We accept bank transfers, Revolut, PayPal, and even cash.</p>
                             </div>
                         </div>
                     </div>
-                    <!-- Panel 4: Materials -->
-                    <div class="faq-panel space-y-4 hidden">
+                    <div class="faq-panel space-y-0.5 hidden">
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
                                     study materials are included?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>We focus on the official course materials and exercises from your class to ensure
-                                    everything we do is directly relevant to your exam.</p>
+                                <p>We focus on the official course materials and exercises from your class to ensure everything
+                                    we do is directly relevant to your exam.</p>
                             </div>
                         </div>
                         <div>
@@ -1268,12 +1279,11 @@
                                     do I get the solution book?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>You get our complete, 500+ page, step-by-step solution book (PDF) for free after your
-                                    first session. It's an invaluable resource created by Samkedemia.</p>
+                                <p>You get our complete, 500+ page, step-by-step solution book (PDF) for free after your first
+                                    session. It's an invaluable resource created by Samkedemia.</p>
                             </div>
                         </div>
                         <div>
@@ -1282,12 +1292,11 @@
                                     you provide summaries or cheat sheets?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Yes! All our students receive our custom-made cheat sheets as a bonus gift to help
-                                    with final exam prep.</p>
+                                <p>Yes! All our students receive our custom-made cheat sheets as a bonus gift to help with final
+                                    exam prep.</p>
                             </div>
                         </div>
                         <div>
@@ -1296,24 +1305,19 @@
                                     you help with specific assignments?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>In individual sessions, absolutely. We can focus on whatever you need help with,
-                                    including specific assignments.</p>
+                                <p>In individual sessions, absolutely. We can focus on whatever you need help with, including
+                                    specific assignments.</p>
                             </div>
                         </div>
-                    </div>
-                    <!-- Panel 5: About Us -->
-                    <div class="faq-panel space-y-4 hidden">
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
-                                    is your background?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    is your background?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
                                 <p>Our tutors have over a year of dedicated experience and have worked with more than 50
@@ -1326,22 +1330,20 @@
                                     makes your method so effective?</span><svg
                                     class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>Simple: it's fun, and it's delivered by true professionals who know the material
-                                    inside and out. We create a relaxed environment where you're not afraid to ask
-                                    questions, which is the fastest way to learn.</p>
+                                <p>Simple: it's fun, and it's delivered by true professionals who know the material inside and
+                                    out. We create a relaxed environment where you're not afraid to ask questions, which is the
+                                    fastest way to learn.</p>
                             </div>
                         </div>
                         <div>
                             <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>Which
-                                    universities do you tutor?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    universities do you tutor?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
                                 <p>While we started with KU Leuven, we're excited to be expanding to other top European
@@ -1350,28 +1352,14 @@
                         </div>
                         <div>
                             <button
-                                class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>How
-                                    can I reach you for quick questions?</span><svg
-                                    class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg></button>
-                            <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>WhatsApp is the best way to reach us for quick questions.</p>
-                            </div>
-                        </div>
-                        <div>
-                            <button
                                 class="faq-question w-full flex justify-between items-center text-left font-semibold text-lg p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"><span>What
-                                    does "Samkedemia" mean?</span><svg class="w-5 h-5 transition-transform transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                    does "Samkedemia" mean?</span><svg class="w-5 h-5 transition-transform transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div class="faq-answer p-4 bg-gray-50 rounded-lg text-gray-600">
-                                <p>It's a blend of the founder's nickname, "Samke," and "academia." It represents our
-                                    core belief: that learning should be personal, effective, and tailored to you.</p>
+                                <p>It's a blend of the founder's nickname, "Samke," and "academia." It represents our core belief:
+                                    that learning should be personal, effective, and tailored to you.</p>
                             </div>
                         </div>
                     </div>
@@ -1442,6 +1430,18 @@
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
+
+    <div id="whatsapp-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full relative">
+        <button id="close-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-900 text-2xl font-bold">&times;</button>
+        <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Let's connect on WhatsApp!</h3>
+        <p class="text-gray-600 text-center mb-6">Scan the QR code or click below to chat!</p>
+        <div class="flex justify-center mb-6">
+            <img src="assets/images/whatsapp.jpeg" alt="WhatsApp QR Code" class="w-48 h-48 object-contain border border-gray-200 p-2 rounded">
+        </div>
+        <a id="whatsapp-direct-link" href="https://wa.me/32490100821" target="_blank" class="block w-full text-center bg-green-500 text-white font-semibold px-5 py-3 rounded-full hover:bg-green-600 transition-colors">Chat on WhatsApp</a>
+    </div>
+</div>
 
 </body>
 

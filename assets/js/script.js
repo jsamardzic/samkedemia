@@ -112,45 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCourseSlider(initialCourseTab);
     }
 
-    // Pricing Toggle Logic
-    const groupBtn = document.getElementById('group-btn');
-    const individualBtn = document.getElementById('individual-btn');
-    const pricingSlider = document.getElementById('pricing-tab-slider');
-    const individualPanel = document.getElementById('individual-pricing-panel');
-    const groupPanel = document.getElementById('group-pricing-panel');
-
-    function updatePricingSlider(activeButton) {
-        if (!activeButton || !pricingSlider) return;
-        pricingSlider.style.width = `${activeButton.offsetWidth}px`;
-        pricingSlider.style.left = `${activeButton.offsetLeft}px`;
-    }
-
-    function showPricing(isIndividual) {
-        if (isIndividual) {
-            individualPanel.classList.remove('hidden');
-            groupPanel.classList.add('hidden');
-            individualBtn.classList.add('text-white');
-            individualBtn.classList.remove('text-gray-600');
-            groupBtn.classList.remove('text-white');
-            groupBtn.classList.add('text-gray-600');
-            updatePricingSlider(individualBtn);
-        } else {
-            groupPanel.classList.remove('hidden');
-            individualPanel.classList.add('hidden');
-            groupBtn.classList.add('text-white');
-            groupBtn.classList.remove('text-gray-600');
-            individualBtn.classList.remove('text-white');
-            individualBtn.classList.add('text-gray-600');
-            updatePricingSlider(groupBtn);
-        }
-    }
-
-    individualBtn.addEventListener('click', () => showPricing(true));
-    groupBtn.addEventListener('click', () => showPricing(false));
-
-    // Initial Load for Pricing
-    showPricing(false); // Default to group
-
     // Fade-in animation on scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -245,4 +206,67 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.stat-number').forEach(counter => {
         counter.innerText = counter.getAttribute('data-goal');
     });
+
+    // --- WhatsApp Modal Logic ---
+    const whatsappModal = document.getElementById('whatsapp-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const ctaButtons = document.querySelectorAll('.cta-button'); // Selects all elements with this class
+
+    // Function to show modal
+    function showWhatsappModal() {
+        whatsappModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+    }
+
+    // Function to hide modal
+    function hideWhatsappModal() {
+        whatsappModal.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    // Event listeners for opening modal
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Stop default anchor link behavior
+            showWhatsappModal();
+        });
+    });
+
+    // Event listener for closing modal button
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', hideWhatsappModal);
+    }
+
+    // Event listener for clicking outside the modal content
+    if (whatsappModal) {
+        whatsappModal.addEventListener('click', function(event) {
+            if (event.target === whatsappModal) { // Only close if clicking the background, not modal content
+                hideWhatsappModal();
+            }
+        });
+    }
+
+    // Close with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !whatsappModal.classList.contains('hidden')) {
+            hideWhatsappModal();
+        }
+    });
+
+    // Handle direct WhatsApp link visibility on mobile/desktop
+    const whatsappDirectLink = document.getElementById('whatsapp-direct-link');
+    function updateWhatsappLinkVisibility() {
+        if (whatsappDirectLink) {
+            if (window.innerWidth < 768) { // Example: screen width less than 768px for mobile
+                whatsappDirectLink.classList.remove('hidden');
+            } else {
+                // On desktop, you might want to hide the direct link if you only want QR
+                // Or leave it visible for convenience
+                // whatsappDirectLink.classList.add('hidden');
+            }
+        }
+    }
+    updateWhatsappLinkVisibility(); // Initial check
+    window.addEventListener('resize', updateWhatsappLinkVisibility); // Update on resize
+
 });
