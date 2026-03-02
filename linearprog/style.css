@@ -1,0 +1,893 @@
+/* General Reset & Theming */
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: #f7f8fc; /* Fallback for older browsers */
+    background: linear-gradient(to bottom, #f7f8fc, #ffffff);
+    background-attachment: fixed; /* Ensures the gradient stays in place on scroll */
+    margin: 0;
+    color: #3c4858;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.site-header {
+    background-color: #1f2937; /* Dark blue-gray */
+    border-bottom: 1px solid #374151; /* Slightly lighter border */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.content-area {
+    width: 100%;
+    max-width: 1440px; /* Slightly wider to accommodate padding */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    margin: 0 auto; /* Center the content */
+    padding: 15px 20px; /* Apply padding here instead of the parent */
+}
+
+.title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+}
+
+.site-title {
+    font-family: 'Barriecito', cursive;
+    font-size: 36px;
+    color: #f9fafb; /* Off-white for the title */
+    margin: 0;
+    font-weight: 400; /* Script fonts are usually not bold */
+    line-height: 1;
+}
+
+.site-subtitle {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300; /* Thinner font weight */
+    font-size: 14px;
+    color: #9ca3af; /* Lighter gray for dark background */
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    font-size: 24px;
+    color: #9ca3af; /* Lighter gray for dark background */
+    transition: color 0.2s ease-in-out;
+}
+
+#whatsapp-icon:hover {
+    color: #25D366; /* WhatsApp Green */
+}
+
+#instagram-icon:hover {
+    color: #E1306C; /* Instagram Pink */
+}
+
+#email-icon:hover {
+    color: #4285F4; /* A nice blue for email */
+}
+
+/* Solution Summary Card */
+.solution-summary-card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #eff6ff; /* A light blue */
+    border: 1px solid #bfdbfe;
+    /* Now part of the graph card, so adjust margins and remove redundant styles */
+    margin: 20px -30px -30px -30px; /* Pull to edges of parent card */
+    padding: 20px 30px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top: 1px solid #bfdbfe;
+}
+
+.summary-item {
+    text-align: center;
+    padding: 0 20px;
+}
+
+.summary-item .label {
+    font-size: 14px;
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.summary-item .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e40af;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 30px;
+    align-items: start;
+}
+
+/* Card Styling */
+.paper {
+    background: white;
+    padding: 30px;
+    margin: 0 0 30px 0;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Typography & Section Headers */
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #252f3f;
+}
+
+h3 {
+    font-size: 16px;
+    color: #252f3f;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+}
+
+.paper > h3:first-child {
+    margin-top: 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+/* Style for the current exercise display */
+#current-exercise-display {
+    font-size: 20px; /* Match h2 font size */
+    font-weight: 400; /* Regular weight */
+    color: #64748b; /* Lighter, secondary color */
+    margin-left: 10px;
+}
+/* Input & Form Elements */
+.variables {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+}
+
+.variables div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+input {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.variables input {
+    width: 40px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#obj-fn-name {
+    width: 40px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.constraint-input {
+    width: 60px;
+    padding: 6px 8px;
+    margin: 0 4px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Make target function coefficient inputs smaller */
+#obj-a, #obj-b, #obj-c {
+    width: 40px;
+}
+
+/* Hide spinners from number inputs (Chrome, Safari, Edge, Opera) */
+.constraint-input::-webkit-outer-spin-button,
+.constraint-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Sign selector in constraints */
+.constraint-sign {
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 18px;
+    background-color: white;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 40px; /* Give it a fixed width for consistency */
+}
+
+.constraint-sign:hover {
+    background-color: #f1f5f9;
+}
+
+/* Disabled sign for base constraints */
+.constraint-sign-disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 8px;
+    font-size: 18px;
+    margin: 0 8px;
+    width: 40px; /* Match the button width */
+}
+
+/* Constraints List */
+.constraint {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 12px 0;
+    font-size: 18px;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #f8fafc;
+}
+
+.constraint > span:nth-of-type(2) {
+    /* This is the container for the inputs and text */
+    display: inline-flex; /* Use flex to manage children */
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.constraint-number {
+    font-size: 14px;
+    color: #64748b;
+    width: 25px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* General purpose fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Animation for new constraints */
+@keyframes fadeInSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.remove-btn {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-left: auto;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.remove-btn:hover {
+    background-color: #fee2e2;
+}
+
+.remove-btn i {
+    font-size: 16px;
+    color: #94a3b8;
+    transition: color 0.2s ease-in-out;
+}
+
+.remove-btn:hover i {
+    color: #ef4444;
+}
+
+#addConstraintBtn {
+    /* Mimic the .constraint style */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 12px 0;
+    padding: 12px 8px; /* Match constraint height */
+    font-size: 16px;
+    font-weight: 700;
+    color: #94a3b8;
+    background-color: transparent;
+    border: 2px dashed #cbd5e1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#addConstraintBtn:hover {
+    background-color: #f8fafc;
+    color: #3b82f6;
+    border-color: #a5c8fa;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f8fafc;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.action-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+#resetZoomBtn {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+#resetZoomBtn:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes the controls to the right */
+}
+
+.chart-toggles {
+    display: flex;
+    margin-right: 15px;
+    gap: 8px; /* Add space between the individual toggle buttons */
+}
+
+.chart-toggle-btn {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.chart-toggle-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.chart-toggle-btn.active {
+    background-color: #e9f2ff;
+    color: #3b82f6;
+    border-color: #a5c8fa;
+}
+
+.segmented-control {
+    display: flex;
+    background-color: #e2e8f0;
+    border-radius: 6px;
+    padding: 3px;
+    border: 1px solid #e2e8f0;
+}
+
+.segmented-btn {
+    background-color: transparent;
+    border: none;
+    color: #475569;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.segmented-btn.active {
+    background-color: white;
+    color: #3c4858;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.toggle-btn {
+    background-color: #e2e8f0;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+.toggle-btn:hover {
+    background-color: #cbd5e1;
+    color: #252f3f;
+}
+
+/* Make the collapsible header clickable */
+.paper #step2 h2 {
+    cursor: pointer;
+}
+
+/* Collapsible Section */
+.paper h2 i {
+    font-size: 18px;
+    color: #94a3b8;
+    transition: transform 0.2s ease-in-out;
+}
+
+.paper.collapsed #inequalities-breakdown {
+    display: none;
+}
+.paper.collapsed h2 i {
+    transform: rotate(-90deg);
+}
+
+/* Inequalities Breakdown */
+.inequality-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8fafc;
+}
+
+.inequality-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.derivation-box {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #3c4858; 
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 20px;
+    align-items: center;
+}
+.derivation-box .derivation-description {
+    grid-column: 1;
+    text-align: right;
+    color: #64748b;
+}
+.derivation-box .derivation-equation {
+    grid-column: 2;
+}
+.derivation-box .eq-comment {
+    grid-column: 2; /* Place comment in the second column */
+    justify-self: start; /* Align it to the start of the grid cell */
+    margin-top: -5px; /* Pull it closer to the line above */
+    color: #64748b;
+    font-style: italic;
+}
+
+.direction-step-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.direction-text {
+    font-size: 14px;
+    color: #475569;
+    margin-top: 0;
+}
+
+.breakdown-item {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.breakdown-label {
+    font-weight: bold;
+    color: #475569;
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.breakdown-content {
+    color: #3c4858;
+}
+
+.breakdown-constraint-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* Chart & Right Column */
+.chart-container {
+    position: relative;
+    height: 455px; /* Give the container a fixed height */
+    width: 100%;
+}
+
+.target-function {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.target-function-inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 18px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+#contour-equation {
+    background-color: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    color: #3c4858;
+    min-height: 18px;
+}
+
+/* Slider Styling */
+.level-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: transparent; /* The track is now styled separately */
+    outline: none;
+    flex-grow: 1;
+}
+
+.level-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: orange;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px; /* Center the thumb on the track */
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Remove the color ring */
+}
+
+.level-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: orange;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Remove the color ring */
+}
+
+/* Track styling */
+.level-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, orange var(--progress, 50%), #e2e8f0 var(--progress, 50%));
+    border-radius: 3px;
+}
+
+.level-slider::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, orange var(--progress, 50%), #e2e8f0 var(--progress, 50%));
+    border-radius: 3px;
+}
+
+/* Contour Controls inside Feasible Region Card */
+.contour-controls {
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 25px;
+}
+
+.contour-row {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.contour-row:last-child {
+    margin-bottom: 0;
+}
+
+.contour-row label {
+    font-weight: bold;
+    color: #475569;
+    flex-shrink: 0; /* Prevent label from shrinking */
+}
+
+#level-value {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #3c4858;
+    width: 55px;
+    text-align: center;
+}
+
+/* Modal Styling */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    cursor: default;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #3c4858;
+}
+
+.exercise-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.exercise-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    background-color: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.exercise-item:hover {
+    background-color: #e9f2ff;
+    color: #3b82f6;
+    border-color: #a5c8fa;
+}
+
+/* Print-specific styles for PDF export */
+@media print {
+    /* Hide non-essential elements */
+    body > .wrapper > .main-container,
+    .card-header button,
+    #addConstraintBtn,
+    .remove-btn,
+    .contour-controls,
+    .chart-controls,
+    .target-function,
+    .paper h2 i,
+    .modal-backdrop,
+    .paper > h2,
+    .card-header {
+        display: none !important;
+    }
+
+    /* Reset body and wrapper for printing */
+    body, .wrapper {
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Ensure the solution breakdown is the only thing visible */
+    #inequalities-breakdown {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
+    .main-container {
+        /* On medium screens, allow cards to shrink a bit more */
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* --- General Layout --- */
+    .wrapper {
+        padding: 20px 15px;
+    }
+    .main-container {
+        /* Force single column layout on smaller screens */
+        grid-template-columns: 1fr;
+    }
+    .paper {
+        padding: 20px;
+    }
+
+    /* --- Header --- */
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    .site-title {
+        font-size: 28px;
+    }
+
+    /* --- Cards & Forms --- */
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .variables {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .target-function {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    /* --- Solution Summary --- */
+    .solution-summary-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin: 20px -20px -20px -20px; /* Match new padding */
+        padding: 20px;
+    }
+    .summary-item {
+        text-align: left;
+        padding: 0;
+    }
+
+    /* --- Step-by-step Breakdown --- */
+    .inequality-cards-grid,
+    .direction-step-container {
+        grid-template-columns: 1fr; /* Stack the grid items */
+    }
+    .breakdown-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .breakdown-label {
+        width: auto;
+    }
+    .paper.collapsed .card-header,
+    .paper .card-header {
+        margin: -20px -20px 25px -20px; /* Match new padding */
+        padding: 20px;
+    }
+
+    /* --- Chart --- */
+    .chart-container {
+        height: 350px; /* Reduce chart height on mobile */
+    }
+
+    #step3.paper {
+        /* Prevent the graph card from creating horizontal scroll */
+        overflow-x: hidden;
+    }
+}

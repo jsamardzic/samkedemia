@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Jovan's Linear Programming Thingy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Barriecito&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="header-content">
+      <div class="title-group">
+        <h1 class="site-title">Linear Programming Thingy</h1>
+        <span class="site-subtitle">by Jovan Samardzic</span>
+      </div>
+      <div class="social-links">
+        <a href="https://wa.me/32490100821" target="_blank" rel="noopener noreferrer" class="social-icon" id="whatsapp-icon" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.instagram.com/samkedemia" target="_blank" rel="noopener noreferrer" class="social-icon" id="instagram-icon" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="mailto:jovan@samkedemia.com" class="social-icon" id="email-icon" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div class="wrapper">
+    <div class="content-area">
+      <div class="main-container">
+        <div class="paper">
+          <div class="card-header">
+            <h2>Problem Setup <span id="current-exercise-display"></span></h2>
+            <button id="exercisesBtn" class="action-btn"><i class="fas fa-folder-open"></i>Load Exercise</button>
+          </div>
+          <h3>Labels</h3>
+  
+          <div class="variables">
+            <div>
+              Variable 1:
+              <input type="text" id="var1" value="q_1">
+            </div>
+            <div>
+              Variable 2:
+              <input type="text" id="var2" value="q_2">
+            </div>
+            <div>
+              Target Function:
+              <input type="text" id="obj-fn-name" value="T">
+            </div>
+          </div>
+  
+          <h3>Constraints</h3>
+  
+          <div id="constraints"></div>
+  
+          <button id="addConstraintBtn">+ Add Constraint</button>
+  
+          <h3>Target function</h3>
+          <div class="target-function">
+            <div class="target-function-inputs">
+              <span id="obj-fn-text-1">T(q<sub>1</sub>, q<sub>2</sub>) = </span>
+              <input type="number" id="obj-a" class="constraint-input" value="4">
+              <span id="obj-fn-text-2"> &middot; q<sub>1</sub> + </span>
+              <input type="number" id="obj-b" class="constraint-input" value="1">
+              <span id="obj-fn-text-3"> &middot; q<sub>2</sub> + </span>
+              <input type="number" id="obj-c" class="constraint-input" value="0">
+            </div>
+            <div id="optimization-mode-toggle" class="segmented-control">
+              <button class="segmented-btn active" data-mode="maximize">Maximize</button>
+              <button class="segmented-btn" data-mode="minimize">Minimize</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="paper" id="step3" style="display: none;">
+          <div class="card-header">
+            <h2>Feasible Region</h2>
+              <div class="chart-controls">
+                <div id="chart-toggles" class="chart-toggles">
+                    <button class="chart-toggle-btn" data-target="contour">Contour</button>
+                    <button class="chart-toggle-btn active" data-target="boundaries">Lines</button>
+                    <button class="chart-toggle-btn active" data-target="vertices">Vertices</button> 
+                </div>
+                <button id="resetZoomBtn" style="display: none;">Reset Zoom</button>
+              </div>
+          </div>
+          <div class="contour-controls">
+            <div class="contour-row">
+              <label for="level-slider">Level:</label>
+              <input type="range" id="level-slider" class="level-slider" min="0" max="100" value="50">
+              <span id="level-value">50</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="feasibleRegionChart"></canvas>
+          </div>
+          <div id="solution-summary-card" class="solution-summary-card" style="display: none;">
+            <!-- This will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Moved "Solve Each Inequality" card to the bottom -->
+      <div class="paper collapsed" id="step2" style="display: none;">
+        <div class="card-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
+          <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-step solution <i class="fas fa-chevron-down"></i></h2>
+          <button id="exportPdfBtn" class="action-btn"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+        </div>
+        <div id="inequalities-breakdown">
+        </div>
+      </div>
+
+      <!-- Exercises Modal -->
+      <div id="exercises-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Select an Exercise</h2>
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="exercise-list">
+              <button class="exercise-item" data-id="33">Exercise 33</button>
+              <button class="exercise-item" data-id="34">Exercise 34</button>
+              <button class="exercise-item" data-id="35">Exercise 35</button>
+              <button class="exercise-item" data-id="36">Exercise 36</button>
+              <button class="exercise-item" data-id="37">Exercise 37</button>
+              <button class="exercise-item" data-id="38">Exercise 38</button>
+              <button class="exercise-item" data-id="39">Exercise 39</button>
+              <button class="exercise-item" data-id="40">Exercise 40</button>
+              <button class="exercise-item" data-id="41">Exercise 41</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const constraintsDiv = document.getElementById("constraints");
+    const var1Input = document.getElementById("var1");
+    const var2Input = document.getElementById("var2");
+    const addBtn = document.getElementById("addConstraintBtn");
+    const step2Div = document.getElementById("step2");
+    const inequalitiesBreakdownDiv = document.getElementById("inequalities-breakdown");
+    const step3Div = document.getElementById("step3");
+    const chartCanvas = document.getElementById('feasibleRegionChart');
+    const levelSlider = document.getElementById('level-slider');
+    const objAInput = document.getElementById('obj-a');
+    const objBInput = document.getElementById('obj-b');
+    const objCInput = document.getElementById('obj-c');
+    const optimizationModeBtn = document.getElementById('optimization-mode');
+    const optimizationModeToggle = document.getElementById('optimization-mode-toggle');
+    const objFnNameInput = document.getElementById('obj-fn-name');
+    const resetZoomBtn = document.getElementById('resetZoomBtn');
+    const exercisesBtn = document.getElementById('exercisesBtn');
+    const exercisesModal = document.getElementById('exercises-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const summaryCard = document.getElementById('solution-summary-card');
+
+    // Visibility state for chart elements
+    const visibilityState = {
+      boundaries: true,
+      vertices: true, 
+      contour: false,
+    };
+
+    // Make Step 2 card collapsible
+    const step2Header = document.getElementById('step2-header');
+    step2Header.addEventListener('click', () => {
+      step2Div.classList.toggle('collapsed');
+    });
+
+    optimizationModeToggle.addEventListener('click', (e) => {
+      if (e.target.classList.contains('segmented-btn')) {
+        // Remove 'active' from all buttons in the group
+        optimizationModeToggle.querySelectorAll('.segmented-btn').forEach(btn => btn.classList.remove('active'));
+        // Add 'active' to the clicked button
+        e.target.classList.add('active');
+        // Re-render to find the new optimal vertex
+        document.getElementById('current-exercise-display').textContent = '';
+        renderConstraints();
+      }
+    });
+
+    resetZoomBtn.addEventListener('click', () => {
+      if (feasibleRegionChart) {
+        feasibleRegionChart.resetZoom();
+      }
+    });
+
+    // Add event listeners for the new chart toggles
+    document.getElementById('chart-toggles').addEventListener('click', (e) => {
+      if (e.target.classList.contains('chart-toggle-btn')) {
+        const target = e.target.dataset.target;
+        // Toggle the state
+        visibilityState[target] = !visibilityState[target];
+        // Toggle the 'active' class for styling
+        e.target.classList.toggle('active');
+        // Re-render the graph to apply visibility changes
+        if (target === 'contour') {
+          // Just redraw the contour line, don't re-render the whole graph
+          drawContourLine(feasibleRegionChart.options.scales.x.min, feasibleRegionChart.options.scales.x.max, feasibleRegionChart.options.scales.y.min, feasibleRegionChart.options.scales.y.max);
+        } else {
+          renderFeasibleRegionGraph(true); // Pass true to preserve zoom
+        }
+      }
+    });
+
+    // --- Modal Logic ---
+    exercisesBtn.addEventListener('click', () => {
+      exercisesModal.style.display = 'flex';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      exercisesModal.style.display = 'none';
+    });
+
+    exercisesModal.addEventListener('click', (e) => {
+      // Close if backdrop is clicked
+      if (e.target === exercisesModal) {
+        exercisesModal.style.display = 'none';
+      }
+      // If an exercise button is clicked
+      if (e.target.classList.contains('exercise-item')) {
+        const exerciseId = e.target.dataset.id;
+        loadExercise(exerciseId);
+        exercisesModal.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      // Close modal on 'Escape' key
+      if (e.key === 'Escape' && exercisesModal.style.display !== 'none') {
+        exercisesModal.style.display = 'none';
+      }
+    });
+
+    // --- PDF Export Logic ---
+    exportPdfBtn.addEventListener('click', () => {
+      const solutionContent = document.getElementById('inequalities-breakdown');
+      const exerciseName = document.getElementById('current-exercise-display').textContent || 'Custom Problem';
+      const filename = `${exerciseName.replace(/\s+/g, '_')}_Solution.pdf`;
+
+      // Ensure the content is visible before printing
+      const wasCollapsed = step2Div.classList.contains('collapsed');
+      if (wasCollapsed) {
+        step2Div.classList.remove('collapsed');
+      }
+
+      const opt = {
+        margin:       [0.5, 0.5, 0.5, 0.5], // inches
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      // Create a title element to prepend to the content
+      const titleEl = document.createElement('h1');
+      titleEl.innerText = `Solution for ${exerciseName}`;
+      titleEl.style.textAlign = 'center';
+      titleEl.style.marginBottom = '2rem';
+
+      const contentWrapper = document.createElement('div');
+      contentWrapper.appendChild(titleEl);
+      contentWrapper.appendChild(solutionContent.cloneNode(true));
+
+      html2pdf().from(contentWrapper).set(opt).save();
+    });
+
+    function formatNumber(num) {
+      if (typeof num !== 'number') {
+        return num;
+      }
+      // Check if the number is very close to an integer
+      if (Math.abs(num - Math.round(num)) < 1e-9) {
+        return Math.round(num).toString();
+      }
+      // Otherwise, format to 2 decimal places
+      return num.toFixed(2);
+    }
+
+    function toSubscript(text) {
+        if (!text) return '';
+        // Converts q_A to qₐ, q_1 to q₁, etc.
+        return text.replace(/_([A-Za-z0-9]+)/g, (match, p1) => {
+            return p1.split('').map(char => {
+                const subscriptMap = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉', 'A': 'ₐ', 'B': 'ₑ', 'I': 'ᵢ' }; // Add more as needed
+                return subscriptMap[char] || char;
+            }).join('');
+        });
+    }
+
+    let constraintsList = [];
+    let feasibleRegionChart; 
+    let staticFeasibleRegionChart;
+
+    function formatVar(name) {
+      name = name.trim();
+      if (name.includes("_")) {
+        const parts = name.split("_");
+        return parts[0] + "<sub>" + parts[1] + "</sub>";
+      }
+      return name;
+    }
+
+    function createConstraintInput(value, constraintIndex, part) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.className = "constraint-input";
+      input.value = value;
+      input.onchange = (e) => {
+        // When an input changes, update the model and re-render everything
+        const newValue = parseFloat(e.target.value) || 0;
+        constraintsList[constraintIndex][part] = newValue;
+        document.getElementById('current-exercise-display').textContent = '';
+        renderConstraints();
+      };
+      return input;
+    }
+
+
+    function refreshNumbers() {
+      const constraintElems = constraintsDiv.querySelectorAll(".constraint");
+      constraintElems.forEach((c, i) => {
+        const numSpan = c.querySelector(".constraint-number");
+        numSpan.textContent = `(${i + 1})`;
+      });
+    }
+
+    function renderConstraints(animateLast = false) {
+      constraintsDiv.innerHTML = "";
+      step2Div.style.display = constraintsList.length > 0 ? "block" : "none";
+      step3Div.style.display = constraintsList.length > 0 ? "block" : "none";
+      resetZoomBtn.style.display = constraintsList.length > 0 ? "inline-block" : "none";
+
+      // Update target function variable names
+      const fnName = objFnNameInput.value || 'T';
+      document.getElementById('obj-fn-text-1').innerHTML = `${fnName}(${formatVar(var1Input.value)}, ${formatVar(var2Input.value)}) &nbsp;=&nbsp; `;
+      document.getElementById('obj-fn-text-2').innerHTML = ` ${formatVar(var1Input.value)} + `;
+      document.getElementById('obj-fn-text-3').innerHTML = ` ${formatVar(var2Input.value)} + `;
+
+
+      const v1 = formatVar(var1Input.value || "q_1");
+      const v2 = formatVar(var2Input.value || "q_2");
+
+      constraintsList.forEach((c, index) => {
+        const div = document.createElement("div");
+        div.className = "constraint";
+
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "constraint-number";
+        div.appendChild(numberSpan);
+
+        const span = document.createElement("span");
+        div.appendChild(span);
+
+        // Special rendering for the first two constraints (q1 and q2 bounds)
+        if (index === 0) { // Constraint for q1
+          span.insertAdjacentHTML('beforeend', `${v1} `);
+        } else if (index === 1) { // Constraint for q2
+          span.insertAdjacentHTML('beforeend', `${v2} `);
+        } else { // Standard linear combination for all other constraints
+          span.appendChild(createConstraintInput(c.c1, index, 'c1'));
+          span.insertAdjacentHTML('beforeend', `&nbsp;${v1} + `);
+
+          span.appendChild(createConstraintInput(c.c2, index, 'c2'));
+          span.insertAdjacentHTML('beforeend', `&nbsp;${v2} `);
+        }
+
+        // Common elements for all editable constraints: sign selector and RHS
+        if (index > 1) {
+          const signButton = document.createElement('button');
+          signButton.className = 'constraint-sign';
+          signButton.innerHTML = c.sign === 'le' ? '&le;' : '&ge;';
+          signButton.onclick = () => {
+              constraintsList[index].sign = constraintsList[index].sign === 'le' ? 'ge' : 'le';
+              document.getElementById('current-exercise-display').textContent = '';
+              renderConstraints();
+          };
+          span.appendChild(signButton);
+        } else {
+          const signSpan = document.createElement('span');
+          signSpan.className = 'constraint-sign-disabled';
+          signSpan.innerHTML = '&ge;';
+          span.appendChild(signSpan);
+        }
+
+        span.appendChild(createConstraintInput(c.rhs, index, 'rhs'));
+
+        // The 'remove' button logic was previously inside an 'else' block.
+        // It needs to be at this level to apply correctly.
+        // Note: The logic to prevent deletion of the first two constraints is already correct.
+        if (index > 1) {
+          // Only allow deleting constraints other than the first two (the base non-negativity constraints)
+          if (index > 1) {
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-btn";
+            removeBtn.innerHTML = `<i class="fas fa-trash"></i>`;
+            removeBtn.onclick = () => {
+              document.getElementById('current-exercise-display').textContent = '';
+              constraintsList.splice(index, 1);
+              renderConstraints();
+            };
+            div.appendChild(removeBtn);
+          }
+        }
+        constraintsDiv.appendChild(div); // This was in the wrong place
+
+        // Apply animation to the last element if requested
+        if (animateLast && index === constraintsList.length - 1) {
+          div.style.animation = `fadeInSlideDown 1s ease-out forwards`;
+        }
+      });
+
+      renderInequalitiesBreakdown();
+      refreshNumbers();
+    }
+
+    function renderInequalitiesBreakdown() { 
+      // Clear the breakdown div before re-rendering
+      inequalitiesBreakdownDiv.innerHTML = "";
+
+      const v1_raw = var1Input.value || "q_1";
+      const v2_raw = var2Input.value || "q_2";
+      const v1 = formatVar(v1_raw);
+      const v2 = formatVar(v2_raw);
+
+      // --- Create Step 1: List Variables and Constraints ---
+      const step1Container = document.createElement('div');
+      step1Container.innerHTML = '<h3>Step 1: List Variables and Constraints</h3>';
+
+      // List Variables
+      const variablesListDiv = document.createElement('div');
+      variablesListDiv.className = 'breakdown-item';
+      variablesListDiv.innerHTML = `<span class="breakdown-label">Variables</span><span class="breakdown-content">${v1}, ${v2}</span>`;
+      step1Container.appendChild(variablesListDiv);
+
+      // List Constraints
+      const constraintsListContainer = document.createElement('div');
+      constraintsListContainer.className = 'breakdown-item';
+      let constraintsHTML = '<ul class="breakdown-constraint-list">';
+      constraintsList.forEach((c, index) => {
+          constraintsHTML += `<li style="margin-bottom: 4px;">(${index + 1}) ${formatConstraint(c, v1, v2)}</li>`;
+      });
+      constraintsHTML += '</ul>';
+      constraintsListContainer.innerHTML = `<span class="breakdown-label">Constraints</span><span class="breakdown-content">${constraintsHTML}</span>`;
+      step1Container.appendChild(constraintsListContainer);
+
+      inequalitiesBreakdownDiv.appendChild(step1Container);
+
+
+      // --- Create Step 2: Solve Each Inequality ---
+      const step2Container = document.createElement('div');
+      step2Container.innerHTML = '<h3 style="margin-top: 30px;">Step 2: Solve Each Inequality Individually</h3>';
+      
+      const cardsGridContainer = document.createElement('div');
+      cardsGridContainer.className = 'inequality-cards-grid';
+      
+      inequalitiesBreakdownDiv.appendChild(step2Container);
+      step2Container.appendChild(cardsGridContainer);
+
+      constraintsList.forEach((c, index) => {
+        const container = document.createElement('div');
+        container.className = 'inequality-card';
+
+        let headerText = '';
+        let contentHTML = '';
+
+        headerText = formatConstraint(c, v1, v2);
+
+        let boundaryLineHTML = '';
+        if (c.c1 === 0 && c.c2 !== 0) { // Horizontal line
+          const val = formatNumber(c.rhs / c.c2);
+          boundaryLineHTML = `<strong>${v2} = ${val}</strong><div style="margin-top: 4px; color: #475569;">This is a horizontal line where ${v2} is always ${val}.</div>`;
+        } else if (c.c1 !== 0 && c.c2 === 0) { // Vertical line
+          const val = formatNumber(c.rhs / c.c1);
+          boundaryLineHTML = `<strong>${v1} = ${val}</strong><div style="margin-top: 4px; color: #475569;">This is a vertical line where ${v1} is always ${val}.</div>`;
+        } else { // Diagonal line
+          let lineEq = '';
+          const terms = [];
+          if (c.c1 !== 0) terms.push(c.c1 === 1 ? v1 : (c.c1 === -1 ? `-${v1}` : `${formatNumber(c.c1)}&nbsp;${v1}`));
+          if (c.c2 !== 0) {
+            if (terms.length > 0 && c.c2 > 0) terms.push('+');
+            terms.push(c.c2 === 1 ? v2 : (c.c2 === -1 ? `-${v2}` : `${formatNumber(c.c2)}&nbsp;${v2}`));
+          }
+          lineEq = `<strong>${terms.join(' ')} = ${formatNumber(c.rhs)}</strong>`;
+
+          // Intercept calculations
+          const y_intercept_calc = (c.c2 !== 0) ? `<div>
+              <div style="font-weight: 600; color: #475569;">Y-intercept (set ${v1} = 0)</div>
+              <div style="padding-left: 15px; margin-top: 4px; color: #3c4858;">
+                ${formatNumber(c.c2)}&nbsp;${v2} = ${formatNumber(c.rhs)} &nbsp;&rarr;&nbsp; ${v2} = ${formatNumber(c.rhs/c.c2)}
+              </div>
+              <div style="padding-left: 15px; margin-top: 2px; color: #3c4858;">Resulting point: <strong>(0, ${formatNumber(c.rhs/c.c2)})</strong></div>
+            </div>` : '';
+          const x_intercept_calc = (c.c1 !== 0) ? `<div>
+              <div style="font-weight: 600; color: #475569;">X-intercept (set ${v2} = 0)</div>
+              <div style="padding-left: 15px; margin-top: 4px; color: #3c4858;">
+                ${formatNumber(c.c1)}&nbsp;${v1} = ${formatNumber(c.rhs)} &nbsp;&rarr;&nbsp; ${v1} = ${formatNumber(c.rhs/c.c1)}
+              </div>
+              <div style="padding-left: 15px; margin-top: 2px; color: #3c4858;">Resulting point: <strong>(${formatNumber(c.rhs/c.c1)}, 0)</strong></div>
+            </div>` : '';
+
+          const intercepts = `
+            <div style="margin-top: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 10px;">
+              ${x_intercept_calc} ${y_intercept_calc}
+            </div>`;
+          boundaryLineHTML = `${lineEq}${intercepts}`;
+        }
+
+        let testPointResult, region;
+        let testPoint = { x: 0, y: 0 };
+        let testPointLabel = `Test Point (0, 0)`;
+
+        // If the line passes through the origin (RHS is 0), pick a different test point.
+        if (c.rhs === 0) {
+            testPoint = { x: 1, y: 1 };
+            testPointLabel = `Test Point (1, 1)`;
+        }
+
+        const testVal = c.c1 * testPoint.x + c.c2 * testPoint.y;
+        const testPasses = c.sign === 'le' ? (testVal <= c.rhs) : (testVal >= c.rhs);
+        const signStr = c.sign === 'le' ? '≤' : '≥';
+
+        const c1_str = `${formatNumber(c.c1)} &middot; ${testPoint.x}`;
+        const c2_str = `${formatNumber(c.c2)} &middot; ${testPoint.y}`;
+        const resultStr = testPasses ? 'is True' : 'is False';
+
+        testPointResult = `
+          <div>${c1_str} + ${c2_str} ${signStr} ${formatNumber(c.rhs)}</div>
+          <div style="margin-top: 4px;">
+            <span style="font-size: 1.2em; color: #94a3b8; margin-right: 5px;">&darr;</span>
+            ${formatNumber(testVal)} ${signStr} ${formatNumber(c.rhs)}, which <strong>${resultStr}</strong>.
+          </div>`;
+        
+        // Determine the region to remove with more descriptive language
+        if (c.c1 !== 0 && c.c2 === 0) { // Vertical line
+            const lineX = c.rhs / c.c1;
+            const testSide = testPoint.x < lineX ? 'left' : 'right';
+            const oppositeSide = testSide === 'left' ? 'right' : 'left';
+            const sideToRemove = testPasses ? oppositeSide : testSide;
+            region = `Area to the <strong>${sideToRemove}</strong> of the line.`;
+        } else if (c.c1 === 0 && c.c2 !== 0) { // Horizontal line
+            const lineY = c.rhs / c.c2;
+            const testSide = testPoint.y < lineY ? 'below' : 'above';
+            const oppositeSide = testSide === 'below' ? 'above' : 'below';
+            const sideToRemove = testPasses ? oppositeSide : testSide;
+            region = `Area <strong>${sideToRemove}</strong> the line.`;
+        } else { // Diagonal line or base constraints
+            // If the test passes, we keep the area with the test point, so we remove the opposite side.
+            if (testPasses) {
+                region = `Area on the side <strong>opposite</strong> the test point.`;
+            } else {
+                // If the test fails, we remove the area containing the test point.
+                region = `Area on the <strong>same side</strong> as the test point.`;
+            }
+        }
+
+
+        // Special handling for the base non-negativity constraints
+        if (c.type === 'base') {
+          if (c.text.includes("v1")) { // q1 >= 0
+            boundaryLineHTML = `<strong>${v1} = 0</strong> (The vertical axis)`;
+            testPointLabel = `Test Point (1, 0)`;
+            testPointResult = `1 ≥ 0 is True`;
+            region = `Area to the <strong>left</strong> of the line.`;
+          } else { // q2 >= 0
+            boundaryLineHTML = `<strong>${v2} = 0</strong> (The horizontal axis)`;
+            testPointLabel = `Test Point (0, 1)`;
+            testPointResult = `1 ≥ 0 is True`;
+            region = `Area <strong>below</strong> the line.`;
+          }
+        }
+
+        contentHTML = `
+          <div class="breakdown-item"><span class="breakdown-label">Boundary Line</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
+          <div class="breakdown-item"><span class="breakdown-label">${testPointLabel}</span><span class="breakdown-content">${testPointResult}</span></div>
+          <div class="breakdown-item"><span class="breakdown-label">Region to Remove</span><span class="breakdown-content">${region}</span></div>
+        `;
+
+        container.innerHTML = `<h4>(${index + 1}) ${headerText}</h4>${contentHTML}`;
+        cardsGridContainer.appendChild(container);
+      });
+
+      // --- Create Step 3: Draw Feasible Set ---
+      const step3Container = document.createElement('div');
+      step3Container.innerHTML = `
+        <h3 style="margin-top: 30px;">Step 3: Draw Feasible Set</h3>
+        <p style="font-size: 14px; color: #475569; margin-top: 0; margin-bottom: 20px;">The feasible region is the area where all constraints are satisfied simultaneously. The vertices of this region are the candidates for the optimal solution.</p>
+        <div class="chart-container" style="height: 400px; max-width: 550px; margin: 0 auto; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff;"><canvas id="staticFeasibleRegionChart"></canvas></div>
+      `;
+      inequalitiesBreakdownDiv.appendChild(step3Container);
+
+      // Now that all elements are in the DOM, render the graphs
+      const solutionData = renderFeasibleRegionGraph();
+      renderSolutionSteps(solutionData);
+      updateSolutionSummary(solutionData);
+    }
+
+    function renderSolutionSteps(solutionData) {
+      const { feasibleVertices, optimalVertexIndices, optimalValue } = solutionData;
+      const step4Container = document.createElement('div');
+      step4Container.innerHTML = '<h3 style="margin-top: 30px;">Step 4: State Target Function</h3>';
+
+      const targetFnContainer = document.createElement('div');
+      targetFnContainer.className = 'breakdown-item';
+
+      const fnName = objFnNameInput.value || 'T';
+      const a = parseFloat(objAInput.value) || 0;
+      const b = parseFloat(objBInput.value) || 0;
+      const c_offset = parseFloat(objCInput.value) || 0;
+
+      // Need these for later steps
+      const v1_raw = var1Input.value || "q_1";
+      const v2_raw = var2Input.value || "q_2";
+      const v1 = formatVar(v1_raw);
+      const v2 = formatVar(v2_raw);
+      let targetFnString = `${fnName}(${v1}, ${v2}) = `;
+      const terms = [];
+      if (a !== 0) terms.push(a === 1 ? v1 : (a === -1 ? `-${v1}` : `${formatNumber(a)}&nbsp;${v1}`));
+      if (b !== 0) {
+          if (terms.length > 0 && b > 0) terms.push('+');
+          terms.push(b === 1 ? v2 : (b === -1 ? `-${v2}` : `${formatNumber(b)}&nbsp;${v2}`));
+      }
+      if (c_offset !== 0) {
+          if (terms.length > 0 && c_offset > 0) terms.push('+');
+          terms.push(formatNumber(c_offset));
+      }
+      if (terms.length === 0) terms.push('0');
+      targetFnString += terms.join(' ');
+
+      targetFnContainer.innerHTML = `<span class="breakdown-label" style="padding-top: 0;">Function</span><span class="breakdown-content" style="font-size: 16px;">${targetFnString}</span>`;
+      step4Container.appendChild(targetFnContainer);
+
+      const mode = document.querySelector('#optimization-mode-toggle .segmented-btn.active').dataset.mode;
+      const goalContainer = document.createElement('div');
+      goalContainer.className = 'breakdown-item';
+      goalContainer.innerHTML = `<span class="breakdown-label" style="padding-top: 0;">Goal</span><span class="breakdown-content" style="font-size: 16px; text-transform: capitalize;">${mode}</span>`;
+      step4Container.appendChild(goalContainer);
+      inequalitiesBreakdownDiv.appendChild(step4Container);
+
+      // --- Create Step 5: Find Contour Line Equation ---
+        let levelVar = 'a'; // Default level variable
+        if (v1_raw.trim().toLowerCase() === 'a' || v2_raw.trim().toLowerCase() === 'a') {
+            levelVar = 'L'; // Use 'L' if 'a' is already a variable name
+        }
+
+        const initialTargetFnTerms = [];
+        if (a !== 0) initialTargetFnTerms.push(a === 1 ? v1 : (a === -1 ? `-${v1}` : `${formatNumber(a)}&nbsp;${v1}`));
+        if (b !== 0) {
+            if (initialTargetFnTerms.length > 0 && b > 0) initialTargetFnTerms.push('+');
+            initialTargetFnTerms.push(b === 1 ? v2 : (b === -1 ? `-${v2}` : `${formatNumber(b)}&nbsp;${v2}`));
+        }
+        if (c_offset !== 0) {
+            if (initialTargetFnTerms.length > 0 && c_offset > 0) initialTargetFnTerms.push('+');
+            initialTargetFnTerms.push(formatNumber(c_offset));
+        }
+        const initialTargetFnString = `${initialTargetFnTerms.join(' ')} = ${levelVar}`;
+
+        const step5Container = document.createElement('div');
+        let step5HTML = `<h3 style="margin-top: 30px;">Step 5: Find Contour Line Equation</h3>
+            <p style="font-size: 14px; color: #475569; margin-top: 0;">To visualize the target function, we treat it as an equation for a line by setting it equal to a level (let's call it '${levelVar}') and solving for ${v2}.</p>`;
+
+        const derivationSteps = [];
+
+        if (b !== 0) {
+            const slope_frac = `(-${formatNumber(a)} / ${formatNumber(b)})`;
+            const intercept_frac = `(${levelVar} - ${formatNumber(c_offset)}) / ${formatNumber(b)}`;
+            const slope_dec = formatNumber(-a / b);
+
+            const c_offset_term_isolate = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
+            const c_offset_term_frac = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
+            const c_offset_term_dec = c_offset !== 0 ? ` - ${formatNumber(c_offset/b)}` : '';
+
+            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${initialTargetFnString}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Isolate ${v2}:</div><div class="derivation-equation">${formatNumber(b)}&nbsp;${v2} = -${formatNumber(a)}&nbsp;${v1} + ${levelVar}${c_offset_term_isolate}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Solve for ${v2}:</div><div class="derivation-equation">${v2} = ${slope_frac}&nbsp;${v1} + (${levelVar}${c_offset_term_frac}) / ${formatNumber(b)}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Final Equation:</div><div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${formatNumber(1/b)}${levelVar}${c_offset_term_dec}</div>`);
+
+            step5HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
+        } else if (a !== 0) { // Handle vertical contour lines
+            const c_offset_term_vertical = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
+
+            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${initialTargetFnString}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Solve for ${v1}:</div><div class="derivation-equation">${v1} = (${levelVar}${c_offset_term_vertical}) / ${formatNumber(a)}</div>`);
+            step5HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
+        }
+        step5Container.innerHTML = step5HTML;
+        inequalitiesBreakdownDiv.appendChild(step5Container);
+
+      // --- Create Step 6: Determine Direction of Improvement ---
+      const step6Container = document.createElement('div');
+      let step6HTML = `<h3 style="margin-top: 30px;">Step 6: Determine Direction of Improvement (using '${levelVar}')</h3>
+        <p style="font-size: 14px; color: #475569; margin-top: 0;">By comparing two different contour lines, we can see the direction in which the target function's value increases. This tells us which way to move the line to find the optimal solution.</p>`;
+
+      const level1 = 10;
+      const level2 = 20;
+      let directionConclusion = '';
+
+      const directionStepsContainer = document.createElement('div');
+      directionStepsContainer.className = 'direction-step-container';
+
+      if (b !== 0) { // Standard case with a slope
+        const slope_dec = formatNumber(-a / b);
+        const intercept1 = formatNumber((level1 - c_offset) / b);
+        const intercept2 = formatNumber((level2 - c_offset) / b);
+
+        directionStepsContainer.innerHTML = `
+          <div class="derivation-box">
+            <div class="derivation-description">For ${levelVar} = ${level1}:</div>
+            <div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${intercept1}</div>
+          </div>
+          <div class="derivation-box">
+            <div class="derivation-description">For ${levelVar} = ${level2}:</div>
+            <div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${intercept2}</div>
+          </div>
+        `;
+
+        const y_intercept_change = (level2 - c_offset) / b - (level1 - c_offset) / b;
+        const moveDirection = y_intercept_change > 0 ? 'up' : 'down';
+        directionConclusion = `As the level '${levelVar}' increases, the y-intercept changes, causing the line to move <strong>${moveDirection}</strong>.`;
+
+      } else if (a !== 0) { // Vertical lines
+        const x_val1 = formatNumber((level1 - c_offset) / a);
+        const x_val2 = formatNumber((level2 - c_offset) / a);
+
+        directionStepsContainer.innerHTML = `
+          <div class="derivation-box">
+            <div class="derivation-description">For ${levelVar} = ${level1}:</div>
+            <div class="derivation-equation">${v1} = ${x_val1}</div>
+          </div>
+          <div class="derivation-box">
+            <div class="derivation-description">For ${levelVar} = ${level2}:</div>
+            <div class="derivation-equation">${v1} = ${x_val2}</div>
+          </div>
+        `;
+        const x_val_change = (level2 - c_offset) / a - (level1 - c_offset) / a;
+        const moveDirection = x_val_change > 0 ? 'right' : 'left';
+        directionConclusion = `As the level '${levelVar}' increases, the line is vertical and moves to the <strong>${moveDirection}</strong>.`;
+      } else { // No variables in objective function
+        directionConclusion = `The target function is constant, so its value does not change.`;
+      }
+
+      step6HTML += directionStepsContainer.outerHTML;
+      step6HTML += `<p class="direction-text" style="margin-top: 15px;">${directionConclusion} To <strong>${mode}</strong> the function, we must therefore move the contour line as far as possible in this direction while still touching the feasible region.</p>`;
+      step6Container.innerHTML = step6HTML;
+      inequalitiesBreakdownDiv.appendChild(step6Container);
+
+      // --- Create Step 7: Find the Optimal Solution ---
+      const step7Container = document.createElement('div');
+      let step7HTML = `<h3 style="margin-top: 30px;">Step 7: Find the Optimal Solution</h3>`;
+
+      if (optimalVertexIndices.length === 0) {
+        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">There are no feasible vertices, so no optimal solution exists for this problem.</p>`;
+      } else if (optimalVertexIndices.length === 1) {
+        const optimalIndex = optimalVertexIndices[0];
+        const optimalVertex = feasibleVertices[optimalIndex];
+        const vertexLetter = String.fromCharCode(65 + optimalIndex);
+        const line1Index = optimalVertex.line1 - 1;
+        const line2Index = optimalVertex.line2 - 1;
+        const line1 = constraintsList[line1Index];
+        const line2 = constraintsList[line2Index];
+
+        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">The optimal solution occurs at <strong>Vertex ${vertexLetter}</strong>, which is the intersection of boundary lines (${line1Index + 1}) and (${line2Index + 1}).</p>`;
+
+        const systemEq1 = `${formatConstraint(line1, v1, v2).replace(/&le;|&ge;/g, '=')}`;
+        const systemEq2 = `${formatConstraint(line2, v1, v2).replace(/&le;|&ge;/g, '=')}`;
+
+        const derivationSteps = [];
+        derivationSteps.push(`<div class="derivation-description">System of Equations:</div><div class="derivation-equation">${systemEq1}<br>${systemEq2}</div>`);
+        
+        derivationSteps.push(`<div class="derivation-description">Solution:</div><div class="derivation-equation">${v1} = ${formatNumber(optimalVertex.x)}, &nbsp; ${v2} = ${formatNumber(optimalVertex.y)}</div>`);
+
+        step7HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
+
+        step7HTML += `<p class="direction-text" style="margin-top: 15px;">
+          The optimal point is <strong>(${formatNumber(optimalVertex.x)}, ${formatNumber(optimalVertex.y)})</strong>.
+          Plugging this into the target function gives the ${mode} value:
+          <br><strong>${fnName} = ${formatNumber(optimalValue)}</strong>.
+        </p>`;
+
+      } else { // Multiple optimal solutions
+        const vertex1Index = optimalVertexIndices[0];
+        const vertex2Index = optimalVertexIndices[1];
+        const vertex1Letter = String.fromCharCode(65 + vertex1Index);
+        const vertex2Letter = String.fromCharCode(65 + vertex2Index);
+
+        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">
+          The contour line of the target function is parallel to the boundary line connecting <strong>Vertex ${vertex1Letter}</strong> and <strong>Vertex ${vertex2Letter}</strong>.
+          This means that every point on the line segment between these two vertices is an optimal solution.
+        </p>`;
+
+        const optimalVertex1 = feasibleVertices[vertex1Index];
+        const optimalVertex2 = feasibleVertices[vertex2Index];
+
+        const summaryBox = `
+          <div class="derivation-box" style="grid-template-columns: 1fr; gap: 10px;">
+            <div><strong>Vertex ${vertex1Letter}:</strong> (${formatNumber(optimalVertex1.x)}, ${formatNumber(optimalVertex1.y)})</div>
+            <div><strong>Vertex ${vertex2Letter}:</strong> (${formatNumber(optimalVertex2.x)}, ${formatNumber(optimalVertex2.y)})</div>
+          </div>
+        `;
+        step7HTML += summaryBox;
+
+        step7HTML += `<p class="direction-text" style="margin-top: 15px;">
+          The ${mode} value for all points on this segment is <strong>${fnName} = ${formatNumber(optimalValue)}</strong>.
+        </p>`;
+      }
+
+      step7Container.innerHTML = step7HTML;
+      inequalitiesBreakdownDiv.appendChild(step7Container);
+    }
+
+    function updateSolutionSummary(solutionData) {
+      if (!solutionData || !solutionData.optimalVertexIndices || solutionData.optimalVertexIndices.length === 0) {
+        summaryCard.style.display = 'none';
+        return;
+      }
+
+      const { feasibleVertices, optimalVertexIndices, optimalValue } = solutionData;
+      const mode = document.querySelector('#optimization-mode-toggle .segmented-btn.active').dataset.mode;
+      const fnName = objFnNameInput.value || 'T';
+
+      let pointsHTML = '';
+      if (optimalVertexIndices.length === 1) {
+        const optimalVertex = feasibleVertices[optimalVertexIndices[0]];
+        pointsHTML = `(${formatNumber(optimalVertex.x)}, ${formatNumber(optimalVertex.y)})`;
+      } else {
+        const vertex1Index = optimalVertexIndices[0];
+        const vertex2Index = optimalVertexIndices[1];
+        const vertex1Letter = String.fromCharCode(65 + vertex1Index);
+        const vertex2Letter = String.fromCharCode(65 + vertex2Index);
+        pointsHTML = `On segment ${vertex1Letter} to ${vertex2Letter}`;
+      }
+
+      summaryCard.innerHTML = `
+        <div class="summary-item">
+          <div class="label">Goal</div>
+          <div class="value" style="text-transform: capitalize;">${mode}</div>
+        </div>
+        <div class="summary-item">
+          <div class="label">Optimal Value</div>
+          <div class="value">${fnName} = ${formatNumber(optimalValue)}</div>
+        </div>
+        <div class="summary-item">
+          <div class="label">Optimal Point</div>
+          <div class="value">${pointsHTML}</div>
+        </div>`;
+      summaryCard.style.display = 'flex';
+    }
+
+    function renderFeasibleRegionGraph(preserveZoom = false) {
+      const lines = constraintsList.map(c => {
+        return { c1: c.c1, c2: c.c2, rhs: c.rhs, sign: c.sign };
+      });
+
+      // Find all intersection points
+      const intersectionPoints = [];
+      for (let i = 0; i < lines.length; i++) {
+        for (let j = i + 1; j < lines.length; j++) {
+          const p1 = lines[i];
+          const p2 = lines[j];
+
+          const det = p1.c1 * p2.c2 - p2.c1 * p1.c2;
+          if (det !== 0) { // If lines are not parallel
+            const x = (p2.c2 * p1.rhs - p1.c2 * p2.rhs) / det;
+            const y = (p1.c1 * p2.rhs - p2.c1 * p1.rhs) / det;
+            if (x >= -1e-9 && y >= -1e-9) { // Only consider points in or very near the first quadrant
+              intersectionPoints.push({ x, y, line1: i + 1, line2: j + 1 });
+            }
+          }
+        }
+      }
+
+      // Find intercepts for scaling the chart
+      const axisIntercepts = [];
+      lines.forEach(l => {
+        if (l.c1 !== 0) axisIntercepts.push({ x: l.rhs / l.c1, y: 0 });
+        if (l.c2 !== 0) axisIntercepts.push({ x: 0, y: l.rhs / l.c2 });
+      });
+
+      // Filter for feasible vertices
+      const feasibleVertices = intersectionPoints.filter(p => {
+        return constraintsList.every(c => {
+          const epsilon = 1e-9; // Tolerance for floating point inaccuracies
+          return c.sign === 'le' ? (c.c1 * p.x + c.c2 * p.y <= c.rhs + epsilon) : (c.c1 * p.x + c.c2 * p.y >= c.rhs - epsilon);
+        });
+      });
+
+      // Sort vertices to form a convex polygon
+      if (feasibleVertices.length > 1) {
+        const center = feasibleVertices.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
+        center.x /= feasibleVertices.length;
+        center.y /= feasibleVertices.length;
+        feasibleVertices.sort((a, b) => Math.atan2(a.y - center.y, a.x - center.x) - Math.atan2(b.y - center.y, b.x - center.x));
+      }
+
+      // --- Find Optimal Vertex ---
+      let optimalVertexIndices = []; // Can be multiple if solutions are degenerate
+      if (feasibleVertices.length > 0) {
+        const a = parseFloat(objAInput.value) || 0;
+        const b = parseFloat(objBInput.value) || 0;
+        const c_offset = parseFloat(objCInput.value) || 0;
+        const mode = document.querySelector('#optimization-mode-toggle .segmented-btn.active').dataset.mode;
+
+        // First pass: calculate all objective values and find the single optimal value
+        optimalValue = mode === 'maximize' ? -Infinity : Infinity;
+        feasibleVertices.forEach(p => {
+          const value = a * p.x + b * p.y + c_offset;
+          p.objValue = value; // Store value for tooltip
+
+          if (mode === 'maximize') {
+            if (value > optimalValue) optimalValue = value;
+          } else { // minimize
+            if (value < optimalValue) optimalValue = value;
+          }
+        });
+
+        // Second pass: find all vertices that match the optimal value (using a tolerance)
+        const tolerance = 1e-9;
+        feasibleVertices.forEach((p, index) => {
+          if (Math.abs(p.objValue - optimalValue) < tolerance) {
+            optimalVertexIndices.push(index);
+          }
+        });
+
+
+      }
+
+
+      // Determine chart axis limits
+      const allPoints = [...feasibleVertices, ...axisIntercepts];
+      const maxX = Math.max(10, ...allPoints.filter(p => p.x >= 0 && p.y >= 0).map(p => p.x));
+      const maxY = Math.max(10, ...allPoints.filter(p => p.x >= 0 && p.y >= 0).map(p => p.y));
+
+      // Calculate min values to show some negative space (e.g., 10% of the max value)
+      const minX = -maxX * 0.1;
+      const minY = -maxY * 0.1;
+
+
+      // --- New Logic for Slider Range ---
+      const a = parseFloat(objAInput.value) || 0;
+      const b = parseFloat(objBInput.value) || 0;
+      const c_offset = parseFloat(objCInput.value) || 0;
+
+      // Calculate objective function values at each vertex to find the range
+      const vertexValues = feasibleVertices.map(p => a * p.x + b * p.y + c_offset);
+
+      // Also consider the value at the origin (0,0) and the max corner (maxX, maxY) to create a sensible range
+      vertexValues.push(c_offset); // Value at (0,0)
+      vertexValues.push(a * maxX + b * maxY + c_offset); // Value at (maxX, maxY)
+
+      const minLevel = Math.min(...vertexValues);
+      const maxLevel = Math.max(...vertexValues);
+
+      // Update slider range and draw initial contour line
+      updateSliderRange(minLevel, maxLevel);
+      drawContourLine(minX, maxX, minY, maxY);
+
+      // Prepare datasets for Chart.js
+      const datasets = [];
+
+      // 1. Feasible region polygon
+      if (feasibleVertices.length > 0) {
+        datasets.push({
+          label: 'Feasible Region',
+          data: [...feasibleVertices, feasibleVertices[0]], // Close the polygon
+          fill: true,
+          backgroundColor: 'rgba(59, 130, 246, 0.15)', // Light, transparent blue
+          borderColor: 'rgba(59, 130, 246, 0.4)', // Muted blue for the border
+          borderWidth: 3,
+          showLine: true,
+          type: 'line', // Use 'line' type for the dataset to enable filling
+          pointRadius: 0, // No points on the polygon line itself
+          order: 1 // Draw the region first
+        });
+      }
+
+      // 2. Boundary lines
+      if (visibilityState.boundaries) {
+        lines.forEach((l, i) => {
+          const linePoints = []; // Points to draw the boundary line
+          const extendedMaxX = maxX * 1.1;
+          const extendedMaxY = maxY * 1.1;
+
+          if (l.c2 !== 0) { // Not a vertical line
+            const yAtX0 = l.rhs / l.c2;
+            const yAtXMax = (l.rhs - l.c1 * extendedMaxX) / l.c2;
+            linePoints.push({ x: 0, y: yAtX0 });
+            linePoints.push({ x: extendedMaxX, y: yAtXMax });
+          } else if (l.c1 !== 0) { // Vertical line
+            const x = l.rhs / l.c1;
+            linePoints.push({ x: x, y: 0 });
+            linePoints.push({ x: x, y: extendedMaxY });
+          } // else it's 0=0, which can't be drawn
+
+          datasets.push({
+            label: `Constraint (${i + 1})`,
+            data: linePoints,
+            borderColor: 'rgba(100, 116, 139, 0.5)', // Lighter, grayish color
+            borderWidth: 1,
+            borderDash: [6, 3], // Dashed line effect
+            showLine: true,
+            pointRadius: 0,
+            type: 'line',
+            fill: false,
+            order: 2 // Draw boundaries over the region
+          });
+        });
+      }
+
+      // 3. Feasible vertices points
+      if (visibilityState.vertices) {
+        datasets.push({
+          label: 'Feasible Vertices',
+          data: feasibleVertices,
+          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#3b82f6' : '#94a3b8'), // Blue for optimal, gray for others
+          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#2563eb' : '#475569'), // Darker borders
+          borderWidth: 1.5,
+          pointRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 8 : 5), // Larger radius for optimal
+          pointHoverRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 10 : 7),
+          pointStyle: 'circle', 
+          order: 5, // Draw vertices on top of everything
+          type: 'scatter',
+        });
+      }
+
+      // Define tooltip callbacks here to capture the correct optimalVertexIndices
+      const tooltipCallbacks = {
+        callbacks: {
+          label: function(context) {
+            const datasetLabel = context.dataset.label || '';
+
+            // Custom tooltip for Vertices
+            if (datasetLabel === 'Feasible Vertices') {
+              const point = context.raw; // The original data object
+              const isOptimal = optimalVertexIndices.includes(context.dataIndex);
+              const vertexLabel = `${isOptimal ? 'Optimal ' : ''}Vertex ${String.fromCharCode(65 + context.dataIndex)}`;
+              const coords = `(${formatNumber(point.x)}, ${formatNumber(point.y)})`;
+              const intersection = `Intersection of lines (${point.line1}) and (${point.line2})`; 
+              const fnName = objFnNameInput.value || 'T';
+              const objValue = `${fnName} = ${formatNumber(point.objValue)}`;
+              return [vertexLabel, coords, intersection, objValue]; // Return array for multi-line tooltip
+            }
+            // Simple label for other lines
+            if (datasetLabel.startsWith('Constraint')) return datasetLabel;
+            return `${datasetLabel}: (${context.parsed.x.toFixed(2)}, ${context.parsed.y.toFixed(2)})`;
+          }
+        }
+      };
+      // Create or update the chart
+      if (feasibleRegionChart) {
+        feasibleRegionChart.data.datasets = datasets;
+        feasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
+        feasibleRegionChart.options.scales.y.title.text = toSubscript(var2Input.value);
+        feasibleRegionChart.options.scales.x.title.font.size = 16;
+        feasibleRegionChart.options.scales.y.title.font.size = 16;
+        if (!preserveZoom) {
+          feasibleRegionChart.options.scales.x.max = maxX * 1.1; // Keep this line
+          feasibleRegionChart.options.scales.x.min = minX;
+          feasibleRegionChart.options.scales.y.max = maxY * 1.1;
+          feasibleRegionChart.options.scales.y.min = minY;
+        }
+        feasibleRegionChart.options.plugins.tooltip = tooltipCallbacks;
+        feasibleRegionChart.update('none'); // Use 'none' for a smoother update
+      } else {
+        feasibleRegionChart = new Chart(chartCanvas, {
+          type: 'scatter', // Set the main chart type to 'scatter'
+          data: { datasets },
+          options: {
+            scales: {
+              x: {
+                type: 'linear',
+                position: 'bottom',
+                min: minX,
+                max: maxX * 1.1,
+                title: {
+                  display: true,
+                  text: toSubscript(var1Input.value),
+                  font: {
+                    size: 16
+                  }
+                },
+                grid: {
+                  z: -1, // Draw grid lines behind datasets
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1), // Bolder line for the axis
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'), // More transparent grid
+                },
+                ticks: {
+                  callback: function(value) {
+                    return formatNumber(value);
+                  }
+                }
+              },
+              y: {
+                min: minY,
+                max: maxY * 1.1,
+                title: {
+                  display: true,
+                  text: toSubscript(var2Input.value),
+                  font: {
+                    size: 16
+                  }
+                },
+                grid: {
+                  z: -1, // Draw grid lines behind datasets
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1), // Bolder line for the axis
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'), // More transparent grid
+                },
+                ticks: {
+                  callback: function(value) {
+                    return formatNumber(value);
+                  }
+                }
+              }
+            },
+            plugins: {
+              zoom: {
+                pan: {
+                  enabled: true,
+                  mode: 'xy',
+                  onPanComplete: ({chart}) => { updateSliderRangeForVisibleArea(chart); chart.update('none'); } // Redraw contour on pan
+                },
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                    speed: 0.02,
+                  },
+                  pinch: {
+                    enabled: true
+                  },
+                  mode: 'xy',
+                  onZoomComplete: ({chart}) => { updateSliderRangeForVisibleArea(chart); chart.update('none'); } // Redraw contour on zoom
+                },
+                limits: {
+                  x: {min: minX},
+                  y: {min: minY}
+                }
+              },
+              // Custom plugin to draw labels on vertices
+              afterDraw: chart => {
+                const ctx = chart.ctx;
+                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
+                if (!verticesMeta) return;
+
+                ctx.font = 'bold 14px Lato';
+                ctx.fillStyle = 'blue';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+
+                verticesMeta.data.forEach((element, index) => {
+                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#2563eb' : '#3c4858'; // Blue for optimal, dark gray for others
+                  const label = String.fromCharCode(65 + index); // A, B, C...
+                  ctx.fillText(label, element.x, element.y - 5);
+                });
+              },
+              legend: { display: false },
+              tooltip: tooltipCallbacks
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+      }
+
+      const solutionData = { feasibleVertices, optimalVertexIndices, optimalValue };
+
+      renderStaticFeasibleRegionGraph({ datasets, minX, maxX, minY, maxY, solutionData });
+
+      // Return the calculated solution so it can be used in the breakdown steps
+      return solutionData;
+    }
+
+    function updateSliderRangeForVisibleArea(chart) {
+      if (!chart) return;
+
+      const { min: minX, max: maxX } = chart.scales.x;
+      const { min: minY, max: maxY } = chart.scales.y;
+
+      const a = parseFloat(objAInput.value) || 0;
+      const b = parseFloat(objBInput.value) || 0;
+      const c_offset = parseFloat(objCInput.value) || 0;
+
+      // Calculate the objective function value at the four corners of the visible area
+      const cornerValues = [
+        a * minX + b * minY + c_offset,
+        a * minX + b * maxY + c_offset,
+        a * maxX + b * minY + c_offset,
+        a * maxX + b * maxY + c_offset,
+      ];
+
+      const minLevel = Math.min(...cornerValues);
+      const maxLevel = Math.max(...cornerValues);
+
+      updateSliderRange(minLevel, maxLevel);
+    }
+
+    function updateSliderRange(min, max) {
+      // Set the slider range based on the min/max values of the objective function
+      levelSlider.min = min;
+      const effectiveMax = (min === max) ? max + 100 : max; // Avoid a zero-width range
+      levelSlider.max = effectiveMax;
+
+      // Dynamically calculate a reasonable step for the slider
+      const range = effectiveMax - min;
+      let step = 1;
+      if (range > 0) {
+        // Aim for about 100-200 steps. We calculate a "nice" step value
+        // based on the order of magnitude of the range.
+        const powerOf10 = Math.pow(10, Math.floor(Math.log10(range)) - 2);
+        step = Math.max(powerOf10, 0.01); // Set a minimum step to avoid issues with very small ranges
+      }
+      levelSlider.step = step;
+
+      const midValue = (parseFloat(levelSlider.min) + parseFloat(levelSlider.max)) / 2;
+      levelSlider.value = midValue;
+      // Also update the displayed value
+      document.getElementById('level-value').textContent = formatNumber(midValue);
+      updateSliderFill(levelSlider);
+    }
+
+    function updateSliderFill(slider) {
+      const min = parseFloat(slider.min);
+      const max = parseFloat(slider.max);
+      const value = parseFloat(slider.value);
+      const percentage = max > min ? ((value - min) / (max - min)) * 100 : 50;
+      slider.style.setProperty('--progress', `${percentage}%`);
+    }
+
+    function drawContourLine(minX, maxX, minY, maxY) { 
+      if (!feasibleRegionChart) return;
+
+      const a = parseFloat(document.getElementById('obj-a').value) || 0;
+      const b = parseFloat(document.getElementById('obj-b').value) || 0;
+      const c = parseFloat(document.getElementById('obj-c').value) || 0;
+      const level = parseFloat(levelSlider.value);
+      document.getElementById('level-value').textContent = formatNumber(level);
+      updateSliderFill(levelSlider);
+
+      // Find and remove the old contour line first
+      const contourIndex = feasibleRegionChart.data.datasets.findIndex(d => d.label === 'Contour Line');
+      if (contourIndex !== -1) {
+        feasibleRegionChart.data.datasets.splice(contourIndex, 1);
+      }
+      if (!visibilityState.contour) { feasibleRegionChart.update('none'); return; }
+
+      const contourPoints = [];
+
+      if (b !== 0) {
+        const slope = -a / b;
+        const intercept = (level - c) / b;
+        contourPoints.push({ x: minX, y: slope * minX + intercept });
+        contourPoints.push({ x: maxX, y: slope * maxX + intercept });
+      } else if (a !== 0) { // Vertical line
+        const x_val = (level - c) / a;
+        contourPoints.push({ x: x_val, y: minY });
+        contourPoints.push({ x: x_val, y: maxY });
+      }
+
+      const contourDataset = {
+        label: 'Contour Line',
+        data: contourPoints,
+        borderColor: 'orange',
+        borderWidth: 2,
+        type: 'line',
+        pointRadius: 0,
+        order: 4, // Draw contour on top of boundaries
+      };
+
+      feasibleRegionChart.data.datasets.push(contourDataset);
+      feasibleRegionChart.update('none');
+    }
+
+    function renderStaticFeasibleRegionGraph(chartData) {
+      const { datasets, minX, maxX, minY, maxY, solutionData } = chartData;
+      const staticChartCanvas = document.getElementById('staticFeasibleRegionChart');
+      if (!staticChartCanvas) return;
+
+      const staticDatasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line');
+
+      if (staticFeasibleRegionChart) {
+        staticFeasibleRegionChart.data.datasets = staticDatasets;
+        staticFeasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
+        staticFeasibleRegionChart.options.scales.y.title.text = toSubscript(var2Input.value);
+        staticFeasibleRegionChart.options.scales.x.max = maxX * 1.1;
+        staticFeasibleRegionChart.options.scales.x.min = minX;
+        staticFeasibleRegionChart.options.scales.y.max = maxY * 1.1;
+        staticFeasibleRegionChart.options.scales.y.min = minY;
+        staticFeasibleRegionChart.update('none');
+      } else {
+        staticFeasibleRegionChart = new Chart(staticChartCanvas, {
+          type: 'scatter',
+          data: { datasets: staticDatasets },
+          options: {
+            scales: {
+              x: {
+                type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14 } },
+                grid: {
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
+                },
+                ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
+              },
+              y: {
+                min: minY, max: maxY * 1.1,
+                title: { display: true, text: toSubscript(var2Input.value), font: { size: 14 } },
+                grid: {
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
+                },
+                ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
+              }
+            },
+            plugins: {
+              zoom: { zoom: { wheel: { enabled: false } }, pan: { enabled: false } }, // Disable zoom/pan
+              legend: { display: false },
+              tooltip: { enabled: false }, // Disable tooltips
+              afterDraw: chart => {
+                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
+                const optimalVertexIndices = solutionData ? solutionData.optimalVertexIndices : [];
+                if (!verticesMeta || !verticesMeta.data.length) return;
+                
+                const ctx = chart.ctx;
+                ctx.save();
+                ctx.font = 'bold 12px "IBM Plex Sans"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+
+                verticesMeta.data.forEach((element, index) => {
+                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#2563eb' : '#3c4858'; // Blue for optimal, dark gray for others
+                  const label = String.fromCharCode(65 + index);
+                  ctx.fillText(label, element.x, element.y - 5);
+                });
+                ctx.restore();
+              },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+      }
+    }
+
+    // Helper function for creating delays
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    async function loadExercise(id) {
+      try {
+        const response = await fetch('exercises.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const exercises = await response.json();
+        const exercise = exercises[id];
+
+        if (exercise) {
+          // Clear current state
+          constraintsList = [];
+          renderConstraints(); // Render empty to clear the board
+          document.getElementById('current-exercise-display').textContent = `Exercise ${id}`;
+
+          // Animate in the new settings
+
+          var1Input.value = exercise.variables.var1;
+          var2Input.value = exercise.variables.var2;
+          objFnNameInput.value = exercise.target.name || 'T';
+
+          objAInput.value = exercise.target.a;
+          objBInput.value = exercise.target.b;
+          objCInput.value = exercise.target.c;
+          
+          optimizationModeToggle.querySelectorAll('.segmented-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === exercise.target.mode);
+          });
+
+          // Trigger a single render for the variable/target name changes
+          handleInputChange(false); // Pass false to prevent full re-render yet
+          await sleep(500); // A longer pause before constraints start appearing
+
+          // Animate adding constraints one by one
+          const newConstraints = exercise.constraints.map(c => ({ ...c, type: 'editable' }));
+          for (const constraint of newConstraints) {
+              constraintsList.push(constraint);
+              renderConstraints(true); // Re-render and animate the last item
+              await sleep(500); // Wait before adding the next one
+          }
+
+        } else {
+          alert(`Exercise ${id} not found in exercises.json`);
+        }
+      } catch (error) {
+        console.error("Could not load exercises:", error);
+        alert("Failed to load exercises.json. Please check the file and the console for errors.");
+      }
+      step2Div.classList.add('collapsed'); // Start collapsed
+    }
+
+    function formatConstraint(c, v1, v2) {
+        if (c.type === 'base') {
+            return c.text.replace(/\{\{v1\}\}/g, v1).replace(/\{\{v2\}\}/g, v2);
+        }
+
+        const terms = [];
+        // Term for v1
+        if (c.c1 !== 0) { 
+            if (c.c1 === 1) terms.push(v1);
+            else if (c.c1 === -1) terms.push(`-${v1}`);
+            else terms.push(`${formatNumber(c.c1)}&nbsp;${v1}`);
+        }
+
+        // Term for v2
+        if (c.c2 !== 0) {
+            if (terms.length > 0) {
+                // Add a sign only if the second coefficient is positive
+                // If it's negative, the sign is already part of the term
+                if (c.c2 > 0) {
+                    terms.push('+');
+                }
+            }
+            if (c.c2 === 1) terms.push(v2);
+            else if (c.c2 === -1) terms.push(`-${v2}`);
+            else terms.push(`${formatNumber(c.c2)}&nbsp;${v2}`);
+        }
+
+        if (terms.length === 0) {
+            terms.push('0');
+        }
+
+        const sign = c.sign === 'le' ? '&le;' : '&ge;';
+        return `${terms.join(' ')} ${sign} ${c.rhs}`;
+    }
+
+    addBtn.addEventListener("click", () => {
+      constraintsList.push({ c1: 1, c2: 1, rhs: 10, type: 'editable', sign: 'le' });
+      document.getElementById('current-exercise-display').textContent = '';
+      renderConstraints();
+    });
+
+    function handleInputChange(fullRender = true) {
+        document.getElementById('current-exercise-display').textContent = '';
+        if (fullRender) renderConstraints();
+    }
+
+    var1Input.addEventListener("change", handleInputChange);
+    var2Input.addEventListener("change", handleInputChange);
+
+    objFnNameInput.addEventListener("change", handleInputChange);
+    objAInput.addEventListener("change", handleInputChange);
+    objBInput.addEventListener("change", handleInputChange);
+    objCInput.addEventListener("change", handleInputChange);
+
+    levelSlider.addEventListener('input', () => {
+      if (!feasibleRegionChart) return;
+
+      // If contour is not visible, turn it on when the user starts sliding
+      if (!visibilityState.contour) {
+        visibilityState.contour = true;
+        const contourBtn = document.querySelector('.chart-toggle-btn[data-target="contour"]');
+        if (contourBtn) contourBtn.classList.add('active');
+      }
+
+      const minX = feasibleRegionChart.options.scales.x.min;
+      const maxX = feasibleRegionChart.options.scales.x.max;
+      const minY = feasibleRegionChart.options.scales.y.min;
+      const maxY = feasibleRegionChart.options.scales.y.max;
+      drawContourLine(minX, maxX, minY, maxY);
+    });
+
+    var1Input.addEventListener("change", renderConstraints);
+    var2Input.addEventListener("change", renderConstraints);
+
+
+    function loadDefaultState() {
+      document.getElementById('current-exercise-display').textContent = '';
+
+      // Set default variable names
+      var1Input.value = 'x';
+      var2Input.value = 'y';
+      objFnNameInput.value = 'T';
+
+      // Set default target function coefficients
+      objAInput.value = 1;
+      objBInput.value = 1;
+      objCInput.value = 0;
+
+      // Set default optimization mode to maximize
+      optimizationModeToggle.querySelectorAll('.segmented-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === 'maximize');
+      });
+
+      // Set default constraints (x >= 0 and y >= 0)
+      constraintsList = [
+        { c1: 1, c2: 0, rhs: 0, sign: 'ge', type: 'base', text: '{{v1}} >= 0' },
+        { c1: 0, c2: 1, rhs: 0, sign: 'ge', type: 'base', text: '{{v2}} >= 0' }
+      ];
+      renderConstraints();
+    }
+
+    // Load the default state on page load
+    loadDefaultState();
+  </script>
+
+</body>
+
+</html>
