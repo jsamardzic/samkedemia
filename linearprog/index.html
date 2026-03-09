@@ -3,26 +3,27 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Jovan's Linear Programming Thingy</title>
+  <title>Jovan's Linear Programming Solver</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Barriecito&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
 
   <header class="site-header">
     <div class="header-content">
-      <div class="title-group">
-        <h1 class="site-title">Linear Programming Thingy</h1>
-        <span class="site-subtitle">by Jovan Samardzic</span>
+      <div class="header-logo">SAMKEDEMIA</div>
+      <div class="header-center-title">
+        <h1 class="site-title">Linear Programming Solver</h1>
+        <span class="site-subtitle">by Jovan</span>
       </div>
       <div class="social-links">
         <a href="https://wa.me/32490100821" target="_blank" rel="noopener noreferrer" class="social-icon" id="whatsapp-icon" aria-label="WhatsApp">
@@ -117,7 +118,7 @@
       <div class="paper collapsed" id="step2" style="display: none;">
         <div class="card-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
           <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-step solution <i class="fas fa-chevron-down"></i></h2>
-          <button id="exportPdfBtn" class="action-btn"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+          <button id="exportPdfBtn" class="action-btn" disabled><i class="fas fa-file-pdf"></i> Coming Soon</button>
         </div>
         <div id="inequalities-breakdown">
         </div>
@@ -168,7 +169,6 @@
     const exercisesBtn = document.getElementById('exercisesBtn');
     const exercisesModal = document.getElementById('exercises-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
-    const exportPdfBtn = document.getElementById('exportPdfBtn');
     const summaryCard = document.getElementById('solution-summary-card');
 
     // Visibility state for chart elements
@@ -247,40 +247,6 @@
       if (e.key === 'Escape' && exercisesModal.style.display !== 'none') {
         exercisesModal.style.display = 'none';
       }
-    });
-
-    // --- PDF Export Logic ---
-    exportPdfBtn.addEventListener('click', () => {
-      const solutionContent = document.getElementById('inequalities-breakdown');
-      const exerciseName = document.getElementById('current-exercise-display').textContent || 'Custom Problem';
-      const filename = `${exerciseName.replace(/\s+/g, '_')}_Solution.pdf`;
-
-      // Ensure the content is visible before printing
-      const wasCollapsed = step2Div.classList.contains('collapsed');
-      if (wasCollapsed) {
-        step2Div.classList.remove('collapsed');
-      }
-
-      const opt = {
-        margin:       [0.5, 0.5, 0.5, 0.5], // inches
-        filename:     filename,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-
-      // Create a title element to prepend to the content
-      const titleEl = document.createElement('h1');
-      titleEl.innerText = `Solution for ${exerciseName}`;
-      titleEl.style.textAlign = 'center';
-      titleEl.style.marginBottom = '2rem';
-
-      const contentWrapper = document.createElement('div');
-      contentWrapper.appendChild(titleEl);
-      contentWrapper.appendChild(solutionContent.cloneNode(true));
-
-      html2pdf().from(contentWrapper).set(opt).save();
     });
 
     function formatNumber(num) {
@@ -981,8 +947,8 @@
           label: 'Feasible Region',
           data: [...feasibleVertices, feasibleVertices[0]], // Close the polygon
           fill: true,
-          backgroundColor: 'rgba(59, 130, 246, 0.15)', // Light, transparent blue
-          borderColor: 'rgba(59, 130, 246, 0.4)', // Muted blue for the border
+          backgroundColor: 'rgba(34, 197, 94, 0.15)', // Light, transparent green
+          borderColor: 'rgba(34, 197, 94, 0.4)', // Muted green for the border
           borderWidth: 3,
           showLine: true,
           type: 'line', // Use 'line' type for the dataset to enable filling
@@ -1029,8 +995,8 @@
         datasets.push({
           label: 'Feasible Vertices',
           data: feasibleVertices,
-          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#3b82f6' : '#94a3b8'), // Blue for optimal, gray for others
-          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#2563eb' : '#475569'), // Darker borders
+          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#22C55E' : '#B8B0AA'), // Green for optimal, taupe-light for others
+          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#16a34a' : '#827B75'), // Darker borders (taupe-mid)
           borderWidth: 1.5,
           pointRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 8 : 5), // Larger radius for optimal
           pointHoverRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 10 : 7),
@@ -1357,9 +1323,6 @@
       }
     }
 
-    // Helper function for creating delays
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
     async function loadExercise(id) {
       try {
         const response = await fetch('exercises.json');
@@ -1372,7 +1335,6 @@
         if (exercise) {
           // Clear current state
           constraintsList = [];
-          renderConstraints(); // Render empty to clear the board
           document.getElementById('current-exercise-display').textContent = `Exercise ${id}`;
 
           // Animate in the new settings
@@ -1389,17 +1351,9 @@
             btn.classList.toggle('active', btn.dataset.mode === exercise.target.mode);
           });
 
-          // Trigger a single render for the variable/target name changes
-          handleInputChange(false); // Pass false to prevent full re-render yet
-          await sleep(500); // A longer pause before constraints start appearing
-
-          // Animate adding constraints one by one
-          const newConstraints = exercise.constraints.map(c => ({ ...c, type: 'editable' }));
-          for (const constraint of newConstraints) {
-              constraintsList.push(constraint);
-              renderConstraints(true); // Re-render and animate the last item
-              await sleep(500); // Wait before adding the next one
-          }
+          // Load all constraints at once
+          constraintsList = exercise.constraints.map(c => ({ ...c, type: 'editable' }));
+          renderConstraints();
 
         } else {
           alert(`Exercise ${id} not found in exercises.json`);

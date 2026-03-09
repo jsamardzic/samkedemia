@@ -1,18 +1,28 @@
+/* --- Theming Variables from newsite.html --- */
+:root {
+    --bg-off-white: #FAF8F5;
+    --taupe-dark: #4A4541; 
+    --taupe-mid: #827B75;  
+    --taupe-light: #B8B0AA; 
+    --accent-green: #22C55E;
+    --font-title: 'Outfit', sans-serif;
+    --font-body: 'Atkinson Hyperlegible', sans-serif;
+}
+
 /* General Reset & Theming */
 body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    background-color: #f7f8fc; /* Fallback for older browsers */
-    background: linear-gradient(to bottom, #f7f8fc, #ffffff);
+    font-family: var(--font-body);
+    background-color: var(--bg-off-white);
     background-attachment: fixed; /* Ensures the gradient stays in place on scroll */
     margin: 0;
-    color: #3c4858;
+    color: var(--taupe-dark);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 .site-header {
-    background-color: #1f2937; /* Dark blue-gray */
-    border-bottom: 1px solid #374151; /* Slightly lighter border */
+    background-color: var(--taupe-dark);
+    border-bottom: 1px solid var(--taupe-mid);
     width: 100%;
     box-sizing: border-box;
 }
@@ -37,49 +47,57 @@ body {
     padding: 15px 20px; /* Apply padding here instead of the parent */
 }
 
-.title-group {
-    display: flex;
-    align-items: baseline;
-    gap: 15px;
+.header-logo {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 24px;
+    color: #f9fafb;
+    letter-spacing: -0.5px;
+}
+
+.header-center-title {
+    text-align: center;
 }
 
 .site-title {
-    font-family: 'Barriecito', cursive;
-    font-size: 36px;
-    color: #f9fafb; /* Off-white for the title */
+    font-family: var(--font-title);
+    font-size: 24px;
+    color: #f9fafb;
     margin: 0;
-    font-weight: 400; /* Script fonts are usually not bold */
+    font-weight: 900;
     line-height: 1;
 }
 
 .site-subtitle {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: var(--font-body);
     font-weight: 300; /* Thinner font weight */
     font-size: 14px;
-    color: #9ca3af; /* Lighter gray for dark background */
+    color: var(--taupe-light);
+    display: block;
+    margin-top: 4px;
 }
 
 .social-links {
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 .social-icon {
-    font-size: 24px;
-    color: #9ca3af; /* Lighter gray for dark background */
+    font-size: 28px;
+    color: var(--taupe-light);
     transition: color 0.2s ease-in-out;
 }
 
 #whatsapp-icon:hover {
-    color: #25D366; /* WhatsApp Green */
+    color: var(--accent-green);
 }
 
 #instagram-icon:hover {
-    color: #E1306C; /* Instagram Pink */
+    color: var(--accent-green);
 }
 
 #email-icon:hover {
-    color: #4285F4; /* A nice blue for email */
+    color: var(--accent-green);
 }
 
 /* Solution Summary Card */
@@ -87,14 +105,14 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #eff6ff; /* A light blue */
-    border: 1px solid #bfdbfe;
+    background-color: #ECFDF5; /* Light Green Highlight */
+    border: 1px solid var(--accent-green);
     /* Now part of the graph card, so adjust margins and remove redundant styles */
     margin: 20px -30px -30px -30px; /* Pull to edges of parent card */
     padding: 20px 30px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-top: 1px solid #bfdbfe;
+    border-bottom-left-radius: 20px; /* Match new paper radius */
+    border-bottom-right-radius: 20px; /* Match new paper radius */
+    border-top: 1px solid var(--accent-green);
 }
 
 .summary-item {
@@ -104,7 +122,7 @@ body {
 
 .summary-item .label {
     font-size: 14px;
-    color: #2563eb;
+    color: var(--accent-green);
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -112,7 +130,7 @@ body {
 .summary-item .value {
     font-size: 22px;
     font-weight: 700;
-    color: #1e40af;
+    color: var(--accent-green);
     font-family: 'IBM Plex Mono', monospace;
 }
 
@@ -128,25 +146,29 @@ body {
     background: white;
     padding: 30px;
     margin: 0 0 30px 0;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
 }
 
 /* Typography & Section Headers */
 h2 {
+    font-family: var(--font-title);
+    font-weight: 900;
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 20px;
-    color: #252f3f;
+    color: var(--taupe-dark);
 }
 
 h3 {
+    font-family: var(--font-title);
+    font-weight: 700;
     font-size: 16px;
-    color: #252f3f;
+    color: var(--taupe-dark);
     margin-top: 25px;
     margin-bottom: 15px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--taupe-light);
     padding-bottom: 8px;
 }
 
@@ -160,7 +182,7 @@ h3 {
     align-items: center;
     padding-bottom: 20px;
     margin-bottom: 25px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--taupe-light);
 }
 
 .card-header h2 {
@@ -171,7 +193,7 @@ h3 {
 #current-exercise-display {
     font-size: 20px; /* Match h2 font size */
     font-weight: 400; /* Regular weight */
-    color: #64748b; /* Lighter, secondary color */
+    color: var(--taupe-mid); /* Lighter, secondary color */
     margin-left: 10px;
 }
 /* Input & Form Elements */
@@ -190,7 +212,7 @@ h3 {
 
 input {
     padding: 8px 12px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--taupe-light);
     border-radius: 6px;
     font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -198,8 +220,8 @@ input {
 
 input:focus {
     outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
 .variables input {
@@ -236,18 +258,21 @@ input:focus {
 /* Sign selector in constraints */
 .constraint-sign {
     padding: 6px 8px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--taupe-light);
     border-radius: 6px;
     font-size: 18px;
     background-color: white;
     margin: 0 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease-in-out;
     width: 40px; /* Give it a fixed width for consistency */
+    color: var(--accent-green);
+    font-weight: bold;
 }
 
 .constraint-sign:hover {
-    background-color: #f1f5f9;
+    background-color: #ECFDF5; /* Light green from summary card */
+    border-color: var(--accent-green);
 }
 
 /* Disabled sign for base constraints */
@@ -283,7 +308,7 @@ input:focus {
 
 .constraint-number {
     font-size: 14px;
-    color: #64748b;
+    color: var(--taupe-mid);
     width: 25px;
     text-align: center;
     font-family: 'IBM Plex Mono', monospace;
@@ -339,7 +364,7 @@ input:focus {
 }
 
 .remove-btn:hover i {
-    color: #ef4444;
+    color: #c81e1e;
 }
 
 #addConstraintBtn {
@@ -352,9 +377,9 @@ input:focus {
     padding: 12px 8px; /* Match constraint height */
     font-size: 16px;
     font-weight: 700;
-    color: #94a3b8;
+    color: var(--taupe-mid);
     background-color: transparent;
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed var(--taupe-light);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -362,8 +387,8 @@ input:focus {
 
 #addConstraintBtn:hover {
     background-color: #f8fafc;
-    color: #3b82f6;
-    border-color: #a5c8fa;
+    color: var(--accent-green);
+    border-color: var(--accent-green);
 }
 
 .action-btn {
@@ -372,9 +397,9 @@ input:focus {
     gap: 8px;
     padding: 10px 20px;
     cursor: pointer;
-    background-color: #f8fafc;
-    color: #475569;
-    border: 1px solid #cbd5e1;
+    background-color: var(--bg-off-white);
+    color: var(--taupe-mid);
+    border: 1px solid var(--taupe-light);
     border-radius: 6px;
     font-size: 14px;
     font-weight: 700;
@@ -382,12 +407,20 @@ input:focus {
 }
 .action-btn:hover {
     background-color: #f1f5f9;
-    border-color: #94a3b8;
+    border-color: var(--taupe-mid);
 }
+.action-btn:disabled,
+.action-btn:disabled:hover {
+    background-color: #f8fafc;
+    color: var(--taupe-light); /* Lighter text color */
+    cursor: not-allowed;
+    border-color: var(--taupe-light); /* Lighter border */
+}
+
 #resetZoomBtn {
     background: transparent;
-    border: 1px solid #cbd5e1;
-    color: #475569;
+    border: 1px solid var(--taupe-light);
+    color: var(--taupe-mid);
     font-size: 12px;
     padding: 4px 10px;
     border-radius: 6px;
@@ -396,7 +429,7 @@ input:focus {
 }
 #resetZoomBtn:hover {
     background-color: #f1f5f9;
-    border-color: #94a3b8;
+    border-color: var(--taupe-mid);
 }
 
 .chart-controls {
@@ -413,8 +446,8 @@ input:focus {
 
 .chart-toggle-btn {
     background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #475569;
+    border: 1px solid var(--taupe-light);
+    color: var(--taupe-mid);
     font-size: 12px;
     padding: 4px 10px;
     border-radius: 6px;
@@ -428,23 +461,23 @@ input:focus {
 }
 
 .chart-toggle-btn.active {
-    background-color: #e9f2ff;
-    color: #3b82f6;
-    border-color: #a5c8fa;
+    background-color: #ECFDF5;
+    color: var(--accent-green);
+    border-color: var(--accent-green);
 }
 
 .segmented-control {
     display: flex;
-    background-color: #e2e8f0;
+    background-color: var(--bg-off-white);
     border-radius: 6px;
     padding: 3px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--taupe-light);
 }
 
 .segmented-btn {
     background-color: transparent;
     border: none;
-    color: #475569;
+    color: var(--taupe-mid);
     font-size: 12px;
     padding: 6px 12px;
     border-radius: 4px;
@@ -454,14 +487,14 @@ input:focus {
 }
 
 .segmented-btn.active {
-    background-color: white;
-    color: #3c4858;
+    background-color: var(--taupe-dark);
+    color: white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .toggle-btn {
-    background-color: #e2e8f0;
-    border: 1px solid #cbd5e1;
+    background-color: var(--bg-off-white);
+    border: 1px solid var(--taupe-light);
     color: #475569;
     font-size: 12px;
     padding: 6px 12px;
@@ -471,7 +504,7 @@ input:focus {
     transition: background-color 0.2s, color 0.2s;
 }
 .toggle-btn:hover {
-    background-color: #cbd5e1;
+    background-color: var(--taupe-light);
     color: #252f3f;
 }
 
@@ -483,7 +516,7 @@ input:focus {
 /* Collapsible Section */
 .paper h2 i {
     font-size: 18px;
-    color: #94a3b8;
+    color: var(--taupe-light);
     transition: transform 0.2s ease-in-out;
 }
 
@@ -496,7 +529,7 @@ input:focus {
 
 /* Inequalities Breakdown */
 .inequality-card {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--taupe-light);
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
@@ -515,7 +548,7 @@ input:focus {
     padding: 15px;
     border-radius: 6px;
     font-size: 14px;
-    color: #3c4858; 
+    color: var(--taupe-dark); 
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 10px 20px;
@@ -524,7 +557,7 @@ input:focus {
 .derivation-box .derivation-description {
     grid-column: 1;
     text-align: right;
-    color: #64748b;
+    color: var(--taupe-mid);
 }
 .derivation-box .derivation-equation {
     grid-column: 2;
@@ -533,7 +566,7 @@ input:focus {
     grid-column: 2; /* Place comment in the second column */
     justify-self: start; /* Align it to the start of the grid cell */
     margin-top: -5px; /* Pull it closer to the line above */
-    color: #64748b;
+    color: var(--taupe-mid);
     font-style: italic;
 }
 
@@ -546,14 +579,14 @@ input:focus {
 
 .direction-text {
     font-size: 14px;
-    color: #475569;
+    color: var(--taupe-mid);
     margin-top: 0;
 }
 
 .breakdown-item {
     display: flex;
     padding: 8px 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--taupe-light);
     font-size: 14px;
 }
 
@@ -563,7 +596,7 @@ input:focus {
 
 .breakdown-label {
     font-weight: bold;
-    color: #475569;
+    color: var(--taupe-mid);
     width: 140px;
     flex-shrink: 0;
 }
@@ -604,7 +637,7 @@ input:focus {
     padding: 8px 12px;
     border-radius: 6px;
     font-family: monospace;
-    color: #3c4858;
+    color: var(--taupe-dark);
     min-height: 18px;
 }
 
@@ -647,7 +680,7 @@ input:focus {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(to right, orange var(--progress, 50%), #e2e8f0 var(--progress, 50%));
+    background: linear-gradient(to right, orange var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
     border-radius: 3px;
 }
 
@@ -655,14 +688,14 @@ input:focus {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(to right, orange var(--progress, 50%), #e2e8f0 var(--progress, 50%));
+    background: linear-gradient(to right, orange var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
     border-radius: 3px;
 }
 
 /* Contour Controls inside Feasible Region Card */
 .contour-controls {
     padding: 0 0 20px 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--taupe-light);
     margin-bottom: 25px;
 }
 
@@ -680,7 +713,7 @@ input:focus {
 
 .contour-row label {
     font-weight: bold;
-    color: #475569;
+    color: var(--taupe-mid);
     flex-shrink: 0; /* Prevent label from shrinking */
 }
 
@@ -689,7 +722,7 @@ input:focus {
     background-color: #f1f5f9;
     padding: 4px 8px;
     border-radius: 4px;
-    color: #3c4858;
+    color: var(--taupe-dark);
     width: 55px;
     text-align: center;
 }
@@ -721,7 +754,7 @@ input:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--taupe-light);
     padding-bottom: 15px;
     margin-bottom: 20px;
 }
@@ -737,14 +770,14 @@ input:focus {
     border: none;
     font-size: 28px;
     line-height: 1;
-    color: #94a3b8;
+    color: var(--taupe-light);
     cursor: pointer;
     padding: 0;
     transition: color 0.2s;
 }
 
 .close-btn:hover {
-    color: #3c4858;
+    color: var(--taupe-dark);
 }
 
 .exercise-list {
@@ -757,17 +790,17 @@ input:focus {
     padding: 12px 16px;
     cursor: pointer;
     background-color: #f8fafc;
-    color: #475569;
-    border: 1px solid #e2e8f0;
+    color: var(--taupe-mid);
+    border: 1px solid var(--taupe-light);
     border-radius: 6px;
     font-size: 14px;
     font-weight: 700;
     transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 .exercise-item:hover {
-    background-color: #e9f2ff;
-    color: #3b82f6;
-    border-color: #a5c8fa;
+    background-color: #ECFDF5;
+    color: var(--accent-green);
+    border-color: var(--accent-green);
 }
 
 /* Print-specific styles for PDF export */
