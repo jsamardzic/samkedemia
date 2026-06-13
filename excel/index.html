@@ -317,7 +317,7 @@
             </ul>
         </details>
 
-        <details class="section-box">
+        <details class="section-box" open>
             <summary>
                 <h2>Excel Functions</h2>
             </summary>
@@ -340,8 +340,8 @@
                 <div class="example"><strong>Example:</strong> <code>=COVARIANCE.S(C2:C101;D2:D101)</code> calculates the sample covariance to see if delivery time changes predictably alongside age.</div>
             </li>
             <li>
-                <strong>COVARIANCE.P:</strong> Does the same thing as COVARIANCE.S, but you should only use it when you have all the data possible for a subject (the entire population), not just a small piece of it.
-                <div class="example"><strong>Example:</strong> <code>=COVARIANCE.P(A2:A101;C2:C101)</code> calculates the exact population covariance between weight and fat.</div>
+                <strong>COVARIANCE.P:</strong> Calculates covariance for an entire <strong>population</strong>. We do not use this on the exam. We always use <code>COVARIANCE.S</code> because course exercises are always based on <strong>sample data</strong>.
+                <div class="example">This function is for when you have data for every single member of a group, which is rare in practice. For exams, always use <code>COVARIANCE.S</code>.</div>
             </li>
             <li>
                 <strong>COUNTIFS:</strong> Counts the number of cells that meet several rules at once. It only adds to the count if a cell satisfies all the conditions you set.
@@ -402,9 +402,9 @@
             </ul>
         </details>
 
-        <details class="section-box">
+        <details class="section-box" open>
             <summary>
-                <h2>Data Analysis Toolpak</h2>
+                <h2>Data Analysis Toolpak - Regression</h2>
             </summary>
             <ul>
             <li>
@@ -414,11 +414,10 @@
                     <ul style="padding-left: 20px; margin-top: 10px; list-style-type: disc;">
                         <li style="border: none; padding: 5px 0; margin: 0;"><strong>Input Y range:</strong> The data you want to predict (the outcome).</li>
                         <li style="border: none; padding: 5px 0; margin: 0;"><strong>Input X range:</strong> The data you are using to make the prediction.</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Others:</strong> <code>Labels</code> (tells Excel your first row has text headers) and <code>Output Range</code> (where to paste the results).</li>
                     </ul>
                 </div>
                 <div class="example">
-                    <strong>Output Interpretations:</strong>
+                    <strong>Output Interpretations:</strong> The toolpak provides a lot of information that we don't use in this course. The only outputs we need are:
                     <ul style="padding-left: 20px; margin-top: 10px; list-style-type: disc;">
                         <li style="border: none; padding: 5px 0; margin: 0;"><strong>Multiple R:</strong> The correlation value. It tells you how strongly X and Y are related.</li>
                         <li style="border: none; padding: 5px 0; margin: 0;"><strong>R Square:</strong> Shows how much of the change in your outcome (Y) can be explained by your input factor (X). A higher percentage means a better fit.</li>
