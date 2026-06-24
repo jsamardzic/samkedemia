@@ -303,7 +303,7 @@
             align-items: center;
             text-align: center;
             position: relative;
-            padding-bottom: 20vh;
+            padding-bottom: 30vh;
             /* Pushes centered content up */
             overflow: hidden;
         }
@@ -334,6 +334,8 @@
             letter-spacing: -3px;
             line-height: 0.95;
             will-change: transform;
+            margin-top: 30vh;
+            margin-bottom: 10vh;
         }
 
         .hero-subtitle {
@@ -651,7 +653,7 @@
 
         #timeline-bars-container {
             position: absolute;
-            top: 55%;
+            top: 22%;
             /* Position bar above content */
             left: 5%;
             width: 90%;
@@ -746,8 +748,7 @@
         }
 
         .milestone-content {
-            /* This margin now controls the space between the timeline bar and the text */
-            margin-top: 8rem;
+            margin-top: 1.5rem;
         }
 
         .milestone h4 {
@@ -763,7 +764,7 @@
             font-size: 1.5rem;
             color: var(--taupe-mid);
             line-height: 1.5;
-            max-width: 500px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -1455,6 +1456,33 @@
                 font-size: 2rem;
             }
         }
+
+        /* --- Floating Math Symbols --- */
+        .hero .hero-symbols {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .math-symbol {
+            position: absolute;
+            font-family: var(--font-title);
+            font-weight: 900;
+            color: var(--taupe-dark);
+            user-select: none;
+            animation: symbol-float linear infinite;
+        }
+
+        @keyframes symbol-float {
+            0%   { opacity: 0;    transform: translateY(0px)   translateX(0px)   rotate(-8deg) scale(0.9); }
+            10%  { opacity: 0.09; }
+            30%  { transform: translateY(-28px)  translateX(12px)   rotate(3deg)  scale(1.05); }
+            65%  { transform: translateY(-65px)  translateX(-9px)   rotate(-4deg) scale(1.02); }
+            90%  { opacity: 0.09; }
+            100% { opacity: 0;    transform: translateY(-95px)  translateX(5px)   rotate(8deg)  scale(0.95); }
+        }
     </style>
     <style>
         /* --- Table of Contents Navigation --- */
@@ -1725,6 +1753,125 @@
                 display: none;
             }
         }
+
+        /* --- Testimonials Slider --- */
+        .testimonials-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 860px;
+        }
+        .testimonials-viewport {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        .testi-card {
+            flex-shrink: 0;
+            width: 100%;
+            height: 210px;
+            background: white;
+            border-radius: 8px;
+            padding: 28px 36px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 5px 5px 0 rgba(74,69,65,0.09);
+        }
+        .testi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .testi-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--taupe-dark);
+            background: rgba(74,69,65,0.07);
+            padding: 5px 12px;
+            border-radius: 4px;
+        }
+        .testi-course {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--taupe-mid);
+            background: rgba(74,69,65,0.04);
+            border: 1px solid rgba(74,69,65,0.12);
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+        .testi-score {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: white;
+            background: var(--accent-orange);
+            padding: 5px 12px;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+        .testi-quote {
+            font-size: 0.97rem;
+            line-height: 1.6;
+            color: var(--taupe-dark);
+            flex: 1;
+            overflow: hidden;
+        }
+        .testi-nav-btn {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(0,0,0,0.12);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s, transform 0.2s;
+            color: var(--taupe-dark);
+        }
+        .testi-nav-btn:hover:not(:disabled) {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+            transform: scale(1.05);
+        }
+        .testi-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .testi-dots {
+            display: flex;
+            gap: 6px;
+            margin-top: 20px;
+            align-items: center;
+        }
+        .testi-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--taupe-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+        .testi-dot.active {
+            background: var(--accent-orange);
+            width: 22px;
+        }
     </style>
 </head>
 
@@ -1737,6 +1884,7 @@
         <nav class="header-nav">
             <a href="#timeline-card" class="header-nav-link">What's Included</a>
             <a href="#proof-card" class="header-nav-link">Proof</a>
+            <a href="#testimonials-card" class="header-nav-link">Testimonials</a>
             <a href="#pricing" class="header-nav-link">Pricing</a>
             <!-- Tools dropdown -->
             <div class="header-nav-group">
@@ -1767,6 +1915,24 @@
 
 
     <section class="hero" id="hero">
+        <div class="hero-symbols" aria-hidden="true">
+            <span class="math-symbol" style="left:3%;  top:18%; font-size:3.5rem; animation-duration:18s; animation-delay:-4s;">σ</span>
+            <span class="math-symbol" style="left:7%;  top:62%; font-size:2rem;   animation-duration:22s; animation-delay:-11s;">∫</span>
+            <span class="math-symbol" style="left:5%;  top:80%; font-size:2.8rem; animation-duration:15s; animation-delay:-7s;">Σ</span>
+            <span class="math-symbol" style="left:18%; top:28%; font-size:1.5rem; animation-duration:25s; animation-delay:-2s;">β</span>
+            <span class="math-symbol" style="left:22%; top:75%; font-size:2.2rem; animation-duration:19s; animation-delay:-14s;">μ</span>
+            <span class="math-symbol" style="left:14%; top:48%; font-size:3rem;   animation-duration:28s; animation-delay:-9s;">∂</span>
+            <span class="math-symbol" style="left:76%; top:14%; font-size:3.2rem; animation-duration:20s; animation-delay:-6s;">π</span>
+            <span class="math-symbol" style="left:84%; top:52%; font-size:2rem;   animation-duration:16s; animation-delay:-3s;">Δ</span>
+            <span class="math-symbol" style="left:91%; top:28%; font-size:1.8rem; animation-duration:23s; animation-delay:-17s;">α</span>
+            <span class="math-symbol" style="left:88%; top:76%; font-size:2.5rem; animation-duration:17s; animation-delay:-8s;">ρ</span>
+            <span class="math-symbol" style="left:70%; top:66%; font-size:1.6rem; animation-duration:21s; animation-delay:-5s;">χ</span>
+            <span class="math-symbol" style="left:62%; top:83%; font-size:2rem;   animation-duration:26s; animation-delay:-13s;">ε</span>
+            <span class="math-symbol" style="left:38%; top:9%;  font-size:1.8rem; animation-duration:14s; animation-delay:-10s;">±</span>
+            <span class="math-symbol" style="left:45%; top:88%; font-size:2.5rem; animation-duration:24s; animation-delay:-1s;">∞</span>
+            <span class="math-symbol" style="left:55%; top:6%;  font-size:1.4rem; animation-duration:20s; animation-delay:-16s;">≈</span>
+            <span class="math-symbol" style="left:30%; top:54%; font-size:1.3rem; animation-duration:30s; animation-delay:-20s;">²</span>
+        </div>
         <h1 class="hero-title">Result Driven<br>Tutoring.</h1>
         <div class="social-proof" style="margin-top: 2rem;">
             <div class="social-proof-images">
@@ -1856,7 +2022,7 @@
 
         <div class="stack-card" id="timeline-card" style="height: 100vh;">
             <div class="card-content" style="display: flex; flex-direction: column; height: 100%; width: 100%;">
-                <div style="text-align: center; padding-top: 40px;">
+                <div style="text-align: center; padding-top: 20px;">
                     <span class="card-tag">What's Included</span>
                     <h3>Everything you need to pass.</h3>
                     <div class="course-topics" style="justify-content: center; gap: 12px;">
@@ -1866,14 +2032,8 @@
                         <span>Inferential Stats</span>
                         <span>IMOR</span>
                     </div>
-                    <button id="play-timeline-btn" class="btn-play-timeline" style="margin-top: 25px;">
-                        <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                        <span>Unpack the Program</span>
-                    </button>
                 </div>
-                <div style="position: relative; display: flex; justify-content: center; width: 100%; margin-top: 15vh;">
+                <div style="position: relative; width: 100%; height: 55vh; min-height: 280px; overflow: hidden;">
                     <div id="timeline-bars-container">
                         <div id="timeline-track"></div>
                         <div id="timeline-progress"></div>
@@ -1881,32 +2041,32 @@
                     <div id="course-timeline-content">
                         <div class="milestone">
                             <div class="milestone-content">
-                                <h4>Guided Tutoring Sessions</h4>
+                                <h4>Guided Tutoring Sessions 💻</h4>
                                 <p>Led by Jovan. Crucial exercises only and recent past papers with minimal theory and full chat Q&A.</p>
                             </div>
                         </div>
                         <div class="milestone">
                             <div class="milestone-content">
-                                <h4>Practical Tutoring Sessions</h4>
+                                <h4>Practical Tutoring Sessions 🎯</h4>
                                 <p>Interactive sessions in groups of 4, strictly targeted to the specific topics you request.</p>
                             </div>
                         </div>
                         <div class="milestone">
                             <div class="milestone-content">
-                                <h4>Session Recordings</h4>
+                                <h4>Session Recordings 🎥</h4>
                                 <p>Full access to all session replays, ensuring you never miss a detail even if you can't attend.
                                 </p>
                             </div>
                         </div>
                         <div class="milestone">
                             <div class="milestone-content">
-                                <h4>Samkedemia Drive</h4>
+                                <h4>Samkedemia Drive 📁</h4>
                                 <p>A complete digital library containing all slides, actual past papers, custom mock exams, and step-by-step Solution Books.</p>
                             </div>
                         </div>
                         <div class="milestone">
                             <div class="milestone-content">
-                                <h4>Support outside of sessions</h4>
+                                <h4>Between-Session Support 📲</h4>
                                 <p>Direct WhatsApp access for continuous guidance and quick clarifications to keep you on track between sessions.</p>
                             </div>
                         </div>
@@ -1955,6 +2115,103 @@
         </div>
 
 
+
+        <div class="stack-card" id="testimonials-card" style="height: 100vh; align-items: flex-start; padding-top: 80px;">
+            <div class="card-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex-grow:1; width:100%;">
+                <div style="text-align:center; margin-bottom:3.5vh;">
+                    <span class="card-tag">Testimonials</span>
+                    <h3>What students say.</h3>
+                </div>
+                <div class="testimonials-wrapper">
+                    <button class="testi-nav-btn" id="testi-prev" aria-label="Previous testimonial" disabled>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="testimonials-viewport">
+                        <div class="testimonials-track" id="testi-track">
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Anastasia, 2nd Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Descriptive Stats</span>
+                                    <span class="testi-score">Grade: 10/20</span>
+                                </div>
+                                <div class="testi-quote">"Jovan is committed and diligent with his work as a tutor. He writes concepts and solves exercises step by step, ensuring students follow. He answers all the questions asked and explains.  He is a great tutor, and I hope he keeps up the good work!!"</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Josue, 2nd Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math A</span>
+                                    <span class="testi-score">Grade: 12/20</span>
+                                </div>
+                                <div class="testi-quote">"Jovan is a great combination of professional and friendly. The friendly approach was especially important for me. I really appreciate having access to the recordings from our sessions. He explains things step by step, and it is clear that he really knows his stuff."</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Julian, 1st Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math B</span>
+                                    <span class="testi-score">Grade: 10/20</span>
+                                </div>
+                                <div class="testi-quote">"Without these tutoring sessions there is no way that I would of passed both my math and statistics courses from which I was struggling earlier in the year. The work we did was very effective, the explanations were clear and the atmosphere was friendly and supportive."</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Alfonso, 2nd Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Descriptive Stats</span>
+                                    <span class="testi-score">Grade: 13/20</span>
+                                </div>
+                                <div class="testi-quote">"An engaging, well prepared tutor who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a clear PDF with all exercises solved step by step."</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Louis, 1st Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math A</span>
+                                    <span class="testi-score">Grade: 15/20</span>
+                                </div>
+                                <div class="testi-quote">"Very helpful. Makes sure to get all students involved and teaches in an organized way."</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Zere, 1st Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math B</span>
+                                    <span class="testi-score">Grade: 10/20</span>
+                                </div>
+                                <div class="testi-quote">"Jovan is really professional at what he is doing. Responsibility, dedication and his organization is really something what I looked in tutor. Besides that, I liked that as a person he is really kind, he cares about his students. He is not doing his job just for the profit, but really seeks result and dedication from you too."</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Ida, 2nd Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math B</span>
+                                    <span class="testi-score">Grade: 15/20</span>
+                                </div>
+                                <div class="testi-quote">"Highly encouraging and down to earth teaching style. Concepts are broken down step by step, and often linked to real-life examples making even the more difficult topics easier to understand. "</div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-header">
+                                    <span class="testi-name">Sophia, 1st Year, KU Leuven</span>
+                                    <span class="testi-course">BBA - Math B</span>
+                                    <span class="testi-score">Grade: 14/20</span>
+                                </div>
+                                <div class="testi-quote">"Jovan is a fantastic tutor who elevates students' confidence in their math abilities while improving their skills. He can adapt to a variety of students' needs and provides excellent support whenever required. He helped me pass math with a grade much higher than expected, thanks to his dedication to tutoring."</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="testi-nav-btn" id="testi-next" aria-label="Next testimonial">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+                <div class="testi-dots" id="testi-dots">
+                    <button class="testi-dot" aria-label="Testimonial 1"></button>
+                    <button class="testi-dot" aria-label="Testimonial 2"></button>
+                    <button class="testi-dot" aria-label="Testimonial 3"></button>
+                    <button class="testi-dot" aria-label="Testimonial 4"></button>
+                    <button class="testi-dot" aria-label="Testimonial 5"></button>
+                    <button class="testi-dot" aria-label="Testimonial 6"></button>
+                    <button class="testi-dot" aria-label="Testimonial 7"></button>
+                    <button class="testi-dot" aria-label="Testimonial 8"></button>
+                    <button class="testi-dot" aria-label="Testimonial 9"></button>
+                    <button class="testi-dot" aria-label="Testimonial 10"></button>
+                </div>
+            </div>
+        </div>
 
         <div class="stack-card" id="pricing" style="height: 100vh; align-items: flex-start; padding-top: 80px;">
             <style>
@@ -2168,7 +2425,7 @@
                             <tr>
                                 <th></th>
                                 <th>
-                                    <span class="tier-badge"></span>
+                                    <span class="tier-badge popular">Most Popular</span>
                                     <span class="tier-name">Essential Program</span>
                                     <div class="tier-price-row">
                                         <span class="tier-price">€17.50</span>
@@ -2177,16 +2434,16 @@
                                     <span class="tier-sub">Total €350</span>
                                 </th>
                                 <th class="col-popular">
-                                    <span class="tier-badge popular">Most Popular</span>
+                                    <span class="tier-badge limited">Only 12 Spots Left</span>
                                     <span class="tier-name">Plus Program</span>
                                     <div class="tier-price-row">
-                                        <span class="tier-price">€20.00</span>
+                                        <span class="tier-price">€26.67</span>
                                         <span class="tier-hr">/hr</span>
                                     </div>
-                                    <span class="tier-sub">Total €600</span>
+                                    <span class="tier-sub">Total €800</span>
                                 </th>
                                 <th>
-                                    <span class="tier-badge limited">Only 3 Spots Left</span>
+                                    <span class="tier-badge limited">Best Value</span>
                                     <span class="tier-name">VIP Coaching Program</span>
                                     <div class="tier-price-row">
                                         <span class="tier-price">€75.00</span>
@@ -2228,16 +2485,16 @@
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td>Support outside of sessions <sup>1</sup></td>
+                                <td>Between-Session Support <sup>1</sup></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td>Passing Guarantee <sup>2</sup></td>
-                                <td><span class="pt-no">✕</span></td>
-                                <td><span class="pt-no">✕</span></td>
-                                <td><span class="pt-yes">✓</span></td>
+                                <td>Extended Service Guarantee <sup>2</sup></td>
+                                <td><span class="pt-yes">6 months</span></td>
+                                <td><span class="pt-yes">24 months</span></td>
+                                <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -2245,8 +2502,8 @@
 
                 <div class="pricing-disclaimers">
                     <p>Hourly rates are effective rates for comparison purposes. The full total remains applicable regardless of the number of sessions attended.</p>
-                    <p><sup>1</sup> While not strictly restricted, this is reserved for concise queries. The tutor retains the right to suspend support and request a session if question volume and complexity becomes excessive.</p>
-                    <p><sup>2</sup> In the event of an unsuccessful examination outcome, the student is entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved. <br> Eligibility for this guarantee is strictly contingent upon the completion of all coursework requirements: all mock examinations must be completed, all homework submitted, and all sessions attended.</p>    
+                    <p><sup>1</sup> Intended for brief questions submitted via WhatsApp, ensuring that continuous support and clear guidance are provided between scheduled sessions.</p>
+                    <p><sup>2</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>    
                 </div>
             </div>
         </div>
@@ -2576,69 +2833,73 @@
                 });
             }
 
-            // GSAP Timeline for the "What's Included" card triggered by play button click
+            // Scroll-driven "What's Included" timeline
             const timelineCard = document.getElementById('timeline-card');
-            const playBtn = document.getElementById('play-timeline-btn');
             if (timelineCard && typeof gsap !== 'undefined') {
                 const milestones = gsap.utils.toArray('#timeline-card .milestone');
-                const timelineProgress = document.getElementById('timeline-progress');
+                const progressBar = document.getElementById('timeline-progress');
 
-                // Set initial states
-                gsap.set(milestones, { opacity: 0, position: 'absolute', top: '65%', y: 70, left: '50%', xPercent: -50, yPercent: -50, display: 'block' });
-                // Make first milestone visible immediately on page load
-                gsap.set(milestones[0], { opacity: 1, y: 0 });
-                gsap.set(timelineProgress, { width: '0%' });
-
-                if (playBtn && milestones.length > 0 && timelineProgress) {
-                    playBtn.addEventListener('click', () => {
-                        playBtn.disabled = true;
-
-                        const playTl = gsap.timeline({
-                            onComplete: () => {
-                                playBtn.disabled = false;
-                                playBtn.querySelector('span').textContent = 'Watch Again';
-                            }
-                        });
-
-                        // 1. Hide the button immediately with a smooth fade & scale down
-                        playTl.to(playBtn, { opacity: 0, scale: 0.8, duration: 0.3, pointerEvents: 'none' }, 0);
-
-                        // 2. Reset timeline state
-                        playTl.to(milestones, { opacity: 0, y: 70, duration: 0.3 }, 0);
-                        playTl.to(timelineProgress, { width: '0%', duration: 0.3 }, 0);
-
-                        // Step 1: Before Samkedemia (0%)
-                        playTl.to(milestones[0], { opacity: 1, y: 0, duration: 0.4 });
-                        playTl.to(timelineProgress, { width: '0%', duration: 0.4 }, '<');
-                        playTl.to({}, { duration: 5 }); // Wait
-
-                        // Step 2: After 1 Hour (20%)
-                        playTl.to(milestones[0], { opacity: 0, y: -70, duration: 0.4 });
-                        playTl.to(timelineProgress, { width: '20%', duration: 0.4 }, '>');
-                        playTl.to(milestones[1], { opacity: 1, y: 0, duration: 0.4 }, '<');
-                        playTl.to({}, { duration: 5 });
-
-                        // Step 3: 5 Hours (40%)
-                        playTl.to(milestones[1], { opacity: 0, y: -70, duration: 0.4 });
-                        playTl.to(timelineProgress, { width: '40%', duration: 0.4 }, '>');
-                        playTl.to(milestones[2], { opacity: 1, y: 0, duration: 0.4 }, '<');
-                        playTl.to({}, { duration: 5 });
-
-                        // Step 4: 12 Hours (70%)
-                        playTl.to(milestones[2], { opacity: 0, y: -70, duration: 0.4 });
-                        playTl.to(timelineProgress, { width: '70%', duration: 0.4 }, '>');
-                        playTl.to(milestones[3], { opacity: 1, y: 0, duration: 0.4 }, '<');
-                        playTl.to({}, { duration: 5 });
-
-                        // Step 5: 20 Hours (100%)
-                        playTl.to(milestones[3], { opacity: 0, y: -70, duration: 0.4 });
-                        playTl.to(timelineProgress, { width: '100%', duration: 0.4 }, '>');
-                        playTl.to(milestones[4], { opacity: 1, y: 0, duration: 0.4 }, '<');
-                        playTl.to({}, { duration: 1.5 }); // Keep last milestone visible for 1.5s before showing button
-
-                        // 3. Fade the button back in smoothly at the end
-                        playTl.to(playBtn, { opacity: 1, scale: 1, duration: 0.4, pointerEvents: 'auto' });
+                if (milestones.length && progressBar) {
+                    gsap.set(milestones, {
+                        opacity: 0, position: 'absolute', top: '48%',
+                        left: '50%', xPercent: -50, yPercent: -50, display: 'block', x: 0, y: 0
                     });
+                    gsap.set(milestones[0], { opacity: 1, x: 0, y: 0 });
+                    progressBar.style.width = '0%';
+
+                    let activeIdx = 0;
+                    const allCards = Array.from(document.querySelectorAll('.stack-card'));
+                    const cardIdx = allCards.indexOf(timelineCard);
+                    const container = document.querySelector('.stack-container');
+                    const stickyTopPx = parseFloat(getComputedStyle(timelineCard).top) || window.innerHeight * 0.15;
+
+                    let scrollStart = 0, scrollRange = 1;
+
+                    function recalcBounds() {
+                        let top = container.offsetTop;
+                        for (let i = 0; i < cardIdx; i++) {
+                            top += allCards[i].offsetHeight + parseFloat(getComputedStyle(allCards[i]).marginBottom || '0');
+                        }
+                        scrollStart = top - stickyTopPx;
+                        scrollRange = timelineCard.offsetHeight;
+                    }
+                    recalcBounds();
+                    window.addEventListener('resize', recalcBounds);
+
+                    function changeMilestone(newIdx) {
+                        if (newIdx === activeIdx) return;
+                        const dir = newIdx > activeIdx ? 1 : -1;
+                        gsap.to(milestones[activeIdx], { opacity: 0, x: -dir * 90, duration: 0.25, ease: 'power3.in', overwrite: true });
+                        gsap.fromTo(milestones[newIdx], { x: dir * 90, opacity: 0 }, { opacity: 1, x: 0, duration: 0.28, ease: 'power3.out', overwrite: true });
+                        activeIdx = newIdx;
+                    }
+
+                    // Animation uses the first 20% of the 100vh scroll range (~20vh).
+                    // The remaining 80vh mirrors About Me's natural stacking feel.
+                    const ANIM_END = 0.20;
+
+                    function onTimelineScroll() {
+                        const rawP = (window.scrollY - scrollStart) / scrollRange;
+
+                        if (rawP <= 0) {
+                            progressBar.style.width = '0%';
+                            if (activeIdx !== 0) changeMilestone(0);
+                            return;
+                        }
+
+                        if (rawP >= ANIM_END) {
+                            progressBar.style.width = '100%';
+                            if (activeIdx !== milestones.length - 1) changeMilestone(milestones.length - 1);
+                            return;
+                        }
+
+                        const animP = rawP / ANIM_END;
+                        progressBar.style.width = (animP * 100) + '%';
+                        changeMilestone(Math.min(milestones.length - 1, Math.floor(animP * milestones.length)));
+                    }
+
+                    window.addEventListener('scroll', onTimelineScroll, { passive: true });
+                    onTimelineScroll();
                 }
             }
 
@@ -2675,6 +2936,40 @@
                     }
                 });
             }
+            // Testimonials slider
+            (function() {
+                const track   = document.getElementById('testi-track');
+                const prevBtn = document.getElementById('testi-prev');
+                const nextBtn = document.getElementById('testi-next');
+                const dotsWrap = document.getElementById('testi-dots');
+                if (!track || !dotsWrap) return;
+
+                const dots  = Array.from(dotsWrap.children);
+                const total = track.children.length;
+                let current = 0;
+
+                function goTo(idx) {
+                    current = Math.max(0, Math.min(total - 1, idx));
+                    track.style.transform = `translateX(-${current * 100}%)`;
+                    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+                    prevBtn.disabled = current === 0;
+                    nextBtn.disabled = current === total - 1;
+                }
+
+                prevBtn.addEventListener('click', () => goTo(current - 1));
+                nextBtn.addEventListener('click', () => goTo(current + 1));
+                dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+                // Touch/swipe support
+                let touchStartX = 0;
+                track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+                track.addEventListener('touchend', e => {
+                    const dx = e.changedTouches[0].clientX - touchStartX;
+                    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+                });
+
+                goTo(0);
+            })();
         }); // End of window.load listener
     </script>
 
