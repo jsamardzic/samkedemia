@@ -1873,6 +1873,241 @@
             width: 22px;
         }
     </style>
+    <style>
+        /* === Hamburger Button (hidden on desktop) === */
+        .hamburger-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 22px;
+            height: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .hamburger-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--taupe-dark);
+            border-radius: 2px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: center;
+        }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* === Header Actions (groups hamburger + Book Now) === */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* === Mobile Menu Overlay === */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(250, 248, 245, 0.97);
+            backdrop-filter: blur(20px);
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .mobile-menu-nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            width: 100%;
+            max-width: 320px;
+            padding: 0 20px;
+        }
+        .mobile-nav-link {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--taupe-dark);
+            text-decoration: none;
+            padding: 15px 24px;
+            width: 100%;
+            text-align: center;
+            border-radius: 12px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .mobile-nav-link:hover, .mobile-nav-link:active {
+            background: rgba(0,0,0,0.05);
+            color: var(--accent-orange);
+        }
+        .mobile-nav-divider {
+            width: 80%;
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+            margin: 10px 0 6px;
+        }
+        .mobile-nav-section-label {
+            font-size: 0.55rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-orange);
+            padding: 2px 0 4px;
+            display: block;
+            text-align: center;
+        }
+
+        /* === Mobile Breakpoint (≤ 768px) === */
+        @media (max-width: 768px) {
+            /* Header pill — shrinks to content, no excess space between logo and actions */
+            header {
+                width: fit-content;
+                max-width: calc(100% - 40px);
+                top: 12px;
+                padding: 11px 20px;
+                gap: 20px;
+            }
+            header.scrolled {
+                width: fit-content;
+                max-width: calc(100% - 40px);
+            }
+            .hamburger-btn {
+                display: flex;
+            }
+            .btn-whatsapp {
+                white-space: nowrap;
+                padding: 9px 20px;
+                font-size: 9px;
+                letter-spacing: 0.14em;
+            }
+
+            /* About Me Card — vertical layout, scaled down */
+            #about-me-card {
+                height: auto !important;
+                min-height: 100vh;
+                padding: 90px 5% 60px !important;
+            }
+            #about-me-card h3 {
+                font-size: 2rem !important;
+            }
+            #about-me-card > .card-content {
+                max-width: 100% !important;
+                gap: 20px !important;
+            }
+            .about-me-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 24px !important;
+                max-width: 100% !important;
+                padding-left: 0 !important;
+            }
+            .about-me-image {
+                width: 160px !important;
+                height: 192px !important;
+            }
+            .about-me-image img {
+                width: 100% !important;
+                height: 100% !important;
+            }
+            .about-me-content {
+                text-align: left !important;
+                width: 100%;
+            }
+            .about-me-content .tagline {
+                font-size: 0.7rem;
+                margin-bottom: 20px !important;
+            }
+            .about-me-details {
+                gap: 18px !important;
+            }
+            .detail-item .text {
+                font-size: 0.9rem;
+            }
+
+            /* What's Included — smaller milestone text */
+            #timeline-card .milestone h4 {
+                font-size: 1.6rem;
+                margin-bottom: 8px;
+            }
+            #timeline-card .milestone p {
+                font-size: 0.9rem;
+                max-width: 90%;
+            }
+
+            /* Proof — 2×2 stat card grid */
+            #proof-card .stat-card-container {
+                flex-wrap: wrap !important;
+                max-width: 100% !important;
+                gap: 12px !important;
+            }
+            #proof-card .stat-card {
+                min-width: 0 !important;
+                max-width: none !important;
+                flex: 1 1 130px !important;
+                padding: 22px 14px !important;
+            }
+            .stat-card-value {
+                font-size: 2.4rem !important;
+            }
+            .stat-comparison {
+                gap: 10px;
+            }
+            .stat-comparison-value {
+                font-size: 1rem;
+            }
+
+            /* What's Included — narrow milestone box so text wraps to two rows */
+            .milestone {
+                width: 80vw;
+                max-width: 80vw;
+            }
+
+            /* Pricing table — slightly smaller to fit screen without scrolling */
+            .pricing-table th,
+            .pricing-table td {
+                padding: 9px 9px !important;
+                font-size: 0.62rem !important;
+            }
+            .pricing-table th:first-child,
+            .pricing-table td:first-child {
+                padding-left: 2px !important;
+            }
+            .pricing-table .tier-price {
+                font-size: 1.1rem !important;
+            }
+            .pricing-table .tier-name,
+            .pricing-table .tier-sub {
+                font-size: 0.5rem !important;
+            }
+            .tier-badge {
+                font-size: 0.43rem !important;
+                padding: 3px 5px !important;
+            }
+            .pt-btn {
+                padding: 7px 12px !important;
+                font-size: 0.52rem !important;
+                letter-spacing: 0.1em !important;
+            }
+            .pt-yes, .pt-no {
+                font-size: 0.72rem !important;
+            }
+            .tier-price-row .tier-hr {
+                font-size: 0.5rem !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -1903,16 +2138,35 @@
                 </div>
             </div>
         </nav>
-        <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
-            <span class="pulsing-dot-container">
-                <span class="pulsing-dot-ping"></span>
-                <span class="pulsing-dot-base"></span>
-            </span>
-            Book Now
-        </a>
+        <div class="header-actions">
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
+                <span class="pulsing-dot-container">
+                    <span class="pulsing-dot-ping"></span>
+                    <span class="pulsing-dot-base"></span>
+                </span>
+                Book Now
+            </a>
+        </div>
     </header>
 
-
+    <!-- Mobile navigation menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-menu-nav">
+            <a href="#timeline-card" class="mobile-nav-link">What's Included</a>
+            <a href="#proof-card" class="mobile-nav-link">Proof</a>
+            <a href="#testimonials-card" class="mobile-nav-link">Testimonials</a>
+            <a href="#pricing" class="mobile-nav-link">Pricing</a>
+            <div class="mobile-nav-divider"></div>
+            <span class="mobile-nav-section-label">Tools</span>
+            <a href="https://www.samkedemia.com/linearprog/" target="_blank" class="mobile-nav-link">Linear Programming Solver</a>
+            <a href="https://www.samkedemia.com/excel/" target="_blank" class="mobile-nav-link">Excel Cheat Sheet</a>
+        </nav>
+    </div>
 
     <section class="hero" id="hero">
         <div class="hero-symbols" aria-hidden="true">
@@ -2020,7 +2274,7 @@
             </div>
         </div>
 
-        <div class="stack-card" id="timeline-card" style="height: 100vh;">
+        <div class="stack-card" id="timeline-card" style="height: 200vh;">
             <div class="card-content" style="display: flex; flex-direction: column; height: 100%; width: 100%;">
                 <div style="text-align: center; padding-top: 20px;">
                     <span class="card-tag">What's Included</span>
@@ -2590,6 +2844,7 @@
                     <ul>
                         <li><a href="#timeline-card">What's Included</a></li>
                         <li><a href="#proof-card">Proof</a></li>
+                        <li><a href="#testimonials-card">Testimonials</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                     </ul>
                 </div>
@@ -2874,9 +3129,9 @@
                         activeIdx = newIdx;
                     }
 
-                    // Animation uses the first 20% of the 100vh scroll range (~20vh).
-                    // The remaining 80vh mirrors About Me's natural stacking feel.
-                    const ANIM_END = 0.20;
+                    // Animation uses the first 50% of the 200vh scroll range (~100vh).
+                    // Each of the 5 milestones gets ~20vh. Proof card only appears after the 27vh buffer that follows.
+                    const ANIM_END = 0.50;
 
                     function onTimelineScroll() {
                         const rawP = (window.scrollY - scrollStart) / scrollRange;
@@ -2971,6 +3226,30 @@
                 goTo(0);
             })();
         }); // End of window.load listener
+
+        // Mobile hamburger menu
+        (function() {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!hamburgerBtn || !mobileMenu) return;
+
+            function closeMenu() {
+                mobileMenu.classList.remove('open');
+                hamburgerBtn.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            hamburgerBtn.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('open');
+                mobileMenu.classList.toggle('open', isOpen);
+                hamburgerBtn.classList.toggle('open', isOpen);
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+
+            mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        })();
     </script>
 
 
