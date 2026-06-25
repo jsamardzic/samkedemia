@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samkedemia</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1202,32 +1203,32 @@
         }
 
         @keyframes symbol-float-a {
-            0%   { transform: translateY(0px)   translateX(0px)   rotate(-3deg); }
-            35%  { transform: translateY(-26px) translateX(10px)  rotate(6deg); }
-            70%  { transform: translateY(-10px) translateX(-6px)  rotate(2deg); }
-            100% { transform: translateY(0px)   translateX(0px)   rotate(-3deg); }
+            0%   { transform: translate(-50%,-50%) translateY(0px)   translateX(0px)   rotate(-3deg); }
+            35%  { transform: translate(-50%,-50%) translateY(-18px) translateX(8px)   rotate(5deg); }
+            70%  { transform: translate(-50%,-50%) translateY(-7px)  translateX(-5px)  rotate(1deg); }
+            100% { transform: translate(-50%,-50%) translateY(0px)   translateX(0px)   rotate(-3deg); }
         }
         @keyframes symbol-float-b {
-            0%   { transform: translateY(8px)   translateX(-8px)  rotate(7deg); }
-            50%  { transform: translateY(-32px) translateX(12px)  rotate(-10deg); }
-            100% { transform: translateY(8px)   translateX(-8px)  rotate(7deg); }
+            0%   { transform: translate(-50%,-50%) translateY(6px)   translateX(-6px)  rotate(6deg); }
+            50%  { transform: translate(-50%,-50%) translateY(-22px) translateX(10px)  rotate(-8deg); }
+            100% { transform: translate(-50%,-50%) translateY(6px)   translateX(-6px)  rotate(6deg); }
         }
         @keyframes symbol-float-c {
-            0%   { transform: translateY(-6px)  translateX(6px)   rotate(-9deg); }
-            40%  { transform: translateY(-36px) translateX(-10px) rotate(7deg); }
-            80%  { transform: translateY(-4px)  translateX(12px)  rotate(-5deg); }
-            100% { transform: translateY(-6px)  translateX(6px)   rotate(-9deg); }
+            0%   { transform: translate(-50%,-50%) translateY(-5px)  translateX(5px)   rotate(-7deg); }
+            40%  { transform: translate(-50%,-50%) translateY(-24px) translateX(-8px)  rotate(6deg); }
+            80%  { transform: translate(-50%,-50%) translateY(-3px)  translateX(9px)   rotate(-4deg); }
+            100% { transform: translate(-50%,-50%) translateY(-5px)  translateX(5px)   rotate(-7deg); }
         }
         @keyframes symbol-float-d {
-            0%   { transform: translateY(0px)   translateX(0px)   rotate(11deg); }
-            45%  { transform: translateY(-22px) translateX(-14px) rotate(-9deg); }
-            100% { transform: translateY(0px)   translateX(0px)   rotate(11deg); }
+            0%   { transform: translate(-50%,-50%) translateY(0px)   translateX(0px)   rotate(8deg); }
+            45%  { transform: translate(-50%,-50%) translateY(-16px) translateX(-10px) rotate(-7deg); }
+            100% { transform: translate(-50%,-50%) translateY(0px)   translateX(0px)   rotate(8deg); }
         }
         @keyframes symbol-float-e {
-            0%   { transform: translateY(6px)   translateX(10px)  rotate(-6deg); }
-            30%  { transform: translateY(-20px) translateX(-8px)  rotate(9deg); }
-            65%  { transform: translateY(-34px) translateX(6px)   rotate(4deg); }
-            100% { transform: translateY(6px)   translateX(10px)  rotate(-6deg); }
+            0%   { transform: translate(-50%,-50%) translateY(5px)   translateX(8px)   rotate(-5deg); }
+            30%  { transform: translate(-50%,-50%) translateY(-14px) translateX(-6px)  rotate(7deg); }
+            65%  { transform: translate(-50%,-50%) translateY(-22px) translateX(5px)   rotate(3deg); }
+            100% { transform: translate(-50%,-50%) translateY(5px)   translateX(8px)   rotate(-5deg); }
         }
 
         .math-symbol {
@@ -1273,6 +1274,15 @@
         .hero-symbols .math-symbol:nth-child(7n+5) { animation-delay: -10s; }
         .hero-symbols .math-symbol:nth-child(7n+6) { animation-delay: -4s; }
         .hero-symbols .math-symbol:nth-child(7n)   { animation-delay: -7s; }
+
+        @media (max-width: 768px) {
+            .math-symbol:not(.ms-icon) { font-size: 1.4rem !important; }
+            .ms-icon { width: 30px !important; height: 30px !important; }
+        }
+        @media (max-width: 480px) {
+            .math-symbol:not(.ms-icon) { font-size: 1rem !important; }
+            .ms-icon { width: 22px !important; height: 22px !important; }
+        }
     </style>
     <style>
         /* --- Testimonials Slider --- */
@@ -1702,40 +1712,55 @@
 
     <section class="hero" id="hero">
         <div class="hero-symbols" aria-hidden="true">
-            <!-- Math text symbols -->
-            <span class="math-symbol" style="left:3%;  top:12%; font-size:3.5rem;">∫</span>
-            <span class="math-symbol" style="left:8%;  top:38%; font-size:2rem;">∂</span>
-            <span class="math-symbol" style="left:5%;  top:24%; font-size:2.8rem;">Σ</span>
-            <span class="math-symbol" style="left:14%; top:32%; font-size:3rem;">η</span>
-            <span class="math-symbol" style="left:35%; top:9%;  font-size:1.8rem;">Δ</span>
-            <span class="math-symbol" style="left:50%; top:6%;  font-size:1.4rem;">x</span>
-            <span class="math-symbol" style="left:45%; top:20%; font-size:2rem;">y</span>
-            <span class="math-symbol" style="left:55%; top:42%; font-size:1.6rem;">z</span>
-            <span class="math-symbol" style="left:76%; top:10%; font-size:3.2rem;">π</span>
-            <span class="math-symbol" style="left:70%; top:34%; font-size:1.6rem;">∫</span>
-            <span class="math-symbol" style="left:68%; top:52%; font-size:2.1rem;">∂</span>
-            <!-- Lightbulb -->
-            <span class="math-symbol" style="left:22%; top:46%; width:44px; height:44px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
-            <span class="math-symbol" style="left:65%; top:50%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
-            <!-- Book -->
-            <span class="math-symbol" style="left:10%; top:50%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <span class="math-symbol" style="left:60%; top:14%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <span class="math-symbol" style="left:78%; top:26%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <!-- Graduation cap -->
-            <span class="math-symbol" style="left:18%; top:8%;  width:48px; height:48px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <span class="math-symbol" style="left:30%; top:42%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <span class="math-symbol" style="left:82%; top:16%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <!-- Trending up / improving -->
-            <span class="math-symbol" style="left:26%; top:18%; width:44px; height:44px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
-            <span class="math-symbol" style="left:84%; top:44%; width:46px; height:46px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
-            <!-- Bar chart / statistics -->
-            <span class="math-symbol" style="left:41%; top:48%; width:52px; height:52px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
-            <span class="math-symbol" style="left:88%; top:8%;  width:48px; height:48px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
-            <!-- Normal distribution bell curve -->
-            <span class="math-symbol" style="left:38%; top:30%; width:48px; height:36px;"><svg viewBox="0 0 24 24"><path d="M2 20 C4 20 6 14 8 10 C10 6 10 4 12 4 C14 4 14 6 16 10 C18 14 20 20 22 20"/></svg></span>
-            <!-- Calculator / math -->
-            <span class="math-symbol" style="left:48%; top:54%; width:38px; height:44px;"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></span>
-            <span class="math-symbol" style="left:91%; top:22%; width:36px; height:42px;"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></span>
+            <!-- Ellipse: center (50%,38%), rx=40%, ry=26% — 24 positions at 15° intervals -->
+            <!-- 0°   → (90%,38%) -->
+            <span class="math-symbol" style="left:90%; top:38%; font-size:3rem;">∫</span>
+            <!-- 15°  → (89%,45%) -->
+            <span class="math-symbol ms-icon" style="left:89%; top:45%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+            <!-- 30°  → (85%,51%) -->
+            <span class="math-symbol" style="left:85%; top:51%; font-size:2rem;">y</span>
+            <!-- 45°  → (78%,56%) -->
+            <span class="math-symbol ms-icon" style="left:78%; top:56%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+            <!-- 60°  → (70%,61%) -->
+            <span class="math-symbol ms-icon" style="left:70%; top:61%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+            <!-- 75°  → (60%,64%) -->
+            <span class="math-symbol" style="left:60%; top:64%; font-size:2.5rem;">∂</span>
+            <!-- 90°  → (50%,64%) -->
+            <span class="math-symbol ms-icon" style="left:50%; top:64%; width:44px; height:44px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+            <!-- 105° → (40%,64%) -->
+            <span class="math-symbol" style="left:40%; top:64%; font-size:1.8rem;">x</span>
+            <!-- 120° → (30%,61%) -->
+            <span class="math-symbol ms-icon" style="left:30%; top:61%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
+            <!-- 135° → (22%,56%) -->
+            <span class="math-symbol" style="left:22%; top:56%; font-size:2.8rem;">Σ</span>
+            <!-- 150° → (15%,51%) -->
+            <span class="math-symbol ms-icon" style="left:15%; top:51%; width:44px; height:36px;"><svg viewBox="0 0 24 24"><path d="M2 20 C4 20 6 14 8 10 C10 6 10 4 12 4 C14 4 14 6 16 10 C18 14 20 20 22 20"/></svg></span>
+            <!-- 165° → (11%,45%) -->
+            <span class="math-symbol" style="left:11%; top:45%; font-size:2.5rem;">η</span>
+            <!-- 180° → (10%,38%) -->
+            <span class="math-symbol ms-icon" style="left:10%; top:38%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+            <!-- 195° → (11%,31%) -->
+            <span class="math-symbol" style="left:11%; top:31%; font-size:2rem;">z</span>
+            <!-- 210° → (15%,25%) -->
+            <span class="math-symbol ms-icon" style="left:15%; top:25%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+            <!-- 225° → (22%,20%) -->
+            <span class="math-symbol" style="left:22%; top:20%; font-size:2rem;">Δ</span>
+            <!-- 240° → (30%,12%) -->
+            <span class="math-symbol ms-icon" style="left:30%; top:12%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+            <!-- 255° → (40%,12%) -->
+            <span class="math-symbol" style="left:40%; top:12%; font-size:1.8rem;">∫</span>
+            <!-- 270° → (50%,12%) -->
+            <span class="math-symbol ms-icon" style="left:50%; top:12%; width:38px; height:44px;"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></span>
+            <!-- 285° → (60%,12%) -->
+            <span class="math-symbol" style="left:60%; top:12%; font-size:2.2rem;">π</span>
+            <!-- 300° → (70%,12%) -->
+            <span class="math-symbol ms-icon" style="left:70%; top:12%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+            <!-- 315° → (78%,20%) -->
+            <span class="math-symbol ms-icon" style="left:78%; top:20%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
+            <!-- 330° → (85%,25%) -->
+            <span class="math-symbol" style="left:85%; top:25%; font-size:1.8rem;">η</span>
+            <!-- 345° → (89%,31%) -->
+            <span class="math-symbol ms-icon" style="left:89%; top:31%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
         </div>
         <h1 class="hero-title">Result Driven<br>Tutoring.</h1>
         <div class="social-proof" style="margin-top: 2rem;">
