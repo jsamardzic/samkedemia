@@ -23,13 +23,32 @@
             --font-serif: 'Atkinson Hyperlegible', sans-serif;
         }
 
+        /* ── Scroll-reveal utility (applied via JS) ── */
+        .sr {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .sr.sr-on { opacity: 1; transform: none; }
+
+        @keyframes hero-rise {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes scroll-logos {
             0% {
                 transform: translateX(0);
             }
 
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
 
@@ -123,6 +142,8 @@
             color: var(--taupe-dark);
             text-decoration: none;
             letter-spacing: -0.5px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         /* --- Header Nav Dropdowns --- */
@@ -198,18 +219,28 @@
             font-weight: 900;
             letter-spacing: -3px;
             line-height: 0.95;
-            will-change: transform;
-            margin-top: 30vh;
-            margin-bottom: 10vh;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
         }
 
         .hero-subtitle {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 300;
             color: var(--taupe-mid);
-            margin-bottom: 1rem;
+            line-height: 1.65;
+            margin-top: 0.75rem;
+            max-width: 600px;
+            text-align: center;
+            padding: 0 1rem;
+            letter-spacing: -0.01em;
+            animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+        }
+
+        .hero .social-proof {
+            margin-top: 20vh;
+            animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
         }
 
 
@@ -695,6 +726,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
             box-shadow: 0 10px 20px rgba(255, 77, 0, 0.2);
             transition: all 0.3s ease;
         }
@@ -936,7 +968,7 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
@@ -1039,13 +1071,13 @@
         .contact-card h4 {
             font-family: var(--font-title);
             font-weight: 900;
-            font-size: 1.8rem;
+            font-size: clamp(1.1rem, 2.4vw, 1.8rem);
             color: var(--taupe-dark);
             margin-bottom: 8px;
         }
 
         .contact-card p {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 1.4vw, 1rem);
             color: var(--taupe-mid);
             margin-bottom: 24px;
             flex-grow: 1;
@@ -1426,6 +1458,49 @@
         }
     </style>
     <style>
+        /* Show hamburger when scrolled (desktop: absolute-centered; mobile: already inline) */
+        header.scrolled .hamburger-btn {
+            display: flex;
+        }
+
+        @media (min-width: 769px) {
+            header.scrolled .hamburger-btn {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* About Me scroll animation */
+        #about-me-card .card-tag,
+        #about-me-card h3 {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #about-me-card .about-me-image {
+            opacity: 0;
+            transform: translateX(-28px);
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #about-me-card .tagline,
+        #about-me-card .detail-item {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #about-me-card.about-animated .card-tag { opacity: 1; transform: none; }
+        #about-me-card.about-animated h3 { opacity: 1; transform: none; transition-delay: 0.1s; }
+        #about-me-card.about-animated .about-me-image { opacity: 1; transform: none; transition-delay: 0.18s; }
+        #about-me-card.about-animated .tagline { opacity: 1; transform: none; transition-delay: 0.24s; }
+        #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.32s; }
+        #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.40s; }
+        #about-me-card.about-animated .detail-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.48s; }
+        #about-me-card.about-animated .detail-item:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.56s; }
+
         /* === Hamburger Button (hidden on desktop) === */
         .hamburger-btn {
             display: none;
@@ -1457,6 +1532,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            flex-shrink: 0;
         }
 
         /* === Mobile Menu Overlay === */
@@ -1528,8 +1604,8 @@
                 width: fit-content;
                 max-width: calc(100% - 40px);
                 top: 12px;
-                padding: 11px 20px;
-                gap: 20px;
+                padding: 13px 26px;
+                gap: 24px;
             }
             header.scrolled {
                 width: fit-content;
@@ -1537,6 +1613,9 @@
             }
             .hamburger-btn {
                 display: flex;
+            }
+            .header-actions {
+                gap: 18px;
             }
             .btn-whatsapp {
                 white-space: nowrap;
@@ -1640,9 +1719,16 @@
                 min-height: 85vh;
                 padding-bottom: 4vh;
             }
+            .hero .social-proof {
+                margin-top: 10vh;
+            }
             .hero-title {
-                margin-top: 8vh;
-                margin-bottom: 4vh;
+                margin-top: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            .hero-subtitle {
+                font-size: 0.92rem;
+                margin-top: 0.5rem;
             }
             #trusted-logos {
                 margin-top: 5vh;
@@ -1668,6 +1754,13 @@
             .pricing-disclaimers {
                 padding-bottom: 10px;
             }
+            /* Footer — contact column stacks under navigation */
+            .footer-col.connect {
+                margin-left: 0;
+            }
+            .footer-grid {
+                gap: 40px;
+            }
         }
     </style>
 </head>
@@ -1679,6 +1772,7 @@
     <header>
         <a href="#" class="logo">SAMKEDEMIA</a>
         <nav class="header-nav">
+            <a href="#about-me-card" class="header-nav-link">About Me</a>
             <a href="#timeline-card" class="header-nav-link">What's Included</a>
             <a href="#results-card" class="header-nav-link">Results</a>
             <a href="#pricing" class="header-nav-link">Pricing</a>
@@ -1703,6 +1797,7 @@
     <!-- Mobile navigation menu -->
     <div class="mobile-menu" id="mobile-menu">
         <nav class="mobile-menu-nav">
+            <a href="#about-me-card" class="mobile-nav-link">About Me</a>
             <a href="#timeline-card" class="mobile-nav-link">What's Included</a>
             <a href="#results-card" class="mobile-nav-link">Results</a>
             <a href="#pricing" class="mobile-nav-link">Pricing</a>
@@ -1762,15 +1857,16 @@
             <!-- 345° → (89%,31%) -->
             <span class="math-symbol ms-icon" style="left:89%; top:31%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
         </div>
-        <h1 class="hero-title">Result Driven<br>Tutoring.</h1>
-        <div class="social-proof" style="margin-top: 2rem;">
+        <a href="https://wa.me/32490100821" target="_blank" class="social-proof">
             <div class="social-proof-images">
                 <img src="images/student1.jpg" alt="Student">
                 <img src="images/student2.jpeg" alt="Student">
                 <img src="images/student3.jpg" alt="Student">
             </div>
-            <span class="social-proof-text">Join 140+ successful students</span>
-        </div>
+            <span class="social-proof-text">140+ students passed. Join them.</span>
+        </a>
+        <h1 class="hero-title">Result Driven<br>Tutoring.</h1>
+        <p class="hero-subtitle">Proven methods. Right tools. Less stress.<br>Expert BBA support with a strong record of student success.</p>
         <!-- Trusted By Logos (Rotating) -->
         <div id="trusted-logos">
             <p
@@ -1870,9 +1966,9 @@
                     </div>
                 </div>
                 <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 600px;">
-                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Most popular. 20 Guided Sessions led entirely by Jovan. We cover every critical exercise and recent past paper. The complete structure you need to secure your pass.</p>
-                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Everything in Essential + 10 Practical Tutoring Sessions (max 4 people). We work together to identify and eliminate your specific weak points.</p>
-                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Customized, exclusive 1:1 sessions focused entirely on your individual needs.</p>
+                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">This is our go-to path. You'll get 20 focused sessions prepared by Jovan, covering every essential exercise and the latest exam patterns. It's the full roadmap to secure your pass without the guesswork.</p>
+                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Everything from our Essential program, plus 10 intimate, hands-on sessions capped at four students. Just let me know what's tripping you up before we dive in, and we'll iron out those weak spots together.</p>
+                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills so you're ready for the exam. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
                     <div class="milestone" data-tiers="essential plus vip">
@@ -2060,7 +2156,7 @@
                     </div>
                     <div class="results-stat">
                         <div class="results-stat-value">142</div>
-                        <div class="results-stat-label">Success Stories</div>
+                        <div class="results-stat-label">Passed Their Exams</div>
                     </div>
                     <div class="results-stat">
                         <div class="results-stat-value">99%</div>
@@ -2187,7 +2283,7 @@
                     font-weight: 600;
                     color: var(--taupe-dark);
                     white-space: nowrap;
-                    padding-left: 4px;
+                    padding-left: 14px;
                 }
 
                 /* Header row */
@@ -2243,6 +2339,15 @@
                     border-radius: 0 10px 10px 0;
                 }
 
+                /* First shaded row has no top rounding so it sits flush against the header line */
+                .pricing-table tbody tr:first-child td:first-child {
+                    border-radius: 0 0 0 10px;
+                }
+
+                .pricing-table tbody tr:first-child td:last-child {
+                    border-radius: 0 0 10px 0;
+                }
+
                 .pricing-table tr.row-cta td {
                     padding-top: 22px;
                     background: none !important;
@@ -2266,7 +2371,7 @@
                 .pt-feature {
                     display: inline-flex;
                     align-items: center;
-                    gap: 10px;
+                    gap: 0;
                 }
 
                 .pt-icon {
@@ -2275,6 +2380,7 @@
                     justify-content: center;
                     flex-shrink: 0;
                     color: var(--taupe-dark);
+                    margin-right: 16px;
                 }
 
                 .pt-icon svg {
@@ -2358,6 +2464,11 @@
                     color: var(--accent-orange);
                 }
 
+                .tier-badge.best-value {
+                    background: #E8E4DF;
+                    color: var(--taupe-mid);
+                }
+
                 .tier-price-row {
                     display: flex;
                     align-items: baseline;
@@ -2382,7 +2493,7 @@
                     gap: 16px;
                     width: 100%;
                     max-width: 1000px;
-                    margin: 36px auto 48px;
+                    margin: 36px auto 22px;
                 }
 
                 .pricing-tier-card {
@@ -2400,7 +2511,7 @@
                 .ptc-name {
                     font-family: var(--font-title);
                     font-weight: 900;
-                    font-size: 0.85rem;
+                    font-size: 1rem;
                     color: var(--taupe-dark);
                     margin-top: 4px;
                     margin-bottom: 6px;
@@ -2435,10 +2546,11 @@
                 .pt-feature sup {
                     color: var(--accent-orange);
                     font-weight: 800;
-                    font-size: 0.6rem;
-                    vertical-align: super;
-                    line-height: 0;
-                    margin-left: 1px;
+                    font-size: 0.67em;
+                    align-self: flex-start;
+                    margin-top: 2px;
+                    margin-left: 3px;
+                    line-height: 1;
                 }
 
                 @media (max-width: 680px) {
@@ -2477,7 +2589,7 @@
                         <div class="ptc-total">Total €800</div>
                     </div>
                     <div class="pricing-tier-card">
-                        <span class="tier-badge limited">Best Value</span>
+                        <span class="tier-badge best-value">Best Value</span>
                         <div class="ptc-name">VIP Coaching Program</div>
                         <div class="ptc-price-row">
                             <span class="ptc-price">€75.00</span>
@@ -2701,7 +2813,7 @@
                         <div class="resource-card-item">
                             <span class="resource-price-tag resource-price-paid">€35</span>
                             <div class="resource-book-label">Solution Book</div>
-                            <h4>Stats 1</h4>
+                            <h4>Descriptive Stats</h4>
                             <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
                             <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                         </div>
@@ -2709,7 +2821,7 @@
                         <div class="resource-card-item">
                             <span class="resource-price-tag resource-price-paid">€35</span>
                             <div class="resource-book-label">Solution Book</div>
-                            <h4>Stats 2</h4>
+                            <h4>Inferential Stats</h4>
                             <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
                             <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                         </div>
@@ -2808,6 +2920,7 @@
                 <h4>Navigation</h4>
                 <div class="footer-links-grid">
                     <ul>
+                        <li><a href="#about-me-card">About Me</a></li>
                         <li><a href="#timeline-card">What's Included</a></li>
                         <li><a href="#results-card">Results</a></li>
                         <li><a href="#pricing">Pricing</a></li>
@@ -2817,7 +2930,7 @@
             </div>
 
             <div class="footer-col connect">
-                <h4>Connect</h4>
+                <h4>Contact</h4>
                 <div class="social-links">
                     <a href="https://wa.me/32490100821" target="_blank">
                         <svg fill="currentColor" viewBox="0 0 24 24">
@@ -2967,6 +3080,93 @@
             });
 
             goTo(0);
+        })();
+
+        // About Me scroll animation
+        (function() {
+            const card = document.getElementById('about-me-card');
+            if (!card) return;
+            const obs = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting) {
+                    card.classList.add('about-animated');
+                    obs.disconnect();
+                }
+            }, { threshold: 0.12 });
+            obs.observe(card);
+        })();
+
+        // ── Universal scroll-reveal ────────────────────────────────────────────
+        (function () {
+            function reveal(containerSel, childSel, { step = 0.08, base = 0, threshold = 0.1 } = {}) {
+                const ct = typeof containerSel === 'string'
+                    ? document.querySelector(containerSel) : containerSel;
+                if (!ct) return;
+                const items = Array.from(ct.querySelectorAll(childSel));
+                if (!items.length) return;
+                items.forEach((el, i) => {
+                    el.classList.add('sr');
+                    el.style.transitionDelay = (base + i * step).toFixed(2) + 's';
+                });
+                const io = new IntersectionObserver(([e]) => {
+                    if (!e.isIntersecting) return;
+                    items.forEach(el => el.classList.add('sr-on'));
+                    io.disconnect();
+                }, { threshold });
+                io.observe(ct);
+            }
+
+            // What's Included
+            reveal('#timeline-card', '.card-tag, h3, .tier-tabs, #tier-description, #course-timeline-content', { step: 0.09 });
+
+            // Results — heading, stat boxes, testimonials (bar chart keeps its own animation)
+            reveal('#results-card', '.card-tag, h3', { step: 0.08 });
+            reveal('#results-card', '.results-stat', { step: 0.1, base: 0.1 });
+            reveal('#results-card', '.testimonials-wrapper, .testi-dots', { step: 0.1, base: 0.15 });
+
+            // Pricing
+            reveal('#pricing', '.card-tag, h3', { step: 0.08 });
+            reveal('#pricing', '.pricing-tier-card', { step: 0.07, base: 0.12 });
+            reveal('#pricing', '.pricing-table-wrap, .pricing-disclaimers', { step: 0.1, base: 0.32 });
+
+            // Resources
+            reveal('#resources-card', '.card-tag, h3, p, .resource-scroll-wrap', { step: 0.09 });
+
+            // Contact
+            reveal('.contact-section', '.tag, h2, .subtitle', { step: 0.09 });
+            reveal('.contact-section', '.contact-card', { step: 0.1, base: 0.22 });
+        })();
+
+        // ── Number counter animation for "By the Numbers" ─────────────────────
+        (function () {
+            const els = document.querySelectorAll('.results-stat-value');
+            if (!els.length) return;
+            let done = false;
+
+            function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+            function animateCount(el, target, suffix, dur) {
+                const t0 = performance.now();
+                (function tick(now) {
+                    const p = Math.min((now - t0) / dur, 1);
+                    el.textContent = Math.round(easeOut(p) * target) + suffix;
+                    if (p < 1) requestAnimationFrame(tick);
+                })(performance.now());
+            }
+
+            const io = new IntersectionObserver(([e]) => {
+                if (!e.isIntersecting || done) return;
+                done = true;
+                els.forEach(el => {
+                    const raw = el.textContent.trim();
+                    const suffix = raw.replace(/[\d,]/g, '');
+                    const target = parseInt(raw.replace(/[^\d]/g, ''), 10);
+                    if (!isNaN(target)) animateCount(el, target, suffix, 1600);
+                });
+                io.disconnect();
+            }, { threshold: 0.5 });
+
+            const stats = document.querySelector('.results-stats');
+            if (stats) io.observe(stats);
         })();
 
         // Mobile hamburger menu
