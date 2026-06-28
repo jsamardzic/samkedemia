@@ -406,6 +406,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
+            border-radius: 20px;
         }
 
         .about-me-content h2 {
@@ -610,6 +611,11 @@
 
         .milestone-content {
             padding: 16px 20px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            column-gap: 12px;
+            row-gap: 4px;
         }
 
         .milestone h4 {
@@ -617,14 +623,22 @@
             font-weight: 900;
             font-size: 1.05rem;
             color: var(--taupe-dark);
-            margin-bottom: 6px;
+            margin-bottom: 0;
             line-height: 1.2;
+            flex: 1;
         }
 
         .milestone p {
             font-size: 0.82rem;
             color: var(--taupe-mid);
             line-height: 1.5;
+            width: 100%;
+        }
+
+        .milestone-icon {
+            color: var(--accent-orange);
+            display: flex;
+            flex-shrink: 0;
         }
 
         /* --- Tier Tabs --- */
@@ -661,17 +675,13 @@
 
         /* --- Milestone grid --- */
         .ms-grid {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             width: 100%;
             max-width: 920px;
             margin: 0 auto;
-            justify-content: center;
         }
-        .ms-grid--essential .milestone { flex: 0 0 calc(50% - 7px); }
-        .ms-grid--plus .milestone,
-        .ms-grid--vip .milestone { flex: 0 0 calc(33.333% - 10px); }
 
         @keyframes msExit {
             to { opacity: 0; transform: translateY(8px) scale(0.97); }
@@ -684,13 +694,10 @@
         .milestone.ms-enter { animation: msEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
         @media (max-width: 700px) {
-            .ms-grid--plus .milestone,
-            .ms-grid--vip .milestone { flex: 0 0 calc(50% - 7px); }
+            .ms-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 460px) {
-            .ms-grid--essential .milestone,
-            .ms-grid--plus .milestone,
-            .ms-grid--vip .milestone { flex: 0 0 100%; }
+            .ms-grid { grid-template-columns: 1fr; }
         }
 
         /* --- Course Topics --- */
@@ -736,25 +743,6 @@
             box-shadow: 0 15px 30px rgba(255, 77, 0, 0.4);
         }
 
-        .pulsing-dot-container {
-            position: relative;
-            display: flex;
-            width: 8px;
-            height: 8px;
-        }
-
-        .pulsing-dot-ping {
-            display: none;
-        }
-
-        .pulsing-dot-base {
-            position: relative;
-            display: inline-flex;
-            width: 8px;
-            height: 8px;
-            border-radius: 9999px;
-            background-color: white;
-        }
 
 
 
@@ -945,9 +933,9 @@
         .contact-section .tag {
             color: var(--accent-orange);
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 3px;
             margin-bottom: 20px;
             display: block;
         }
@@ -955,7 +943,8 @@
         .contact-section h2 {
             font-family: var(--font-title);
             font-weight: 900;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: 3rem;
+            letter-spacing: -1px;
             margin-bottom: 20px;
             color: var(--taupe-dark);
         }
@@ -968,10 +957,16 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        @media (max-width: 500px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .contact-card {
@@ -1339,8 +1334,8 @@
             flex-shrink: 0;
             width: 100%;
             background: var(--bg-off-white);
-            border-radius: 20px;
-            padding: 28px 32px 24px;
+            border-radius: 24px;
+            padding: 36px 40px 32px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -1350,68 +1345,93 @@
             content: '\201C';
             font-family: var(--font-title);
             font-weight: 900;
-            font-size: 3.8rem;
+            font-size: 3.2rem;
             color: var(--accent-orange);
             line-height: 0.85;
             display: block;
-            margin-bottom: 10px;
-            order: 0;
+            margin-bottom: 18px;
         }
         .testi-quote {
-            order: 1;
-            font-size: 0.97rem;
-            line-height: 1.68;
-            color: var(--taupe-dark);
-            font-style: italic;
-            margin-bottom: 20px;
+            font-size: 1.22rem;
+            line-height: 1.72;
+            color: #2C2825;
+            font-style: normal;
+            margin-bottom: 32px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            flex-grow: 1;
         }
         .testi-header {
-            order: 2;
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding-top: 16px;
+            gap: 16px;
+            padding-top: 24px;
             border-top: 1px solid #EBE7E2;
-            flex-wrap: wrap;
             margin-top: auto;
         }
+        .testi-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #EBE7E2;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .testi-avatar::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #C4BDB7;
+            border-radius: 50%;
+            top: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .testi-avatar::after {
+            content: '';
+            position: absolute;
+            width: 32px;
+            height: 24px;
+            background: #C4BDB7;
+            border-radius: 50% 50% 0 0;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .testi-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: left;
+        }
         .testi-name {
-            font-size: 0.67rem;
+            font-size: 0.8rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--taupe-dark);
-            background: none;
-            padding: 0;
-            border-radius: 0;
+            text-align: left;
         }
-        .testi-course {
-            font-size: 0.67rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+        .testi-meta {
+            font-size: 0.72rem;
+            font-weight: 500;
             color: var(--taupe-mid);
-            background: none;
-            border: none;
-            padding: 0;
-            border-radius: 0;
+            letter-spacing: 0.02em;
+            text-align: left;
         }
-        .testi-course::before {
-            content: '·';
-            margin: 0 6px;
-            color: var(--taupe-light);
-            font-weight: 400;
-            font-style: normal;
-        }
-        .testi-score {
+        .testi-stars {
             margin-left: auto;
-            font-size: 0.67rem;
-            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+        .testi-stars svg {
+            width: 14px;
+            height: 14px;
             color: var(--accent-orange);
-            background: none;
-            padding: 0;
-            border-radius: 0;
-            letter-spacing: 0.06em;
         }
         .testi-nav-btn {
             flex-shrink: 0;
@@ -1785,10 +1805,6 @@
                 <span></span>
             </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
-                <span class="pulsing-dot-container">
-                    <span class="pulsing-dot-ping"></span>
-                    <span class="pulsing-dot-base"></span>
-                </span>
                 Book Now
             </a>
         </div>
@@ -1908,11 +1924,12 @@
             style="align-items: flex-start; justify-content: center;">
             <div class="card-content"
                 style="display: flex; flex-direction: column; align-items: center; gap: 0px; width: 100%; max-width: 1100px;">
-                <div style="text-align: center;">
+                <div style="text-align: center; margin-bottom: 40px;">
                     <span class="card-tag">About Me</span>
                     <h3
                         style="font-family: var(--font-title); font-size: 3rem; letter-spacing: -1px; font-weight: 900;">
                         Hey, I am Jovan</h3>
+                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
                 </div>
                 <div class="about-me-container" style="max-width: 1100px; gap: 60px; width: 100%;">
                     <div class="about-me-image" style="width: 350px; height: 420px;">
@@ -1920,8 +1937,6 @@
                             style="width: 100%; height: 100%; bottom: 0;">
                     </div>
                     <div class="about-me-content" style="text-align: left;">
-                        <div class="tagline" style="margin-bottom: 25px; display: inline-block;">I'll make sure you pass
-                            this exam.</div>
                         <div class="about-me-details" style="gap: 30px;">
                             <div class="detail-item">
                                 <div class="label">Background</div>
@@ -1959,6 +1974,8 @@
                 <div style="text-align: center; margin-bottom: 30px;">
                     <span class="card-tag">What's Included</span>
                     <h3>Everything you need to pass.</h3>
+                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
+                    <p class="faq-label" style="margin-top: 36px;">Programs</p>
                     <div class="tier-tabs" id="tier-tabs">
                         <button class="tier-tab active" data-tier="essential">Essential</button>
                         <button class="tier-tab" data-tier="plus">Plus</button>
@@ -1971,16 +1988,26 @@
                     <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills so you're ready for the exam. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
-                    <div class="milestone" data-tiers="essential plus vip">
+                    <div class="milestone" data-tiers="vip">
+                        <div class="milestone-img"><img src="images/feature1.png" alt="1:1 Sessions"></div>
+                        <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                            <h4>1:1 Tutoring Sessions</h4>
+                            <p>Completely private sessions built entirely around your pace, weak points, and exam timeline.</p>
+                        </div>
+                    </div>
+                    <div class="milestone" data-tiers="essential plus">
                         <div class="milestone-img"><img src="images/feature1.png" alt="Guided Sessions"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/><circle cx="12" cy="9" r="2.5"/></svg></div>
                             <h4>Guided Tutoring Sessions</h4>
                             <p>Led by Jovan. Crucial exercises only and recent past papers with minimal theory and full chat Q&A.</p>
                         </div>
                     </div>
-                    <div class="milestone" data-tiers="plus vip">
+                    <div class="milestone" data-tiers="plus">
                         <div class="milestone-img"><img src="images/feature2.png" alt="Practical Sessions"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
                             <h4>Practical Tutoring Sessions</h4>
                             <p>Interactive sessions in groups of 4, strictly targeted to the specific topics you request.</p>
                         </div>
@@ -1988,6 +2015,7 @@
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature3.png" alt="Session Recordings"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
                             <h4>Session Recordings</h4>
                             <p>Full access to all session replays, ensuring you never miss a detail even if you can't attend.</p>
                         </div>
@@ -1995,6 +2023,7 @@
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature4.png" alt="Samkedemia Drive"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
                             <h4>Samkedemia Drive</h4>
                             <p>A complete digital library containing all slides, actual past papers, custom mock exams, and step-by-step Solution Books.</p>
                         </div>
@@ -2002,6 +2031,7 @@
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature5.png" alt="Support"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
                             <h4>Between-Session Support</h4>
                             <p>Direct WhatsApp access for continuous guidance and quick clarifications to keep you on track between sessions.</p>
                         </div>
@@ -2009,11 +2039,172 @@
                     <div class="milestone" data-tiers="vip">
                         <div class="milestone-img"><img src="images/feature6.png" alt="Guarantee"></div>
                         <div class="milestone-content">
+                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                             <h4>Extended Service Guarantee</h4>
                             <p>If you don't pass, you keep attending tutoring sessions at no extra cost until you do.</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- FAQ -->
+                <style>
+                    .faq-divider { border: none; border-top: 1.5px solid #EBE7E2; margin: 52px 0 36px; }
+                    .faq-label {
+                        text-align: center;
+                        font-size: 0.6rem;
+                        font-weight: 800;
+                        text-transform: uppercase;
+                        letter-spacing: 0.22em;
+                        color: var(--taupe-light);
+                        margin-bottom: 18px;
+                    }
+                    .faq-tabs {
+                        display: flex;
+                        gap: 8px;
+                        justify-content: center;
+                        margin-bottom: 24px;
+                        flex-wrap: wrap;
+                    }
+                    .faq-tab {
+                        background: none;
+                        border: 1.5px solid #D6D0CA;
+                        color: var(--taupe-mid);
+                        padding: 7px 18px;
+                        border-radius: 100px;
+                        font-family: var(--font-body);
+                        font-size: 0.68rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        cursor: pointer;
+                        transition: background 0.15s, border-color 0.15s, color 0.15s;
+                    }
+                    .faq-tab.active {
+                        background: var(--accent-orange);
+                        border-color: var(--accent-orange);
+                        color: white;
+                    }
+                    .faq-tab:hover:not(.active) {
+                        border-color: var(--taupe-dark);
+                        color: var(--taupe-dark);
+                    }
+                    .faq-panels { max-width: 600px; margin: 0 auto; text-align: left; }
+                    .faq-panel { display: none; }
+                    .faq-panel.active { display: block; }
+                    .faq-item { border-bottom: 1px solid #EBE7E2; }
+                    .faq-item:first-child { border-top: 1px solid #EBE7E2; }
+                    .faq-item-btn {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 15px 0;
+                        background: none;
+                        border: none;
+                        text-align: left;
+                        font-family: var(--font-body);
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        color: var(--taupe-dark);
+                        cursor: pointer;
+                        gap: 16px;
+                    }
+                    .faq-item-btn svg {
+                        flex-shrink: 0;
+                        color: var(--taupe-light);
+                        transition: transform 0.25s ease, color 0.2s;
+                    }
+                    .faq-item.open .faq-item-btn { color: var(--accent-orange); }
+                    .faq-item.open .faq-item-btn svg { transform: rotate(180deg); color: var(--accent-orange); }
+                    .faq-item-body {
+                        max-height: 0;
+                        overflow: hidden;
+                        transition: max-height 0.3s ease;
+                    }
+                    .faq-item.open .faq-item-body { max-height: 320px; }
+                    .faq-item-body p {
+                        font-size: 0.88rem;
+                        color: var(--taupe-mid);
+                        line-height: 1.68;
+                        padding-bottom: 18px;
+                    }
+                </style>
+                <hr class="faq-divider">
+                <p class="faq-label">Questions</p>
+                <div class="faq-tabs" id="faq-tabs">
+                    <button class="faq-tab active" data-faq="outside">Outside Sessions</button>
+                    <button class="faq-tab" data-faq="during">During Sessions</button>
+                    <button class="faq-tab" data-faq="payments">Payments</button>
+                </div>
+                <div class="faq-panels">
+                    <div class="faq-panel active" data-faq="outside">
+                        <div class="faq-item">
+                            <button class="faq-item-btn">What's on the Samkedemia Drive?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>A solution book with every class exercise and past exam solved step by step, formula sheets (a detailed version and a short exam-formatted one), all slides, past exams, mock exams, and extra resources I've found useful: blogs, YouTube videos, that kind of thing.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Can I ask a quick question outside of sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Of course. I'm fully available on WhatsApp between sessions, any question, any topic in the program. Just reach out.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Do you make practice tests?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Yes, custom tests built from real past exams, so you get comfortable with the exact types of exercises that show up. There are 3 throughout the program, each with a full solution sheet.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">I missed a session, can I still catch up?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Sessions are pre-planned and structured, so they can't be rescheduled. But every session is recorded and uploaded to the Drive shortly after. Go through it and you'll be caught up for the next one.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">I failed the course, can I join again next year?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>The program runs for the current exam cycle and ends after the exam. But you're always welcome to book individual sessions, just reach out.</p></div>
+                        </div>
+                    </div>
+                    <div class="faq-panel" data-faq="during">
+                        <div class="faq-item">
+                            <button class="faq-item-btn">What does a guided session look like?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>About an hour on Google Meet. You get a handout beforehand to fill in as we go. The session has a few segments where I explain and you actively follow, with 1-2 minute parts where you finish an exercise yourself before we check it. We close with a 2-minute recap of the most important formulas, and I give out homework.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">What does a practical session look like?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>A small group of 4, formed by me based on level. Before the session I ask each of you what you want to work on, then I pick exercises that target exactly those weak spots. You can ask questions at any point.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Can I ask questions during sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Of course. In guided sessions, through the chat or when I open it up between parts. In practical sessions, literally any second. In 1-on-1s the whole thing is built around you anyway.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">What do we cover across 20 sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>12 sessions on regular exercises, 8 on real past papers including the most recent ones. By the end you've seen the full range of what actually shows up on the exam.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Is it theory or exercises?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>99% exercises. Doing is more important than knowing. Every exercise is carefully picked so each one gets you a step closer to passing.</p></div>
+                        </div>
+                    </div>
+                    <div class="faq-panel" data-faq="payments">
+                        <div class="faq-item">
+                            <button class="faq-item-btn">How do I pay?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>I'm a registered business so I send you an invoice with my IBAN. You transfer to that bank account. Any bank works: KBC, ING, Revolut, even from abroad.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Do I have to pay everything upfront?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Not at all. I'm flexible on timing. The only strict deadline is the day before your exam. As long as we agree on a plan and stick to it, we're good.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">Any discounts?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>Yes. Bring someone in and you get 50 euros off your program.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">I missed a session, is the price lower?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>No, the price is fixed per program. The sessions are only part of it. You also get the Drive with all materials, direct support between sessions, and custom practice tests. All of that is included in the price regardless of attendance.</p></div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-item-btn">I decided not to continue, can I get a refund?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <div class="faq-item-body"><p>No refunds.</p></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -2103,7 +2294,7 @@
                     font-weight: 900;
                     font-size: 2.2rem;
                     letter-spacing: -1px;
-                    color: var(--taupe-dark);
+                    color: var(--accent-orange);
                     line-height: 1;
                     margin-bottom: 8px;
                 }
@@ -2119,6 +2310,7 @@
                 <div style="text-align: center; margin-bottom: 40px;">
                     <span class="card-tag">Results</span>
                     <h3>Proof that it works.</h3>
+                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">Real feedback from real students. This is what structured preparation actually looks like.</p>
                 </div>
 
                 <p class="results-label">Passing rates</p>
@@ -2172,68 +2364,140 @@
                     <div class="testimonials-viewport">
                         <div class="testimonials-track" id="testi-track">
                             <div class="testi-card">
+                                <div class="testi-quote">Jovan strikes a great balance of professional and friendly. I really appreciate having access to the session recordings. He explains step by step, it's clear he really knows his stuff.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Anastasia, 2nd Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Descriptive Stats</span>
-                                    <span class="testi-score">Grade: 10/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Josue</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Jovan is committed and diligent with his work as a tutor. He writes concepts and solves exercises step by step, ensuring students follow. He answers all the questions asked and explains.  He is a great tutor, and I hope he keeps up the good work!!"</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Without these tutoring sessions there is no way I would have passed my math and statistics courses. The work was very effective, the explanations were clear, and the atmosphere was friendly and supportive.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Josue, 2nd Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math A</span>
-                                    <span class="testi-score">Grade: 12/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Julian</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Jovan is a great combination of professional and friendly. The friendly approach was especially important for me. I really appreciate having access to the recordings from our sessions. He explains things step by step, and it is clear that he really knows his stuff."</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">An engaging, well-prepared tutor who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a clear PDF with all exercises solved step by step.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Julian, 1st Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math B</span>
-                                    <span class="testi-score">Grade: 10/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Alfonso</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Without these tutoring sessions there is no way that I would of passed both my math and statistics courses from which I was struggling earlier in the year. The work we did was very effective, the explanations were clear and the atmosphere was friendly and supportive."</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Very helpful. Makes sure to get all students involved and teaches in an organized way.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Alfonso, 2nd Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Descriptive Stats</span>
-                                    <span class="testi-score">Grade: 13/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Louis</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"An engaging, well prepared tutor who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a clear PDF with all exercises solved step by step."</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Jovan is truly professional: responsible, dedicated, and organized. Beyond that, he is genuinely kind and cares about his students. He doesn't just teach for the income; he truly seeks results and dedication from you.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Louis, 1st Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math A</span>
-                                    <span class="testi-score">Grade: 15/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Zere</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Very helpful. Makes sure to get all students involved and teaches in an organized way."</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Highly encouraging and down-to-earth teaching style. Concepts are broken down step by step and linked to real-life examples, making even the more difficult topics easier to understand.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Zere, 1st Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math B</span>
-                                    <span class="testi-score">Grade: 10/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Ida</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Jovan is really professional at what he is doing. Responsibility, dedication and his organization is really something what I looked in tutor. Besides that, I liked that as a person he is really kind, he cares about his students. He is not doing his job just for the profit, but really seeks result and dedication from you too."</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Jovan is committed and diligent. He writes concepts and solves exercises step by step, ensuring every student follows and understands. He answers all questions and explains clearly. Genuinely a great tutor.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Ida, 2nd Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math B</span>
-                                    <span class="testi-score">Grade: 15/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Anastasia</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16"><defs><linearGradient id="hstar"><stop offset="50%" stop-color="#ff4d00"/><stop offset="50%" stop-color="#EBE7E2"/></linearGradient></defs><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z" fill="url(#hstar)"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Highly encouraging and down to earth teaching style. Concepts are broken down step by step, and often linked to real-life examples making even the more difficult topics easier to understand. "</div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">Jovan elevates students' confidence while genuinely improving their skills. He adapts to different learning needs and provides excellent support whenever required. Thanks to his dedication, I passed with a grade much higher than expected.</div>
                                 <div class="testi-header">
-                                    <span class="testi-name">Sophia, 1st Year, KU Leuven</span>
-                                    <span class="testi-course">BBA - Math B</span>
-                                    <span class="testi-score">Grade: 14/20</span>
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Sophia</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                    </div>
                                 </div>
-                                <div class="testi-quote">"Jovan is a fantastic tutor who elevates students' confidence in their math abilities while improving their skills. He can adapt to a variety of students' needs and provides excellent support whenever required. He helped me pass math with a grade much higher than expected, thanks to his dedication to tutoring."</div>
                             </div>
                         </div>
                     </div>
@@ -2379,7 +2643,7 @@
                     align-items: center;
                     justify-content: center;
                     flex-shrink: 0;
-                    color: var(--taupe-dark);
+                    color: var(--accent-orange);
                     margin-right: 16px;
                 }
 
@@ -2568,6 +2832,7 @@
             <div class="card-content">
                 <span class="card-tag">Pricing</span>
                 <h3>Let's Start Today.</h3>
+                <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px;">Clear pricing, no surprises. Pick the format that fits your needs.</p>
 
                 <div class="pricing-tiers">
                     <div class="pricing-tier-card">
@@ -2641,13 +2906,13 @@
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>Between-Session Support<sup>1</sup></span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>Between-Session Support</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Extended Service Guarantee<sup>2</sup></span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Extended Service Guarantee<sup>1</sup></span></td>
                                 <td><span class="pt-yes">6 months</span></td>
                                 <td><span class="pt-yes">24 months</span></td>
                                 <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
@@ -2658,8 +2923,7 @@
 
                 <div class="pricing-disclaimers">
                     <p>Hourly rates are effective rates for comparison purposes. The full total remains applicable regardless of the number of sessions attended.</p>
-                    <p><sup>1</sup> Intended for brief questions submitted via WhatsApp, ensuring that continuous support and clear guidance are provided between scheduled sessions.</p>
-                    <p><sup>2</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>    
+                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>    
                 </div>
             </div>
         </div>
@@ -2685,30 +2949,39 @@
                 }
                 .resource-scroll-track::-webkit-scrollbar { display: none; }
                 .resource-card-item {
-                    flex: 0 0 240px;
+                    flex: 0 0 200px;
                     scroll-snap-align: start;
                     display: flex;
                     flex-direction: column;
-                    align-items: flex-start;
-                    padding: 22px 20px 20px;
                     background: var(--bg-off-white);
                     border-radius: 16px;
                     border: 1px solid rgba(0,0,0,0.07);
                     text-align: left;
+                    overflow: hidden;
+                }
+                .resource-card-img {
+                    width: 100%;
+                    height: 130px;
+                    background: #EBE7E2;
+                    overflow: hidden;
+                    flex-shrink: 0;
+                }
+                .resource-card-img img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .resource-card-body {
+                    padding: 14px 16px 10px;
+                    flex: 1;
                 }
                 .resource-card-item h4 {
                     font-family: var(--font-title);
-                    font-size: 1.1rem;
+                    font-size: 1rem;
                     font-weight: 900;
-                    margin: 0 0 6px;
+                    margin: 0;
                     color: var(--taupe-dark);
-                }
-                .resource-card-item p {
-                    font-size: 0.82rem;
-                    color: var(--taupe-mid);
-                    line-height: 1.55;
-                    margin: 0 0 16px;
-                    flex: 1;
+                    line-height: 1.2;
                 }
                 .resource-book-label {
                     font-size: 0.6rem;
@@ -2718,6 +2991,13 @@
                     color: var(--taupe-light);
                     margin-bottom: 4px;
                 }
+                .resource-card-footer {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 16px 16px;
+                    gap: 8px;
+                }
                 .resource-price-tag {
                     display: inline-block;
                     background: #16a34a;
@@ -2726,16 +3006,16 @@
                     font-weight: 700;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
-                    padding: 4px 11px;
+                    padding: 8px 14px;
                     border-radius: 100px;
-                    margin-bottom: 14px;
+                    white-space: nowrap;
                 }
                 .resource-price-paid {
                     background: var(--accent-orange);
                 }
                 .resource-go-btn {
                     display: inline-block;
-                    padding: 8px 18px;
+                    padding: 8px 14px;
                     border-radius: 100px;
                     font-size: 0.65rem;
                     font-weight: 800;
@@ -2745,8 +3025,7 @@
                     border: 1.5px solid #C8C2BB;
                     color: var(--taupe-dark);
                     transition: border-color 0.2s, background 0.2s, color 0.2s;
-                    align-self: flex-start;
-                    margin-top: auto;
+                    white-space: nowrap;
                 }
                 .resource-go-btn:hover {
                     border-color: var(--taupe-dark);
@@ -2781,57 +3060,87 @@
                     <div class="resource-scroll-track">
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag">Free</span>
-                            <h4>Linear Programming Solver</h4>
-                            <p>Enter your constraints and objective function — get the optimal solution instantly, with full workings.</p>
-                            <a href="https://www.samkedemia.com/linearprog/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                            <div class="resource-card-img"><img src="images/resource1.png" alt="Linear Programming Solver"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Tool</div>
+                                <h4>Linear Programming Solver</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag">Free</span>
+                                <a href="https://www.samkedemia.com/linearprog/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag">Free</span>
-                            <h4>Excel Cheat Sheet</h4>
-                            <p>A quick-reference guide to the most-used Excel formulas, shortcuts, and functions for your courses.</p>
-                            <a href="https://www.samkedemia.com/excel/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                            <div class="resource-card-img"><img src="images/resource2.png" alt="Excel Cheat Sheet"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Tool</div>
+                                <h4>Excel Cheat Sheet</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag">Free</span>
+                                <a href="https://www.samkedemia.com/excel/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag resource-price-paid">€35</span>
-                            <div class="resource-book-label">Solution Book</div>
-                            <h4>Math A</h4>
-                            <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
-                            <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            <div class="resource-card-img"><img src="images/resource3.png" alt="Math A"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>Math A</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag resource-price-paid">€35</span>
-                            <div class="resource-book-label">Solution Book</div>
-                            <h4>Math B</h4>
-                            <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
-                            <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            <div class="resource-card-img"><img src="images/resource4.png" alt="Math B"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>Math B</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag resource-price-paid">€35</span>
-                            <div class="resource-book-label">Solution Book</div>
-                            <h4>Descriptive Stats</h4>
-                            <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
-                            <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            <div class="resource-card-img"><img src="images/resource5.png" alt="Descriptive Stats"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>Descriptive Stats</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag resource-price-paid">€35</span>
-                            <div class="resource-book-label">Solution Book</div>
-                            <h4>Inferential Stats</h4>
-                            <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
-                            <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            <div class="resource-card-img"><img src="images/resource6.png" alt="Inferential Stats"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>Inferential Stats</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <span class="resource-price-tag resource-price-paid">€35</span>
-                            <div class="resource-book-label">Solution Book</div>
-                            <h4>IMOR</h4>
-                            <p>Every exercise from class solved step by step, plus fully worked past papers.</p>
-                            <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            <div class="resource-card-img"><img src="images/resource7.png" alt="IMOR"></div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>IMOR</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
                         </div>
 
                     </div>
@@ -3022,6 +3331,28 @@
 
             tabs.forEach(tab => tab.addEventListener('click', () => applyTier(tab.dataset.tier, true)));
             applyTier('essential', false);
+        })();
+
+        // FAQ tabs + accordion
+        (function() {
+            const tabs = document.querySelectorAll('#faq-tabs .faq-tab');
+            const panels = document.querySelectorAll('.faq-panel');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panels.forEach(p => p.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.querySelector('.faq-panel[data-faq="' + tab.dataset.faq + '"]').classList.add('active');
+                });
+            });
+            document.querySelectorAll('.faq-item-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.closest('.faq-item');
+                    const isOpen = item.classList.contains('open');
+                    item.closest('.faq-panel').querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                    if (!isOpen) item.classList.add('open');
+                });
+            });
         })();
 
         // Header scroll shrink behavior
