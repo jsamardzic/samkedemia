@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samkedemia</title>
     <link rel="icon" type="image/png" href="images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -20,7 +21,6 @@
             --accent-orange: #ff4d00;
             --font-title: 'Outfit', sans-serif;
             --font-body: 'Atkinson Hyperlegible', sans-serif;
-            --font-serif: 'Atkinson Hyperlegible', sans-serif;
         }
 
         /* ── Scroll-reveal utility (applied via JS) ── */
@@ -30,6 +30,11 @@
             transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .sr.sr-on { opacity: 1; transform: none; }
+
+        @keyframes highlight-draw {
+            from { clip-path: inset(0 100% 0 0); }
+            to   { clip-path: inset(0 0% 0 0); }
+        }
 
         @keyframes hero-rise {
             from {
@@ -139,11 +144,22 @@
         .logo {
             font-weight: 800;
             font-size: 1.2rem;
-            color: var(--taupe-dark);
             text-decoration: none;
             letter-spacing: -0.5px;
             flex-shrink: 0;
-            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .logo .logo-name {
+            color: var(--accent-orange);
+        }
+        .logo .logo-sub {
+            color: var(--taupe-dark);
+            font-size: 0.52rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
         }
 
         /* --- Header Nav Dropdowns --- */
@@ -221,9 +237,25 @@
             line-height: 0.95;
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
+            color: var(--taupe-dark);
             animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
         }
 
+        .hero-title .hero-highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 0;
+        }
+        .hero-title .hero-highlight::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 18% -10px 4% -10px;
+            background: rgba(255, 77, 0, 0.48);
+            border-radius: 3px 7px 5px 2px / 6px 3px 8px 4px;
+            transform: rotate(-0.5deg) skewX(-1.5deg);
+            animation: highlight-draw 0.55s cubic-bezier(0.25, 0.1, 0.5, 1) 1.1s both;
+        }
         .hero-subtitle {
             font-family: var(--font-title);
             font-size: 1.2rem;
@@ -239,17 +271,14 @@
         }
 
         .hero .social-proof {
-            margin-top: 20vh;
+            margin-top: 30vh;
             animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
         }
 
 
         #trusted-logos {
             position: relative;
-            /* Changed from absolute */
             margin-top: 15vh;
-            /* Use margin to create space */
-            left: 0;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -279,8 +308,8 @@
         /* --- Social Proof Banner --- */
         .social-proof {
             background: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06), 0 24px 48px rgba(0,0,0,0.04);
             padding: 8px 16px;
             border-radius: 100px;
             display: inline-flex;
@@ -354,8 +383,8 @@
         .card-tag {
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
             color: var(--accent-orange);
             margin-bottom: 20px;
             display: block;
@@ -370,8 +399,8 @@
         }
 
         .card-content p {
-            font-size: 1.1rem;
-            color: var(--taupe-dark);
+            font-size: 1.05rem;
+            color: var(--taupe-mid);
             font-weight: 400;
             line-height: 1.6;
         }
@@ -394,91 +423,65 @@
             flex-shrink: 0;
             width: 350px;
             height: 420px;
-            position: relative;
-            overflow: hidden;
             border-radius: 20px;
+            overflow: hidden;
         }
 
         .about-me-image img {
-            width: 130%;
-            height: 130%;
-            object-fit: contain;
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
             border-radius: 20px;
-        }
-
-        .about-me-content h2 {
-            font-family: var(--font-title);
-            font-weight: 900;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            /* Responsive font size */
-            line-height: 1;
-            color: var(--taupe-dark);
-            margin-bottom: 15px;
-        }
-
-        .about-me-content .tagline {
-            background: var(--accent-orange);
-            color: white;
-            padding: 5px 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: inline-block;
-            border-radius: 7px;
-            margin-bottom: 30px;
         }
 
         .about-me-details {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-        }
-
-        .detail-item {
-            position: relative;
-            padding-left: 25px;
-            border-left: 2px solid var(--taupe-light);
-        }
-
-        .detail-item::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: -5px;
-            width: 8px;
-            height: 8px;
-            background: var(--accent-orange);
-            border-radius: 50%;
+            gap: 50px;
         }
 
         .detail-item .label {
-            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 0.63rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--taupe-mid);
-            margin-bottom: 5px;
-        }
-
-        .detail-item .text {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--taupe-dark);
-            line-height: 1.4;
-        }
-
-        .detail-item .text span {
-            background: #FFF0EA;
-            /* Light Orange Highlight */
+            letter-spacing: 0.18em;
             color: var(--accent-orange);
-            padding: 2px 6px;
-            border-radius: 5px;
-            font-weight: 700;
+            margin-bottom: 14px;
         }
+
+        .detail-item .label i {
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .detail-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-top: 2px;
+        }
+        .detail-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 0.93rem;
+            color: var(--taupe-dark);
+            line-height: 1.5;
+        }
+        .detail-check i {
+            font-size: 15px;
+            color: var(--accent-orange);
+            flex-shrink: 0;
+            margin-top: 2px;
+            -webkit-text-stroke: 0.4px var(--accent-orange);
+        }
+
 
         /* --- Responsive About Me Card --- */
         @media (max-width: 900px) {
@@ -501,9 +504,7 @@
 
             .about-me-details {
                 width: 100%;
-                /* Ensure it takes full width on mobile */
                 max-width: 400px;
-                /* Constrain the width of the details on mobile */
             }
 
             #about-me-card {
@@ -639,6 +640,7 @@
             color: var(--accent-orange);
             display: flex;
             flex-shrink: 0;
+            font-size: 20px;
         }
 
         /* --- Tier Tabs --- */
@@ -683,15 +685,20 @@
             margin: 0 auto;
         }
 
-        @keyframes msExit {
-            to { opacity: 0; transform: translateY(8px) scale(0.97); }
+        .milestone {
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+        .milestone.ms-out {
+            opacity: 0 !important;
+            transform: translateY(6px) scale(0.97) !important;
         }
         @keyframes msEnter {
-            from { opacity: 0; transform: translateY(-12px) scale(0.96); }
-            to { opacity: 1; transform: none; }
+            from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+            to   { opacity: 1; transform: none; }
         }
-        .milestone.ms-exit { animation: msExit 0.22s ease forwards; }
-        .milestone.ms-enter { animation: msEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .milestone.ms-in {
+            animation: msEnter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
 
         @media (max-width: 700px) {
             .ms-grid { grid-template-columns: repeat(2, 1fr); }
@@ -753,7 +760,7 @@
             padding: 18px 36px;
             border-radius: 100px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             display: block;
             margin-top: 30px;
             transition: 0.3s;
@@ -826,8 +833,19 @@
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -1px;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .footer-logo .text .logo-name {
+            color: var(--accent-orange);
+        }
+        .footer-logo .text .logo-sub {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: white;
         }
 
         .footer-col p {
@@ -900,9 +918,8 @@
             border-color: var(--accent-orange);
         }
 
-        .social-links svg {
-            width: 20px;
-            height: 20px;
+        .social-links i {
+            font-size: 20px;
         }
 
         .footer-bottom {
@@ -933,9 +950,9 @@
         .contact-section .tag {
             color: var(--accent-orange);
             font-weight: 800;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 0.2em;
             margin-bottom: 20px;
             display: block;
         }
@@ -1012,9 +1029,8 @@
                 flex-shrink: 0;
                 box-shadow: none;
             }
-            .contact-card .icon-wrapper svg {
-                width: 13px;
-                height: 13px;
+            .contact-card .icon-wrapper i {
+                font-size: 13px;
             }
             .contact-card h4 {
                 font-size: 0.6rem;
@@ -1057,9 +1073,8 @@
             flex-shrink: 0;
         }
 
-        .contact-card .icon-wrapper svg {
-            width: 24px;
-            height: 24px;
+        .contact-card .icon-wrapper i {
+            font-size: 24px;
             color: white;
         }
 
@@ -1279,6 +1294,10 @@
             stroke-linejoin: round;
             stroke-width: 1.4;
         }
+        .math-symbol i {
+            font-size: 22px;
+            line-height: 1;
+        }
 
         /* Vary animation path — 5-cycle */
         .hero-symbols .math-symbol:nth-child(5n+2) { animation-name: symbol-float-b; }
@@ -1303,12 +1322,12 @@
         .hero-symbols .math-symbol:nth-child(7n)   { animation-delay: -7s; }
 
         @media (max-width: 768px) {
-            .math-symbol:not(.ms-icon) { font-size: 1.4rem !important; }
             .ms-icon { width: 30px !important; height: 30px !important; }
+            .math-symbol i { font-size: 18px !important; }
         }
         @media (max-width: 480px) {
-            .math-symbol:not(.ms-icon) { font-size: 1rem !important; }
             .ms-icon { width: 22px !important; height: 22px !important; }
+            .math-symbol i { font-size: 14px !important; }
         }
     </style>
     <style>
@@ -1428,9 +1447,8 @@
             gap: 3px;
             flex-shrink: 0;
         }
-        .testi-stars svg {
-            width: 14px;
-            height: 14px;
+        .testi-stars i {
+            font-size: 13px;
             color: var(--accent-orange);
         }
         .testi-nav-btn {
@@ -1509,17 +1527,16 @@
         #about-me-card .detail-item {
             opacity: 0;
             transform: translateY(16px);
-            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         #about-me-card.about-animated .card-tag { opacity: 1; transform: none; }
         #about-me-card.about-animated h3 { opacity: 1; transform: none; transition-delay: 0.1s; }
         #about-me-card.about-animated .about-me-image { opacity: 1; transform: none; transition-delay: 0.18s; }
         #about-me-card.about-animated .tagline { opacity: 1; transform: none; transition-delay: 0.24s; }
-        #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.32s; }
-        #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.40s; }
-        #about-me-card.about-animated .detail-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.48s; }
-        #about-me-card.about-animated .detail-item:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.56s; }
+        #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.38s; }
+        #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.56s; }
+        #about-me-card.about-animated .detail-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.74s; }
 
         /* === Hamburger Button (hidden on desktop) === */
         .hamburger-btn {
@@ -1737,10 +1754,21 @@
             .hero {
                 height: auto;
                 min-height: 85vh;
-                padding-bottom: 4vh;
+                padding-top: 88px;
+                padding-bottom: 8vh;
+                justify-content: flex-start;
             }
             .hero .social-proof {
-                margin-top: 10vh;
+                margin-top: 20px;
+                padding: 5px 12px;
+                gap: 8px;
+            }
+            .social-proof-images img {
+                width: 24px;
+                height: 24px;
+            }
+            .social-proof-text {
+                font-size: 9px;
             }
             .hero-title {
                 margin-top: 1rem;
@@ -1790,7 +1818,7 @@
     <div class="wavy-bg"></div>
 
     <header>
-        <a href="#" class="logo">SAMKEDEMIA</a>
+        <a href="#" class="logo"><span class="logo-name">samkedemia</span><span class="logo-sub">education</span></a>
         <nav class="header-nav">
             <a href="#about-me-card" class="header-nav-link">About Me</a>
             <a href="#timeline-card" class="header-nav-link">What's Included</a>
@@ -1823,53 +1851,52 @@
 
     <section class="hero" id="hero">
         <div class="hero-symbols" aria-hidden="true">
-            <!-- Ellipse: center (50%,38%), rx=40%, ry=26% — 24 positions at 15° intervals -->
             <!-- 0°   → (90%,38%) -->
-            <span class="math-symbol" style="left:90%; top:38%; font-size:3rem;">∫</span>
+            <span class="math-symbol ms-icon" style="left:90%; top:38%; width:44px; height:44px;"><i class="bi bi-calculator"></i></span>
             <!-- 15°  → (89%,45%) -->
             <span class="math-symbol ms-icon" style="left:89%; top:45%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
             <!-- 30°  → (85%,51%) -->
-            <span class="math-symbol" style="left:85%; top:51%; font-size:2rem;">y</span>
+            <span class="math-symbol ms-icon" style="left:85%; top:51%; width:38px; height:38px;"><i class="bi bi-percent"></i></span>
             <!-- 45°  → (78%,56%) -->
             <span class="math-symbol ms-icon" style="left:78%; top:56%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
             <!-- 60°  → (70%,61%) -->
             <span class="math-symbol ms-icon" style="left:70%; top:61%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
             <!-- 75°  → (60%,64%) -->
-            <span class="math-symbol" style="left:60%; top:64%; font-size:2.5rem;">∂</span>
+            <span class="math-symbol ms-icon" style="left:60%; top:64%; width:40px; height:40px;"><i class="bi bi-graph-up"></i></span>
             <!-- 90°  → (50%,64%) -->
             <span class="math-symbol ms-icon" style="left:50%; top:64%; width:44px; height:44px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
             <!-- 105° → (40%,64%) -->
-            <span class="math-symbol" style="left:40%; top:64%; font-size:1.8rem;">x</span>
+            <span class="math-symbol ms-icon" style="left:40%; top:64%; width:36px; height:36px;"><i class="bi bi-rulers"></i></span>
             <!-- 120° → (30%,61%) -->
             <span class="math-symbol ms-icon" style="left:30%; top:61%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
             <!-- 135° → (22%,56%) -->
-            <span class="math-symbol" style="left:22%; top:56%; font-size:2.8rem;">Σ</span>
+            <span class="math-symbol ms-icon" style="left:22%; top:56%; width:42px; height:42px;"><i class="bi bi-bar-chart-fill"></i></span>
             <!-- 150° → (15%,51%) -->
             <span class="math-symbol ms-icon" style="left:15%; top:51%; width:44px; height:36px;"><svg viewBox="0 0 24 24"><path d="M2 20 C4 20 6 14 8 10 C10 6 10 4 12 4 C14 4 14 6 16 10 C18 14 20 20 22 20"/></svg></span>
             <!-- 165° → (11%,45%) -->
-            <span class="math-symbol" style="left:11%; top:45%; font-size:2.5rem;">η</span>
+            <span class="math-symbol ms-icon" style="left:11%; top:45%; width:40px; height:40px;"><i class="bi bi-pie-chart"></i></span>
             <!-- 180° → (10%,38%) -->
             <span class="math-symbol ms-icon" style="left:10%; top:38%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
             <!-- 195° → (11%,31%) -->
-            <span class="math-symbol" style="left:11%; top:31%; font-size:2rem;">z</span>
+            <span class="math-symbol ms-icon" style="left:11%; top:31%; width:38px; height:38px;"><i class="bi bi-graph-up-arrow"></i></span>
             <!-- 210° → (15%,25%) -->
             <span class="math-symbol ms-icon" style="left:15%; top:25%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
             <!-- 225° → (22%,20%) -->
-            <span class="math-symbol" style="left:22%; top:20%; font-size:2rem;">Δ</span>
+            <span class="math-symbol ms-icon" style="left:22%; top:20%; width:38px; height:38px;"><i class="bi bi-infinity"></i></span>
             <!-- 240° → (30%,12%) -->
             <span class="math-symbol ms-icon" style="left:30%; top:12%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
             <!-- 255° → (40%,12%) -->
-            <span class="math-symbol" style="left:40%; top:12%; font-size:1.8rem;">∫</span>
+            <span class="math-symbol ms-icon" style="left:40%; top:12%; width:36px; height:36px;"><i class="bi bi-123"></i></span>
             <!-- 270° → (50%,12%) -->
             <span class="math-symbol ms-icon" style="left:50%; top:12%; width:38px; height:44px;"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></span>
             <!-- 285° → (60%,12%) -->
-            <span class="math-symbol" style="left:60%; top:12%; font-size:2.2rem;">π</span>
+            <span class="math-symbol ms-icon" style="left:60%; top:12%; width:40px; height:40px;"><i class="bi bi-pie-chart-fill"></i></span>
             <!-- 300° → (70%,12%) -->
             <span class="math-symbol ms-icon" style="left:70%; top:12%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
             <!-- 315° → (78%,20%) -->
             <span class="math-symbol ms-icon" style="left:78%; top:20%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
             <!-- 330° → (85%,25%) -->
-            <span class="math-symbol" style="left:85%; top:25%; font-size:1.8rem;">η</span>
+            <span class="math-symbol ms-icon" style="left:85%; top:25%; width:36px; height:36px;"><i class="bi bi-calculator-fill"></i></span>
             <!-- 345° → (89%,31%) -->
             <span class="math-symbol ms-icon" style="left:89%; top:31%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
         </div>
@@ -1881,7 +1908,7 @@
             </div>
             <span class="social-proof-text">140+ students passed. Join them.</span>
         </a>
-        <h1 class="hero-title">Result Driven<br>Tutoring.</h1>
+        <h1 class="hero-title">Result Driven<br><span class="hero-highlight">Tutoring.</span></h1>
         <p class="hero-subtitle">Proven methods. Right tools. Less stress.<br>Expert BBA support with a strong record of student success.</p>
         <!-- Trusted By Logos (Rotating) -->
         <div id="trusted-logos">
@@ -1926,41 +1953,37 @@
                 style="display: flex; flex-direction: column; align-items: center; gap: 0px; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 40px;">
                     <span class="card-tag">About Me</span>
-                    <h3
-                        style="font-family: var(--font-title); font-size: 3rem; letter-spacing: -1px; font-weight: 900;">
-                        Hey, I am Jovan</h3>
+                    <h3>My name is Jovan</h3>
                     <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
                 </div>
                 <div class="about-me-container" style="max-width: 1100px; gap: 60px; width: 100%;">
-                    <div class="about-me-image" style="width: 350px; height: 420px;">
-                        <img src="images/profile_image.jpg" alt="Jovan Samardzic"
-                            style="width: 100%; height: 100%; bottom: 0;">
+                    <div class="about-me-image">
+                        <img src="images/profile_image.jpg" alt="Jovan Samardzic">
                     </div>
-                    <div class="about-me-content" style="text-align: left;">
-                        <div class="about-me-details" style="gap: 30px;">
+                    <div class="about-me-content" style="text-align: left; flex: 1;">
+                        <div class="about-me-details">
                             <div class="detail-item">
-                                <div class="label">Background</div>
-                                <p class="text">
-                                    Graduated in 2025 from <span>MSc in Stats</span> at KU Leuven with <span>Magna Cum Laude.</span>
-                                </p>
+                                <div class="label"><i class="bi bi-mortarboard-fill"></i> Background</div>
+                                <div class="detail-checklist">
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>26 year old guy from Serbia</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Got my Master's in Statistics at KU Leuven, graduated Magna Cum Laude</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the Science@Leuven Scholarship</span></div>
+                                </div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Recognition</div>
-                                <p class="text">The only recipient of the <span>Science@Leuven Scholarship</span> for
-                                    the program in 2023.</p>
+                                <div class="label"><i class="bi bi-patch-check-fill"></i> Tutoring Experience</div>
+                                <div class="detail-checklist">
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Started tutoring on the side to make some extra money</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into Samkedemia, helping students across Europe reach their goals</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with hundreds of students from all kinds of backgrounds</span></div>
+                                </div>
                             </div>
                             <div class="detail-item">
-                                <div class="label">Impact</div>
-                                <p class="text">More than 2 years of experience. <span>Over 1000 hours of tutoring.</span></p>
-                            </div>
-                            <div class="detail-item">
-                                <div class="label">Courses</div>
-                                <div class="course-topics" style="gap: 8px; margin-top: 6px;">
-                                    <span>Math A</span>
-                                    <span>Math B</span>
-                                    <span>Descriptive Stats</span>
-                                    <span>Inferential Stats</span>
-                                    <span>IMOR</span>
+                                <div class="label"><i class="bi bi-lightbulb-fill"></i> Teaching Style</div>
+                                <div class="detail-checklist">
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Relaxed atmosphere that builds your confidence as you go</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Plain language, not textbook theory. Just what actually makes sense</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Systems over cramming, always with one goal in mind: passing your exam</span></div>
                                 </div>
                             </div>
                         </div>
@@ -1985,21 +2008,13 @@
                 <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 600px;">
                     <p data-tier-text="essential" style="font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">This is our go-to path. You'll get 20 focused sessions prepared by Jovan, covering every essential exercise and the latest exam patterns. It's the full roadmap to secure your pass without the guesswork.</p>
                     <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Everything from our Essential program, plus 10 intimate, hands-on sessions capped at four students. Just let me know what's tripping you up before we dive in, and we'll iron out those weak spots together.</p>
-                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills so you're ready for the exam. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
+                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
-                    <div class="milestone" data-tiers="vip">
-                        <div class="milestone-img"><img src="images/feature1.png" alt="1:1 Sessions"></div>
-                        <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                            <h4>1:1 Tutoring Sessions</h4>
-                            <p>Completely private sessions built entirely around your pace, weak points, and exam timeline.</p>
-                        </div>
-                    </div>
                     <div class="milestone" data-tiers="essential plus">
                         <div class="milestone-img"><img src="images/feature1.png" alt="Guided Sessions"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-easel-fill"></i></div>
                             <h4>Guided Tutoring Sessions</h4>
                             <p>Led by Jovan. Crucial exercises only and recent past papers with minimal theory and full chat Q&A.</p>
                         </div>
@@ -2007,15 +2022,23 @@
                     <div class="milestone" data-tiers="plus">
                         <div class="milestone-img"><img src="images/feature2.png" alt="Practical Sessions"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-people-fill"></i></div>
                             <h4>Practical Tutoring Sessions</h4>
                             <p>Interactive sessions in groups of 4, strictly targeted to the specific topics you request.</p>
+                        </div>
+                    </div>
+                    <div class="milestone" data-tiers="vip">
+                        <div class="milestone-img"><img src="images/feature1.png" alt="1:1 Sessions"></div>
+                        <div class="milestone-content">
+                            <div class="milestone-icon"><i class="bi bi-person-fill"></i></div>
+                            <h4>1:1 Tutoring Sessions</h4>
+                            <p>Completely private sessions built entirely around your pace, weak points, and exam timeline.</p>
                         </div>
                     </div>
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature3.png" alt="Session Recordings"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-camera-video-fill"></i></div>
                             <h4>Session Recordings</h4>
                             <p>Full access to all session replays, ensuring you never miss a detail even if you can't attend.</p>
                         </div>
@@ -2023,7 +2046,7 @@
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature4.png" alt="Samkedemia Drive"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-folder-fill"></i></div>
                             <h4>Samkedemia Drive</h4>
                             <p>A complete digital library containing all slides, actual past papers, custom mock exams, and step-by-step Solution Books.</p>
                         </div>
@@ -2031,7 +2054,7 @@
                     <div class="milestone" data-tiers="essential plus vip">
                         <div class="milestone-img"><img src="images/feature5.png" alt="Support"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-chat-dots-fill"></i></div>
                             <h4>Between-Session Support</h4>
                             <p>Direct WhatsApp access for continuous guidance and quick clarifications to keep you on track between sessions.</p>
                         </div>
@@ -2039,7 +2062,7 @@
                     <div class="milestone" data-tiers="vip">
                         <div class="milestone-img"><img src="images/feature6.png" alt="Guarantee"></div>
                         <div class="milestone-content">
-                            <div class="milestone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                            <div class="milestone-icon"><i class="bi bi-shield-fill-check"></i></div>
                             <h4>Extended Service Guarantee</h4>
                             <p>If you don't pass, you keep attending tutoring sessions at no extra cost until you do.</p>
                         </div>
@@ -2069,13 +2092,13 @@
                         background: none;
                         border: 1.5px solid #D6D0CA;
                         color: var(--taupe-mid);
-                        padding: 7px 18px;
+                        padding: 8px 20px;
                         border-radius: 100px;
                         font-family: var(--font-body);
-                        font-size: 0.68rem;
+                        font-size: 0.7rem;
                         font-weight: 700;
                         text-transform: uppercase;
-                        letter-spacing: 0.1em;
+                        letter-spacing: 0.12em;
                         cursor: pointer;
                         transition: background 0.15s, border-color 0.15s, color 0.15s;
                     }
@@ -2109,13 +2132,13 @@
                         cursor: pointer;
                         gap: 16px;
                     }
-                    .faq-item-btn svg {
+                    .faq-item-btn i {
                         flex-shrink: 0;
                         color: var(--taupe-light);
                         transition: transform 0.25s ease, color 0.2s;
                     }
                     .faq-item.open .faq-item-btn { color: var(--accent-orange); }
-                    .faq-item.open .faq-item-btn svg { transform: rotate(180deg); color: var(--accent-orange); }
+                    .faq-item.open .faq-item-btn i { transform: rotate(180deg); color: var(--accent-orange); }
                     .faq-item-body {
                         max-height: 0;
                         overflow: hidden;
@@ -2130,6 +2153,139 @@
                     }
                 </style>
                 <hr class="faq-divider">
+                <p class="faq-label">Courses Offered</p>
+                <style>
+                    .course-selects { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; align-items: flex-end; }
+                    .course-sel-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+                    .course-sel-label {
+                        font-size: 0.6rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.13em;
+                        color: var(--taupe-light);
+                        padding-left: 14px;
+                    }
+                    .course-sel {
+                        appearance: none; -webkit-appearance: none;
+                        background: var(--bg-off-white);
+                        border: 1.5px solid #EBE7E2;
+                        border-radius: 100px;
+                        padding: 7px 36px 7px 16px;
+                        font-size: 0.82rem;
+                        font-family: var(--font-body);
+                        font-weight: 600;
+                        color: var(--taupe-dark);
+                        cursor: pointer;
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23B8B0AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                        background-repeat: no-repeat;
+                        background-position: right 12px center;
+                        transition: border-color 0.2s;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    #uni-sel { width: 250px; }
+                    #prog-sel { width: 280px; }
+                    .course-sel:focus { outline: none; border-color: var(--accent-orange); }
+                    .course-list-wrap {
+                        transition: opacity 0.18s ease, transform 0.18s ease;
+                    }
+                    .course-list-wrap.fading {
+                        opacity: 0;
+                        transform: translateY(5px);
+                    }
+                    @keyframes course-row-in {
+                        from { opacity: 0; transform: translateY(6px); }
+                        to   { opacity: 1; transform: translateY(0); }
+                    }
+                    #course-list { max-width: 660px; margin: 0 auto; text-align: left; }
+                    .course-row {
+                        display: flex;
+                        align-items: center;
+                        gap: 0;
+                        padding: 11px 2px;
+                        border-bottom: 1px solid rgba(0,0,0,0.06);
+                        animation: course-row-in 0.22s ease both;
+                    }
+                    .course-row:last-child { border-bottom: none; }
+                    .course-row:nth-child(odd) { background: var(--bg-off-white); }
+                    .course-num {
+                        font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 0.06em;
+                        color: var(--taupe-light);
+                        flex-shrink: 0;
+                        width: 20px;
+                        text-align: right;
+                        margin-right: 16px;
+                    }
+                    .course-name {
+                        flex: 1;
+                        min-width: 0;
+                        font-size: 0.88rem;
+                        font-weight: 600;
+                        color: var(--taupe-dark);
+                        margin-right: 22px;
+                    }
+                    .course-year {
+                        flex-shrink: 0;
+                        font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 0.04em;
+                        color: var(--taupe-light);
+                        white-space: nowrap;
+                        margin-right: 22px;
+                    }
+                    .course-ects {
+                        flex-shrink: 0;
+                        font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 0.05em;
+                        color: var(--taupe-light);
+                        margin-right: 22px;
+                    }
+                    .course-link {
+                        flex-shrink: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        color: var(--taupe-light);
+                        text-decoration: none;
+                        font-size: 13px;
+                        transition: color 0.18s, background 0.18s;
+                    }
+                    .course-link:hover {
+                        color: var(--accent-orange);
+                        background: rgba(255,77,0,0.07);
+                    }
+                </style>
+                <div class="course-selects">
+                    <div class="course-sel-group">
+                        <label class="course-sel-label" for="uni-sel">University</label>
+                        <select class="course-sel" id="uni-sel">
+                            <option value="bocconi">Bocconi</option>
+                            <option value="erasmus">Erasmus Rotterdam</option>
+                            <option value="kuleuven" selected>KU Leuven</option>
+                            <option value="belgrade">University of Belgrade</option>
+                            <option value="vub">Vrije Universiteit Brussel</option>
+                            <option disabled>Université Libre de Bruxelles (Coming Soon)</option>
+                        </select>
+                    </div>
+                    <div class="course-sel-group">
+                        <label class="course-sel-label" for="prog-sel">Program</label>
+                        <select class="course-sel" id="prog-sel">
+                            <option value="bba">BBA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="course-list-wrap" id="course-list-wrap">
+                    <div id="course-list"></div>
+                </div>
+
+                <hr class="faq-divider">
                 <p class="faq-label">Questions</p>
                 <div class="faq-tabs" id="faq-tabs">
                     <button class="faq-tab active" data-faq="outside">Outside Sessions</button>
@@ -2139,67 +2295,67 @@
                 <div class="faq-panels">
                     <div class="faq-panel active" data-faq="outside">
                         <div class="faq-item">
-                            <button class="faq-item-btn">What's on the Samkedemia Drive?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">What's on the Samkedemia Drive?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>A solution book with every class exercise and past exam solved step by step, formula sheets (a detailed version and a short exam-formatted one), all slides, past exams, mock exams, and extra resources I've found useful: blogs, YouTube videos, that kind of thing.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Can I ask a quick question outside of sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Can I ask a quick question outside of sessions?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Of course. I'm fully available on WhatsApp between sessions, any question, any topic in the program. Just reach out.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Do you make practice tests?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Do you make practice tests?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Yes, custom tests built from real past exams, so you get comfortable with the exact types of exercises that show up. There are 3 throughout the program, each with a full solution sheet.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">I missed a session, can I still catch up?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">I missed a session, can I still catch up?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Sessions are pre-planned and structured, so they can't be rescheduled. But every session is recorded and uploaded to the Drive shortly after. Go through it and you'll be caught up for the next one.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">I failed the course, can I join again next year?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">I failed the course, can I join again next year?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>The program runs for the current exam cycle and ends after the exam. But you're always welcome to book individual sessions, just reach out.</p></div>
                         </div>
                     </div>
                     <div class="faq-panel" data-faq="during">
                         <div class="faq-item">
-                            <button class="faq-item-btn">What does a guided session look like?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">What does a guided session look like?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>About an hour on Google Meet. You get a handout beforehand to fill in as we go. The session has a few segments where I explain and you actively follow, with 1-2 minute parts where you finish an exercise yourself before we check it. We close with a 2-minute recap of the most important formulas, and I give out homework.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">What does a practical session look like?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">What does a practical session look like?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>A small group of 4, formed by me based on level. Before the session I ask each of you what you want to work on, then I pick exercises that target exactly those weak spots. You can ask questions at any point.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Can I ask questions during sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Can I ask questions during sessions?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Of course. In guided sessions, through the chat or when I open it up between parts. In practical sessions, literally any second. In 1-on-1s the whole thing is built around you anyway.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">What do we cover across 20 sessions?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">What do we cover across 20 sessions?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>12 sessions on regular exercises, 8 on real past papers including the most recent ones. By the end you've seen the full range of what actually shows up on the exam.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Is it theory or exercises?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Is it theory or exercises?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>99% exercises. Doing is more important than knowing. Every exercise is carefully picked so each one gets you a step closer to passing.</p></div>
                         </div>
                     </div>
                     <div class="faq-panel" data-faq="payments">
                         <div class="faq-item">
-                            <button class="faq-item-btn">How do I pay?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">How do I pay?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>I'm a registered business so I send you an invoice with my IBAN. You transfer to that bank account. Any bank works: KBC, ING, Revolut, even from abroad.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Do I have to pay everything upfront?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Do I have to pay everything upfront?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Not at all. I'm flexible on timing. The only strict deadline is the day before your exam. As long as we agree on a plan and stick to it, we're good.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">Any discounts?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">Any discounts?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>Yes. Bring someone in and you get 50 euros off your program.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">I missed a session, is the price lower?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">I missed a session, is the price lower?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>No, the price is fixed per program. The sessions are only part of it. You also get the Drive with all materials, direct support between sessions, and custom practice tests. All of that is included in the price regardless of attendance.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">I decided not to continue, can I get a refund?<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="faq-item-btn">I decided not to continue, can I get a refund?<i class="bi bi-chevron-down"></i></button>
                             <div class="faq-item-body"><p>No refunds.</p></div>
                         </div>
                     </div>
@@ -2327,7 +2483,7 @@
                             <div class="pass-bar neutral" data-pct="29"></div>
                         </div>
                         <div class="pass-bar-group">
-                            <div class="pass-bar-pct samk">77%</div>
+                            <div class="pass-bar-pct samk">67%</div>
                             <div class="pass-bar samk-bar" data-pct="77"></div>
                         </div>
                     </div>
@@ -2359,7 +2515,7 @@
                 <p class="results-label divider">What students say</p>
                 <div class="testimonials-wrapper">
                     <button class="testi-nav-btn" id="testi-prev" aria-label="Previous testimonial" disabled>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <i class="bi bi-chevron-left"></i>
                     </button>
                     <div class="testimonials-viewport">
                         <div class="testimonials-track" id="testi-track">
@@ -2372,11 +2528,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2389,11 +2545,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2406,11 +2562,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2423,11 +2579,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2440,11 +2596,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2457,11 +2613,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2474,11 +2630,11 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16"><defs><linearGradient id="hstar"><stop offset="50%" stop-color="#ff4d00"/><stop offset="50%" stop-color="#EBE7E2"/></linearGradient></defs><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z" fill="url(#hstar)"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
                                     </div>
                                 </div>
                             </div>
@@ -2491,18 +2647,18 @@
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
-                                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75z"/></svg>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button class="testi-nav-btn" id="testi-next" aria-label="Next testimonial">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
                 <div class="testi-dots" id="testi-dots">
@@ -2647,10 +2803,8 @@
                     margin-right: 16px;
                 }
 
-                .pt-icon svg {
-                    width: 16px;
-                    height: 16px;
-                    stroke-width: 2.2;
+                .pt-icon i {
+                    font-size: 16px;
                 }
 
                 .pt-btn {
@@ -2876,43 +3030,43 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/><circle cx="12" cy="9" r="2.5"/></svg></span>Guided Tutoring Sessions</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-easel-fill"></i></span>Guided Tutoring Sessions</span></td>
                                 <td><span class="pt-yes">20</span></td>
                                 <td><span class="pt-yes">20</span></td>
                                 <td><span class="pt-no">0</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Practical Tutoring Sessions</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-people-fill"></i></span>Practical Tutoring Sessions</span></td>
                                 <td><span class="pt-no">0</span></td>
                                 <td><span class="pt-yes">10</span></td>
                                 <td><span class="pt-no">0</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>1:1 Tutoring Sessions</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-person-fill"></i></span>1:1 Tutoring Sessions</span></td>
                                 <td><span class="pt-no">0</span></td>
                                 <td><span class="pt-no">0</span></td>
                                 <td><span class="pt-yes">20</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span>Session Recordings</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-camera-video-fill"></i></span>Session Recordings</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Access to Samkedemia Drive</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-folder-fill"></i></span>Access to Samkedemia Drive</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>Between-Session Support</span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-chat-dots-fill"></i></span>Between-Session Support</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                                 <td><span class="pt-yes">✓</span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Extended Service Guarantee<sup>1</sup></span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
                                 <td><span class="pt-yes">6 months</span></td>
                                 <td><span class="pt-yes">24 months</span></td>
                                 <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
@@ -3165,11 +3319,7 @@
                 <div class="contact-card-header">
                     <div class="icon-wrapper"
                         style="background: #25D366; box-shadow: 0 10px 20px rgba(37,211,102,0.3);">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.633 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z">
-                            </path>
-                        </svg>
+                        <i class="bi bi-whatsapp"></i>
                     </div>
                     <h4>WhatsApp</h4>
                 </div>
@@ -3181,11 +3331,7 @@
                 <div class="contact-card-header">
                     <div class="icon-wrapper"
                         style="background: linear-gradient(to top right, #f9ce34, #ee2a7b, #6228d7); box-shadow: 0 10px 20px rgba(238,42,123,0.3);">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
+                        <i class="bi bi-instagram"></i>
                     </div>
                     <h4>Instagram</h4>
                 </div>
@@ -3197,11 +3343,7 @@
                 <div class="contact-card-header">
                     <div class="icon-wrapper"
                         style="background: #2563eb; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                            </path>
-                        </svg>
+                        <i class="bi bi-envelope-fill"></i>
                     </div>
                     <h4>Email</h4>
                 </div>
@@ -3215,7 +3357,7 @@
         <div class="footer-grid">
             <div class="footer-col logo-info">
                 <div class="footer-logo">
-                    <div class="text">Samkedemia</div>
+                    <div class="text"><span class="logo-name">samkedemia</span><span class="logo-sub">education</span></div>
                 </div>
                 <p>
                     JOVAN SAMARDZIC PR BEOGRAD (STARI GRAD)<br>
@@ -3242,25 +3384,13 @@
                 <h4>Contact</h4>
                 <div class="social-links">
                     <a href="https://wa.me/32490100821" target="_blank">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.633 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z">
-                            </path>
-                        </svg>
+                        <i class="bi bi-whatsapp"></i>
                     </a>
                     <a href="https://www.instagram.com/samkedemia/" target="_blank">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
+                        <i class="bi bi-instagram"></i>
                     </a>
                     <a href="mailto:jovan@samkedemia.com">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                            </path>
-                        </svg>
+                        <i class="bi bi-envelope-fill"></i>
                     </a>
                 </div>
             </div>
@@ -3299,38 +3429,168 @@
                 descriptions.forEach(d => { d.style.display = d.dataset.tierText === tier ? '' : 'none'; });
             }
 
+            let currentTier = 'essential';
+
             function applyTier(tier, animate) {
                 tabs.forEach(t => t.classList.toggle('active', t.dataset.tier === tier));
                 switchDescription(tier);
 
                 if (!animate) {
-                    grid.className = 'ms-grid ms-grid--' + tier;
                     milestones.forEach(m => {
                         m.style.display = m.dataset.tiers.split(' ').includes(tier) ? '' : 'none';
                     });
+                    currentTier = tier;
                     return;
                 }
 
-                // Exit: animate out all currently visible cards
-                const visible = [...milestones].filter(m => m.style.display !== 'none');
-                visible.forEach(m => { m.classList.remove('ms-enter'); m.classList.add('ms-exit'); });
+                const inTier    = m => m.dataset.tiers.split(' ').includes(tier);
+                const inCurrent = m => m.dataset.tiers.split(' ').includes(currentTier);
+                const leaving   = [...milestones].filter(m => inCurrent(m) && !inTier(m));
+                const entering  = [...milestones].filter(m => !inCurrent(m) && inTier(m));
+                const staying   = [...milestones].filter(m => inCurrent(m) && inTier(m));
+
+                // FLIP step 1: snapshot positions of cards that will stay
+                const firstRects = new Map(staying.map(m => [m, m.getBoundingClientRect()]));
+
+                // Fade out leaving cards together
+                leaving.forEach(m => m.classList.add('ms-out'));
 
                 setTimeout(() => {
-                    grid.className = 'ms-grid ms-grid--' + tier;
-                    milestones.forEach(m => {
-                        m.classList.remove('ms-exit', 'ms-enter');
-                        if (m.dataset.tiers.split(' ').includes(tier)) {
-                            m.style.display = '';
-                            requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('ms-enter')));
-                        } else {
-                            m.style.display = 'none';
-                        }
+                    leaving.forEach(m => { m.classList.remove('ms-out'); m.style.display = 'none'; });
+
+                    // Show entering with animation immediately — fill-mode:both holds opacity:0 during delay, no flicker
+                    entering.forEach((m, i) => {
+                        m.style.display = '';
+                        m.style.animationDelay = (i * 0.05) + 's';
+                        m.classList.add('ms-in');
                     });
-                }, 230);
+
+                    requestAnimationFrame(() => {
+                        // FLIP step 2: snap staying cards back to old positions
+                        staying.forEach(m => {
+                            const first = firstRects.get(m);
+                            const last  = m.getBoundingClientRect();
+                            const dx = first.left - last.left;
+                            const dy = first.top  - last.top;
+                            if (dx !== 0 || dy !== 0) {
+                                m.style.transition = 'none';
+                                m.style.transform  = `translate(${dx}px,${dy}px)`;
+                            }
+                        });
+
+                        requestAnimationFrame(() => {
+                            // FLIP step 3: slide to new positions
+                            staying.forEach(m => {
+                                m.style.transition = 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)';
+                                m.style.transform  = '';
+                            });
+
+                            setTimeout(() => {
+                                entering.forEach(m => { m.classList.remove('ms-in'); m.style.animationDelay = ''; });
+                                staying.forEach(m => { m.style.transition = ''; m.style.transform = ''; });
+                            }, 600);
+                        });
+                    });
+
+                    currentTier = tier;
+                }, 300);
             }
 
             tabs.forEach(tab => tab.addEventListener('click', () => applyTier(tab.dataset.tier, true)));
             applyTier('essential', false);
+        })();
+
+        // Courses Offered dropdowns
+        (function() {
+            const courses = {
+                kuleuven: {
+                    BBA: [
+                        { name: 'Mathematics for Business A',                          ects: 3, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA41CE' },
+                        { name: 'Mathematics for Business B',                          ects: 3, year: 1, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA42CE.htm' },
+                        { name: 'Descriptive Statistics and Probability for Business', ects: 6, year: 1, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA09HE' },
+                        { name: 'Inferential Statistics for Business',                 ects: 3, year: 2, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA69AE' },
+                        { name: 'Introduction to Methods in Operational Research',     ects: 3, year: 2, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA15CE.htm' },
+                    ],
+                    'MSc Statistics and Data Science': [
+                        { name: 'Fundamental Concepts of Statistics', ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/G0A17BE.htm' },
+                        { name: 'Linear Models',                      ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/G0Z50AE.htm' },
+                        { name: 'Multivariate Statistics',            ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/D0M62CE.htm' },
+                    ]
+                },
+                erasmus: {
+                    Psychology: [
+                        { name: 'Psychometrics: An Introduction',                        ects: 5, year: 2, sem: 2, url: 'https://eur.osiris-student.nl/onderwijscatalogus/extern/cursus?cursuscode=FSWP2-052-A&collegejaar=2025' },
+                        { name: 'Methods & Statistics II: Explaining and Predicting',    ects: 6, year: 2, sem: 1, url: 'https://eur.osiris-student.nl/onderwijscatalogus/extern/cursus?cursuscode=FSWP2-020-A&collegejaar=2025' },
+                        { name: 'Methods & Statistics III: Multivariate Data Analysis', ects: 6, year: 3, sem: 2, url: 'https://www.eur.nl/en/bachelor/international-bachelor-psychology/programme-overview' },
+                    ]
+                },
+                bocconi: {
+                    BIEM: [
+                        { name: '30001 Statistics', ects: 8, year: 1, sem: 1, url: 'https://didattica.unibocconi.eu/ts/tsn_anteprima.php?cod_ins=30001&anno=2026' },
+                    ]
+                },
+                belgrade: {
+                    'FON - Information Systems': [
+                        { name: 'Statistika', ects: 5, year: 2, sem: 1, url: 'https://statlab.fon.bg.ac.rs/predmeti/statistika-2/' },
+                    ]
+                },
+                vub: {
+                    'BSc Social Sciences': [
+                        { name: 'Statistics for Social Sciences', ects: 6, year: 1, sem: 1, url: 'https://caliweb.vub.be/?page=course-offer&id=009462&anchor=1&target=pr&year=2223&language=en&output=html' },
+                    ]
+                }
+            };
+            const programs = {
+                kuleuven: [{ name: 'BBA', soon: false }, { name: 'MSc Statistics and Data Science', soon: false }, { name: 'BBE', soon: true }],
+                erasmus:  [{ name: 'Psychology', soon: false }],
+                bocconi:  [{ name: 'BIEM', soon: false }],
+                belgrade: [{ name: 'FON - Information Systems', soon: false }],
+                vub:      [{ name: 'BSc Social Sciences', soon: false }]
+            };
+            const uniSel  = document.getElementById('uni-sel');
+            const progSel = document.getElementById('prog-sel');
+            const list    = document.getElementById('course-list');
+            const wrap    = document.getElementById('course-list-wrap');
+
+            function buildRows(items) {
+                list.innerHTML = items.map((c, i) => {
+                    return `<div class="course-row" style="animation-delay:${i * 0.045}s">` +
+                        `<span class="course-num">${i + 1}</span>` +
+                        `<span class="course-name">${c.name}</span>` +
+                        `<span class="course-year">Year ${c.year}</span>` +
+                        `<span class="course-ects">${c.ects} ECTS</span>` +
+                        `<a href="${c.url}" class="course-link" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i></a>` +
+                    `</div>`;
+                }).join('');
+            }
+
+            function renderList(animate) {
+                const uni  = uniSel.value;
+                const prog = progSel.value;
+                const items = (courses[uni] && courses[uni][prog]) || [];
+                if (!animate) { buildRows(items); return; }
+                wrap.classList.add('fading');
+                setTimeout(() => {
+                    buildRows(items);
+                    wrap.classList.remove('fading');
+                }, 180);
+            }
+
+            function renderPrograms(animate) {
+                const uni = uniSel.value;
+                const sorted = (programs[uni] || []).slice().sort((a, b) => {
+                    if (a.soon !== b.soon) return a.soon ? 1 : -1;
+                    return a.name.localeCompare(b.name);
+                });
+                progSel.innerHTML = sorted.map(p =>
+                    `<option value="${p.name}"${p.soon ? ' disabled' : ''}>${p.name}${p.soon ? ' (Coming Soon)' : ''}</option>`
+                ).join('');
+                renderList(animate);
+            }
+
+            uniSel.addEventListener('change', () => renderPrograms(true));
+            progSel.addEventListener('change', () => renderList(true));
+            renderPrograms(false);
         })();
 
         // FAQ tabs + accordion
