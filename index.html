@@ -4,13 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samkedemia</title>
+    <title>Samkedemia: University Math Tutoring & Exam Prep</title>
+    <meta name="description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
+    <meta property="og:title" content="Samkedemia: University Math Tutoring & Exam Prep">
+    <meta property="og:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.samkedemia.com/">
+    <meta property="og:image" content="https://www.samkedemia.com/images/profile_image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Samkedemia: University Math Tutoring & Exam Prep">
+    <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
     <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@700;900&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -21,8 +30,9 @@
             --orange-dark: #3d1909;
             --accent-orange: #ff4d00;
             --orange-light: #f5a87e;
-            --font-title: 'Outfit', sans-serif;
+            --font-title: 'DM Serif Display', serif;
             --font-body: 'Atkinson Hyperlegible', sans-serif;
+            --font-numbers: 'Outfit', sans-serif;
         }
 
         /* ── Scroll-reveal utility (applied via JS) ── */
@@ -247,7 +257,7 @@
             font-size: clamp(3rem, 8vw, 6.5rem);
             font-family: var(--font-title);
             font-weight: 900;
-            letter-spacing: -3px;
+            letter-spacing: -1.5px;
             line-height: 0.95;
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
@@ -271,9 +281,9 @@
             animation: highlight-draw 0.55s cubic-bezier(0.25, 0.1, 0.5, 1) 1.1s both;
         }
         .hero-subtitle {
-            font-family: var(--font-title);
-            font-size: 1.2rem;
-            font-weight: 300;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 400;
             color: var(--teal-mid);
             line-height: 1.65;
             margin-top: 0.75rem;
@@ -408,7 +418,7 @@
             font-family: var(--font-title);
             font-size: 3rem;
             font-weight: 900;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             color: var(--teal-dark);
             margin-bottom: 14px;
         }
@@ -839,19 +849,6 @@
             margin-bottom: 30px;
         }
 
-        .footer-logo .icon {
-            width: 32px;
-            height: 32px;
-            background: var(--accent-orange);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 14px;
-            color: white;
-        }
-
         .footer-logo .text {
             font-size: 1.5rem;
             font-weight: 800;
@@ -957,7 +954,7 @@
 
         /* --- Contact Section --- */
         .contact-section {
-            padding: 120px 5%;
+            padding: 80px 5%;
             background: white;
             text-align: center;
             position: relative;
@@ -967,7 +964,7 @@
 
         .contact-section .section-header {
             max-width: 800px;
-            margin: 0 auto 80px auto;
+            margin: 0 auto 48px auto;
         }
 
         .contact-section .tag {
@@ -984,13 +981,14 @@
             font-family: var(--font-title);
             font-size: 3rem;
             font-weight: 900;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             color: var(--teal-dark);
             margin-bottom: 14px;
         }
 
         .contact-section .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
+            font-weight: 400;
             color: var(--teal-mid);
             line-height: 1.6;
         }
@@ -1130,124 +1128,6 @@
         }
 
 
-        /* --- Pulsing Glow for Pricing Card --- */
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 25px rgba(255, 77, 0, 0.2);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(255, 77, 0, 0.4);
-            }
-        }
-
-        /* --- Pricing Card --- */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1100px;
-            margin-top: 40px;
-        }
-
-        .pricing-tier {
-            background: var(--bg-off-white);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 30px;
-            padding: 35px;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .pricing-tier:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
-        }
-
-        .pricing-tier.popular {
-            border: 2px solid var(--accent-orange);
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-orange);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .pricing-tier h4 {
-            font-family: var(--font-title);
-            font-weight: 900;
-            font-size: 1.5rem;
-            color: var(--teal-dark);
-        }
-
-        .pricing-tier .subtitle {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--teal-mid);
-            letter-spacing: 0.1em;
-            margin-bottom: 20px;
-        }
-
-        .pricing-tier .price {
-            font-size: 3rem;
-            font-family: var(--font-title);
-            font-weight: 900;
-            color: var(--teal-dark);
-            margin-bottom: 5px;
-        }
-
-        .pricing-tier .price span {
-            font-size: 1rem;
-            color: var(--teal-mid);
-        }
-
-        .pricing-tier .total {
-            font-size: 0.8rem;
-            color: var(--teal-mid);
-            font-style: italic;
-            margin-bottom: 25px;
-        }
-
-        .pricing-tier .features {
-            list-style: none;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-
-        .pricing-tier .features li {
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pricing-tier .features li.included {
-            color: var(--teal-dark);
-        }
-
-        .pricing-tier .features li.excluded {
-            color: var(--teal-light);
-            text-decoration: line-through;
-        }
-
         @media (max-width: 768px) {
             .stack-card {
                 height: auto;
@@ -1298,28 +1178,16 @@
 
         .math-symbol {
             position: absolute;
-            font-family: var(--font-title);
-            font-weight: 900;
             color: var(--teal-dark);
             user-select: none;
-            opacity: 0.11;
+            opacity: 0.09;
             animation: symbol-float-a 10s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .math-symbol svg {
-            width: 100%;
-            height: 100%;
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-width: 1.4;
+            transform: translate(-50%, -50%);
         }
         .math-symbol i {
-            font-size: 22px;
+            font-size: 24px;
             line-height: 1;
+            display: block;
         }
 
         /* Vary animation path — 5-cycle */
@@ -1415,7 +1283,7 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: #EBE7E2;
+            background: rgba(47, 106, 115, 0.14);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -1425,7 +1293,7 @@
             position: absolute;
             width: 18px;
             height: 18px;
-            background: #C4BDB7;
+            background: var(--teal-light);
             border-radius: 50%;
             top: 9px;
             left: 50%;
@@ -1436,7 +1304,7 @@
             position: absolute;
             width: 32px;
             height: 24px;
-            background: #C4BDB7;
+            background: var(--teal-light);
             border-radius: 50% 50% 0 0;
             bottom: -6px;
             left: 50%;
@@ -1546,7 +1414,6 @@
             transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        #about-me-card .tagline,
         #about-me-card .detail-item {
             opacity: 0;
             transform: translateY(16px);
@@ -1556,7 +1423,6 @@
         #about-me-card.about-animated .card-tag { opacity: 1; transform: none; }
         #about-me-card.about-animated h3 { opacity: 1; transform: none; transition-delay: 0.1s; }
         #about-me-card.about-animated .about-me-image { opacity: 1; transform: none; transition-delay: 0.18s; }
-        #about-me-card.about-animated .tagline { opacity: 1; transform: none; transition-delay: 0.24s; }
         #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.38s; }
         #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.56s; }
         #about-me-card.about-animated .detail-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.74s; }
@@ -1714,10 +1580,6 @@
             .about-me-content {
                 text-align: left !important;
                 width: 100%;
-            }
-            .about-me-content .tagline {
-                font-size: 0.7rem;
-                margin-bottom: 20px !important;
             }
             .about-me-details {
                 gap: 18px !important;
@@ -1891,54 +1753,40 @@
 
     <section class="hero" id="hero">
         <div class="hero-symbols" aria-hidden="true">
-            <!-- 0°   → (90%,38%) -->
-            <span class="math-symbol ms-icon" style="left:90%; top:38%; width:44px; height:44px;"><i class="bi bi-calculator"></i></span>
-            <!-- 15°  → (89%,45%) -->
-            <span class="math-symbol ms-icon" style="left:89%; top:45%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
-            <!-- 30°  → (85%,51%) -->
-            <span class="math-symbol ms-icon" style="left:85%; top:51%; width:38px; height:38px;"><i class="bi bi-percent"></i></span>
-            <!-- 45°  → (78%,56%) -->
-            <span class="math-symbol ms-icon" style="left:78%; top:56%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <!-- 60°  → (70%,61%) -->
-            <span class="math-symbol ms-icon" style="left:70%; top:61%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <!-- 75°  → (60%,64%) -->
-            <span class="math-symbol ms-icon" style="left:60%; top:64%; width:40px; height:40px;"><i class="bi bi-graph-up"></i></span>
-            <!-- 90°  → (50%,64%) -->
-            <span class="math-symbol ms-icon" style="left:50%; top:64%; width:44px; height:44px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
-            <!-- 105° → (40%,64%) -->
-            <span class="math-symbol ms-icon" style="left:40%; top:64%; width:36px; height:36px;"><i class="bi bi-rulers"></i></span>
-            <!-- 120° → (30%,61%) -->
-            <span class="math-symbol ms-icon" style="left:30%; top:61%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
-            <!-- 135° → (22%,56%) -->
-            <span class="math-symbol ms-icon" style="left:22%; top:56%; width:42px; height:42px;"><i class="bi bi-bar-chart-fill"></i></span>
-            <!-- 150° → (15%,51%) -->
-            <span class="math-symbol ms-icon" style="left:15%; top:51%; width:44px; height:36px;"><svg viewBox="0 0 24 24"><path d="M2 20 C4 20 6 14 8 10 C10 6 10 4 12 4 C14 4 14 6 16 10 C18 14 20 20 22 20"/></svg></span>
-            <!-- 165° → (11%,45%) -->
-            <span class="math-symbol ms-icon" style="left:11%; top:45%; width:40px; height:40px;"><i class="bi bi-pie-chart"></i></span>
-            <!-- 180° → (10%,38%) -->
-            <span class="math-symbol ms-icon" style="left:10%; top:38%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
-            <!-- 195° → (11%,31%) -->
-            <span class="math-symbol ms-icon" style="left:11%; top:31%; width:38px; height:38px;"><i class="bi bi-graph-up-arrow"></i></span>
-            <!-- 210° → (15%,25%) -->
-            <span class="math-symbol ms-icon" style="left:15%; top:25%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <!-- 225° → (22%,20%) -->
-            <span class="math-symbol ms-icon" style="left:22%; top:20%; width:38px; height:38px;"><i class="bi bi-infinity"></i></span>
-            <!-- 240° → (30%,12%) -->
-            <span class="math-symbol ms-icon" style="left:30%; top:12%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <!-- 255° → (40%,12%) -->
-            <span class="math-symbol ms-icon" style="left:40%; top:12%; width:36px; height:36px;"><i class="bi bi-123"></i></span>
-            <!-- 270° → (50%,12%) -->
-            <span class="math-symbol ms-icon" style="left:50%; top:12%; width:38px; height:44px;"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></span>
-            <!-- 285° → (60%,12%) -->
-            <span class="math-symbol ms-icon" style="left:60%; top:12%; width:40px; height:40px;"><i class="bi bi-pie-chart-fill"></i></span>
-            <!-- 300° → (70%,12%) -->
-            <span class="math-symbol ms-icon" style="left:70%; top:12%; width:42px; height:42px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
-            <!-- 315° → (78%,20%) -->
-            <span class="math-symbol ms-icon" style="left:78%; top:20%; width:40px; height:40px;"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></span>
-            <!-- 330° → (85%,25%) -->
-            <span class="math-symbol ms-icon" style="left:85%; top:25%; width:36px; height:36px;"><i class="bi bi-calculator-fill"></i></span>
-            <!-- 345° → (89%,31%) -->
-            <span class="math-symbol ms-icon" style="left:89%; top:31%; width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+            <!-- Row 1: top 5–14% -->
+            <span class="math-symbol" style="left:3%;  top:8%"><i class="bi bi-calculator"></i></span>
+            <span class="math-symbol" style="left:15%; top:5%"><i class="bi bi-percent"></i></span>
+            <span class="math-symbol" style="left:27%; top:12%"><i class="bi bi-infinity"></i></span>
+            <span class="math-symbol" style="left:40%; top:7%"><i class="bi bi-123"></i></span>
+            <span class="math-symbol" style="left:52%; top:11%"><i class="bi bi-function"></i></span>
+            <span class="math-symbol" style="left:65%; top:5%"><i class="bi bi-bar-chart"></i></span>
+            <span class="math-symbol" style="left:78%; top:13%"><i class="bi bi-rulers"></i></span>
+            <span class="math-symbol" style="left:92%; top:7%"><i class="bi bi-pie-chart"></i></span>
+            <!-- Row 2: top 19–29% -->
+            <span class="math-symbol" style="left:7%;  top:22%"><i class="bi bi-graph-up"></i></span>
+            <span class="math-symbol" style="left:20%; top:27%"><i class="bi bi-braces"></i></span>
+            <span class="math-symbol" style="left:33%; top:21%"><i class="bi bi-sigma"></i></span>
+            <span class="math-symbol" style="left:46%; top:26%"><i class="bi bi-hash"></i></span>
+            <span class="math-symbol" style="left:60%; top:20%"><i class="bi bi-plus-lg"></i></span>
+            <span class="math-symbol" style="left:72%; top:28%"><i class="bi bi-table"></i></span>
+            <span class="math-symbol" style="left:85%; top:23%"><i class="bi bi-diagram-3"></i></span>
+            <span class="math-symbol" style="left:96%; top:19%"><i class="bi bi-activity"></i></span>
+            <!-- Row 3: top 35–44% -->
+            <span class="math-symbol" style="left:4%;  top:37%"><i class="bi bi-clipboard-data"></i></span>
+            <span class="math-symbol" style="left:17%; top:43%"><i class="bi bi-bar-chart-line"></i></span>
+            <span class="math-symbol" style="left:30%; top:36%"><i class="bi bi-divide"></i></span>
+            <span class="math-symbol" style="left:44%; top:41%"><i class="bi bi-bezier"></i></span>
+            <span class="math-symbol" style="left:57%; top:38%"><i class="bi bi-calculator-fill"></i></span>
+            <span class="math-symbol" style="left:70%; top:44%"><i class="bi bi-bar-chart-fill"></i></span>
+            <span class="math-symbol" style="left:83%; top:37%"><i class="bi bi-graph-up-arrow"></i></span>
+            <!-- Row 4: top 50–60% -->
+            <span class="math-symbol" style="left:9%;  top:52%"><i class="bi bi-journal-text"></i></span>
+            <span class="math-symbol" style="left:23%; top:58%"><i class="bi bi-pie-chart-fill"></i></span>
+            <span class="math-symbol" style="left:36%; top:53%"><i class="bi bi-book"></i></span>
+            <span class="math-symbol" style="left:49%; top:57%"><i class="bi bi-grid-3x3"></i></span>
+            <span class="math-symbol" style="left:62%; top:51%"><i class="bi bi-pencil"></i></span>
+            <span class="math-symbol" style="left:76%; top:56%"><i class="bi bi-sliders2"></i></span>
+            <span class="math-symbol" style="left:90%; top:60%"><i class="bi bi-clipboard-check"></i></span>
         </div>
         <a href="https://wa.me/32490100821" target="_blank" class="social-proof">
             <div class="social-proof-images">
@@ -1946,9 +1794,9 @@
                 <img src="images/student2.jpeg" alt="Student">
                 <img src="images/student3.jpg" alt="Student">
             </div>
-            <span class="social-proof-text">140+ students passed. Join them.</span>
+            <span class="social-proof-text">142 students passed. Join them.</span>
         </a>
-        <h1 class="hero-title"><span class="hero-highlight">Result</span> Driven<br>Tutoring.</h1>
+        <h1 class="hero-title"><span class="hero-highlight">Result Driven</span><br>Tutoring.</h1>
         <p class="hero-subtitle">Proven methods. Right tools. Less stress.<br>Expert support with a strong record of student success.</p>
         <!-- Trusted By Logos (Rotating) -->
         <div id="trusted-logos">
@@ -2006,7 +1854,7 @@
                                 <div class="label"><i class="bi bi-mortarboard-fill"></i> Background</div>
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>26 year old guy from Serbia</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Got my Master's in Statistics at KU Leuven, graduated <span class="hl">Magna Cum Laude</span></span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Got my <span class="hl">MSc in Statistics at KU Leuven</span>, graduated <span class="hl">Magna Cum Laude</span></span></div>
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span></span></div>
                                 </div>
                             </div>
@@ -2014,15 +1862,15 @@
                                 <div class="label"><i class="bi bi-patch-check-fill"></i> Tutoring Experience</div>
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Started tutoring on the side to make some extra money</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into <span class="hl">Samkedemia</span>, helping students across Europe reach their goals</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with <span class="hl">hundreds of students</span> from all kinds of backgrounds</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into <span class="hl">Samkedemia</span> helping students across Europe reach their goals</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with <span class="hl">200+ students</span> from all kinds of backgrounds</span></div>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <div class="label"><i class="bi bi-lightbulb-fill"></i> Teaching Style</div>
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span><span class="hl">Relaxed atmosphere</span> that builds your confidence as you go</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span><span class="hl">Plain language, not textbook</span> theory. Just what actually makes sense</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span><span class="hl">Plain language, not textbook theory.</span> Just what actually makes sense</span></div>
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Systems over cramming, always with one goal in mind: <span class="hl">passing your exam</span></span></div>
                                 </div>
                             </div>
@@ -2046,9 +1894,9 @@
                     </div>
                 </div>
                 <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 600px;">
-                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">This is our go-to path. You'll get 20 focused sessions prepared by Jovan, covering every essential exercise and the latest exam patterns. It's the full roadmap to secure your pass without the guesswork.</p>
-                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">Everything from our Essential program, plus 10 intimate, hands-on sessions capped at four students. Just let me know what's tripping you up before we dive in, and we'll iron out those weak spots together.</p>
-                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
+                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">This is our go-to path. You'll get guided sessions prepared by Jovan, <br> covering every crucial exercise and the latest exam patterns. <br> It's the full roadmap to secure your pass without the guesswork.</p>
+                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">Everything from Essential program, plus practical sessions capped at 4 students. <br> Just let me know what's confusing you, and we'll iron out those weak spots together.<br> Best option if you're looking to get a high grade.</p>
+                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">A completely private experience built around your pace. <br> We'll meet one-on-one to master tricky topics. You get total peace of mind. <br> Even if you don't pass on the first try, I'll tutor you for free until you do.</p>
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
                     <div class="milestone" data-tiers="essential plus">
@@ -2418,10 +2266,10 @@
                 }
                 .pass-bar-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
                 .pass-bar-pct {
-                    font-family: var(--font-title);
+                    font-family: var(--font-numbers);
                     font-weight: 900;
                     font-size: 1.25rem;
-                    color: var(--teal-dark);
+                    color: var(--orange-light);
                     line-height: 1;
                 }
                 .pass-bar-pct.samk { color: var(--accent-orange); }
@@ -2431,7 +2279,7 @@
                     border-radius: 8px 8px 0 0;
                     transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
                 }
-                .pass-bar.neutral { background: #D6D0CA; }
+                .pass-bar.neutral { background: rgba(245, 168, 126, 0.35); }
                 .pass-bar.samk-bar { background: var(--accent-orange); }
                 .pass-bar-group:nth-child(2) .pass-bar { transition-delay: 0.07s; }
                 .pass-bar-group:nth-child(3) .pass-bar { transition-delay: 0.14s; }
@@ -2448,7 +2296,7 @@
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.08em;
-                    color: var(--teal-light);
+                    color: var(--orange-light);
                     line-height: 1.4;
                 }
                 .pass-bar-name.samk { color: var(--accent-orange); }
@@ -2471,22 +2319,34 @@
                     display: flex;
                     gap: 16px;
                     justify-content: center;
-                    flex-wrap: wrap;
+                    flex-wrap: nowrap;
                     width: 100%;
-                    max-width: 640px;
+                    max-width: 860px;
                     margin: 0 auto 48px;
                 }
                 .results-stat {
                     flex: 1;
-                    min-width: 150px;
+                    min-width: 0;
                     text-align: center;
-                    padding: 28px 16px;
+                    padding: 28px 12px;
                     background: var(--bg-off-white);
                     border-radius: 18px;
                     border: 1px solid #EBE7E2;
                 }
+                @media (max-width: 540px) {
+                    .results-stats {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        flex-wrap: unset;
+                        max-width: 100%;
+                        gap: 12px;
+                    }
+                    .results-stat {
+                        padding: 22px 10px;
+                    }
+                }
                 .results-stat-value {
-                    font-family: var(--font-title);
+                    font-family: var(--font-numbers);
                     font-weight: 900;
                     font-size: 2.2rem;
                     letter-spacing: -1px;
@@ -2524,7 +2384,7 @@
                         </div>
                         <div class="pass-bar-group">
                             <div class="pass-bar-pct samk">67%</div>
-                            <div class="pass-bar samk-bar" data-pct="77"></div>
+                            <div class="pass-bar samk-bar" data-pct="67"></div>
                         </div>
                     </div>
                     <div class="pass-bar-names">
@@ -2547,6 +2407,10 @@
                         <div class="results-stat-label">Passed Their Exams</div>
                     </div>
                     <div class="results-stat">
+                        <div class="results-stat-value">+82%</div>
+                        <div class="results-stat-label">Avg. Grade Improvement</div>
+                    </div>
+                    <div class="results-stat">
                         <div class="results-stat-value">99%</div>
                         <div class="results-stat-label">Satisfaction Score</div>
                     </div>
@@ -2560,7 +2424,7 @@
                     <div class="testimonials-viewport">
                         <div class="testimonials-track" id="testi-track">
                             <div class="testi-card">
-                                <div class="testi-quote">Jovan strikes a great balance of professional and friendly. I really appreciate having access to the session recordings. He explains step by step, it's clear he really knows his stuff.</div>
+                                <div class="testi-quote">Jovan strikes a <span class="hl">great balance of professional and friendly</span>. I really appreciate having access to the <span class="hl">session recordings</span>. He explains step by step, it's clear he really knows his stuff.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2577,7 +2441,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Without these tutoring sessions there is no way I would have passed my math and statistics courses. The work was very effective, the explanations were clear, and the atmosphere was friendly and supportive.</div>
+                                <div class="testi-quote">Without these tutoring sessions <span class="hl">there is no way I would have passed</span> my math and statistics courses. The work was very effective, the explanations were clear, and the atmosphere was <span class="hl">friendly and supportive</span>.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2594,7 +2458,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">An engaging, well-prepared tutor who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a clear PDF with all exercises solved step by step.</div>
+                                <div class="testi-quote">An <span class="hl">engaging, well-prepared tutor</span> who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a <span class="hl">clear PDF with all exercises solved step by step</span>.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2611,7 +2475,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Very helpful. Makes sure to get all students involved and teaches in an organized way.</div>
+                                <div class="testi-quote">Very helpful. Makes sure to get <span class="hl">all students involved</span> and teaches in an <span class="hl">organized way</span>.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2628,7 +2492,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Jovan is truly professional: responsible, dedicated, and organized. Beyond that, he is genuinely kind and cares about his students. He doesn't just teach for the income; he truly seeks results and dedication from you.</div>
+                                <div class="testi-quote">Jovan is <span class="hl">truly professional</span>: responsible, dedicated, and organized. Beyond that, he is <span class="hl">genuinely kind and cares about his students</span>. He doesn't just teach for the income; he truly seeks results and dedication from you.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2645,7 +2509,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Highly encouraging and down-to-earth teaching style. Concepts are broken down step by step and linked to real-life examples, making even the more difficult topics easier to understand.</div>
+                                <div class="testi-quote">Highly encouraging and <span class="hl">down-to-earth teaching style</span>. Concepts are <span class="hl">broken down step by step</span> and linked to real-life examples, making even the more difficult topics easier to understand.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2662,7 +2526,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Jovan is committed and diligent. He writes concepts and solves exercises step by step, ensuring every student follows and understands. He answers all questions and explains clearly. Genuinely a great tutor.</div>
+                                <div class="testi-quote">Jovan is <span class="hl">committed and diligent</span>. He writes concepts and solves exercises step by step, ensuring <span class="hl">every student follows and understands</span>. He answers all questions and explains clearly. Genuinely a great tutor.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2679,7 +2543,7 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Jovan elevates students' confidence while genuinely improving their skills. He adapts to different learning needs and provides excellent support whenever required. Thanks to his dedication, I passed with a grade much higher than expected.</div>
+                                <div class="testi-quote">Jovan <span class="hl">elevates students' confidence</span> while genuinely improving their skills. He adapts to different learning needs and provides excellent support whenever required. Thanks to his dedication, <span class="hl">I passed with a grade much higher than expected</span>.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
@@ -2762,7 +2626,7 @@
 
 
                 .pricing-table .tier-price {
-                    font-family: var(--font-title);
+                    font-family: var(--font-numbers);
                     font-weight: 900;
                     font-size: 1.5rem;
                     color: var(--teal-dark);
@@ -2780,7 +2644,7 @@
                 }
 
                 .pricing-table .tier-name {
-                    font-family: var(--font-title);
+                    font-family: var(--font-numbers);
                     font-size: 1rem;
                     font-weight: 900;
                     letter-spacing: -0.02em;
@@ -2862,11 +2726,25 @@
                     font-size: 0.85rem;
                     font-weight: 900;
                 }
+                .pt-yes i {
+                    font-size: 1.05rem;
+                    color: var(--teal-dark);
+                    -webkit-text-stroke: 1.2px var(--teal-dark);
+                }
 
                 .pt-no {
-                    color: #D4CFC9;
+                    color: var(--teal-light);
                     font-size: 0.85rem;
                     font-weight: 700;
+                }
+
+                .pt-soon {
+                    color: var(--teal-light);
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    font-style: italic;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
                 }
 
                 .pt-feature {
@@ -3085,7 +2963,7 @@
                                     <div class="tier-name-row"><span class="tier-name">Plus</span><button class="info-btn" data-tier="plus" aria-label="What's included in Plus">i</button></div>
                                     <div class="tier-price-row"><span class="tier-price">€26.67</span><span class="tier-hr">/hr</span></div>
                                     <span class="tier-sub">Total €800</span>
-                                    <span class="tier-badge limited">Only 12 Spots Left</span>
+                                    <span class="tier-badge limited">12 Spots Left</span>
                                 </th>
                                 <th>
                                     <div class="tier-name-row"><span class="tier-name">VIP Coaching</span><button class="info-btn" data-tier="vip" aria-label="What's included in VIP Coaching">i</button></div>
@@ -3116,21 +2994,21 @@
                             </tr>
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-camera-video-fill"></i></span>Session Recordings</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                             </tr>
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-folder-fill"></i></span>Access to Samkedemia Drive</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                             </tr>
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-chat-dots-fill"></i></span>Between-Session Support</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
-                                <td><span class="pt-yes">✓</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                             </tr>
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
@@ -3138,13 +3016,20 @@
                                 <td><span class="pt-yes">24 months</span></td>
                                 <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
                             </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>2</sup></span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="pricing-disclaimers">
                     <p>Hourly rates are effective rates for comparison purposes. The full total remains applicable regardless of the number of sessions attended.</p>
-                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>    
+                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
+                    <p><sup>2</sup> Constitutes a structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude).<br> Upon activation, these instructions confine the AI's responses strictly to the methodologies, terminology, and problem-solving approaches as taught within the enrolled course.</p>
                 </div>
             </div>
         </div>
@@ -3170,19 +3055,24 @@
                 }
                 .resource-scroll-track::-webkit-scrollbar { display: none; }
                 .resource-card-item {
-                    flex: 0 0 200px;
+                    flex: 0 0 210px;
                     scroll-snap-align: start;
                     display: flex;
                     flex-direction: column;
-                    background: var(--bg-off-white);
-                    border-radius: 16px;
-                    border: 1px solid rgba(0,0,0,0.07);
+                    background: white;
+                    border-radius: 18px;
+                    border: 1px solid #EBE7E2;
                     text-align: left;
                     overflow: hidden;
+                    transition: box-shadow 0.2s, transform 0.2s;
+                }
+                .resource-card-item:hover {
+                    box-shadow: 0 6px 20px rgba(12, 56, 64, 0.09);
+                    transform: translateY(-2px);
                 }
                 .resource-card-img {
                     width: 100%;
-                    height: 130px;
+                    height: 128px;
                     background: #EBE7E2;
                     overflow: hidden;
                     flex-shrink: 0;
@@ -3193,63 +3083,69 @@
                     object-fit: cover;
                 }
                 .resource-card-body {
-                    padding: 14px 16px 10px;
+                    padding: 14px 16px 12px;
                     flex: 1;
                 }
                 .resource-card-item h4 {
-                    font-family: var(--font-title);
-                    font-size: 1rem;
+                    font-family: var(--font-numbers);
+                    font-size: 0.95rem;
                     font-weight: 900;
                     margin: 0;
                     color: var(--teal-dark);
-                    line-height: 1.2;
+                    line-height: 1.25;
                 }
                 .resource-book-label {
-                    font-size: 0.6rem;
+                    font-size: 0.58rem;
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.14em;
                     color: var(--teal-light);
-                    margin-bottom: 4px;
+                    margin-bottom: 5px;
                 }
                 .resource-card-footer {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    padding: 0 16px 16px;
+                    padding: 10px 16px 16px;
+                    border-top: 1px solid #EBE7E2;
                     gap: 8px;
                 }
                 .resource-price-tag {
                     display: inline-block;
-                    background: #16a34a;
-                    color: white;
-                    font-size: 0.65rem;
+                    background: transparent;
+                    color: var(--teal-mid);
+                    border: 1.5px solid var(--teal-light);
+                    font-size: 0.62rem;
                     font-weight: 700;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
-                    padding: 8px 14px;
+                    padding: 5px 12px;
                     border-radius: 100px;
                     white-space: nowrap;
                 }
                 .resource-price-paid {
                     background: var(--accent-orange);
+                    color: white;
+                    border-color: var(--accent-orange);
                 }
                 .resource-go-btn {
                     display: inline-block;
-                    padding: 8px 14px;
+                    padding: 6px 14px;
                     border-radius: 100px;
-                    font-size: 0.65rem;
+                    font-size: 0.62rem;
                     font-weight: 800;
                     text-transform: uppercase;
-                    letter-spacing: 0.12em;
+                    letter-spacing: 0.1em;
                     text-decoration: none;
-                    border: 1.5px solid #C8C2BB;
+                    border: 1.5px solid #D6D0CA;
                     color: var(--teal-dark);
-                    transition: border-color 0.2s, background 0.2s, color 0.2s;
+                    transition: border-color 0.18s, background 0.18s, color 0.18s;
                     white-space: nowrap;
                 }
                 .resource-go-btn:hover {
                     border-color: var(--teal-dark);
+                    background: var(--teal-dark);
+                    color: white;
                 }
                 .resource-buy-btn {
                     background: var(--teal-dark);
@@ -3390,7 +3286,7 @@
                     </div>
                     <h4>WhatsApp</h4>
                 </div>
-                <p>Fastest response, tell us your goals today.</p>
+                <p>Fastest, tell me your goals today.</p>
                 <span class="link-text" style="color: #25D366;">Start Chatting →</span>
             </a>
 
@@ -3414,7 +3310,7 @@
                     </div>
                     <h4>Email</h4>
                 </div>
-                <p>Send us a detailed message anytime.</p>
+                <p>Send me a detailed message anytime.</p>
                 <span class="link-text" style="color: #2563eb;">Send Message →</span>
             </a>
         </div>
@@ -3472,7 +3368,7 @@
         (function() {
             const chart = document.getElementById('pass-chart');
             if (!chart) return;
-            const maxPct = 77, maxH = 150;
+            const maxPct = 67, maxH = 150;
             function animate() {
                 chart.querySelectorAll('.pass-bar[data-pct]').forEach(bar => {
                     bar.style.height = (parseInt(bar.dataset.pct) / maxPct * maxH) + 'px';
@@ -3783,8 +3679,7 @@
 
             // Pricing
             reveal('#pricing', '.card-tag, h3', { step: 0.08 });
-            reveal('#pricing', '.pricing-tier-card', { step: 0.07, base: 0.12 });
-            reveal('#pricing', '.pricing-table-wrap, .pricing-disclaimers', { step: 0.1, base: 0.32 });
+            reveal('#pricing', '.pricing-table-wrap, .pricing-disclaimers', { step: 0.1, base: 0.12 });
 
             // Resources
             reveal('#resources-card', '.card-tag, h3, p, .resource-scroll-wrap', { step: 0.09 });
@@ -3802,11 +3697,11 @@
 
             function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
-            function animateCount(el, target, suffix, dur) {
+            function animateCount(el, target, prefix, suffix, dur) {
                 const t0 = performance.now();
                 (function tick(now) {
                     const p = Math.min((now - t0) / dur, 1);
-                    el.textContent = Math.round(easeOut(p) * target) + suffix;
+                    el.textContent = prefix + Math.round(easeOut(p) * target) + suffix;
                     if (p < 1) requestAnimationFrame(tick);
                 })(performance.now());
             }
@@ -3816,9 +3711,10 @@
                 done = true;
                 els.forEach(el => {
                     const raw = el.textContent.trim();
-                    const suffix = raw.replace(/[\d,]/g, '');
+                    const prefix = raw.match(/^[^\d]*/)[0];
+                    const suffix = raw.replace(/^[^\d]*[\d,]+/, '');
                     const target = parseInt(raw.replace(/[^\d]/g, ''), 10);
-                    if (!isNaN(target)) animateCount(el, target, suffix, 1600);
+                    if (!isNaN(target)) animateCount(el, target, prefix, suffix, 1600);
                 });
                 io.disconnect();
             }, { threshold: 0.5 });
