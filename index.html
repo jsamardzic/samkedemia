@@ -14,11 +14,13 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg-off-white: #FAF8F5;
-            --taupe-dark: #4A4541;
-            --taupe-mid: #827B75;
-            --taupe-light: #B8B0AA;
+            --bg-off-white: #F4F9FA;
+            --teal-dark: #0c3840;
+            --teal-mid: #2f6a73;
+            --teal-light: #83acb2;
+            --orange-dark: #3d1909;
             --accent-orange: #ff4d00;
+            --orange-light: #f5a87e;
             --font-title: 'Outfit', sans-serif;
             --font-body: 'Atkinson Hyperlegible', sans-serif;
         }
@@ -70,7 +72,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(var(--taupe-light) 1px, transparent 1px);
+            background-image: radial-gradient(var(--teal-light) 1px, transparent 1px);
             background-size: 40px 40px;
             opacity: 0.13;
             z-index: -1;
@@ -88,9 +90,21 @@
             overflow-x: hidden;
             line-height: 1.5;
             position: relative;
-            /* Create a stacking context */
             isolation: isolate;
-            /* A modern way to create a stacking context */
+        }
+
+        h1, h2, h3 {
+            color: var(--orange-dark);
+            margin-top: 0;
+        }
+
+        h4 {
+            color: var(--teal-dark);
+            margin-top: 0;
+        }
+
+        footer h1, footer h2, footer h3, footer h4 {
+            color: white;
         }
 
         header {
@@ -155,7 +169,7 @@
             color: var(--accent-orange);
         }
         .logo .logo-sub {
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             font-size: 0.52rem;
             font-weight: 700;
             letter-spacing: 0.18em;
@@ -184,7 +198,7 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             text-decoration: none;
             padding: 7px 13px;
             border-radius: 100px;
@@ -194,7 +208,7 @@
 
         .header-nav-link:hover {
             background: rgba(0, 0, 0, 0.05);
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
         }
 
         .hero {
@@ -237,7 +251,7 @@
             line-height: 0.95;
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
         }
 
@@ -260,7 +274,7 @@
             font-family: var(--font-title);
             font-size: 1.2rem;
             font-weight: 300;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             line-height: 1.65;
             margin-top: 0.75rem;
             max-width: 600px;
@@ -386,21 +400,22 @@
             font-size: 0.7rem;
             letter-spacing: 0.2em;
             color: var(--accent-orange);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: block;
         }
 
         .card-content h3 {
             font-family: var(--font-title);
             font-size: 3rem;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
             font-weight: 900;
+            letter-spacing: -1px;
+            color: var(--teal-dark);
+            margin-bottom: 14px;
         }
 
         .card-content p {
             font-size: 1.05rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             font-weight: 400;
             line-height: 1.6;
         }
@@ -471,7 +486,7 @@
             align-items: flex-start;
             gap: 9px;
             font-size: 0.93rem;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             line-height: 1.5;
         }
         .detail-check i {
@@ -480,6 +495,14 @@
             flex-shrink: 0;
             margin-top: 2px;
             -webkit-text-stroke: 0.4px var(--accent-orange);
+        }
+
+        .hl {
+            background: rgba(131, 172, 178, 0.22);
+            color: var(--teal-dark);
+            font-weight: 700;
+            border-radius: 3px;
+            padding: 1px 4px;
         }
 
 
@@ -623,7 +646,7 @@
             font-family: var(--font-title);
             font-weight: 900;
             font-size: 1.05rem;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             margin-bottom: 0;
             line-height: 1.2;
             flex: 1;
@@ -631,7 +654,7 @@
 
         .milestone p {
             font-size: 0.82rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             line-height: 1.5;
             width: 100%;
         }
@@ -654,7 +677,7 @@
         .tier-tab {
             background: none;
             border: 1.5px solid #D6D0CA;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             padding: 8px 20px;
             border-radius: 100px;
             font-family: var(--font-body);
@@ -671,8 +694,8 @@
             color: white;
         }
         .tier-tab:hover:not(.active) {
-            border-color: var(--taupe-dark);
-            color: var(--taupe-dark);
+            border-color: var(--teal-dark);
+            color: var(--teal-dark);
         }
 
         /* --- Milestone grid --- */
@@ -720,7 +743,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             background: var(--bg-off-white);
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             border: 1px solid #EBE7E2;
             padding: 5px 10px;
             border-radius: 100px;
@@ -755,7 +778,7 @@
 
         /* --- Buttons --- */
         .btn-glass {
-            background: var(--taupe-dark);
+            background: var(--teal-dark);
             color: white;
             padding: 18px 36px;
             border-radius: 100px;
@@ -775,7 +798,7 @@
 
         /* --- Footer --- */
         footer {
-            background: var(--taupe-dark);
+            background: var(--teal-dark);
             color: white;
             padding: 100px 5% 50px 5%;
             border-radius: 80px 80px 0 0;
@@ -838,7 +861,7 @@
             line-height: 1.1;
         }
         .footer-logo .text .logo-name {
-            color: var(--accent-orange);
+            color: rgba(255,255,255,0.45);
         }
         .footer-logo .text .logo-sub {
             color: rgba(255,255,255,0.45);
@@ -850,7 +873,7 @@
 
         .footer-col p {
             font-size: 0.75rem;
-            color: var(--taupe-light);
+            color: var(--teal-light);
             line-height: 1.8;
             opacity: 0.8;
             text-transform: uppercase;
@@ -863,7 +886,7 @@
             text-transform: uppercase;
             letter-spacing: 0.2em;
             margin-bottom: 30px;
-            color: var(--taupe-light);
+            color: var(--teal-light);
         }
 
         .footer-links-grid {
@@ -880,7 +903,7 @@
         }
 
         .footer-links-grid ul a {
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             text-decoration: none;
             font-size: 0.8rem;
             font-weight: 700;
@@ -927,7 +950,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
             font-size: 0.7rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -948,27 +971,27 @@
         }
 
         .contact-section .tag {
-            color: var(--accent-orange);
             font-weight: 800;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            margin-bottom: 20px;
+            color: var(--accent-orange);
+            margin-bottom: 12px;
             display: block;
         }
 
         .contact-section h2 {
             font-family: var(--font-title);
-            font-weight: 900;
             font-size: 3rem;
+            font-weight: 900;
             letter-spacing: -1px;
-            margin-bottom: 20px;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
+            margin-bottom: 14px;
         }
 
         .contact-section .subtitle {
             font-size: 1.2rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             line-height: 1.6;
         }
 
@@ -1082,13 +1105,13 @@
             font-family: var(--font-title);
             font-weight: 900;
             font-size: clamp(1.1rem, 2.4vw, 1.8rem);
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             margin-bottom: 8px;
         }
 
         .contact-card p {
             font-size: clamp(0.8rem, 1.4vw, 1rem);
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             margin-bottom: 24px;
             flex-grow: 1;
         }
@@ -1171,13 +1194,13 @@
             font-family: var(--font-title);
             font-weight: 900;
             font-size: 1.5rem;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
         }
 
         .pricing-tier .subtitle {
             font-size: 0.8rem;
             text-transform: uppercase;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             letter-spacing: 0.1em;
             margin-bottom: 20px;
         }
@@ -1186,18 +1209,18 @@
             font-size: 3rem;
             font-family: var(--font-title);
             font-weight: 900;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             margin-bottom: 5px;
         }
 
         .pricing-tier .price span {
             font-size: 1rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
         }
 
         .pricing-tier .total {
             font-size: 0.8rem;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             font-style: italic;
             margin-bottom: 25px;
         }
@@ -1217,11 +1240,11 @@
         }
 
         .pricing-tier .features li.included {
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
         }
 
         .pricing-tier .features li.excluded {
-            color: var(--taupe-light);
+            color: var(--teal-light);
             text-decoration: line-through;
         }
 
@@ -1277,7 +1300,7 @@
             position: absolute;
             font-family: var(--font-title);
             font-weight: 900;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             user-select: none;
             opacity: 0.11;
             animation: symbol-float-a 10s ease-in-out infinite;
@@ -1430,13 +1453,13 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             text-align: left;
         }
         .testi-meta {
             font-size: 0.72rem;
             font-weight: 500;
-            color: var(--taupe-mid);
+            color: var(--teal-mid);
             letter-spacing: 0.02em;
             text-align: left;
         }
@@ -1463,7 +1486,7 @@
             justify-content: center;
             cursor: pointer;
             transition: border-color 0.2s, color 0.2s, transform 0.2s;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
         }
         .testi-nav-btn:hover:not(:disabled) {
             border-color: var(--accent-orange);
@@ -1484,7 +1507,7 @@
             width: 6px;
             height: 6px;
             border-radius: 3px;
-            background: var(--taupe-light);
+            background: var(--teal-light);
             transition: all 0.3s ease;
             cursor: pointer;
             border: none;
@@ -1555,7 +1578,7 @@
             display: block;
             width: 100%;
             height: 2px;
-            background: var(--taupe-dark);
+            background: var(--teal-dark);
             border-radius: 2px;
             transition: transform 0.3s ease, opacity 0.3s ease;
             transform-origin: center;
@@ -1605,7 +1628,7 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            color: var(--taupe-dark);
+            color: var(--teal-dark);
             text-decoration: none;
             padding: 15px 24px;
             width: 100%;
@@ -1721,7 +1744,9 @@
             .pricing-table .tier-price {
                 font-size: 1.1rem !important;
             }
-            .pricing-table .tier-name,
+            .pricing-table .tier-name {
+                font-size: 0.72rem !important;
+            }
             .pricing-table .tier-sub {
                 font-size: 0.5rem !important;
             }
@@ -1782,10 +1807,25 @@
                 margin-top: 5vh;
             }
 
-            /* Testimonials wrapper — full width, no fixed max-width */
+            /* Testimonials wrapper — full width, buttons overlaid on card */
             .testimonials-wrapper {
                 max-width: 100%;
+                gap: 0;
+                position: relative;
             }
+            .testi-nav-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 2;
+                width: 34px;
+                height: 34px;
+                background: rgba(255,255,255,0.88);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+            #testi-prev { left: 8px; }
+            #testi-next { right: 8px; }
 
             /* Testimonial footer — center everything, grade on its own line */
             .testi-header {
@@ -1908,12 +1948,12 @@
             </div>
             <span class="social-proof-text">140+ students passed. Join them.</span>
         </a>
-        <h1 class="hero-title">Result Driven<br><span class="hero-highlight">Tutoring.</span></h1>
-        <p class="hero-subtitle">Proven methods. Right tools. Less stress.<br>Expert BBA support with a strong record of student success.</p>
+        <h1 class="hero-title"><span class="hero-highlight">Result</span> Driven<br>Tutoring.</h1>
+        <p class="hero-subtitle">Proven methods. Right tools. Less stress.<br>Expert support with a strong record of student success.</p>
         <!-- Trusted By Logos (Rotating) -->
         <div id="trusted-logos">
             <p
-                style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--taupe-mid);">
+                style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--teal-mid);">
                 Trusted by students from</p>
             <div
                 style="width: 100%; max-width: 56rem; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);">
@@ -1952,9 +1992,9 @@
             <div class="card-content"
                 style="display: flex; flex-direction: column; align-items: center; gap: 0px; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 40px;">
-                    <span class="card-tag">About Me</span>
-                    <h3>My name is Jovan</h3>
-                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
+                    <span class="card-tag">Hello, I am Jovan.</span>
+                    <h3>About Me</h3>
+                    <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
                 </div>
                 <div class="about-me-container" style="max-width: 1100px; gap: 60px; width: 100%;">
                     <div class="about-me-image">
@@ -1966,24 +2006,24 @@
                                 <div class="label"><i class="bi bi-mortarboard-fill"></i> Background</div>
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>26 year old guy from Serbia</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Got my Master's in Statistics at KU Leuven, graduated Magna Cum Laude</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the Science@Leuven Scholarship</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Got my Master's in Statistics at KU Leuven, graduated <span class="hl">Magna Cum Laude</span></span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span></span></div>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <div class="label"><i class="bi bi-patch-check-fill"></i> Tutoring Experience</div>
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Started tutoring on the side to make some extra money</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into Samkedemia, helping students across Europe reach their goals</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with hundreds of students from all kinds of backgrounds</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into <span class="hl">Samkedemia</span>, helping students across Europe reach their goals</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with <span class="hl">hundreds of students</span> from all kinds of backgrounds</span></div>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <div class="label"><i class="bi bi-lightbulb-fill"></i> Teaching Style</div>
                                 <div class="detail-checklist">
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Relaxed atmosphere that builds your confidence as you go</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Plain language, not textbook theory. Just what actually makes sense</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Systems over cramming, always with one goal in mind: passing your exam</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span><span class="hl">Relaxed atmosphere</span> that builds your confidence as you go</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span><span class="hl">Plain language, not textbook</span> theory. Just what actually makes sense</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Systems over cramming, always with one goal in mind: <span class="hl">passing your exam</span></span></div>
                                 </div>
                             </div>
                         </div>
@@ -1995,9 +2035,9 @@
         <div class="stack-card" id="timeline-card">
             <div class="card-content" style="width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <span class="card-tag">What's Included</span>
-                    <h3>Everything you need to pass.</h3>
-                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
+                    <span class="card-tag">Everything you need to pass.</span>
+                    <h3>What's Included</h3>
+                    <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
                     <p class="faq-label" style="margin-top: 36px;">Programs</p>
                     <div class="tier-tabs" id="tier-tabs">
                         <button class="tier-tab active" data-tier="essential">Essential</button>
@@ -2006,9 +2046,9 @@
                     </div>
                 </div>
                 <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 600px;">
-                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">This is our go-to path. You'll get 20 focused sessions prepared by Jovan, covering every essential exercise and the latest exam patterns. It's the full roadmap to secure your pass without the guesswork.</p>
-                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">Everything from our Essential program, plus 10 intimate, hands-on sessions capped at four students. Just let me know what's tripping you up before we dive in, and we'll iron out those weak spots together.</p>
-                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--taupe-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
+                    <p data-tier-text="essential" style="font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">This is our go-to path. You'll get 20 focused sessions prepared by Jovan, covering every essential exercise and the latest exam patterns. It's the full roadmap to secure your pass without the guesswork.</p>
+                    <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">Everything from our Essential program, plus 10 intimate, hands-on sessions capped at four students. Just let me know what's tripping you up before we dive in, and we'll iron out those weak spots together.</p>
+                    <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">A completely private experience built around your pace. We'll meet one-on-one to master tricky topics and sharpen your skills. You get my full support for total peace of mind. Even if you don't pass, I'll tutor you for free until you do.</p>
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
                     <div class="milestone" data-tiers="essential plus">
@@ -2078,7 +2118,7 @@
                         font-weight: 800;
                         text-transform: uppercase;
                         letter-spacing: 0.22em;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         margin-bottom: 18px;
                     }
                     .faq-tabs {
@@ -2091,7 +2131,7 @@
                     .faq-tab {
                         background: none;
                         border: 1.5px solid #D6D0CA;
-                        color: var(--taupe-mid);
+                        color: var(--teal-mid);
                         padding: 8px 20px;
                         border-radius: 100px;
                         font-family: var(--font-body);
@@ -2108,8 +2148,8 @@
                         color: white;
                     }
                     .faq-tab:hover:not(.active) {
-                        border-color: var(--taupe-dark);
-                        color: var(--taupe-dark);
+                        border-color: var(--teal-dark);
+                        color: var(--teal-dark);
                     }
                     .faq-panels { max-width: 600px; margin: 0 auto; text-align: left; }
                     .faq-panel { display: none; }
@@ -2128,13 +2168,13 @@
                         font-family: var(--font-body);
                         font-size: 0.95rem;
                         font-weight: 600;
-                        color: var(--taupe-dark);
+                        color: var(--teal-dark);
                         cursor: pointer;
                         gap: 16px;
                     }
                     .faq-item-btn i {
                         flex-shrink: 0;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         transition: transform 0.25s ease, color 0.2s;
                     }
                     .faq-item.open .faq-item-btn { color: var(--accent-orange); }
@@ -2147,7 +2187,7 @@
                     .faq-item.open .faq-item-body { max-height: 320px; }
                     .faq-item-body p {
                         font-size: 0.88rem;
-                        color: var(--taupe-mid);
+                        color: var(--teal-mid);
                         line-height: 1.68;
                         padding-bottom: 18px;
                     }
@@ -2162,7 +2202,7 @@
                         font-weight: 700;
                         text-transform: uppercase;
                         letter-spacing: 0.13em;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         padding-left: 14px;
                     }
                     .course-sel {
@@ -2174,9 +2214,9 @@
                         font-size: 0.82rem;
                         font-family: var(--font-body);
                         font-weight: 600;
-                        color: var(--taupe-dark);
+                        color: var(--teal-dark);
                         cursor: pointer;
-                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23B8B0AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%2383acb2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
                         background-repeat: no-repeat;
                         background-position: right 12px center;
                         transition: border-color 0.2s;
@@ -2184,7 +2224,7 @@
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
-                    #uni-sel { width: 250px; }
+                    #uni-sel { width: 280px; }
                     #prog-sel { width: 280px; }
                     .course-sel:focus { outline: none; border-color: var(--accent-orange); }
                     .course-list-wrap {
@@ -2213,7 +2253,7 @@
                         font-size: 0.62rem;
                         font-weight: 700;
                         letter-spacing: 0.06em;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         flex-shrink: 0;
                         width: 20px;
                         text-align: right;
@@ -2224,7 +2264,7 @@
                         min-width: 0;
                         font-size: 0.88rem;
                         font-weight: 600;
-                        color: var(--taupe-dark);
+                        color: var(--teal-dark);
                         margin-right: 22px;
                     }
                     .course-year {
@@ -2232,7 +2272,7 @@
                         font-size: 0.62rem;
                         font-weight: 700;
                         letter-spacing: 0.04em;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         white-space: nowrap;
                         margin-right: 22px;
                     }
@@ -2241,7 +2281,7 @@
                         font-size: 0.62rem;
                         font-weight: 700;
                         letter-spacing: 0.05em;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         margin-right: 22px;
                     }
                     .course-link {
@@ -2252,7 +2292,7 @@
                         width: 28px;
                         height: 28px;
                         border-radius: 50%;
-                        color: var(--taupe-light);
+                        color: var(--teal-light);
                         text-decoration: none;
                         font-size: 13px;
                         transition: color 0.18s, background 0.18s;
@@ -2381,7 +2421,7 @@
                     font-family: var(--font-title);
                     font-weight: 900;
                     font-size: 1.25rem;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     line-height: 1;
                 }
                 .pass-bar-pct.samk { color: var(--accent-orange); }
@@ -2408,7 +2448,7 @@
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.08em;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     line-height: 1.4;
                 }
                 .pass-bar-name.samk { color: var(--accent-orange); }
@@ -2419,7 +2459,7 @@
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.18em;
-                    color: var(--taupe-light);
+                    color: var(--orange-light);
                     margin-bottom: 28px;
                 }
                 .results-label.divider {
@@ -2459,14 +2499,14 @@
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.1em;
-                    color: var(--taupe-mid);
+                    color: var(--teal-mid);
                 }
             </style>
             <div class="card-content" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 40px;">
-                    <span class="card-tag">Results</span>
-                    <h3>Proof that it works.</h3>
-                    <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px; margin-bottom: 0;">Real feedback from real students. This is what structured preparation actually looks like.</p>
+                    <span class="card-tag">Proof that it works.</span>
+                    <h3>Results</h3>
+                    <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Real feedback from real students. This is what structured preparation actually looks like.</p>
                 </div>
 
                 <p class="results-label">Passing rates</p>
@@ -2679,7 +2719,7 @@
                 .pricing-table-wrap {
                     width: 100%;
                     max-width: 1000px;
-                    margin: 0 auto;
+                    margin: 32px auto 0;
                     overflow-x: auto;
                 }
 
@@ -2701,7 +2741,7 @@
                 .pricing-table td:first-child {
                     text-align: left;
                     font-weight: 600;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     white-space: nowrap;
                     padding-left: 14px;
                 }
@@ -2712,10 +2752,12 @@
                     font-weight: 900;
                     text-transform: uppercase;
                     letter-spacing: 0.15em;
-                    color: var(--taupe-mid);
+                    color: var(--teal-mid);
                     border-bottom: 1px solid #EBE7E2;
-                    padding-bottom: 18px;
+                    padding-top: 4px;
+                    padding-bottom: 22px;
                     text-align: center;
+                    vertical-align: top;
                 }
 
 
@@ -2723,26 +2765,65 @@
                     font-family: var(--font-title);
                     font-weight: 900;
                     font-size: 1.5rem;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     line-height: 1;
                     display: block;
                     margin-bottom: 3px;
                 }
 
+                .tier-name-row {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    margin-bottom: 8px;
+                }
+
                 .pricing-table .tier-name {
-                    font-size: 0.65rem;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 0.12em;
-                    color: var(--accent-orange);
+                    font-family: var(--font-title);
+                    font-size: 1rem;
+                    font-weight: 900;
+                    letter-spacing: -0.02em;
+                    text-transform: none;
+                    color: var(--teal-dark);
                     display: block;
-                    margin-bottom: 6px;
+                    margin-bottom: 0;
+                }
+
+                .info-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 50%;
+                    border: 1.5px solid var(--teal-light);
+                    background: none;
+                    color: var(--teal-light);
+                    font-size: 0.52rem;
+                    font-weight: 700;
+                    font-style: italic;
+                    font-family: Georgia, serif;
+                    cursor: pointer;
+                    transition: border-color 0.15s, color 0.15s;
+                    flex-shrink: 0;
+                    padding: 0;
+                    line-height: 1;
+                }
+                .info-btn:hover {
+                    border-color: var(--teal-dark);
+                    color: var(--teal-dark);
+                }
+
+                .pricing-table thead th .tier-badge {
+                    margin-top: 10px;
+                    margin-bottom: 0;
                 }
 
                 .pricing-table .tier-sub {
                     font-size: 0.6rem;
                     font-weight: 500;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     display: block;
                 }
 
@@ -2777,7 +2858,7 @@
 
                 /* Tick / cross */
                 .pt-yes {
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     font-size: 0.85rem;
                     font-weight: 900;
                 }
@@ -2817,7 +2898,7 @@
                     letter-spacing: 0.15em;
                     text-decoration: none;
                     transition: all 0.25s ease;
-                    background: var(--taupe-dark);
+                    background: var(--teal-dark);
                     color: white;
                 }
 
@@ -2830,7 +2911,7 @@
                     margin-top: 24px;
                     text-align: left;
                     font-size: 0.7rem;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     font-weight: 300;
                     max-width: 1000px;
                     margin-left: auto;
@@ -2841,7 +2922,7 @@
                 }
 
                 .pricing-disclaimers p {
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     font-weight: 300;
                     font-size: 0.7rem;
                     line-height: 1.4;
@@ -2854,22 +2935,22 @@
                     left: 0;
                     top: 1px;
                     font-weight: 700;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     font-size: 0.65rem;
                 }
 
                 .tier-badge {
                     display: block;
-                    font-size: 0.55rem;
+                    font-size: 0.52rem;
                     font-weight: 900;
                     text-transform: uppercase;
-                    letter-spacing: 0.15em;
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    margin-bottom: 6px;
+                    letter-spacing: 0.14em;
+                    padding: 4px 10px;
+                    border-radius: 100px;
                     width: fit-content;
                     margin-left: auto;
                     margin-right: auto;
+                    border: 1.5px solid transparent;
                 }
 
                 .tier-badge.popular {
@@ -2878,13 +2959,14 @@
                 }
 
                 .tier-badge.limited {
-                    background: #FFE4D6;
+                    background: transparent;
                     color: var(--accent-orange);
+                    border-color: var(--accent-orange);
                 }
 
                 .tier-badge.best-value {
-                    background: #E8E4DF;
-                    color: var(--taupe-mid);
+                    background: var(--teal-dark);
+                    color: white;
                 }
 
                 .tier-price-row {
@@ -2902,7 +2984,7 @@
                 .tier-price-row .tier-hr {
                     font-size: 0.55rem;
                     font-weight: 500;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                 }
 
                 .pricing-tiers {
@@ -2930,7 +3012,7 @@
                     font-family: var(--font-title);
                     font-weight: 900;
                     font-size: 1rem;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     margin-top: 4px;
                     margin-bottom: 6px;
                 }
@@ -2945,19 +3027,19 @@
                     font-family: var(--font-title);
                     font-weight: 900;
                     font-size: 1.7rem;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     line-height: 1;
                 }
 
                 .ptc-unit {
                     font-size: 0.65rem;
                     font-weight: 500;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                 }
 
                 .ptc-total {
                     font-size: 0.7rem;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     font-weight: 500;
                 }
 
@@ -2984,48 +3066,33 @@
                 }
             </style>
             <div class="card-content">
-                <span class="card-tag">Pricing</span>
-                <h3>Let's Start Today.</h3>
-                <p style="color: var(--taupe-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 10px;">Clear pricing, no surprises. Pick the format that fits your needs.</p>
-
-                <div class="pricing-tiers">
-                    <div class="pricing-tier-card">
-                        <span class="tier-badge popular">Most Popular</span>
-                        <div class="ptc-name">Essential Program</div>
-                        <div class="ptc-price-row">
-                            <span class="ptc-price">€17.50</span>
-                            <span class="ptc-unit">/hr</span>
-                        </div>
-                        <div class="ptc-total">Total €350</div>
-                    </div>
-                    <div class="pricing-tier-card">
-                        <span class="tier-badge limited">Only 12 Spots Left</span>
-                        <div class="ptc-name">Plus Program</div>
-                        <div class="ptc-price-row">
-                            <span class="ptc-price">€26.67</span>
-                            <span class="ptc-unit">/hr</span>
-                        </div>
-                        <div class="ptc-total">Total €800</div>
-                    </div>
-                    <div class="pricing-tier-card">
-                        <span class="tier-badge best-value">Best Value</span>
-                        <div class="ptc-name">VIP Coaching Program</div>
-                        <div class="ptc-price-row">
-                            <span class="ptc-price">€75.00</span>
-                            <span class="ptc-unit">/hr</span>
-                        </div>
-                        <div class="ptc-total">Total €1,500</div>
-                    </div>
-                </div>
+                <span class="card-tag">Let's Start Today.</span>
+                <h3>Pricing</h3>
+                <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0;">Clear pricing, no surprises. Pick the format that fits your needs.</p>
 
                 <div class="pricing-table-wrap">
                     <table class="pricing-table">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th><span class="tier-name">Essential</span></th>
-                                <th><span class="tier-name">Plus</span></th>
-                                <th><span class="tier-name">VIP Coaching</span></th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">Essential</span><button class="info-btn" data-tier="essential" aria-label="What's included in Essential">i</button></div>
+                                    <div class="tier-price-row"><span class="tier-price">€17.50</span><span class="tier-hr">/hr</span></div>
+                                    <span class="tier-sub">Total €350</span>
+                                    <span class="tier-badge popular">Most Popular</span>
+                                </th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">Plus</span><button class="info-btn" data-tier="plus" aria-label="What's included in Plus">i</button></div>
+                                    <div class="tier-price-row"><span class="tier-price">€26.67</span><span class="tier-hr">/hr</span></div>
+                                    <span class="tier-sub">Total €800</span>
+                                    <span class="tier-badge limited">Only 12 Spots Left</span>
+                                </th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">VIP Coaching</span><button class="info-btn" data-tier="vip" aria-label="What's included in VIP Coaching">i</button></div>
+                                    <div class="tier-price-row"><span class="tier-price">€75.00</span><span class="tier-hr">/hr</span></div>
+                                    <span class="tier-sub">Total €1,500</span>
+                                    <span class="tier-badge best-value">Best Value</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -3134,7 +3201,7 @@
                     font-size: 1rem;
                     font-weight: 900;
                     margin: 0;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     line-height: 1.2;
                 }
                 .resource-book-label {
@@ -3142,7 +3209,7 @@
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.14em;
-                    color: var(--taupe-light);
+                    color: var(--teal-light);
                     margin-bottom: 4px;
                 }
                 .resource-card-footer {
@@ -3177,16 +3244,16 @@
                     letter-spacing: 0.12em;
                     text-decoration: none;
                     border: 1.5px solid #C8C2BB;
-                    color: var(--taupe-dark);
+                    color: var(--teal-dark);
                     transition: border-color 0.2s, background 0.2s, color 0.2s;
                     white-space: nowrap;
                 }
                 .resource-go-btn:hover {
-                    border-color: var(--taupe-dark);
+                    border-color: var(--teal-dark);
                 }
                 .resource-buy-btn {
-                    background: var(--taupe-dark);
-                    border-color: var(--taupe-dark);
+                    background: var(--teal-dark);
+                    border-color: var(--teal-dark);
                     color: white;
                 }
                 .resource-buy-btn:hover {
@@ -3205,9 +3272,9 @@
                 }
             </style>
             <div class="card-content" style="width: 100%; max-width: 1100px; text-align: center;">
-                <span class="card-tag">Resources</span>
-                <h3>Study smarter.</h3>
-                <p style="color: var(--taupe-mid); font-size: 1.05rem; margin-top: 10px;">
+                <span class="card-tag">Study smarter.</span>
+                <h3>Resources</h3>
+                <p style="color: var(--teal-mid); font-size: 1.05rem; margin-top: 0;">
                     Free tools and solution books to help you get there.
                 </p>
                 <div class="resource-scroll-wrap">
@@ -3306,8 +3373,8 @@
 
     <section class="contact-section" id="contact">
         <div class="section-header">
-            <span class="tag">Contact</span>
-            <h2>Let's Pass That Exam!</h2>
+            <span class="tag">Let's Pass That Exam!</span>
+            <h2>Contact</h2>
             <p class="subtitle">
                 Join the students who have already mastered the curve.<br>No stress, no confusion. Just the results you
                 need to move forward.
@@ -3783,6 +3850,16 @@
                 link.addEventListener('click', closeMenu);
             });
         })();
+
+        // Pricing info buttons → scroll to What's Included + select tier
+        document.querySelectorAll('.info-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = document.querySelector(`#tier-tabs .tier-tab[data-tier="${btn.dataset.tier}"]`);
+                if (tab) tab.click();
+                document.getElementById('timeline-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
     </script>
 
 
