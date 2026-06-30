@@ -542,10 +542,16 @@
             }
 
             .about-me-image {
-                width: 100%;
+                width: min(260px, 100%);
+                aspect-ratio: 1 / 1;
                 min-height: unset;
-                height: 280px;
+                height: auto;
                 border-radius: 16px;
+                align-self: center;
+            }
+            .about-me-image img {
+                transform: none;
+                object-position: center 12%;
             }
 
             .about-me-content {
