@@ -2047,7 +2047,8 @@
                 <hr class="faq-divider">
                 <p class="faq-label">Courses Offered</p>
                 <style>
-                    .course-selects { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-bottom: 20px; }
+                    .course-selects { display: flex; flex-direction: row; gap: 16px; align-items: flex-end; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+                    @media (max-width: 768px) { .course-selects { flex-direction: column; align-items: center; } }
                     .course-sel-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; flex-shrink: 0; }
                     .course-list-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
                     .course-sel-label {
@@ -2206,18 +2207,18 @@
                             <div class="faq-item-body"><p>Sessions are pre-planned and structured, so they can't be rescheduled. But every session is recorded and uploaded to the Drive shortly after. Go through it and you'll be caught up for the next one.</p></div>
                         </div>
                         <div class="faq-item">
-                            <button class="faq-item-btn">I failed the course, can I join again next year?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>The program runs for the current exam cycle and ends after the exam. But you're always welcome to book individual sessions, just reach out.</p></div>
+                            <button class="faq-item-btn">I failed the course, does your support carry over to next year?<i class="bi bi-chevron-down"></i></button>
+                            <div class="faq-item-body"><p>The program covers one exam cycle. If you don't pass and want to prepare again the following year, you're welcome to re-enroll. But it would be a new program at the standard rate.<br><br>The exception is the VIP Coaching Program: it comes with a Lifetime Retake Coverage, so if you don't pass, you keep getting support through the Essential Group program at no extra cost, until you do.</p></div>
                         </div>
                     </div>
                     <div class="faq-panel" data-faq="during">
                         <div class="faq-item">
                             <button class="faq-item-btn">What does a guided session look like?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>About an hour on Google Meet. You get a handout beforehand to fill in as we go. The session has a few segments where I explain and you actively follow, with 1-2 minute parts where you finish an exercise yourself before we check it. We close with a 2-minute recap of the most important formulas, and I give out homework.</p></div>
+                            <div class="faq-item-body"><p>Guided sessions are group sessions pre-planned and led entirely by me.<br><br>They last for 1hr, and are held on Google Meet. You get a handout beforehand to take notes in as we go. We cover only critical exercises and recent past papers. It is everything you need to secure your pass.<br><br>The session alternates between segments where I explain and you actively follow, and short parts where you finish an exercise yourself before we check it together. We close with a recap of the most important formulas, and I give out homework.</p></div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">What does a practical session look like?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>A small group of 4, formed by me based on level. Before the session I ask each of you what you want to work on, then I pick exercises that target exactly those weak spots. You can ask questions at any point.</p></div>
+                            <div class="faq-item-body"><p>Practical sessions are in groups of 4 students.You tell me exactly what you want to work on, and I build the session around your weak points.<br><br>We work through exercises together, everyone stays active, and you can ask questions at any point.</p></div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">Can I ask questions during sessions?<i class="bi bi-chevron-down"></i></button>
@@ -2251,7 +2252,7 @@
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">I decided not to continue, can I get a refund?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>No, refunds are not available once you've enrolled. From the moment you join, you have full access to all the benefits that access doesn't pause or disappear if you decide to stop attending.</p></div>
+                            <div class="faq-item-body"><p>No, refunds are not available once you've enrolled. From the moment you join, you have full access to the program and that doesn't pause if you decide to stop attending.</p></div>
                         </div>
                     </div>
                 </div>
@@ -2629,8 +2630,10 @@
 
                 .pricing-table {
                     width: 100%;
+                    min-width: 560px;
                     border-collapse: separate;
                     border-spacing: 0;
+                    table-layout: fixed;
                 }
 
                 .pricing-table th,
@@ -2643,11 +2646,18 @@
                 /* Feature name column */
                 .pricing-table th:first-child,
                 .pricing-table td:first-child {
+                    width: 32%;
                     text-align: left;
                     font-weight: 600;
                     color: var(--teal-dark);
                     white-space: nowrap;
                     padding-left: 14px;
+                }
+
+                /* Three tier columns — equal width so headers/prices align perfectly */
+                .pricing-table th:not(:first-child),
+                .pricing-table td:not(:first-child) {
+                    width: 22.67%;
                 }
 
                 /* Header row */
@@ -3109,7 +3119,7 @@
                 }
                 .resource-scroll-track::-webkit-scrollbar { display: none; }
                 .resource-card-item {
-                    flex: 0 0 210px;
+                    flex: 0 0 240px;
                     scroll-snap-align: start;
                     display: flex;
                     flex-direction: column;
@@ -3125,6 +3135,7 @@
                     transform: translateY(-2px);
                 }
                 .resource-card-img {
+                    position: relative;
                     width: 100%;
                     height: 128px;
                     background: #EBE7E2;
@@ -3156,34 +3167,47 @@
                     color: var(--teal-light);
                     margin-bottom: 5px;
                 }
-                .resource-card-footer {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 10px 16px 16px;
-                    border-top: 1px solid #EBE7E2;
-                    gap: 8px;
-                }
-                .resource-price-tag {
+                .resource-price-badge {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
                     display: inline-block;
-                    background: transparent;
-                    color: var(--teal-mid);
-                    border: 1.5px solid var(--teal-light);
                     font-size: 0.62rem;
                     font-weight: 700;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
-                    padding: 5px 12px;
+                    padding: 4px 11px;
                     border-radius: 100px;
                     white-space: nowrap;
+                    border: 1.5px solid white;
+                    background: white;
+                    color: var(--teal-mid);
+                    box-shadow: 0 2px 12px rgba(12, 56, 64, 0.35), 0 1px 3px rgba(0,0,0,0.18);
                 }
-                .resource-price-paid {
+                .resource-price-badge.resource-price-paid {
                     background: var(--accent-orange);
-                    color: white;
                     border-color: var(--accent-orange);
+                    color: white;
+                    box-shadow: 0 2px 12px rgba(12, 56, 64, 0.35), 0 1px 3px rgba(0,0,0,0.18);
+                }
+                .resource-card-footer {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 12px 16px 16px;
+                    border-top: 1px solid #EBE7E2;
+                }
+                .resource-card-footer .resource-go-btn {
+                    flex: 1;
+                    text-align: center;
+                    padding-left: 10px;
+                    padding-right: 10px;
                 }
                 .resource-go-btn {
-                    display: inline-block;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
                     padding: 6px 14px;
                     border-radius: 100px;
                     font-size: 0.62rem;
@@ -3196,6 +3220,7 @@
                     transition: border-color 0.18s, background 0.18s, color 0.18s;
                     white-space: nowrap;
                 }
+                .resource-go-btn i { font-size: 0.68rem; }
                 .resource-go-btn:hover {
                     border-color: var(--teal-dark);
                     background: var(--teal-dark);
@@ -3231,85 +3256,104 @@
                     <div class="resource-scroll-track">
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource1.png" alt="Linear Programming Solver"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource1.png" alt="Linear Programming Solver">
+                                <span class="resource-price-badge">Free</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
                                 <h4>Linear Programming Solver</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag">Free</span>
-                                <a href="https://www.samkedemia.com/linearprog/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                                <a href="https://www.samkedemia.com/linearprog/" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource2.png" alt="Excel Cheat Sheet"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource2.png" alt="Excel Cheat Sheet">
+                                <span class="resource-price-badge">Free</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
                                 <h4>Excel Cheat Sheet</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag">Free</span>
-                                <a href="https://www.samkedemia.com/excel/" target="_blank" rel="noopener" class="resource-go-btn">Go There →</a>
+                                <a href="https://www.samkedemia.com/excel/" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource3.png" alt="Math A"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource3.png" alt="Math A">
+                                <span class="resource-price-badge resource-price-paid">€35</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
                                 <h4>Math A</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="samplebooks/mathA-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource4.png" alt="Math B"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource4.png" alt="Math B">
+                                <span class="resource-price-badge resource-price-paid">€35</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
                                 <h4>Math B</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="samplebooks/mathB-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource5.png" alt="Descriptive Stats"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource5.png" alt="Descriptive Stats">
+                                <span class="resource-price-badge resource-price-paid">€35</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
                                 <h4>Descriptive Stats</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="samplebooks/descriptiveStats-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource6.png" alt="Inferential Stats"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource6.png" alt="Inferential Stats">
+                                <span class="resource-price-badge resource-price-paid">€35</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
                                 <h4>Inferential Stats</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="samplebooks/inferentialStats-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
 
                         <div class="resource-card-item">
-                            <div class="resource-card-img"><img src="images/resource7.png" alt="IMOR"></div>
+                            <div class="resource-card-img">
+                                <img src="images/resource7.png" alt="IMOR">
+                                <span class="resource-price-badge resource-price-paid">€35</span>
+                            </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
                                 <h4>IMOR</h4>
                             </div>
                             <div class="resource-card-footer">
-                                <span class="resource-price-tag resource-price-paid">€35</span>
+                                <a href="samplebooks/IMOR-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
