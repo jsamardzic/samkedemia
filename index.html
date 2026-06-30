@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@700;900&family=Vidaloka&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -30,7 +30,7 @@
             --orange-dark: #3d1909;
             --accent-orange: #ff4d00;
             --orange-light: #f5a87e;
-            --font-title: 'DM Serif Display', serif;
+            --font-title: 'Vidaloka', serif;
             --font-body: 'Atkinson Hyperlegible', sans-serif;
             --font-numbers: 'Outfit', sans-serif;
         }
@@ -229,7 +229,7 @@
             align-items: center;
             text-align: center;
             position: relative;
-            padding-bottom: 30vh;
+            padding-bottom: 22vh;
             /* Pushes centered content up */
             overflow: hidden;
         }
@@ -256,7 +256,7 @@
         .hero-title {
             font-size: clamp(3rem, 8vw, 6.5rem);
             font-family: var(--font-title);
-            font-weight: 900;
+            font-weight: 1500;
             letter-spacing: -1.5px;
             line-height: 0.95;
             margin-top: 1.5rem;
@@ -275,7 +275,7 @@
             position: absolute;
             z-index: -1;
             inset: 18% -10px 4% -10px;
-            background: rgba(255, 77, 0, 0.48);
+            background: rgba(255, 77, 0, 0.20);
             border-radius: 3px 7px 5px 2px / 6px 3px 8px 4px;
             transform: rotate(-0.5deg) skewX(-1.5deg);
             animation: highlight-draw 0.55s cubic-bezier(0.25, 0.1, 0.5, 1) 1.1s both;
@@ -295,7 +295,7 @@
         }
 
         .hero .social-proof {
-            margin-top: 30vh;
+            margin-top: 22vh;
             animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
         }
 
@@ -315,6 +315,8 @@
 
         .logo-scroller {
             display: flex;
+            width: max-content;
+            will-change: transform;
             animation: scroll-logos 30s linear infinite;
         }
 
@@ -376,7 +378,7 @@
 
         /* --- Sections --- */
         .stack-container {
-            padding: 20px 5% 60px;
+            padding: 0px 5% 60px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -395,7 +397,7 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: 80px 5%;
+            padding: 48px 5% 80px;
         }
 
         .card-content {
@@ -416,7 +418,7 @@
 
         .card-content h3 {
             font-family: var(--font-title);
-            font-size: 3rem;
+            font-size: clamp(1.8rem, 7vw, 3rem);
             font-weight: 900;
             letter-spacing: -0.5px;
             color: var(--teal-dark);
@@ -763,19 +765,24 @@
         .btn-whatsapp {
             background-color: var(--accent-orange);
             color: white;
-            padding: 10px 28px;
+            padding: 10px 20px;
             border-radius: 9999px;
             text-decoration: none;
             font-size: 10px;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.18em;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             white-space: nowrap;
             box-shadow: 0 10px 20px rgba(255, 77, 0, 0.2);
             transition: all 0.3s ease;
+        }
+        .btn-whatsapp i {
+            font-size: 14px;
+            line-height: 1;
+            flex-shrink: 0;
         }
 
         .btn-whatsapp:hover {
@@ -954,17 +961,59 @@
 
         /* --- Contact Section --- */
         .contact-section {
-            padding: 80px 5%;
-            background: white;
+            padding: 80px 5% 60px;
+            background: var(--bg-off-white);
             text-align: center;
             position: relative;
             overflow: hidden;
-            border-radius: 80px 80px 0 0;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .contact-section .section-header,
+        .contact-rows {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 0;
+        }
+        .contact-highlight::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 18% -8px 4% -8px;
+            background: rgba(255, 77, 0, 0.30);
+            border-radius: 3px 7px 5px 2px / 6px 3px 8px 4px;
+            transform: rotate(-0.4deg) skewX(-1deg);
+            clip-path: inset(0 100% 0 0);
+            transition: none;
+        }
+        .contact-highlight.hl-on::before {
+            animation: highlight-draw 0.55s cubic-bezier(0.25, 0.1, 0.5, 1) 0.3s both;
         }
 
         .contact-section .section-header {
             max-width: 800px;
             margin: 0 auto 48px auto;
+        }
+        .contact-section .card-tag {
+            margin-bottom: 22px;
         }
 
         .contact-section .tag {
@@ -979,11 +1028,12 @@
 
         .contact-section h2 {
             font-family: var(--font-title);
-            font-size: 3rem;
+            font-size: clamp(2.4rem, 8vw, 4.5rem);
             font-weight: 900;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             color: var(--teal-dark);
-            margin-bottom: 14px;
+            margin-bottom: 40px;
+            line-height: 1.05;
         }
 
         .contact-section .subtitle {
@@ -993,148 +1043,101 @@
             line-height: 1.6;
         }
 
-        .contact-grid {
+        .contact-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--teal-mid);
+            line-height: 1.65;
+            max-width: 560px;
+            text-align: center;
+            margin: 0 auto 48px;
+            letter-spacing: -0.01em;
+        }
+
+        /* Contact boxes */
+        .contact-rows {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1200px;
+            gap: 16px;
+            max-width: 860px;
             margin: 0 auto;
         }
 
-        @media (max-width: 500px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .contact-card {
-            background: var(--bg-off-white);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 20px;
-            padding: 28px;
-            text-align: left;
+        .contact-row {
             display: flex;
             flex-direction: column;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .contact-card {
-            min-width: 0;
-        }
-
-        @media (max-width: 600px) {
-            .contact-section {
-                padding: 80px 2%;
-            }
-            .contact-grid {
-                gap: 6px;
-            }
-            .contact-card {
-                padding: 12px 8px;
-                border-radius: 12px;
-                min-width: 0;
-                overflow: hidden;
-            }
-            .contact-card-header {
-                flex-direction: column;
-                align-items: center;
-                gap: 6px;
-                margin-bottom: 8px;
-                text-align: center;
-            }
-            .contact-card .icon-wrapper {
-                width: 26px;
-                height: 26px;
-                border-radius: 7px;
-                flex-shrink: 0;
-                box-shadow: none;
-            }
-            .contact-card .icon-wrapper i {
-                font-size: 13px;
-            }
-            .contact-card h4 {
-                font-size: 0.6rem;
-                text-align: center;
-                word-break: break-word;
-            }
-            .contact-card p {
-                display: none;
-            }
-            .contact-card .link-text {
-                font-size: 0.48rem;
-                letter-spacing: 0;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
-            }
-        }
-
-        .contact-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .contact-card-header {
-            display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 24px;
+            gap: 10px;
+            background: #edf4f5;
+            border: 1px solid rgba(12, 56, 64, 0.08);
+            border-radius: 18px;
+            padding: 20px 16px 18px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         }
 
-        .contact-card .icon-wrapper {
-            width: 48px;
-            height: 48px;
+        .contact-row:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(12, 56, 64, 0.10);
+            border-color: rgba(12, 56, 64, 0.14);
+        }
+
+        .contact-row-icon {
+            width: 52px;
+            height: 52px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
         }
 
-        .contact-card .icon-wrapper i {
+        .contact-row-icon i {
             font-size: 24px;
             color: white;
         }
 
-        .contact-card h4 {
-            font-family: var(--font-title);
-            font-weight: 900;
-            font-size: clamp(1.1rem, 2.4vw, 1.8rem);
-            color: var(--teal-dark);
-            margin-bottom: 8px;
+        .contact-row-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
 
-        .contact-card p {
-            font-size: clamp(0.8rem, 1.4vw, 1rem);
-            color: var(--teal-mid);
-            margin-bottom: 24px;
-            flex-grow: 1;
-        }
-
-        .contact-card .link-text {
-            font-size: 0.8rem;
-            font-weight: 800;
+        .contact-row-label {
+            font-size: 0.6rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: auto;
-            transition: transform 0.3s ease;
+            letter-spacing: 0.15em;
+            color: var(--teal-light);
         }
 
-        .contact-card:hover .link-text {
-            transform: translateX(4px);
+        .contact-row-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--teal-mid);
+            word-break: break-all;
+        }
+
+@media (max-width: 640px) {
+            .contact-rows {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            .contact-row {
+                flex-direction: row;
+                text-align: left;
+                padding: 16px 20px;
+            }
+            .contact-row-text { flex: 1; }
+            .contact-row-arrow { margin-top: 0; }
         }
 
 
         @media (max-width: 768px) {
             .stack-card {
                 height: auto;
-            }
-
-            .card-content h3 {
-                font-size: 2rem;
             }
         }
 
@@ -1396,7 +1399,8 @@
             header.scrolled .hamburger-btn {
                 position: absolute;
                 left: 50%;
-                transform: translateX(-50%);
+                top: 50%;
+                transform: translate(-50%, -50%);
             }
         }
 
@@ -1735,7 +1739,7 @@
                 <span></span>
             </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
-                Book Now
+                <i class="bi bi-whatsapp"></i>Book Free Call
             </a>
         </div>
     </header>
@@ -1807,26 +1811,26 @@
                 style="width: 100%; max-width: 56rem; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);">
                 <div class="logo-scroller">
                     <div class="logo-track"><img src="images/logo1.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo2.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo3.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo4.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo5.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"></div>
                     <div class="logo-track"><img src="images/logo1.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo2.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo3.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo4.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"><img src="images/logo5.png"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1); opacity: 0.4; object-fit: contain;"
+                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"></div>
                 </div>
             </div>
@@ -1886,7 +1890,7 @@
                     <span class="card-tag">Everything you need to pass.</span>
                     <h3>What's Included</h3>
                     <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
-                    <p class="faq-label" style="margin-top: 36px;">Programs</p>
+                    <p class="faq-label" style="margin-top: 52px;">Programs</p>
                     <div class="tier-tabs" id="tier-tabs">
                         <button class="tier-tab active" data-tier="essential">Essential</button>
                         <button class="tier-tab" data-tier="plus">Plus</button>
@@ -2043,8 +2047,8 @@
                 <hr class="faq-divider">
                 <p class="faq-label">Courses Offered</p>
                 <style>
-                    .course-selects { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; align-items: flex-end; }
-                    .course-sel-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+                    .course-selects { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: nowrap; align-items: flex-end; overflow-x: auto; padding-bottom: 4px; }
+                    .course-sel-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; flex-shrink: 0; }
                     .course-sel-label {
                         font-size: 0.6rem;
                         font-weight: 700;
@@ -2244,7 +2248,7 @@
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">I decided not to continue, can I get a refund?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>No refunds.</p></div>
+                            <div class="faq-item-body"><p>No, refunds are not available once you've enrolled. From the moment you join, you have full access to all the benefits that access doesn't pause or disappear if you decide to stop attending.</p></div>
                         </div>
                     </div>
                 </div>
@@ -2363,7 +2367,7 @@
                 }
             </style>
             <div class="card-content" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px;">
-                <div style="text-align: center; margin-bottom: 40px;">
+                <div style="text-align: center; margin-bottom: 56px;">
                     <span class="card-tag">Proof that it works.</span>
                     <h3>Results</h3>
                     <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Real feedback from real students. This is what structured preparation actually looks like.</p>
@@ -2742,9 +2746,7 @@
                     color: var(--teal-light);
                     font-size: 0.65rem;
                     font-weight: 600;
-                    font-style: italic;
-                    letter-spacing: 0.06em;
-                    text-transform: uppercase;
+                    letter-spacing: 0.03em;
                 }
 
                 .pt-feature {
@@ -3011,16 +3013,16 @@
                                 <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                             </tr>
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>1</sup></span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>2</sup></span></td>
                                 <td><span class="pt-yes">6 months</span></td>
                                 <td><span class="pt-yes">24 months</span></td>
                                 <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>2</sup></span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -3028,8 +3030,8 @@
 
                 <div class="pricing-disclaimers">
                     <p>Hourly rates are effective rates for comparison purposes. The full total remains applicable regardless of the number of sessions attended.</p>
-                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
-                    <p><sup>2</sup> Constitutes a structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude).<br> Upon activation, these instructions confine the AI's responses strictly to the methodologies, terminology, and problem-solving approaches as taught within the enrolled course.</p>
+                    <p><sup>1</sup> Structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude). Coming in Oct 2026.</p>
+                    <p><sup>2</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
                 </div>
             </div>
         </div>
@@ -3269,49 +3271,40 @@
 
     <section class="contact-section" id="contact">
         <div class="section-header">
-            <span class="tag">Let's Pass That Exam!</span>
-            <h2>Contact</h2>
-            <p class="subtitle">
-                Join the students who have already mastered the curve.<br>No stress, no confusion. Just the results you
-                need to move forward.
-            </p>
+            <span class="card-tag">Contact</span>
+            <h2>Let's <span class="contact-highlight">Pass</span> That Exam!</h2>
         </div>
+        <p class="contact-subtitle">Join the students who have already mastered the curve.<br>No stress, no confusion. Just the results you need.</p>
 
-        <div class="contact-grid">
-            <a href="https://wa.me/32490100821" target="_blank" class="contact-card">
-                <div class="contact-card-header">
-                    <div class="icon-wrapper"
-                        style="background: #25D366; box-shadow: 0 10px 20px rgba(37,211,102,0.3);">
-                        <i class="bi bi-whatsapp"></i>
-                    </div>
-                    <h4>WhatsApp</h4>
+        <div class="contact-rows">
+            <a href="https://wa.me/32490100821" target="_blank" class="contact-row">
+                <div class="contact-row-icon" style="background: #25D366;">
+                    <i class="bi bi-whatsapp"></i>
                 </div>
-                <p>Fastest, tell me your goals today.</p>
-                <span class="link-text" style="color: #25D366;">Start Chatting →</span>
+                <div class="contact-row-text">
+                    <span class="contact-row-label">WhatsApp</span>
+                    <span class="contact-row-value">+32 490 10 08 21</span>
+                </div>
             </a>
 
-            <a href="https://www.instagram.com/samkedemia/" target="_blank" class="contact-card">
-                <div class="contact-card-header">
-                    <div class="icon-wrapper"
-                        style="background: linear-gradient(to top right, #f9ce34, #ee2a7b, #6228d7); box-shadow: 0 10px 20px rgba(238,42,123,0.3);">
-                        <i class="bi bi-instagram"></i>
-                    </div>
-                    <h4>Instagram</h4>
+            <a href="https://www.instagram.com/samkedemia/" target="_blank" class="contact-row">
+                <div class="contact-row-icon" style="background: linear-gradient(to top right, #f9ce34, #ee2a7b, #6228d7);">
+                    <i class="bi bi-instagram"></i>
                 </div>
-                <p>Follow for exam hacks & discounts.</p>
-                <span class="link-text" style="color: #ee2a7b;">Follow Us →</span>
+                <div class="contact-row-text">
+                    <span class="contact-row-label">Instagram</span>
+                    <span class="contact-row-value">samkedemia</span>
+                </div>
             </a>
 
-            <a href="mailto:jovan@samkedemia.com" class="contact-card">
-                <div class="contact-card-header">
-                    <div class="icon-wrapper"
-                        style="background: #2563eb; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);">
-                        <i class="bi bi-envelope-fill"></i>
-                    </div>
-                    <h4>Email</h4>
+            <a href="mailto:jovan@samkedemia.com" class="contact-row">
+                <div class="contact-row-icon" style="background: #2563eb;">
+                    <i class="bi bi-envelope-fill"></i>
                 </div>
-                <p>Send me a detailed message anytime.</p>
-                <span class="link-text" style="color: #2563eb;">Send Message →</span>
+                <div class="contact-row-text">
+                    <span class="contact-row-label">Email</span>
+                    <span class="contact-row-value">jovan@samkedemia.com</span>
+                </div>
             </a>
         </div>
     </section>
@@ -3356,6 +3349,11 @@
                         <i class="bi bi-envelope-fill"></i>
                     </a>
                 </div>
+                <div style="margin-top: 20px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.75rem; line-height: 1.9; opacity: 0.8;">
+                    <span style="color: var(--teal-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">WhatsApp</span><span style="color: var(--teal-mid);">+32490100821</span>
+                    <span style="color: var(--teal-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Instagram</span><span style="color: var(--teal-mid);">samkedemia</span>
+                    <span style="color: var(--teal-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Email</span><span style="color: var(--teal-mid);">jovan@samkedemia.com</span>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -3364,6 +3362,23 @@
     </footer>
 
     <script>
+        // Seamless logo marquee — measure exact track width to avoid sub-pixel stutter on loop reset
+        (function() {
+            function fixMarquee() {
+                const scroller = document.querySelector('.logo-scroller');
+                if (!scroller) return;
+                const track = scroller.querySelector('.logo-track');
+                if (!track) return;
+                const w = track.getBoundingClientRect().width;
+                if (!w) return;
+                const s = document.createElement('style');
+                s.textContent = '@keyframes scroll-logos{from{transform:translateX(0)}to{transform:translateX(-' + w + 'px)}}';
+                document.head.appendChild(s);
+            }
+            if (document.readyState === 'complete') fixMarquee();
+            else window.addEventListener('load', fixMarquee);
+        })();
+
         // Bar chart animation
         (function() {
             const chart = document.getElementById('pass-chart');
@@ -3663,7 +3678,11 @@
                 });
                 const io = new IntersectionObserver(([e]) => {
                     if (!e.isIntersecting) return;
-                    items.forEach(el => el.classList.add('sr-on'));
+                    items.forEach((el, i) => {
+                        el.classList.add('sr-on');
+                        const clearAfter = (base + i * step + 0.7) * 1000;
+                        setTimeout(() => { el.style.transitionDelay = ''; }, clearAfter);
+                    });
                     io.disconnect();
                 }, { threshold });
                 io.observe(ct);
@@ -3685,8 +3704,19 @@
             reveal('#resources-card', '.card-tag, h3, p, .resource-scroll-wrap', { step: 0.09 });
 
             // Contact
-            reveal('.contact-section', '.tag, h2, .subtitle', { step: 0.09 });
-            reveal('.contact-section', '.contact-card', { step: 0.1, base: 0.22 });
+            reveal('.contact-section', '.card-tag, h2, .contact-subtitle', { step: 0.09 });
+            reveal('.contact-section', '.contact-row', { step: 0.1, base: 0.22 });
+
+            // Scroll-triggered highlight on "Pass"
+            const hl = document.querySelector('.contact-highlight');
+            if (hl) {
+                const hlObs = new IntersectionObserver(([e]) => {
+                    if (!e.isIntersecting) return;
+                    hl.classList.add('hl-on');
+                    hlObs.disconnect();
+                }, { threshold: 0.8 });
+                hlObs.observe(hl);
+            }
         })();
 
         // ── Number counter animation for "By the Numbers" ─────────────────────
