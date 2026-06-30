@@ -433,24 +433,37 @@
             line-height: 1.6;
         }
 
+        @media (max-width: 768px) {
+            .card-tag {
+                font-size: 0.58rem;
+                letter-spacing: 0.16em;
+                margin-bottom: 8px;
+            }
+            .card-content h3 {
+                font-size: clamp(1.3rem, 6vw, 1.8rem);
+                margin-bottom: 10px;
+            }
+            .card-content p {
+                font-size: 0.85rem;
+                line-height: 1.55;
+            }
+        }
+
         /* --- About Me Card Styles (Integrated) --- */
         .about-me-container {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: flex-start;
-            /* Align content to the left */
             gap: 60px;
             max-width: 1000px;
-            /* Make the container wider */
             width: 100%;
             padding-left: 0%;
-            /* Add some padding to push it off the edge */
         }
 
         .about-me-image {
             flex-shrink: 0;
-            width: 350px;
-            height: 420px;
+            width: 400px;
+            min-height: 420px;
             border-radius: 20px;
             overflow: hidden;
         }
@@ -488,7 +501,8 @@
             flex-shrink: 0;
         }
 
-        .detail-checklist {
+
+.detail-checklist {
             display: flex;
             flex-direction: column;
             gap: 9px;
@@ -528,8 +542,10 @@
             }
 
             .about-me-image {
-                width: 150px;
-                height: 150px;
+                width: 100%;
+                min-height: unset;
+                height: 280px;
+                border-radius: 16px;
             }
 
             .about-me-content {
@@ -722,18 +738,18 @@
         }
 
         .milestone {
-            transition: opacity 0.28s ease, transform 0.28s ease;
+            transition: opacity 0.15s ease, transform 0.15s ease;
         }
         .milestone.ms-out {
             opacity: 0 !important;
-            transform: translateY(6px) scale(0.97) !important;
+            transform: translateY(12px) scale(0.96) !important;
         }
         @keyframes msEnter {
-            from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+            from { opacity: 0; transform: translateY(-14px) scale(0.97); }
             to   { opacity: 1; transform: none; }
         }
         .milestone.ms-in {
-            animation: msEnter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation: msEnter 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         @media (max-width: 700px) {
@@ -1859,7 +1875,8 @@
                                 <div class="detail-checklist">
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>My name is <span class="hl">Jovan Samardzic</span>, I am 26 years old</span></div>
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Got my <span class="hl">MSc in Statistics at KU Leuven</span>, graduated <span class="hl">Magna Cum Laude</span></span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span> for my year</div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span> for my year</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Featured in <a href="https://wet.kuleuven.be/alumni/nieuwsbriefalumni/june-2024/scholarship" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">KU Leuven Alumni Newsletter</a> and <a href="https://globalscholarships.com/scholarship-posts/jovan-samardzic/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">Global Scholarships</a></span></div>
                                 </div>
                             </div>
                             <div class="detail-item">
@@ -2449,62 +2466,28 @@
                                 </div>
                             </div>
                             <div class="testi-card">
-                                <div class="testi-quote">Without these tutoring sessions <span class="hl">there is no way I would have passed</span> my math and statistics courses. The work was very effective, the explanations were clear, and the atmosphere was <span class="hl">friendly and supportive</span>.</div>
-                                <div class="testi-header">
-                                    <div class="testi-avatar"></div>
-                                    <div class="testi-info">
-                                        <span class="testi-name">Julian</span>
-                                        <span class="testi-meta">KU Leuven · BBA</span>
-                                    </div>
-                                    <div class="testi-stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testi-card">
-                                <div class="testi-quote">An <span class="hl">engaging, well-prepared tutor</span> who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a <span class="hl">clear PDF with all exercises solved step by step</span>.</div>
-                                <div class="testi-header">
-                                    <div class="testi-avatar"></div>
-                                    <div class="testi-info">
-                                        <span class="testi-name">Alfonso</span>
-                                        <span class="testi-meta">KU Leuven · BBA</span>
-                                    </div>
-                                    <div class="testi-stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testi-card">
-                                <div class="testi-quote">Very helpful. Makes sure to get <span class="hl">all students involved</span> and teaches in an <span class="hl">organized way</span>.</div>
-                                <div class="testi-header">
-                                    <div class="testi-avatar"></div>
-                                    <div class="testi-info">
-                                        <span class="testi-name">Louis</span>
-                                        <span class="testi-meta">KU Leuven · BBA</span>
-                                    </div>
-                                    <div class="testi-stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testi-card">
                                 <div class="testi-quote">Jovan is <span class="hl">truly professional</span>: responsible, dedicated, and organized. Beyond that, he is <span class="hl">genuinely kind and cares about his students</span>. He doesn't just teach for the income; he truly seeks results and dedication from you.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
                                     <div class="testi-info">
                                         <span class="testi-name">Zere</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-quote">Without these tutoring sessions <span class="hl">there is no way I would have passed</span> my math and statistics courses. The work was very effective, the explanations were clear, and the atmosphere was <span class="hl">friendly and supportive</span>.</div>
+                                <div class="testi-header">
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Julian</span>
                                         <span class="testi-meta">KU Leuven · BBA</span>
                                     </div>
                                     <div class="testi-stars">
@@ -2534,6 +2517,23 @@
                                 </div>
                             </div>
                             <div class="testi-card">
+                                <div class="testi-quote">An <span class="hl">engaging, well-prepared tutor</span> who keeps lessons interactive and focused. He responds to questions fast, and each class comes with a recording and a <span class="hl">clear PDF with all exercises solved step by step</span>.</div>
+                                <div class="testi-header">
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Alfonso</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testi-card">
                                 <div class="testi-quote">Jovan is <span class="hl">committed and diligent</span>. He writes concepts and solves exercises step by step, ensuring <span class="hl">every student follows and understands</span>. He answers all questions and explains clearly. Genuinely a great tutor.</div>
                                 <div class="testi-header">
                                     <div class="testi-avatar"></div>
@@ -2547,6 +2547,23 @@
                                         <i class="bi bi-star-fill"></i>
                                         <i class="bi bi-star-fill"></i>
                                         <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testi-card">
+                                <div class="testi-quote">Very helpful. Makes sure to get <span class="hl">all students involved</span> and teaches in an <span class="hl">organized way</span>.</div>
+                                <div class="testi-header">
+                                    <div class="testi-avatar"></div>
+                                    <div class="testi-info">
+                                        <span class="testi-name">Louis</span>
+                                        <span class="testi-meta">KU Leuven · BBA</span>
+                                    </div>
+                                    <div class="testi-stars">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     </div>
                                 </div>
                             </div>
@@ -3537,10 +3554,10 @@
                 setTimeout(() => {
                     leaving.forEach(m => { m.classList.remove('ms-out'); m.style.display = 'none'; });
 
-                    // Show entering with animation immediately — fill-mode:both holds opacity:0 during delay, no flicker
+                    // Show entering with animation — stagger capped so last card doesn't lag
                     entering.forEach((m, i) => {
                         m.style.display = '';
-                        m.style.animationDelay = (i * 0.05) + 's';
+                        m.style.animationDelay = (i * 0.03) + 's';
                         m.classList.add('ms-in');
                     });
 
@@ -3560,19 +3577,19 @@
                         requestAnimationFrame(() => {
                             // FLIP step 3: slide to new positions
                             staying.forEach(m => {
-                                m.style.transition = 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)';
+                                m.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1)';
                                 m.style.transform  = '';
                             });
 
                             setTimeout(() => {
                                 entering.forEach(m => { m.classList.remove('ms-in'); m.style.animationDelay = ''; });
                                 staying.forEach(m => { m.style.transition = ''; m.style.transform = ''; });
-                            }, 600);
+                            }, 320);
                         });
                     });
 
                     currentTier = tier;
-                }, 300);
+                }, 150);
             }
 
             tabs.forEach(tab => tab.addEventListener('click', () => applyTier(tab.dataset.tier, true)));
