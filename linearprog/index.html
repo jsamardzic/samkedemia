@@ -3,14 +3,974 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Jovan's Linear Programming Solver</title>
+  <title>Samkedemia: Linear Programming Solver</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+/* --- Theming Variables --- */
+:root {
+    --bg-off-white: #F4F9FA;
+    --taupe-dark: #0c3840;
+    --taupe-mid: #2f6a73;
+    --taupe-light: #83acb2;
+    --accent-green: #ff4d00;
+    --font-title: 'Outfit', sans-serif;
+    --font-body: 'Atkinson Hyperlegible', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-off-white);
+    background-attachment: fixed;
+    margin: 0;
+    color: var(--taupe-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.brand-header {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 100px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+.brand-logo {
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo-stack {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.brand-logo .logo-name {
+    font-size: 1.2rem;
+    color: var(--accent-green);
+}
+
+.brand-logo .logo-sub {
+    color: var(--taupe-dark);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.logo-separator {
+    color: rgba(12,56,64,0.2);
+    margin: 0 12px;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.logo-page-title {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--taupe-mid);
+    letter-spacing: normal;
+}
+
+.header-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--taupe-dark);
+    transition: all 0.3s;
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    color: white;
+}
+
+.social-icon i { font-size: 18px; line-height: 1; }
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.content-area {
+    width: 100%;
+    max-width: 1440px;
+}
+
+.solution-summary-card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(255, 77, 0, 0.06);
+    border: 1px solid var(--accent-green);
+    margin: 20px -30px -30px -30px;
+    padding: 20px 30px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top: 1px solid var(--accent-green);
+}
+
+.summary-item {
+    text-align: center;
+    padding: 0 20px;
+}
+
+.summary-item .label {
+    font-size: 14px;
+    color: var(--accent-green);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.summary-item .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent-green);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 30px;
+    align-items: start;
+}
+
+.paper {
+    background: white;
+    padding: 30px;
+    margin: 0 0 30px 0;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+}
+
+h2 {
+    font-family: var(--font-title);
+    font-weight: 900;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--taupe-dark);
+}
+
+h3 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--taupe-dark);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--taupe-light);
+    padding-bottom: 8px;
+}
+
+.paper > h3:first-child { margin-top: 0; }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--taupe-light);
+}
+
+.card-header h2 { margin: 0; }
+
+#current-exercise-display {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--taupe-mid);
+    margin-left: 10px;
+}
+
+.variables {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+}
+
+.variables div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+input {
+    padding: 8px 12px;
+    border: 1px solid var(--taupe-light);
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.15);
+}
+
+.variables input {
+    width: 40px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#obj-fn-name {
+    width: 40px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.constraint-input {
+    width: 60px;
+    padding: 6px 8px;
+    margin: 0 4px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#obj-a, #obj-b, #obj-c { width: 40px; }
+
+.constraint-input::-webkit-outer-spin-button,
+.constraint-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.constraint-sign {
+    padding: 6px 8px;
+    border: 1px solid var(--taupe-light);
+    border-radius: 6px;
+    font-size: 18px;
+    background-color: white;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    width: 40px;
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+.constraint-sign:hover {
+    background-color: rgba(255, 77, 0, 0.06);
+    border-color: var(--accent-green);
+}
+
+.constraint-sign-disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 8px;
+    font-size: 18px;
+    margin: 0 8px;
+    width: 40px;
+}
+
+.constraint {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 12px 0;
+    font-size: 18px;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #f8fafc;
+}
+
+.constraint > span:nth-of-type(2) {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.constraint-number {
+    font-size: 14px;
+    color: var(--taupe-mid);
+    width: 25px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInSlideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.remove-btn {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-left: auto;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.remove-btn:hover { background-color: #fee2e2; }
+
+.remove-btn i {
+    font-size: 16px;
+    color: #94a3b8;
+    transition: color 0.2s ease-in-out;
+}
+
+.remove-btn:hover i { color: #c81e1e; }
+
+#addConstraintBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 12px 0;
+    padding: 12px 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--taupe-mid);
+    background-color: transparent;
+    border: 2px dashed var(--taupe-light);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#addConstraintBtn:hover {
+    background-color: #f8fafc;
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: var(--bg-off-white);
+    color: var(--taupe-mid);
+    border: 1px solid var(--taupe-light);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #f1f5f9;
+    border-color: var(--taupe-mid);
+}
+
+.action-btn:disabled,
+.action-btn:disabled:hover {
+    background-color: #f8fafc;
+    color: var(--taupe-light);
+    cursor: not-allowed;
+    border-color: var(--taupe-light);
+}
+
+#resetZoomBtn {
+    background: transparent;
+    border: 1px solid var(--taupe-light);
+    color: var(--taupe-mid);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+#resetZoomBtn:hover {
+    background-color: #f1f5f9;
+    border-color: var(--taupe-mid);
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.chart-toggles {
+    display: flex;
+    margin-right: 15px;
+    gap: 8px;
+}
+
+.chart-toggle-btn {
+    background-color: #f8fafc;
+    border: 1px solid var(--taupe-light);
+    color: var(--taupe-mid);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.chart-toggle-btn:hover { background-color: #f1f5f9; }
+
+.chart-toggle-btn.active {
+    background-color: rgba(255, 77, 0, 0.06);
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.segmented-control {
+    display: flex;
+    background-color: var(--bg-off-white);
+    border-radius: 6px;
+    padding: 3px;
+    border: 1px solid var(--taupe-light);
+}
+
+.segmented-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--taupe-mid);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.segmented-btn.active {
+    background-color: var(--taupe-dark);
+    color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.toggle-btn {
+    background-color: var(--bg-off-white);
+    border: 1px solid var(--taupe-light);
+    color: #475569;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.toggle-btn:hover {
+    background-color: var(--taupe-light);
+    color: #252f3f;
+}
+
+.paper #step2 h2 { cursor: pointer; }
+
+.paper h2 i {
+    font-size: 18px;
+    color: var(--taupe-light);
+    transition: transform 0.2s ease-in-out;
+}
+
+.paper.collapsed #inequalities-breakdown { display: none; }
+.paper.collapsed h2 i { transform: rotate(-90deg); }
+
+.inequality-card {
+    border: 1px solid rgba(131,172,178,0.4);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.inequality-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.derivation-box {
+    background-color: #f8fafc;
+    border-left: 3px solid rgba(47,106,115,0.2);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--taupe-dark);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 20px;
+    align-items: center;
+}
+
+.derivation-box .derivation-description {
+    grid-column: 1;
+    text-align: right;
+    color: var(--taupe-mid);
+    font-family: var(--font-body);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.derivation-box .derivation-equation {
+    grid-column: 2;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+}
+
+.derivation-box .eq-comment {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -5px;
+    color: var(--taupe-mid);
+    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 13px;
+}
+
+.direction-step-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.direction-text {
+    font-size: 14px;
+    color: var(--taupe-mid);
+    margin-top: 12px;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.breakdown-item {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(131,172,178,0.18);
+    font-size: 14px;
+}
+
+.breakdown-item:last-child { border-bottom: none; }
+
+.breakdown-label {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--taupe-mid);
+    width: 110px;
+    flex-shrink: 0;
+}
+
+.breakdown-content { color: #3c4858; }
+
+.breakdown-constraint-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* Step headings */
+.step-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0 6px;
+    font-family: var(--font-title);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--taupe-dark);
+    letter-spacing: -0.01em;
+}
+.card-header-constraint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--taupe-dark);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(131,172,178,0.45);
+}
+.step-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--taupe-mid);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: var(--font-title);
+}
+.step-subtitle {
+    font-size: 13px;
+    color: #7a8fa6;
+    margin: 2px 0 14px;
+    line-height: 1.55;
+}
+.var-display {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.var-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 18px;
+    border: 1.5px solid rgba(47,106,115,0.22);
+    border-radius: 6px;
+    font-size: 16px;
+    color: var(--taupe-dark);
+    background: rgba(47,106,115,0.05);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+}
+.constraint-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.constraint-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #f8fafc;
+    border-radius: 6px;
+    border-left: 3px solid rgba(47,106,115,0.25);
+}
+.constraint-idx {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--taupe-light);
+    min-width: 14px;
+}
+.constraint-expr {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--taupe-dark);
+    flex: 1;
+}
+.constraint-tag {
+    font-size: 11px;
+    color: var(--taupe-light);
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.chart-container {
+    position: relative;
+    height: 455px;
+    width: 100%;
+}
+
+.target-function {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.target-function-inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 18px;
+    flex-wrap: wrap;
+}
+
+#contour-equation {
+    background-color: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    color: var(--taupe-dark);
+    min-height: 18px;
+}
+
+.level-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    outline: none;
+    flex-grow: 1;
+}
+
+.level-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #ff4d00;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.level-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #ff4d00;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.level-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, #ff4d00 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
+    border-radius: 3px;
+}
+
+.level-slider::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, #ff4d00 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
+    border-radius: 3px;
+}
+
+.contour-controls {
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid var(--taupe-light);
+    margin-bottom: 25px;
+}
+
+.contour-row {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.contour-row:last-child { margin-bottom: 0; }
+
+.contour-row label {
+    font-weight: bold;
+    color: var(--taupe-mid);
+    flex-shrink: 0;
+}
+
+#level-value {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--taupe-dark);
+    width: 55px;
+    text-align: center;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--taupe-light);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    cursor: default;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--taupe-light);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.close-btn:hover { color: var(--taupe-dark); }
+
+.exercise-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.exercise-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    background-color: #f8fafc;
+    color: var(--taupe-mid);
+    border: 1px solid var(--taupe-light);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.exercise-item:hover {
+    background-color: rgba(255, 77, 0, 0.06);
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+@media print {
+    body > .wrapper > .main-container,
+    .card-header button,
+    #addConstraintBtn,
+    .remove-btn,
+    .contour-controls,
+    .chart-controls,
+    .target-function,
+    .paper h2 i,
+    .modal-backdrop,
+    .paper > h2,
+    .card-header { display: none !important; }
+
+    body, .wrapper { padding: 0; margin: 0; }
+
+    #inequalities-breakdown {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-container {
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper { padding: 20px 15px; }
+    .main-container { grid-template-columns: 1fr; }
+    .paper { padding: 20px; }
+
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .site-title { font-size: 28px; }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .variables {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .target-function {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .solution-summary-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin: 20px -20px -20px -20px;
+        padding: 20px;
+    }
+
+    .summary-item { text-align: left; padding: 0; }
+
+    .inequality-cards-grid,
+    .direction-step-container { grid-template-columns: 1fr; }
+
+    .breakdown-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .breakdown-label { width: auto; }
+
+    .paper.collapsed .card-header,
+    .paper .card-header {
+        margin: -20px -20px 25px -20px;
+        padding: 20px;
+    }
+
+    .chart-container { height: 350px; }
+    #step3.paper { overflow-x: hidden; }
+}
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
@@ -18,24 +978,25 @@
 
 <body>
 
-  <header class="site-header">
-    <div class="header-content">
-      <div class="header-logo">SAMKEDEMIA</div>
-      <div class="header-center-title">
-        <h1 class="site-title">Linear Programming Solver</h1>
-        <span class="site-subtitle">by Jovan</span>
-      </div>
-      <div class="social-links">
-        <a href="https://wa.me/32490100821" target="_blank" rel="noopener noreferrer" class="social-icon" id="whatsapp-icon" aria-label="WhatsApp">
-          <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="https://www.instagram.com/samkedemia" target="_blank" rel="noopener noreferrer" class="social-icon" id="instagram-icon" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="mailto:jovan@samkedemia.com" class="social-icon" id="email-icon" aria-label="Email">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </div>
+  <header class="brand-header">
+    <a href="https://samkedemia.com" target="_blank" class="brand-logo">
+      <span class="logo-stack">
+        <span class="logo-name">samkedemia</span>
+        <span class="logo-sub">education</span>
+      </span>
+      <span class="logo-separator">|</span>
+      <span class="logo-page-title">Samkedemia: Linear Programming Solver</span>
+    </a>
+    <div class="header-socials">
+      <a href="https://wa.me/32490100821" target="_blank" class="social-icon">
+        <i class="bi bi-whatsapp"></i>
+      </a>
+      <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon">
+        <i class="bi bi-instagram"></i>
+      </a>
+      <a href="mailto:jovan@samkedemia.com" class="social-icon">
+        <i class="bi bi-envelope"></i>
+      </a>
     </div>
   </header>
   <div class="wrapper">
@@ -44,7 +1005,7 @@
         <div class="paper">
           <div class="card-header">
             <h2>Problem Setup <span id="current-exercise-display"></span></h2>
-            <button id="exercisesBtn" class="action-btn"><i class="fas fa-folder-open"></i>Load Exercise</button>
+            <button id="exercisesBtn" class="action-btn"><i class="bi bi-folder2-open"></i>Load Exercise</button>
           </div>
           <h3>Labels</h3>
   
@@ -117,8 +1078,8 @@
       <!-- Moved "Solve Each Inequality" card to the bottom -->
       <div class="paper collapsed" id="step2" style="display: none;">
         <div class="card-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
-          <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-step solution <i class="fas fa-chevron-down"></i></h2>
-          <button id="exportPdfBtn" class="action-btn" disabled><i class="fas fa-file-pdf"></i> Coming Soon</button>
+          <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-step solution <i class="bi bi-chevron-down"></i></h2>
+          <button id="exportPdfBtn" class="action-btn" disabled><i class="bi bi-file-pdf"></i> Coming Soon</button>
         </div>
         <div id="inequalities-breakdown">
         </div>
@@ -273,8 +1234,9 @@
     }
 
     let constraintsList = [];
-    let feasibleRegionChart; 
+    let feasibleRegionChart;
     let staticFeasibleRegionChart;
+    let step6Chart;
 
     function formatVar(name) {
       name = name.trim();
@@ -377,7 +1339,7 @@
           if (index > 1) {
             const removeBtn = document.createElement("button");
             removeBtn.className = "remove-btn";
-            removeBtn.innerHTML = `<i class="fas fa-trash"></i>`;
+            removeBtn.innerHTML = `<i class="bi bi-trash"></i>`;
             removeBtn.onclick = () => {
               document.getElementById('current-exercise-display').textContent = '';
               constraintsList.splice(index, 1);
@@ -398,7 +1360,16 @@
       refreshNumbers();
     }
 
-    function renderInequalitiesBreakdown() { 
+    function renderInequalitiesBreakdown() {
+      // Destroy charts before wiping the DOM so Chart.js releases the canvas
+      if (staticFeasibleRegionChart) {
+        staticFeasibleRegionChart.destroy();
+        staticFeasibleRegionChart = null;
+      }
+      if (step6Chart) {
+        step6Chart.destroy();
+        step6Chart = null;
+      }
       // Clear the breakdown div before re-rendering
       inequalitiesBreakdownDiv.innerHTML = "";
 
@@ -407,37 +1378,25 @@
       const v1 = formatVar(v1_raw);
       const v2 = formatVar(v2_raw);
 
-      // --- Create Step 1: List Variables and Constraints ---
+      // --- Create Step 1: Variables ---
       const step1Container = document.createElement('div');
-      step1Container.innerHTML = '<h3>Step 1: List Variables and Constraints</h3>';
-
-      // List Variables
-      const variablesListDiv = document.createElement('div');
-      variablesListDiv.className = 'breakdown-item';
-      variablesListDiv.innerHTML = `<span class="breakdown-label">Variables</span><span class="breakdown-content">${v1}, ${v2}</span>`;
-      step1Container.appendChild(variablesListDiv);
-
-      // List Constraints
-      const constraintsListContainer = document.createElement('div');
-      constraintsListContainer.className = 'breakdown-item';
-      let constraintsHTML = '<ul class="breakdown-constraint-list">';
-      constraintsList.forEach((c, index) => {
-          constraintsHTML += `<li style="margin-bottom: 4px;">(${index + 1}) ${formatConstraint(c, v1, v2)}</li>`;
-      });
-      constraintsHTML += '</ul>';
-      constraintsListContainer.innerHTML = `<span class="breakdown-label">Constraints</span><span class="breakdown-content">${constraintsHTML}</span>`;
-      step1Container.appendChild(constraintsListContainer);
-
+      step1Container.innerHTML = `
+        <h3 class="step-heading"><span class="step-num-badge">1</span> Variables</h3>
+        <p class="step-subtitle">Define what each variable represents and include real-world units in actual problems.</p>
+        <div class="var-display">
+          <span class="var-chip">${v1}</span>
+          <span class="var-chip">${v2}</span>
+        </div>
+      `;
       inequalitiesBreakdownDiv.appendChild(step1Container);
 
 
-      // --- Create Step 2: Solve Each Inequality ---
+      // --- Create Step 2: Constraints (with full breakdown) ---
       const step2Container = document.createElement('div');
-      step2Container.innerHTML = '<h3 style="margin-top: 30px;">Step 2: Solve Each Inequality Individually</h3>';
-      
+      step2Container.innerHTML = '<h3 class="step-heading"><span class="step-num-badge">2</span> Constraints</h3><p class="step-subtitle">For each constraint: find the boundary line equation, test a point, and remove the non-satisfying region. What remains across all constraints is the feasible set.</p>';
+
       const cardsGridContainer = document.createElement('div');
       cardsGridContainer.className = 'inequality-cards-grid';
-      
       inequalitiesBreakdownDiv.appendChild(step2Container);
       step2Container.appendChild(cardsGridContainer);
 
@@ -445,144 +1404,112 @@
         const container = document.createElement('div');
         container.className = 'inequality-card';
 
-        let headerText = '';
-        let contentHTML = '';
-
-        headerText = formatConstraint(c, v1, v2);
+        const headerText = formatConstraint(c, v1, v2);
 
         let boundaryLineHTML = '';
-        if (c.c1 === 0 && c.c2 !== 0) { // Horizontal line
+        if (c.c1 === 0 && c.c2 !== 0) {
           const val = formatNumber(c.rhs / c.c2);
-          boundaryLineHTML = `<strong>${v2} = ${val}</strong><div style="margin-top: 4px; color: #475569;">This is a horizontal line where ${v2} is always ${val}.</div>`;
-        } else if (c.c1 !== 0 && c.c2 === 0) { // Vertical line
+          boundaryLineHTML = `<strong>${v2} = ${val}</strong><div style="margin-top:4px;font-size:13px;color:#475569;">Horizontal line — ${v2} is always ${val}.</div>`;
+        } else if (c.c1 !== 0 && c.c2 === 0) {
           const val = formatNumber(c.rhs / c.c1);
-          boundaryLineHTML = `<strong>${v1} = ${val}</strong><div style="margin-top: 4px; color: #475569;">This is a vertical line where ${v1} is always ${val}.</div>`;
-        } else { // Diagonal line
-          let lineEq = '';
+          boundaryLineHTML = `<strong>${v1} = ${val}</strong><div style="margin-top:4px;font-size:13px;color:#475569;">Vertical line — ${v1} is always ${val}.</div>`;
+        } else {
           const terms = [];
-          if (c.c1 !== 0) terms.push(c.c1 === 1 ? v1 : (c.c1 === -1 ? `-${v1}` : `${formatNumber(c.c1)}&nbsp;${v1}`));
+          if (c.c1 !== 0) terms.push(c.c1 === 1 ? `1&middot;${v1}` : (c.c1 === -1 ? `-1&middot;${v1}` : `${formatNumber(c.c1)}&middot;${v1}`));
           if (c.c2 !== 0) {
             if (terms.length > 0 && c.c2 > 0) terms.push('+');
-            terms.push(c.c2 === 1 ? v2 : (c.c2 === -1 ? `-${v2}` : `${formatNumber(c.c2)}&nbsp;${v2}`));
+            terms.push(c.c2 === 1 ? `1&middot;${v2}` : (c.c2 === -1 ? `-1&middot;${v2}` : `${formatNumber(c.c2)}&middot;${v2}`));
           }
-          lineEq = `<strong>${terms.join(' ')} = ${formatNumber(c.rhs)}</strong>`;
-
-          // Intercept calculations
-          const y_intercept_calc = (c.c2 !== 0) ? `<div>
-              <div style="font-weight: 600; color: #475569;">Y-intercept (set ${v1} = 0)</div>
-              <div style="padding-left: 15px; margin-top: 4px; color: #3c4858;">
-                ${formatNumber(c.c2)}&nbsp;${v2} = ${formatNumber(c.rhs)} &nbsp;&rarr;&nbsp; ${v2} = ${formatNumber(c.rhs/c.c2)}
-              </div>
-              <div style="padding-left: 15px; margin-top: 2px; color: #3c4858;">Resulting point: <strong>(0, ${formatNumber(c.rhs/c.c2)})</strong></div>
+          const lineEq = `<strong>${terms.join(' ')} = ${formatNumber(c.rhs)}</strong>`;
+          const yInt = (c.c2 !== 0) ? `<div style="margin-top:6px;">
+              <span style="font-weight:600;color:#475569;font-size:12px;">Set ${v1} = 0:</span>&ensp;${formatNumber(c.c2)}&middot;${v2} = ${formatNumber(c.rhs)} &rarr; <strong>(0, ${formatNumber(c.rhs/c.c2)})</strong>
             </div>` : '';
-          const x_intercept_calc = (c.c1 !== 0) ? `<div>
-              <div style="font-weight: 600; color: #475569;">X-intercept (set ${v2} = 0)</div>
-              <div style="padding-left: 15px; margin-top: 4px; color: #3c4858;">
-                ${formatNumber(c.c1)}&nbsp;${v1} = ${formatNumber(c.rhs)} &nbsp;&rarr;&nbsp; ${v1} = ${formatNumber(c.rhs/c.c1)}
-              </div>
-              <div style="padding-left: 15px; margin-top: 2px; color: #3c4858;">Resulting point: <strong>(${formatNumber(c.rhs/c.c1)}, 0)</strong></div>
+          const xInt = (c.c1 !== 0) ? `<div style="margin-top:4px;">
+              <span style="font-weight:600;color:#475569;font-size:12px;">Set ${v2} = 0:</span>&ensp;${formatNumber(c.c1)}&middot;${v1} = ${formatNumber(c.rhs)} &rarr; <strong>(${formatNumber(c.rhs/c.c1)}, 0)</strong>
             </div>` : '';
-
-          const intercepts = `
-            <div style="margin-top: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 10px;">
-              ${x_intercept_calc} ${y_intercept_calc}
-            </div>`;
-          boundaryLineHTML = `${lineEq}${intercepts}`;
+          boundaryLineHTML = `${lineEq}<div style="font-size:13px;">${xInt}${yInt}</div>`;
         }
 
-        let testPointResult, region;
         let testPoint = { x: 0, y: 0 };
-        let testPointLabel = `Test Point (0, 0)`;
-
-        // If the line passes through the origin (RHS is 0), pick a different test point.
-        if (c.rhs === 0) {
-            testPoint = { x: 1, y: 1 };
-            testPointLabel = `Test Point (1, 1)`;
-        }
+        let testPointLabel = '(0, 0)';
+        if (c.rhs === 0) { testPoint = { x: 1, y: 1 }; testPointLabel = '(1, 1)'; }
 
         const testVal = c.c1 * testPoint.x + c.c2 * testPoint.y;
         const testPasses = c.sign === 'le' ? (testVal <= c.rhs) : (testVal >= c.rhs);
         const signStr = c.sign === 'le' ? '≤' : '≥';
+        const resultColor = testPasses ? '#16a34a' : '#dc2626';
+        const resultStr = testPasses ? '✓ True' : '✗ False';
+        const testPointResult = `${formatNumber(c.c1)}·${testPoint.x} + ${formatNumber(c.c2)}·${testPoint.y} ${signStr} ${formatNumber(c.rhs)} &rarr; <strong style="color:${resultColor};">${resultStr}</strong>`;
 
-        const c1_str = `${formatNumber(c.c1)} &middot; ${testPoint.x}`;
-        const c2_str = `${formatNumber(c.c2)} &middot; ${testPoint.y}`;
-        const resultStr = testPasses ? 'is True' : 'is False';
-
-        testPointResult = `
-          <div>${c1_str} + ${c2_str} ${signStr} ${formatNumber(c.rhs)}</div>
-          <div style="margin-top: 4px;">
-            <span style="font-size: 1.2em; color: #94a3b8; margin-right: 5px;">&darr;</span>
-            ${formatNumber(testVal)} ${signStr} ${formatNumber(c.rhs)}, which <strong>${resultStr}</strong>.
-          </div>`;
-        
-        // Determine the region to remove with more descriptive language
-        if (c.c1 !== 0 && c.c2 === 0) { // Vertical line
-            const lineX = c.rhs / c.c1;
-            const testSide = testPoint.x < lineX ? 'left' : 'right';
-            const oppositeSide = testSide === 'left' ? 'right' : 'left';
-            const sideToRemove = testPasses ? oppositeSide : testSide;
-            region = `Area to the <strong>${sideToRemove}</strong> of the line.`;
-        } else if (c.c1 === 0 && c.c2 !== 0) { // Horizontal line
-            const lineY = c.rhs / c.c2;
-            const testSide = testPoint.y < lineY ? 'below' : 'above';
-            const oppositeSide = testSide === 'below' ? 'above' : 'below';
-            const sideToRemove = testPasses ? oppositeSide : testSide;
-            region = `Area <strong>${sideToRemove}</strong> the line.`;
-        } else { // Diagonal line or base constraints
-            // If the test passes, we keep the area with the test point, so we remove the opposite side.
-            if (testPasses) {
-                region = `Area on the side <strong>opposite</strong> the test point.`;
-            } else {
-                // If the test fails, we remove the area containing the test point.
-                region = `Area on the <strong>same side</strong> as the test point.`;
-            }
+        let region;
+        if (c.c1 !== 0 && c.c2 === 0) {
+          const lineX = c.rhs / c.c1;
+          const testSide = testPoint.x < lineX ? 'left' : 'right';
+          const opp = testSide === 'left' ? 'right' : 'left';
+          region = `Area to the <strong>${testPasses ? opp : testSide}</strong> of the line.`;
+        } else if (c.c1 === 0 && c.c2 !== 0) {
+          const lineY = c.rhs / c.c2;
+          const testSide = testPoint.y < lineY ? 'below' : 'above';
+          const opp = testSide === 'below' ? 'above' : 'below';
+          region = `Area <strong>${testPasses ? opp : testSide}</strong> the line.`;
+        } else {
+          region = testPasses
+            ? `Area on the side <strong>opposite</strong> the test point.`
+            : `Area on the <strong>same side</strong> as the test point.`;
         }
 
-
-        // Special handling for the base non-negativity constraints
         if (c.type === 'base') {
-          if (c.text.includes("v1")) { // q1 >= 0
-            boundaryLineHTML = `<strong>${v1} = 0</strong> (The vertical axis)`;
-            testPointLabel = `Test Point (1, 0)`;
-            testPointResult = `1 ≥ 0 is True`;
+          if (c.text.includes("v1")) {
+            boundaryLineHTML = `<strong>${v1} = 0</strong> <span style="color:#475569;">(vertical axis)</span>`;
+            testPointLabel = '(1, 0)';
             region = `Area to the <strong>left</strong> of the line.`;
-          } else { // q2 >= 0
-            boundaryLineHTML = `<strong>${v2} = 0</strong> (The horizontal axis)`;
-            testPointLabel = `Test Point (0, 1)`;
-            testPointResult = `1 ≥ 0 is True`;
+            const tpr = `1 ≥ 0 &rarr; <strong style="color:#16a34a;">✓ True</strong>`;
+            container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
+              <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${tpr}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
+            cardsGridContainer.appendChild(container);
+            return;
+          } else {
+            boundaryLineHTML = `<strong>${v2} = 0</strong> <span style="color:#475569;">(horizontal axis)</span>`;
+            testPointLabel = '(0, 1)';
             region = `Area <strong>below</strong> the line.`;
+            const tpr = `1 ≥ 0 &rarr; <strong style="color:#16a34a;">✓ True</strong>`;
+            container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
+              <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${tpr}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
+            cardsGridContainer.appendChild(container);
+            return;
           }
         }
 
-        contentHTML = `
-          <div class="breakdown-item"><span class="breakdown-label">Boundary Line</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
-          <div class="breakdown-item"><span class="breakdown-label">${testPointLabel}</span><span class="breakdown-content">${testPointResult}</span></div>
-          <div class="breakdown-item"><span class="breakdown-label">Region to Remove</span><span class="breakdown-content">${region}</span></div>
-        `;
-
-        container.innerHTML = `<h4>(${index + 1}) ${headerText}</h4>${contentHTML}`;
+        container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
+          <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
+          <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${testPointResult}</span></div>
+          <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
         cardsGridContainer.appendChild(container);
       });
 
       // --- Create Step 3: Draw Feasible Set ---
       const step3Container = document.createElement('div');
       step3Container.innerHTML = `
-        <h3 style="margin-top: 30px;">Step 3: Draw Feasible Set</h3>
-        <p style="font-size: 14px; color: #475569; margin-top: 0; margin-bottom: 20px;">The feasible region is the area where all constraints are satisfied simultaneously. The vertices of this region are the candidates for the optimal solution.</p>
+        <h3 class="step-heading"><span class="step-num-badge">3</span> Feasible Region</h3>
+        <p class="step-subtitle">The unshaded region where all constraints hold simultaneously. The optimal solution must lie at one of its vertices.</p>
         <div class="chart-container" style="height: 400px; max-width: 550px; margin: 0 auto; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff;"><canvas id="staticFeasibleRegionChart"></canvas></div>
       `;
       inequalitiesBreakdownDiv.appendChild(step3Container);
 
       // Now that all elements are in the DOM, render the graphs
-      const solutionData = renderFeasibleRegionGraph();
-      renderSolutionSteps(solutionData);
-      updateSolutionSummary(solutionData);
+      const fullData = renderFeasibleRegionGraph();
+      renderSolutionSteps(fullData);
+      updateSolutionSummary(fullData);
     }
 
-    function renderSolutionSteps(solutionData) {
-      const { feasibleVertices, optimalVertexIndices, optimalValue } = solutionData;
+    function renderSolutionSteps(fullData) {
+      const { feasibleVertices, optimalVertexIndices, optimalValue, datasets, minX, maxX, minY, maxY } = fullData;
       const step4Container = document.createElement('div');
-      step4Container.innerHTML = '<h3 style="margin-top: 30px;">Step 4: State Target Function</h3>';
+      step4Container.innerHTML = '<h3 class="step-heading"><span class="step-num-badge">4</span> Objective Function</h3><p class="step-subtitle">State the goal (maximize or minimize) and write the full linear target expression.</p>';
 
       const targetFnContainer = document.createElement('div');
       targetFnContainer.className = 'breakdown-item';
@@ -599,10 +1526,10 @@
       const v2 = formatVar(v2_raw);
       let targetFnString = `${fnName}(${v1}, ${v2}) = `;
       const terms = [];
-      if (a !== 0) terms.push(a === 1 ? v1 : (a === -1 ? `-${v1}` : `${formatNumber(a)}&nbsp;${v1}`));
+      if (a !== 0) terms.push(a === 1 ? `1&middot;${v1}` : (a === -1 ? `-1&middot;${v1}` : `${formatNumber(a)}&middot;${v1}`));
       if (b !== 0) {
           if (terms.length > 0 && b > 0) terms.push('+');
-          terms.push(b === 1 ? v2 : (b === -1 ? `-${v2}` : `${formatNumber(b)}&nbsp;${v2}`));
+          terms.push(b === 1 ? `1&middot;${v2}` : (b === -1 ? `-1&middot;${v2}` : `${formatNumber(b)}&middot;${v2}`));
       }
       if (c_offset !== 0) {
           if (terms.length > 0 && c_offset > 0) terms.push('+');
@@ -611,13 +1538,13 @@
       if (terms.length === 0) terms.push('0');
       targetFnString += terms.join(' ');
 
-      targetFnContainer.innerHTML = `<span class="breakdown-label" style="padding-top: 0;">Function</span><span class="breakdown-content" style="font-size: 16px;">${targetFnString}</span>`;
+      targetFnContainer.innerHTML = `<span class="breakdown-label">Function</span><span class="breakdown-content" style="font-size: 16px; font-family: 'IBM Plex Mono', monospace;">${targetFnString}</span>`;
       step4Container.appendChild(targetFnContainer);
 
       const mode = document.querySelector('#optimization-mode-toggle .segmented-btn.active').dataset.mode;
       const goalContainer = document.createElement('div');
       goalContainer.className = 'breakdown-item';
-      goalContainer.innerHTML = `<span class="breakdown-label" style="padding-top: 0;">Goal</span><span class="breakdown-content" style="font-size: 16px; text-transform: capitalize;">${mode}</span>`;
+      goalContainer.innerHTML = `<span class="breakdown-label">Goal</span><span class="breakdown-content" style="font-size: 16px; text-transform: capitalize;">${mode}</span>`;
       step4Container.appendChild(goalContainer);
       inequalitiesBreakdownDiv.appendChild(step4Container);
 
@@ -628,10 +1555,10 @@
         }
 
         const initialTargetFnTerms = [];
-        if (a !== 0) initialTargetFnTerms.push(a === 1 ? v1 : (a === -1 ? `-${v1}` : `${formatNumber(a)}&nbsp;${v1}`));
+        if (a !== 0) initialTargetFnTerms.push(a === 1 ? `1&middot;${v1}` : (a === -1 ? `-1&middot;${v1}` : `${formatNumber(a)}&middot;${v1}`));
         if (b !== 0) {
             if (initialTargetFnTerms.length > 0 && b > 0) initialTargetFnTerms.push('+');
-            initialTargetFnTerms.push(b === 1 ? v2 : (b === -1 ? `-${v2}` : `${formatNumber(b)}&nbsp;${v2}`));
+            initialTargetFnTerms.push(b === 1 ? `1&middot;${v2}` : (b === -1 ? `-1&middot;${v2}` : `${formatNumber(b)}&middot;${v2}`));
         }
         if (c_offset !== 0) {
             if (initialTargetFnTerms.length > 0 && c_offset > 0) initialTargetFnTerms.push('+');
@@ -640,8 +1567,8 @@
         const initialTargetFnString = `${initialTargetFnTerms.join(' ')} = ${levelVar}`;
 
         const step5Container = document.createElement('div');
-        let step5HTML = `<h3 style="margin-top: 30px;">Step 5: Find Contour Line Equation</h3>
-            <p style="font-size: 14px; color: #475569; margin-top: 0;">To visualize the target function, we treat it as an equation for a line by setting it equal to a level (let's call it '${levelVar}') and solving for ${v2}.</p>`;
+        let step5HTML = `<h3 class="step-heading"><span class="step-num-badge">5</span> Contour Line Equation</h3>
+            <p class="step-subtitle">Set the objective equal to an arbitrary level '${levelVar}' and isolate ${v2} to expose the slope. All contour lines are parallel and share this slope.</p>`;
 
         const derivationSteps = [];
 
@@ -655,9 +1582,9 @@
             const c_offset_term_dec = c_offset !== 0 ? ` - ${formatNumber(c_offset/b)}` : '';
 
             derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${initialTargetFnString}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Isolate ${v2}:</div><div class="derivation-equation">${formatNumber(b)}&nbsp;${v2} = -${formatNumber(a)}&nbsp;${v1} + ${levelVar}${c_offset_term_isolate}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Solve for ${v2}:</div><div class="derivation-equation">${v2} = ${slope_frac}&nbsp;${v1} + (${levelVar}${c_offset_term_frac}) / ${formatNumber(b)}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Final Equation:</div><div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${formatNumber(1/b)}${levelVar}${c_offset_term_dec}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Isolate ${v2}:</div><div class="derivation-equation">${formatNumber(b)}&middot;${v2} = -${formatNumber(a)}&middot;${v1} + ${levelVar}${c_offset_term_isolate}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Solve for ${v2}:</div><div class="derivation-equation">${v2} = ${slope_frac}&middot;${v1} + (${levelVar}${c_offset_term_frac}) / ${formatNumber(b)}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Final equation:</div><div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${formatNumber(1/b)}&middot;${levelVar}${c_offset_term_dec}</div>`);
 
             step5HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
         } else if (a !== 0) { // Handle vertical contour lines
@@ -672,11 +1599,15 @@
 
       // --- Create Step 6: Determine Direction of Improvement ---
       const step6Container = document.createElement('div');
-      let step6HTML = `<h3 style="margin-top: 30px;">Step 6: Determine Direction of Improvement (using '${levelVar}')</h3>
-        <p style="font-size: 14px; color: #475569; margin-top: 0;">By comparing two different contour lines, we can see the direction in which the target function's value increases. This tells us which way to move the line to find the optimal solution.</p>`;
+      let step6HTML = `<h3 class="step-heading"><span class="step-num-badge">6</span> Direction of Improvement</h3>
+        <p class="step-subtitle">Pick two level values for '${levelVar}' — the minimum and maximum objective values at the feasible vertices — so both contour lines fall clearly within the graph. Graph each by finding its axis intercepts. The shift between the two lines reveals which direction to move when optimizing.</p>`;
 
-      const level1 = 10;
-      const level2 = 20;
+      // Use actual objective values at the feasible vertices so sample lines are meaningful
+      const allObjValsForLevel = feasibleVertices.map(v => a * v.x + b * v.y + c_offset);
+      const minObjForLevel = allObjValsForLevel.length > 0 ? Math.min(...allObjValsForLevel) : 0;
+      const maxObjForLevel = allObjValsForLevel.length > 0 ? Math.max(...allObjValsForLevel) : 10;
+      const level1 = minObjForLevel;
+      const level2 = minObjForLevel !== maxObjForLevel ? maxObjForLevel : maxObjForLevel + 10;
       let directionConclusion = '';
 
       const directionStepsContainer = document.createElement('div');
@@ -684,23 +1615,54 @@
 
       if (b !== 0) { // Standard case with a slope
         const slope_dec = formatNumber(-a / b);
-        const intercept1 = formatNumber((level1 - c_offset) / b);
-        const intercept2 = formatNumber((level2 - c_offset) / b);
+        const slope_num = -a / b;
+        const int1_num = (level1 - c_offset) / b;
+        const int2_num = (level2 - c_offset) / b;
+        const intercept1 = formatNumber(int1_num);
+        const intercept2 = formatNumber(int2_num);
+
+        // Origin case: when intercept = 0 the line passes through (0,0) — need another point
+        const isOrigin1 = Math.abs(int1_num) < 1e-9;
+        const isOrigin2 = Math.abs(int2_num) < 1e-9;
+
+        const yIntRow1 = isOrigin1
+          ? `<div class="derivation-description">Through (0,0):</div>
+             <div class="derivation-equation">Pick ${v1} = 1 &rarr; ${v2} = ${formatNumber(slope_num)} &rarr; point <strong>(1, ${formatNumber(slope_num)})</strong></div>`
+          : `<div class="derivation-description">Set ${v1} = 0:</div>
+             <div class="derivation-equation">${v1} = 0 &rarr; ${v2} = ${intercept1} &rarr; point <strong>(0, ${intercept1})</strong></div>`;
+        const yIntRow2 = isOrigin2
+          ? `<div class="derivation-description">Through (0,0):</div>
+             <div class="derivation-equation">Pick ${v1} = 1 &rarr; ${v2} = ${formatNumber(slope_num)} &rarr; point <strong>(1, ${formatNumber(slope_num)})</strong></div>`
+          : `<div class="derivation-description">Set ${v1} = 0:</div>
+             <div class="derivation-equation">${v1} = 0 &rarr; ${v2} = ${intercept2} &rarr; point <strong>(0, ${intercept2})</strong></div>`;
+
+        const xInt1Val = formatNumber(-int1_num / slope_num);
+        const xInt2Val = formatNumber(-int2_num / slope_num);
+        const xIntRow1 = (a !== 0 && !isOrigin1) ? `
+          <div class="derivation-description">Set ${v2} = 0:</div>
+          <div class="derivation-equation">${v2} = 0 &rarr; ${v1} = ${xInt1Val} &rarr; point <strong>(${xInt1Val}, 0)</strong></div>` : '';
+        const xIntRow2 = (a !== 0 && !isOrigin2) ? `
+          <div class="derivation-description">Set ${v2} = 0:</div>
+          <div class="derivation-equation">${v2} = 0 &rarr; ${v1} = ${xInt2Val} &rarr; point <strong>(${xInt2Val}, 0)</strong></div>` : '';
 
         directionStepsContainer.innerHTML = `
           <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${level1}:</div>
-            <div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${intercept1}</div>
+            <div class="derivation-description">For ${levelVar} = ${formatNumber(level1)}:</div>
+            <div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${intercept1}</div>
+            ${yIntRow1}
+            ${xIntRow1}
           </div>
           <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${level2}:</div>
-            <div class="derivation-equation">${v2} = ${slope_dec}&nbsp;${v1} + ${intercept2}</div>
+            <div class="derivation-description">For ${levelVar} = ${formatNumber(level2)}:</div>
+            <div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${intercept2}</div>
+            ${yIntRow2}
+            ${xIntRow2}
           </div>
         `;
 
-        const y_intercept_change = (level2 - c_offset) / b - (level1 - c_offset) / b;
+        const y_intercept_change = int2_num - int1_num;
         const moveDirection = y_intercept_change > 0 ? 'up' : 'down';
-        directionConclusion = `As the level '${levelVar}' increases, the y-intercept changes, causing the line to move <strong>${moveDirection}</strong>.`;
+        directionConclusion = `As '${levelVar}' increases from ${formatNumber(level1)} to ${formatNumber(level2)}, the y-intercept shifts ${moveDirection === 'up' ? 'from ' + intercept1 + ' to ' + intercept2 : 'from ' + intercept1 + ' to ' + intercept2}, so the line moves <strong>${moveDirection}</strong>.`;
 
       } else if (a !== 0) { // Vertical lines
         const x_val1 = formatNumber((level1 - c_offset) / a);
@@ -708,32 +1670,140 @@
 
         directionStepsContainer.innerHTML = `
           <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${level1}:</div>
-            <div class="derivation-equation">${v1} = ${x_val1}</div>
+            <div class="derivation-description">For ${levelVar} = ${formatNumber(level1)}:</div>
+            <div class="derivation-equation">${v1} = ${x_val1} &nbsp;&nbsp; (vertical line)</div>
           </div>
           <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${level2}:</div>
-            <div class="derivation-equation">${v1} = ${x_val2}</div>
+            <div class="derivation-description">For ${levelVar} = ${formatNumber(level2)}:</div>
+            <div class="derivation-equation">${v1} = ${x_val2} &nbsp;&nbsp; (vertical line)</div>
           </div>
         `;
         const x_val_change = (level2 - c_offset) / a - (level1 - c_offset) / a;
         const moveDirection = x_val_change > 0 ? 'right' : 'left';
-        directionConclusion = `As the level '${levelVar}' increases, the line is vertical and moves to the <strong>${moveDirection}</strong>.`;
-      } else { // No variables in objective function
-        directionConclusion = `The target function is constant, so its value does not change.`;
+        directionConclusion = `As '${levelVar}' increases, the vertical line moves to the <strong>${moveDirection}</strong>.`;
+      } else {
+        directionConclusion = `The target function is constant — its value does not change.`;
       }
 
       step6HTML += directionStepsContainer.outerHTML;
-      step6HTML += `<p class="direction-text" style="margin-top: 15px;">${directionConclusion} To <strong>${mode}</strong> the function, we must therefore move the contour line as far as possible in this direction while still touching the feasible region.</p>`;
+      step6HTML += `<p class="direction-text">${directionConclusion} To <strong>${mode}</strong>, move the contour line as far as possible in that direction while still touching the feasible region.</p>`;
+      step6HTML += `<div class="chart-container" style="height: 350px; max-width: 550px; margin: 20px auto 0; padding: 10px; border: 1px solid #e5eced; border-radius: 8px; background-color: #fff;"><canvas id="step6FeasibleRegionChart"></canvas></div>`;
       step6Container.innerHTML = step6HTML;
       inequalitiesBreakdownDiv.appendChild(step6Container);
 
+      // Render Step 6 chart: feasible set + two contour lines + optimal vertex highlighted
+      const step6Canvas = document.getElementById('step6FeasibleRegionChart');
+      if (step6Canvas && datasets) {
+        const step6Datasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line');
+
+        // Use actual objective value range at vertices so contour lines are always visible
+        const allObjVals = feasibleVertices.map(v => a * v.x + b * v.y + c_offset);
+        const minObjVal = allObjVals.length > 0 ? Math.min(...allObjVals) : level1;
+        const maxObjVal = allObjVals.length > 0 ? Math.max(...allObjVals) : level2;
+        const cLevel1 = minObjVal !== maxObjVal ? minObjVal : minObjVal - 5;
+        const cLevel2 = minObjVal !== maxObjVal ? maxObjVal : maxObjVal + 5;
+
+        if (b !== 0) {
+          const cSlope = -a / b;
+          const cInt1 = (cLevel1 - c_offset) / b;
+          const cInt2 = (cLevel2 - c_offset) / b;
+          step6Datasets.push({
+            label: 'Contour 1', type: 'line', fill: false, order: 3, pointRadius: 0,
+            data: [{ x: minX, y: cSlope * minX + cInt1 }, { x: maxX * 1.1, y: cSlope * (maxX * 1.1) + cInt1 }],
+            borderColor: 'rgba(255, 77, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
+          });
+          step6Datasets.push({
+            label: 'Contour 2', type: 'line', fill: false, order: 3, pointRadius: 0,
+            data: [{ x: minX, y: cSlope * minX + cInt2 }, { x: maxX * 1.1, y: cSlope * (maxX * 1.1) + cInt2 }],
+            borderColor: '#ff4d00', borderWidth: 2,
+          });
+        } else if (a !== 0) {
+          const cx1 = (cLevel1 - c_offset) / a;
+          const cx2 = (cLevel2 - c_offset) / a;
+          step6Datasets.push({
+            label: 'Contour 1', type: 'line', fill: false, order: 3, pointRadius: 0,
+            data: [{ x: cx1, y: minY }, { x: cx1, y: maxY * 1.1 }],
+            borderColor: 'rgba(255, 77, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
+          });
+          step6Datasets.push({
+            label: 'Contour 2', type: 'line', fill: false, order: 3, pointRadius: 0,
+            data: [{ x: cx2, y: minY }, { x: cx2, y: maxY * 1.1 }],
+            borderColor: '#ff4d00', borderWidth: 2,
+          });
+        }
+
+        step6Chart = new Chart(step6Canvas, {
+          type: 'scatter',
+          data: { datasets: step6Datasets },
+          options: {
+            scales: {
+              x: {
+                type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14 } },
+                grid: {
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
+                },
+                ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
+              },
+              y: {
+                min: minY, max: maxY * 1.1,
+                title: { display: true, text: toSubscript(var2Input.value), font: { size: 14 } },
+                grid: {
+                  lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
+                  color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
+                },
+                ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
+              }
+            },
+            plugins: {
+              zoom: { zoom: { wheel: { enabled: false } }, pan: { enabled: false } },
+              legend: { display: false },
+              tooltip: { enabled: false },
+              afterDraw: chart => {
+                const ctx = chart.ctx;
+
+                // Draw feasible region as filled polygon
+                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+                if (fDsIdx !== -1) {
+                  const fMeta = chart.getDatasetMeta(fDsIdx);
+                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                    ctx.save();
+                    ctx.beginPath();
+                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                    ctx.closePath();
+                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
+                    ctx.fill();
+                    ctx.restore();
+                  }
+                }
+
+                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
+                if (!verticesMeta || !verticesMeta.data.length) return;
+                ctx.save();
+                ctx.font = 'bold 12px "IBM Plex Sans"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                verticesMeta.data.forEach((element, index) => {
+                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#ff4d00' : '#2f6a73';
+                  const label = String.fromCharCode(65 + index);
+                  ctx.fillText(label, element.x, element.y - 5);
+                });
+                ctx.restore();
+              },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+      }
+
       // --- Create Step 7: Find the Optimal Solution ---
       const step7Container = document.createElement('div');
-      let step7HTML = `<h3 style="margin-top: 30px;">Step 7: Find the Optimal Solution</h3>`;
+      let step7HTML = `<h3 class="step-heading"><span class="step-num-badge">7</span> Optimal Solution</h3>`;
 
       if (optimalVertexIndices.length === 0) {
-        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">There are no feasible vertices, so no optimal solution exists for this problem.</p>`;
+        step7HTML += `<p class="step-subtitle">There are no feasible vertices — no optimal solution exists for this problem.</p>`;
       } else if (optimalVertexIndices.length === 1) {
         const optimalIndex = optimalVertexIndices[0];
         const optimalVertex = feasibleVertices[optimalIndex];
@@ -743,22 +1813,23 @@
         const line1 = constraintsList[line1Index];
         const line2 = constraintsList[line2Index];
 
-        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">The optimal solution occurs at <strong>Vertex ${vertexLetter}</strong>, which is the intersection of boundary lines (${line1Index + 1}) and (${line2Index + 1}).</p>`;
+        step7HTML += `<p class="step-subtitle" style="margin-bottom:10px;">The optimal vertex is at <strong>Vertex ${vertexLetter}</strong>, the intersection of constraints (${line1Index + 1}) and (${line2Index + 1}). Solve the system simultaneously to find exact coordinates.</p>`;
 
-        const systemEq1 = `${formatConstraint(line1, v1, v2).replace(/&le;|&ge;/g, '=')}`;
-        const systemEq2 = `${formatConstraint(line2, v1, v2).replace(/&le;|&ge;/g, '=')}`;
+        const systemEq1 = `${formatConstraint(line1, v1, v2).replace(/&le;|&ge;|≤|≥/g, '=')}`;
+        const systemEq2 = `${formatConstraint(line2, v1, v2).replace(/&le;|&ge;|≤|≥/g, '=')}`;
 
-        const derivationSteps = [];
-        derivationSteps.push(`<div class="derivation-description">System of Equations:</div><div class="derivation-equation">${systemEq1}<br>${systemEq2}</div>`);
-        
-        derivationSteps.push(`<div class="derivation-description">Solution:</div><div class="derivation-equation">${v1} = ${formatNumber(optimalVertex.x)}, &nbsp; ${v2} = ${formatNumber(optimalVertex.y)}</div>`);
+        step7HTML += `<div class="derivation-box">
+          <div class="derivation-description">System:</div>
+          <div class="derivation-equation">${systemEq1}<br>${systemEq2}</div>
+        </div>`;
+        step7HTML += `<div class="derivation-box" style="margin-top: 10px;">
+          <div class="derivation-description">Solution:</div>
+          <div class="derivation-equation">${v1} = ${formatNumber(optimalVertex.x)}, &nbsp;&nbsp; ${v2} = ${formatNumber(optimalVertex.y)}</div>
+        </div>`;
 
-        step7HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
-
-        step7HTML += `<p class="direction-text" style="margin-top: 15px;">
-          The optimal point is <strong>(${formatNumber(optimalVertex.x)}, ${formatNumber(optimalVertex.y)})</strong>.
-          Plugging this into the target function gives the ${mode} value:
-          <br><strong>${fnName} = ${formatNumber(optimalValue)}</strong>.
+        step7HTML += `<p class="direction-text" style="margin-top: 12px;">
+          Optimal point: <strong>(${formatNumber(optimalVertex.x)}, ${formatNumber(optimalVertex.y)})</strong>.
+          Substituting into the objective function gives: <strong>${fnName} = ${formatNumber(optimalValue)}</strong>.
         </p>`;
 
       } else { // Multiple optimal solutions
@@ -767,10 +1838,7 @@
         const vertex1Letter = String.fromCharCode(65 + vertex1Index);
         const vertex2Letter = String.fromCharCode(65 + vertex2Index);
 
-        step7HTML += `<p style="font-size: 14px; color: #475569; margin-top: 0;">
-          The contour line of the target function is parallel to the boundary line connecting <strong>Vertex ${vertex1Letter}</strong> and <strong>Vertex ${vertex2Letter}</strong>.
-          This means that every point on the line segment between these two vertices is an optimal solution.
-        </p>`;
+        step7HTML += `<p class="step-subtitle">The contour line is parallel to the edge between <strong>Vertex ${vertex1Letter}</strong> and <strong>Vertex ${vertex2Letter}</strong> — every point on that segment is an optimal solution.</p>`;
 
         const optimalVertex1 = feasibleVertices[vertex1Index];
         const optimalVertex2 = feasibleVertices[vertex2Index];
@@ -783,7 +1851,7 @@
         `;
         step7HTML += summaryBox;
 
-        step7HTML += `<p class="direction-text" style="margin-top: 15px;">
+        step7HTML += `<p class="direction-text" style="margin-top: 12px;">
           The ${mode} value for all points on this segment is <strong>${fnName} = ${formatNumber(optimalValue)}</strong>.
         </p>`;
       }
@@ -947,8 +2015,8 @@
           label: 'Feasible Region',
           data: [...feasibleVertices, feasibleVertices[0]], // Close the polygon
           fill: true,
-          backgroundColor: 'rgba(34, 197, 94, 0.15)', // Light, transparent green
-          borderColor: 'rgba(34, 197, 94, 0.4)', // Muted green for the border
+          backgroundColor: 'rgba(12, 56, 64, 0.10)',
+          borderColor: 'rgba(12, 56, 64, 0.28)',
           borderWidth: 3,
           showLine: true,
           type: 'line', // Use 'line' type for the dataset to enable filling
@@ -995,8 +2063,8 @@
         datasets.push({
           label: 'Feasible Vertices',
           data: feasibleVertices,
-          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#22C55E' : '#B8B0AA'), // Green for optimal, taupe-light for others
-          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#16a34a' : '#827B75'), // Darker borders (taupe-mid)
+          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#ff4d00' : '#83acb2'),
+          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#cc3d00' : '#2f6a73'),
           borderWidth: 1.5,
           pointRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 8 : 5), // Larger radius for optimal
           pointHoverRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 10 : 7),
@@ -1118,20 +2186,35 @@
                   y: {min: minY}
                 }
               },
-              // Custom plugin to draw labels on vertices
+              // Custom plugin: polygon fill + vertex labels
               afterDraw: chart => {
                 const ctx = chart.ctx;
+
+                // Draw feasible region as filled polygon
+                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+                if (fDsIdx !== -1) {
+                  const fMeta = chart.getDatasetMeta(fDsIdx);
+                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                    ctx.save();
+                    ctx.beginPath();
+                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                    ctx.closePath();
+                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
+                    ctx.fill();
+                    ctx.restore();
+                  }
+                }
+
                 const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
                 if (!verticesMeta) return;
 
                 ctx.font = 'bold 14px Lato';
-                ctx.fillStyle = 'blue';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
 
                 verticesMeta.data.forEach((element, index) => {
-                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#2563eb' : '#3c4858'; // Blue for optimal, dark gray for others
-                  const label = String.fromCharCode(65 + index); // A, B, C...
+                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#ff4d00' : '#2f6a73';
+                  const label = String.fromCharCode(65 + index);
                   ctx.fillText(label, element.x, element.y - 5);
                 });
               },
@@ -1149,7 +2232,7 @@
       renderStaticFeasibleRegionGraph({ datasets, minX, maxX, minY, maxY, solutionData });
 
       // Return the calculated solution so it can be used in the breakdown steps
-      return solutionData;
+      return { ...solutionData, datasets, minX, maxX, minY, maxY };
     }
 
     function updateSliderRangeForVisibleArea(chart) {
@@ -1241,7 +2324,7 @@
       const contourDataset = {
         label: 'Contour Line',
         data: contourPoints,
-        borderColor: 'orange',
+        borderColor: '#ff4d00',
         borderWidth: 2,
         type: 'line',
         pointRadius: 0,
@@ -1258,6 +2341,16 @@
       if (!staticChartCanvas) return;
 
       const staticDatasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line');
+
+      // Step 3 shows the feasible set only — no optimal point distinction
+      const verticesDs = staticDatasets.find(d => d.label === 'Feasible Vertices');
+      if (verticesDs) {
+        const n = verticesDs.data.length;
+        verticesDs.backgroundColor = Array(n).fill('#83acb2');
+        verticesDs.borderColor = Array(n).fill('#2f6a73');
+        verticesDs.pointRadius = Array(n).fill(5);
+        verticesDs.pointHoverRadius = Array(n).fill(7);
+      }
 
       if (staticFeasibleRegionChart) {
         staticFeasibleRegionChart.data.datasets = staticDatasets;
@@ -1298,18 +2391,34 @@
               legend: { display: false },
               tooltip: { enabled: false }, // Disable tooltips
               afterDraw: chart => {
+                const ctx = chart.ctx;
+
+                // Draw feasible region as filled polygon
+                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+                if (fDsIdx !== -1) {
+                  const fMeta = chart.getDatasetMeta(fDsIdx);
+                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                    ctx.save();
+                    ctx.beginPath();
+                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                    ctx.closePath();
+                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
+                    ctx.fill();
+                    ctx.restore();
+                  }
+                }
+
                 const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
                 const optimalVertexIndices = solutionData ? solutionData.optimalVertexIndices : [];
                 if (!verticesMeta || !verticesMeta.data.length) return;
-                
-                const ctx = chart.ctx;
+
                 ctx.save();
                 ctx.font = 'bold 12px "IBM Plex Sans"';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
 
                 verticesMeta.data.forEach((element, index) => {
-                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#2563eb' : '#3c4858'; // Blue for optimal, dark gray for others
+                  ctx.fillStyle = '#2f6a73';
                   const label = String.fromCharCode(65 + index);
                   ctx.fillText(label, element.x, element.y - 5);
                 });
@@ -1371,25 +2480,17 @@
         }
 
         const terms = [];
-        // Term for v1
-        if (c.c1 !== 0) { 
-            if (c.c1 === 1) terms.push(v1);
-            else if (c.c1 === -1) terms.push(`-${v1}`);
-            else terms.push(`${formatNumber(c.c1)}&nbsp;${v1}`);
+        if (c.c1 !== 0) {
+            if (c.c1 === 1) terms.push(`1&middot;${v1}`);
+            else if (c.c1 === -1) terms.push(`-1&middot;${v1}`);
+            else terms.push(`${formatNumber(c.c1)}&middot;${v1}`);
         }
 
-        // Term for v2
         if (c.c2 !== 0) {
-            if (terms.length > 0) {
-                // Add a sign only if the second coefficient is positive
-                // If it's negative, the sign is already part of the term
-                if (c.c2 > 0) {
-                    terms.push('+');
-                }
-            }
-            if (c.c2 === 1) terms.push(v2);
-            else if (c.c2 === -1) terms.push(`-${v2}`);
-            else terms.push(`${formatNumber(c.c2)}&nbsp;${v2}`);
+            if (terms.length > 0 && c.c2 > 0) terms.push('+');
+            if (c.c2 === 1) terms.push(`1&middot;${v2}`);
+            else if (c.c2 === -1) terms.push(`-1&middot;${v2}`);
+            else terms.push(`${formatNumber(c.c2)}&middot;${v2}`);
         }
 
         if (terms.length === 0) {
@@ -1460,8 +2561,8 @@
 
       // Set default constraints (x >= 0 and y >= 0)
       constraintsList = [
-        { c1: 1, c2: 0, rhs: 0, sign: 'ge', type: 'base', text: '{{v1}} >= 0' },
-        { c1: 0, c2: 1, rhs: 0, sign: 'ge', type: 'base', text: '{{v2}} >= 0' }
+        { c1: 1, c2: 0, rhs: 0, sign: 'ge', type: 'base', text: '{{v1}} ≥ 0' },
+        { c1: 0, c2: 1, rhs: 0, sign: 'ge', type: 'base', text: '{{v2}} ≥ 0' }
       ];
       renderConstraints();
     }
