@@ -75,6 +75,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+        a:visited { color: inherit; }
 
         .wavy-bg {
             position: fixed;
@@ -1548,11 +1549,10 @@
                 gap: 18px;
             }
             .btn-whatsapp {
-                white-space: nowrap;
-                padding: 9px 20px;
-                font-size: 9px;
-                letter-spacing: 0.14em;
+                padding: 9px 11px;
+                letter-spacing: 0;
             }
+            .btn-whatsapp .btn-label { display: none; }
 
             /* About Me Card — vertical layout, scaled down */
             #about-me-card {
@@ -1739,7 +1739,7 @@
                 <span></span>
             </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
-                <i class="bi bi-whatsapp"></i>Book Free Call
+                <i class="bi bi-whatsapp"></i><span class="btn-label">Book Free Call</span>
             </a>
         </div>
     </header>
@@ -1889,7 +1889,7 @@
                 <div style="text-align: center; margin-bottom: 30px;">
                     <span class="card-tag">Everything you need to pass.</span>
                     <h3>What's Included</h3>
-                    <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
+                    <p class="timeline-subtitle" style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Direct support at all times. From day one to exam day.</p>
                     <p class="faq-label" style="margin-top: 52px;">Programs</p>
                     <div class="tier-tabs" id="tier-tabs">
                         <button class="tier-tab active" data-tier="essential">Essential</button>
@@ -2047,8 +2047,9 @@
                 <hr class="faq-divider">
                 <p class="faq-label">Courses Offered</p>
                 <style>
-                    .course-selects { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: nowrap; align-items: flex-end; overflow-x: auto; padding-bottom: 4px; }
+                    .course-selects { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-bottom: 20px; }
                     .course-sel-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; flex-shrink: 0; }
+                    .course-list-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
                     .course-sel-label {
                         font-size: 0.6rem;
                         font-weight: 700;
@@ -2090,7 +2091,7 @@
                         from { opacity: 0; transform: translateY(6px); }
                         to   { opacity: 1; transform: translateY(0); }
                     }
-                    #course-list { max-width: 660px; margin: 0 auto; text-align: left; }
+                    #course-list { min-width: 540px; max-width: 660px; margin: 0 auto; text-align: left; }
                     .course-row {
                         display: flex;
                         align-items: center;
@@ -2173,8 +2174,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="course-list-wrap" id="course-list-wrap">
-                    <div id="course-list"></div>
+                <div class="course-list-outer">
+                    <div class="course-list-wrap" id="course-list-wrap">
+                        <div id="course-list"></div>
+                    </div>
                 </div>
 
                 <hr class="faq-divider">
@@ -3689,7 +3692,7 @@
             }
 
             // What's Included
-            reveal('#timeline-card', '.card-tag, h3, .tier-tabs, #tier-description, #course-timeline-content', { step: 0.09 });
+            reveal('#timeline-card', '.card-tag, h3, .timeline-subtitle, .faq-label, .tier-tabs, #tier-description, #course-timeline-content', { step: 0.09 });
 
             // Results — heading, stat boxes, testimonials (bar chart keeps its own animation)
             reveal('#results-card', '.card-tag, h3', { step: 0.08 });
