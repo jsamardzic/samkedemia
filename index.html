@@ -1844,7 +1844,7 @@
             <div class="card-content"
                 style="display: flex; flex-direction: column; align-items: center; gap: 0px; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 40px;">
-                    <span class="card-tag">Hello, I am Jovan.</span>
+                    <span class="card-tag">Let Me Introduce Myself.</span>
                     <h3>About Me</h3>
                     <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
                 </div>
@@ -1857,17 +1857,17 @@
                             <div class="detail-item">
                                 <div class="label"><i class="bi bi-mortarboard-fill"></i> Background</div>
                                 <div class="detail-checklist">
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>26 year old guy from Serbia</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>My name is <span class="hl">Jovan Samardzic</span>, I am 26 years old</span></div>
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Got my <span class="hl">MSc in Statistics at KU Leuven</span>, graduated <span class="hl">Magna Cum Laude</span></span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span></span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Only recipient of the <span class="hl">Science@Leuven Scholarship</span> for my year</div>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <div class="label"><i class="bi bi-patch-check-fill"></i> Tutoring Experience</div>
                                 <div class="detail-checklist">
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Started tutoring on the side to make some extra money</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Started tutoring master's students while I was still an undergraduate</span></div>
                                     <div class="detail-check"><i class="bi bi-check2"></i><span>Grew into <span class="hl">Samkedemia</span> helping students across Europe reach their goals</span></div>
-                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with <span class="hl">200+ students</span> from all kinds of backgrounds</span></div>
+                                    <div class="detail-check"><i class="bi bi-check2"></i><span>Worked with <span class="hl">200+ university students</span> from all kinds of backgrounds</span></div>
                                 </div>
                             </div>
                             <div class="detail-item">
@@ -2587,6 +2587,39 @@
 
         <div class="stack-card" id="pricing">
             <style>
+                .pricing-pills {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 10px;
+                    margin: 32px auto 0;
+                }
+                .referral-banner {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    background: rgba(255, 77, 0, 0.08);
+                    border: 1.5px solid rgba(255, 77, 0, 0.18);
+                    border-radius: 100px;
+                    padding: 10px 22px;
+                }
+                .referral-icon {
+                    color: var(--accent-orange);
+                    font-size: 1rem;
+                    line-height: 1;
+                    flex-shrink: 0;
+                }
+                .referral-text {
+                    font-size: 0.85rem;
+                    font-family: var(--font-body);
+                    color: var(--teal-mid);
+                    letter-spacing: -0.01em;
+                }
+                .referral-text strong {
+                    color: var(--accent-orange);
+                    font-weight: 700;
+                }
+
                 .pricing-table-wrap {
                     width: 100%;
                     max-width: 1000px;
@@ -3015,14 +3048,17 @@
                                 <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                                 <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
                             </tr>
+                            <!-- SAMKE AI ROW — uncomment when ready to launch
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>1</sup></span></td>
                                 <td><span class="pt-soon">Coming Soon</span></td>
                                 <td><span class="pt-soon">Coming Soon</span></td>
                                 <td><span class="pt-soon">Coming Soon</span></td>
                             </tr>
+                            Also uncomment footnote <sup>1</sup> in .pricing-disclaimers below, and change sup>2 on Extended Service back to sup>1.
+                            -->
                             <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>2</sup></span></td>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
                                 <td><span class="pt-yes">6 months</span></td>
                                 <td><span class="pt-yes">24 months</span></td>
                                 <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
@@ -3033,8 +3069,21 @@
 
                 <div class="pricing-disclaimers">
                     <p>Hourly rates are effective rates for comparison purposes. The full total remains applicable regardless of the number of sessions attended.</p>
+                    <!-- SAMKE AI FOOTNOTE — restore when uncommenting the row above, and change sup>2 on Extended Service back to sup>2
                     <p><sup>1</sup> Structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude). Coming in Oct 2026.</p>
-                    <p><sup>2</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
+                    -->
+                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
+                </div>
+
+                <div class="pricing-pills">
+                    <div class="referral-banner">
+                        <span class="referral-icon"><i class="bi bi-person-plus-fill"></i></span>
+                        <span class="referral-text">Refer a friend and get <strong>€50 off</strong> your program</span>
+                    </div>
+                    <div class="referral-banner">
+                        <span class="referral-icon"><i class="bi bi-credit-card-fill"></i></span>
+                        <span class="referral-text"><strong>No upfront payment.</strong> Installments available.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3701,7 +3750,7 @@
 
             // Pricing
             reveal('#pricing', '.card-tag, h3', { step: 0.08 });
-            reveal('#pricing', '.pricing-table-wrap, .pricing-disclaimers', { step: 0.1, base: 0.12 });
+            reveal('#pricing', '.pricing-table-wrap, .pricing-disclaimers, .pricing-pills', { step: 0.1, base: 0.12 });
 
             // Resources
             reveal('#resources-card', '.card-tag, h3, p, .resource-scroll-wrap', { step: 0.09 });
