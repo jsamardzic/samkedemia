@@ -606,7 +606,7 @@
 
         .milestone-img {
             width: 100%;
-            height: 150px;
+            aspect-ratio: 16 / 9;
             background: #EBE7E2;
             flex-shrink: 0;
             overflow: hidden;
@@ -1622,10 +1622,7 @@
                 font-size: 0.9rem;
             }
 
-            /* What's Included — image height on mobile */
-            .milestone-img {
-                height: 120px;
-            }
+            /* What's Included — aspect-ratio handles sizing consistently across breakpoints */
 
             /* Pricing table — slightly smaller to fit screen without scrolling */
             .pricing-table th,
