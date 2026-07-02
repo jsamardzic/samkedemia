@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samkedemia: University Math Tutoring & Exam Prep</title>
-    <meta name="description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
+    <meta name="description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €350.">
     <meta property="og:title" content="Samkedemia: University Math Tutoring & Exam Prep">
-    <meta property="og:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
+    <meta property="og:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €350.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.samkedemia.com/">
     <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
@@ -16,7 +16,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
     <meta name="twitter:title" content="Samkedemia: University Math Tutoring & Exam Prep">
-    <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more — programs from €350.">
+    <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 142 university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €350.">
     <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -147,7 +147,6 @@
         }
 
         header.scrolled .header-nav {
-            /* Shrinking: nav fades out fast, then pill collapses */
             transition: opacity 0.15s ease, max-width 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
             max-width: 0;
             opacity: 0;
@@ -190,7 +189,6 @@
             max-width: 600px;
             overflow: hidden;
             opacity: 1;
-            /* Expanding: pill widens first, then nav fades in */
             transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease 0.35s;
         }
 
@@ -675,11 +673,12 @@
 
         .milestone-content {
             padding: 16px 20px 20px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto;
             column-gap: 12px;
-            row-gap: 4px;
+            row-gap: 6px;
+            align-items: center;
         }
 
         .milestone h4 {
@@ -689,14 +688,17 @@
             color: var(--teal-dark);
             margin-bottom: 0;
             line-height: 1.2;
-            flex: 1;
+            grid-column: 2;
+            grid-row: 1;
+            align-self: center;
         }
 
         .milestone p {
             font-size: 0.82rem;
             color: var(--teal-mid);
             line-height: 1.5;
-            width: 100%;
+            grid-column: 1 / -1;
+            grid-row: 2;
         }
 
         .milestone-icon {
@@ -704,6 +706,9 @@
             display: flex;
             flex-shrink: 0;
             font-size: 20px;
+            grid-column: 1;
+            grid-row: 1;
+            align-self: center;
         }
 
         /* --- Tier Tabs --- */
@@ -765,6 +770,10 @@
 
         @media (max-width: 700px) {
             .ms-grid { grid-template-columns: repeat(2, 1fr); }
+            .milestone-content { padding: 12px 14px 14px; column-gap: 8px; }
+            .milestone h4 { font-size: 0.88rem; }
+            .milestone p { font-size: 0.76rem; }
+            .milestone-icon { font-size: 17px; }
         }
 
         /* --- Course Topics --- */
@@ -881,23 +890,12 @@
             margin-bottom: 30px;
         }
 
-        .footer-logo .text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-        }
-        .footer-logo .text .logo-name {
-            color: rgba(255,255,255,0.45);
-        }
-        .footer-logo .text .logo-sub {
-            color: rgba(255,255,255,0.45);
-            font-size: 0.58rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+        .footer-logo-img {
+            height: 28px;
+            width: auto;
+            display: block;
+            filter: brightness(0) invert(1);
+            opacity: 0.45;
         }
 
         .footer-col p {
@@ -1416,15 +1414,6 @@
         }
     </style>
     <style>
-        /* Show hamburger when scrolled (desktop: absolute-centered; mobile: already inline) */
-        header.scrolled .hamburger-btn {
-            display: flex;
-        }
-
-        @media (min-width: 769px) {
-            header.scrolled .logo { flex: 1; }
-            header.scrolled .header-actions { flex: 1; justify-content: flex-end; }
-        }
 
         /* About Me scroll animation */
         #about-me-card .card-tag,
@@ -1452,6 +1441,25 @@
         #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.38s; }
         #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.56s; }
         #about-me-card.about-animated .detail-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.74s; }
+
+        @keyframes hamburgerFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* Show hamburger when scrolled; absolute-center it in the pill on desktop */
+        header.scrolled .hamburger-btn {
+            display: flex;
+            animation: hamburgerFadeIn 0.12s ease 0.18s both;
+        }
+        @media (min-width: 769px) {
+            header.scrolled .hamburger-btn {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
 
         /* === Hamburger Button (hidden on desktop) === */
         .hamburger-btn {
@@ -1558,10 +1566,6 @@
                 top: 12px;
                 padding: 13px 26px;
                 gap: 24px;
-            }
-            header.scrolled {
-                width: fit-content;
-                max-width: calc(100% - 40px);
             }
             .hamburger-btn {
                 display: flex;
@@ -1753,12 +1757,12 @@
             <a href="#pricing" class="header-nav-link">Pricing</a>
             <a href="#resources-card" class="header-nav-link">Resources</a>
         </nav>
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
         <div class="header-actions">
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
                 <i class="bi bi-whatsapp"></i><span class="btn-label">Book Free Call</span>
             </a>
@@ -3448,7 +3452,7 @@
         <div class="footer-grid">
             <div class="footer-col logo-info">
                 <div class="footer-logo">
-                    <div class="text"><span class="logo-name">samkedemia</span><span class="logo-sub">education</span></div>
+                    <img src="images/samkedemia-horizontal.svg" alt="Samkedemia" class="footer-logo-img">
                 </div>
                 <p>
                     JOVAN SAMARDZIC PR BEOGRAD (STARI GRAD)<br>
@@ -3721,6 +3725,7 @@
                 });
             });
         })();
+
 
         // Header scroll shrink behavior
         const header = document.querySelector('header');
