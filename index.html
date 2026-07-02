@@ -128,23 +128,22 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 980px;
-            padding: 15px 30px;
+            height: 64px;
+            padding: 0 20px 0 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             background: rgba(250, 248, 245, 0.75);
-            /* Lighter and more transparent */
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 100px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         header.scrolled {
             max-width: 500px;
-            padding: 12px 25px;
         }
 
         header.scrolled .header-nav {
@@ -176,9 +175,11 @@
             align-items: center;
         }
         .logo-img {
-            height: 46px;
+            height: 28px;
             width: auto;
             display: block;
+            object-fit: contain;
+            object-position: left center;
         }
 
         /* --- Header Nav Dropdowns --- */
@@ -1421,12 +1422,8 @@
         }
 
         @media (min-width: 769px) {
-            header.scrolled .hamburger-btn {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
+            header.scrolled .logo { flex: 1; }
+            header.scrolled .header-actions { flex: 1; justify-content: flex-end; }
         }
 
         /* About Me scroll animation */
@@ -1748,7 +1745,7 @@
     <div class="wavy-bg"></div>
 
     <header>
-        <a href="#" class="logo"><img src="images/samkedemia-horizontal.png" alt="Samkedemia" class="logo-img"></a>
+        <a href="#" class="logo"><img src="images/samkedemia-horizontal.svg" alt="Samkedemia" class="logo-img"></a>
         <nav class="header-nav">
             <a href="#about-me-card" class="header-nav-link">About Me</a>
             <a href="#timeline-card" class="header-nav-link">What's Included</a>
@@ -1756,12 +1753,12 @@
             <a href="#pricing" class="header-nav-link">Pricing</a>
             <a href="#resources-card" class="header-nav-link">Resources</a>
         </nav>
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div class="header-actions">
-            <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
                 <i class="bi bi-whatsapp"></i><span class="btn-label">Book Free Call</span>
             </a>
@@ -2188,7 +2185,6 @@
                             <option value="bocconi">Bocconi</option>
                             <option value="erasmus">Erasmus Rotterdam</option>
                             <option value="kuleuven" selected>KU Leuven</option>
-                            <option value="belgrade">University of Belgrade</option>
                             <option value="vub">Vrije Universiteit Brussel</option>
                             <option disabled>Université Libre de Bruxelles (Coming Soon)</option>
                         </select>
@@ -2217,7 +2213,7 @@
                     <div class="faq-panel active" data-faq="outside">
                         <div class="faq-item">
                             <button class="faq-item-btn">What's on the Samkedemia Drive?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>A solution book with every class exercise and past exam solved step by step, formula sheets (a detailed version and a short exam-formatted one), all slides, past exams, mock exams, and extra resources I've found useful: blogs, YouTube videos, that kind of thing.</p></div>
+                            <div class="faq-item-body"><p>A solution book with every class exercise and past exam solved step by step, formula sheets (a detailed version and a short exam-formatted one), all slides, past exams, mock exams, and extra resources I've found useful: blogs, YouTube videos, TikToks, etc.</p></div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">Can I ask a quick question outside of sessions?<i class="bi bi-chevron-down"></i></button>
@@ -2269,7 +2265,7 @@
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">Any discounts?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>Yes. Bring someone in and you get 50 euros off your program.</p></div>
+                            <div class="faq-item-body"><p>Yes. Bring someone in and you get €50 off your program.</p></div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">I missed a session, is the price lower?<i class="bi bi-chevron-down"></i></button>
@@ -3646,11 +3642,6 @@
                         { name: '30001 Statistics', ects: 8, year: 1, sem: 1, url: 'https://didattica.unibocconi.eu/ts/tsn_anteprima.php?cod_ins=30001&anno=2026' },
                     ]
                 },
-                belgrade: {
-                    'FON - Information Systems': [
-                        { name: 'Statistika', ects: 5, year: 2, sem: 1, url: 'https://statlab.fon.bg.ac.rs/predmeti/statistika-2/' },
-                    ]
-                },
                 vub: {
                     'BSc Social Sciences': [
                         { name: 'Statistics for Social Sciences', ects: 6, year: 1, sem: 1, url: 'https://caliweb.vub.be/?page=course-offer&id=009462&anchor=1&target=pr&year=2223&language=en&output=html' },
@@ -3661,7 +3652,6 @@
                 kuleuven: [{ name: 'BBA', soon: false }, { name: 'MSc Statistics and Data Science', soon: false }, { name: 'BBE', soon: true }],
                 erasmus:  [{ name: 'Psychology', soon: false }],
                 bocconi:  [{ name: 'BIEM', soon: false }],
-                belgrade: [{ name: 'FON - Information Systems', soon: false }],
                 vub:      [{ name: 'BSc Social Sciences', soon: false }]
             };
             const uniSel  = document.getElementById('uni-sel');
