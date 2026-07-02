@@ -28,7 +28,7 @@
             --teal-mid: #2f6a73;
             --teal-light: #83acb2;
             --orange-dark: #3d1909;
-            --accent-orange: #ff4d00;
+            --accent-orange: #ff5500;
             --orange-light: #f5a87e;
             --font-title: 'Vidaloka', serif;
             --font-body: 'Atkinson Hyperlegible', sans-serif;
@@ -167,24 +167,15 @@
         }
 
         .logo {
-            font-weight: 800;
-            font-size: 1.2rem;
             text-decoration: none;
-            letter-spacing: -0.5px;
             flex-shrink: 0;
             display: flex;
-            flex-direction: column;
-            line-height: 1.1;
+            align-items: center;
         }
-        .logo .logo-name {
-            color: var(--accent-orange);
-        }
-        .logo .logo-sub {
-            color: var(--teal-dark);
-            font-size: 0.52rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+        .logo-img {
+            height: 46px;
+            width: auto;
+            display: block;
         }
 
         /* --- Header Nav Dropdowns --- */
@@ -423,6 +414,7 @@
             font-weight: 900;
             letter-spacing: -0.5px;
             color: var(--teal-dark);
+
             margin-bottom: 14px;
             display: flex;
             align-items: center;
@@ -1064,6 +1056,7 @@
             font-weight: 900;
             letter-spacing: -1px;
             color: var(--teal-dark);
+
             margin-bottom: 40px;
             line-height: 1.05;
         }
@@ -1758,7 +1751,7 @@
     <div class="wavy-bg"></div>
 
     <header>
-        <a href="#" class="logo"><span class="logo-name">samkedemia</span><span class="logo-sub">education</span></a>
+        <a href="#" class="logo"><img src="images/samkedemia-horizontal.png" alt="Samkedemia" class="logo-img"></a>
         <nav class="header-nav">
             <a href="#about-me-card" class="header-nav-link">About Me</a>
             <a href="#timeline-card" class="header-nav-link">What's Included</a>
@@ -2358,6 +2351,18 @@
                     padding-top: 36px;
                     margin-top: 12px;
                 }
+                .results-footnote {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 0.48rem !important;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.18em;
+                    color: var(--teal-mid);
+                    opacity: 0.55;
+                    margin-top: -36px;
+                    margin-bottom: 0;
+                }
                 .results-stats {
                     display: flex;
                     gap: 16px;
@@ -2431,11 +2436,12 @@
                         </div>
                     </div>
                     <div class="pass-bar-names">
-                        <div class="pass-bar-name">No Tutoring</div>
-                        <div class="pass-bar-name">Other Tutors</div>
+                        <div class="pass-bar-name">No Tutoring*</div>
+                        <div class="pass-bar-name">Other Tutors*</div>
                         <div class="pass-bar-name samk">Samkedemia</div>
                     </div>
                 </div>
+                <p class="results-footnote">* Based on internal research conducted in 2025.</p>
 
                 <p class="results-label divider">By the numbers</p>
 
