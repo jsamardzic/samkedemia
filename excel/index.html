@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Samkedemia: Excel Cheat Sheet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <meta name="description" content="Free Excel cheat sheet for university statistics & probability exams: absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE.S, COUNTIF(S), SUMPRODUCT, regression & correlation matrix, by Samkedemia.">
     <meta property="og:title" content="Samkedemia: Excel Cheat Sheet">
-    <meta property="og:description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <meta property="og:description" content="Free Excel cheat sheet for university statistics & probability exams: absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE.S, COUNTIF(S), SUMPRODUCT, regression & correlation matrix, by Samkedemia.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.samkedemia.com/excel/">
     <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
@@ -15,7 +15,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
     <meta name="twitter:title" content="Samkedemia: Excel Cheat Sheet">
-    <meta name="twitter:description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <meta name="twitter:description" content="Free Excel cheat sheet for university statistics & probability exams: absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE.S, COUNTIF(S), SUMPRODUCT, regression & correlation matrix, by Samkedemia.">
     <link rel="icon" type="image/png" href="../images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -41,6 +41,7 @@
             /* --- TEXT COLORS --- */
             --color-text-primary: #2C2825;
             --color-text-secondary: #2f6a73;
+            --color-text-secondary-rgb: 47, 106, 115; /* Same as --color-text-secondary, for use inside rgba() */
             --color-text-inverted: #ffffff;
 
             margin: 0;
@@ -111,26 +112,47 @@
             background-color: var(--color-bg-subtle);
             border-radius: 12px;
             border: 1px solid var(--color-border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .excel-table {
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             width: auto;
-            margin-top: 10px;
+            margin: 10px auto 0;
         }
 
         .excel-table th, .excel-table td {
-            border: 1px solid var(--color-border);
+            border-top: 1px solid var(--color-border);
+            border-left: 1px solid var(--color-border);
             padding: 8px 12px;
             text-align: center;
             font-size: 13px;
             min-width: 80px;
         }
 
+        .excel-table tr:last-child th,
+        .excel-table tr:last-child td {
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .excel-table tr th:last-child,
+        .excel-table tr td:last-child {
+            border-right: 1px solid var(--color-border);
+        }
+
         .excel-table .header-cell {
             background-color: var(--color-border);
             font-weight: 700;
             color: var(--color-text-secondary);
+        }
+
+        .excel-table td.header-cell:first-child {
+            min-width: 0;
+            width: 26px;
+            padding-left: 6px;
+            padding-right: 6px;
         }
 
         .excel-table .formula-cell {
@@ -140,21 +162,25 @@
         }
 
         .excel-table .locked-cell {
-            background-color: rgba(var(--color-brand-accent-rgb), 0.08);
-            border: 1px solid rgba(var(--color-brand-accent-rgb), 0.4);
+            background-color: rgba(var(--color-brand-accent-rgb), 0.2);
+            color: var(--color-brand-dark);
             font-weight: bold;
         }
 
         .excel-table .result-cell {
-            background-color: var(--color-bg-subtle);
+            background-color: rgba(var(--color-brand-accent-rgb), 0.16);
+            color: var(--color-brand-dark);
             font-weight: bold;
-            border: 1px solid var(--color-brand-accent);
+        }
+
+        .excel-table .result-cell i {
+            color: var(--color-brand-accent);
+            font-size: 14px;
         }
 
         .excel-table .error-cell {
             background-color: var(--color-brand-accent);
             color: var(--color-text-inverted);
-            border: 1px solid var(--color-brand-accent);
             font-family: "Courier New", Courier, monospace;
             text-align: left;
             font-weight: 600;
@@ -187,7 +213,7 @@
             display: flex;
             gap: 10px;
             align-items: flex-start;
-            background-color: var(--color-bg-subtle);
+            background-color: rgba(var(--color-brand-accent-rgb), 0.08);
             border-left: 4px solid var(--color-brand-accent);
             padding: 10px 15px;
             margin-top: 8px;
@@ -313,6 +339,8 @@
             border: 1px solid var(--color-border);
             border-radius: 12px;
             padding: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .ref-interactive-table {
@@ -403,7 +431,10 @@
 
         /* --- Header Styles --- */
         .brand-header {
+            box-sizing: border-box;
+            width: 90%;
             max-width: 800px;
+            height: 68px;
             margin: 20px auto;
             padding: 15px 30px;
             display: flex;
@@ -417,6 +448,8 @@
             position: sticky;
             top: 20px;
             z-index: 1000;
+            overflow: hidden;
+            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .header-left {
@@ -493,23 +526,35 @@
         .intro-banner {
             position: relative;
             box-sizing: border-box;
-            padding: 18px 26px;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
+            padding: 9px 20px;
+            background: rgba(var(--color-brand-accent-rgb), 0.08);
+            border: 1px solid rgba(var(--color-brand-accent-rgb), 0.2);
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(var(--color-brand-accent-rgb), 0.08);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .intro-banner.hidden {
             display: none;
         }
 
-        .intro-banner i.bi-info-circle-fill {
-            color: var(--color-brand-accent);
-            font-size: 18px;
+        .intro-banner-icon {
             flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-brand-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(var(--color-brand-accent-rgb), 0.3);
+        }
+
+        .intro-banner-icon i {
+            color: white;
+            font-size: 15px;
         }
 
         .intro-banner p {
@@ -583,6 +628,11 @@
 
         .sidebar-group {
             margin-bottom: 26px;
+        }
+
+        /* Monochrome brand mark shown only at the top of the mobile drawer */
+        .sidebar-brand-logo {
+            display: none;
         }
 
         .sidebar-group-title {
@@ -695,12 +745,28 @@
                 transform: translateX(-100%);
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 999;
-                padding: 100px 24px 30px;
+                padding: 32px 24px 30px;
                 margin: 0;
             }
 
             .sidebar.open {
                 transform: translateX(0);
+            }
+
+            .sidebar-brand-logo {
+                display: block;
+                width: 150px;
+                height: 32px;
+                margin: 0 0 30px 13px;
+                background-color: rgba(var(--color-text-secondary-rgb), 0.4);
+                -webkit-mask-image: url('../images/samkedemia-horizontal.svg');
+                -webkit-mask-size: contain;
+                -webkit-mask-repeat: no-repeat;
+                -webkit-mask-position: left center;
+                mask-image: url('../images/samkedemia-horizontal.svg');
+                mask-size: contain;
+                mask-repeat: no-repeat;
+                mask-position: left center;
             }
 
             .sidebar-overlay.show {
@@ -709,6 +775,71 @@
 
             .content {
                 max-width: 100%;
+            }
+
+            .brand-header.sidebar-active {
+                max-width: 48px;
+                height: 48px;
+                padding: 5px;
+                transform: translateX(-20px);
+            }
+
+            .brand-logo,
+            .header-socials {
+                transition: opacity 0.2s ease;
+            }
+
+            .brand-header.sidebar-active .brand-logo,
+            .brand-header.sidebar-active .header-socials {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .brand-header.sidebar-active .menu-toggle {
+                background: none;
+                border: none;
+            }
+
+            .brand-header.sidebar-active .menu-toggle:hover {
+                background: var(--color-brand-accent);
+            }
+
+            .excel-table th, .excel-table td {
+                padding: 6px 9px;
+                font-size: 12px;
+                min-width: 56px;
+            }
+
+            .ref-card .excel-table th,
+            .ref-card .excel-table td {
+                min-width: 44px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .header-socials a:nth-child(n+2) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .brand-header {
+                padding: 12px 18px;
+                flex-wrap: nowrap;
+            }
+
+            .logo-page-title {
+                display: none;
+            }
+
+            .logo-separator {
+                display: none;
+            }
+
+            .excel-table th, .excel-table td {
+                padding: 5px 7px;
+                font-size: 11px;
+                min-width: 42px;
             }
         }
 
@@ -920,7 +1051,7 @@
         </div>
     </div>
 
-    <header class="brand-header">
+    <header class="brand-header" id="brandHeader">
         <div class="header-left">
             <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
                 <i class="bi bi-list"></i>
@@ -946,7 +1077,7 @@
 
     <div class="intro-banner-wrap">
         <div class="intro-banner" id="introBanner">
-            <i class="bi bi-info-circle-fill"></i>
+            <div class="intro-banner-icon"><i class="bi bi-info-circle-fill"></i></div>
             <p><strong>Heads up:</strong> this isn't a full Excel tutorial.<br> It's a cheat sheet for the <strong>Descriptive Statistics &amp; Probability for Business</strong> questions that have actually shown up on past exams. <br> Just the concise, tested stuff, not everything Excel can do.</p>
             <button class="intro-banner-close" id="introBannerClose" aria-label="Dismiss">
                 <i class="bi bi-x-lg"></i>
@@ -958,6 +1089,7 @@
 
     <div class="page-layout">
         <nav class="sidebar" id="sidebar">
+            <div class="sidebar-brand-logo"></div>
             <div class="sidebar-group">
                 <a class="sidebar-group-title" href="#functions-heading"><i class="bi bi-code-slash"></i>Functions</a>
                 <div class="sidebar-links">
@@ -965,6 +1097,7 @@
                     <a class="sidebar-link" href="#fn-average">AVERAGE</a>
                     <a class="sidebar-link" href="#fn-stdevs">STDEV.S</a>
                     <a class="sidebar-link" href="#fn-covs">COVARIANCE.S</a>
+                    <a class="sidebar-link" href="#fn-countif">COUNTIF</a>
                     <a class="sidebar-link" href="#fn-countifs">COUNTIFS</a>
                     <a class="sidebar-link" href="#fn-sumproduct">SUMPRODUCT</a>
                 </div>
@@ -980,6 +1113,7 @@
                 <a class="sidebar-group-title" href="#regression-heading"><i class="bi bi-graph-up-arrow"></i>Data Analysis Toolpak</a>
                 <div class="sidebar-links">
                     <a class="sidebar-link" href="#regression-toolpak">Regression</a>
+                    <a class="sidebar-link" href="#correlation-matrix">Correlation Matrix</a>
                 </div>
             </div>
 
@@ -1031,27 +1165,47 @@
                         </table>
                     </div>
                 </li>
-                <li id="fn-countifs">
-                    <div class="topic-title">COUNTIFS</div>
-                    <p>Counts cells that meet <strong>every</strong> condition you give it. A row only counts if it passes all of them.</p>
+                <li id="fn-countif">
+                    <div class="topic-title">COUNTIF</div>
+                    <p>Counts cells that match a <strong>single</strong> condition.</p>
                     <div class="info-box">
                         <table class="def-table formulas">
-                            <tr><td>=COUNTIFS(A1:A10, "Yes", B1:B10, ">100")</td><td>Counts rows where A is "Yes" and B is over 100.</td></tr>
+                            <tr><td>=COUNTIF(A1:A5, "Blue")</td><td>Counts how many cells in A1:A5 say "Blue".</td></tr>
                         </table>
                     </div>
                     <div class="excel-table-wrapper">
-                        <strong>Only rows 2 and 5 match both conditions</strong>, so the count is 2.
+                        <strong>3 rows say "Blue"</strong>, so the count is 3. Matching cells are highlighted.
                         <table class="excel-table">
-                            <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
-                            <tr><td class="header-cell">1</td><td>Attended?</td><td>Sales</td><td>Result</td></tr>
-                            <tr><td class="header-cell">2</td><td>Yes</td><td>150</td><td rowspan="2" class="result-cell" style="vertical-align: middle;">2</td></tr>
-                            <tr><td class="header-cell">3</td><td>No</td><td>200</td></tr>
-                            <tr><td class="header-cell">4</td><td>Yes</td><td>90</td><td class="formula-cell" style="font-size: 11px;">=COUNTIFS(A2:A6,"Yes",B2:B6,"&gt;100")</td></tr>
-                            <tr><td class="header-cell">5</td><td>Yes</td><td>120</td><td></td></tr>
-                            <tr><td class="header-cell">6</td><td>No</td><td>50</td><td></td></tr>
+                            <tr><td class="header-cell"></td><td class="header-cell">A</td></tr>
+                            <tr><td class="header-cell">1</td><td class="result-cell">Blue</td></tr>
+                            <tr><td class="header-cell">2</td><td>Red</td></tr>
+                            <tr><td class="header-cell">3</td><td class="result-cell">Blue</td></tr>
+                            <tr><td class="header-cell">4</td><td class="result-cell">Blue</td></tr>
+                            <tr><td class="header-cell">5</td><td>Red</td></tr>
+                        </table>
+                    </div>
+                </li>
+                <li id="fn-countifs">
+                    <div class="topic-title">COUNTIFS</div>
+                    <p>Same as COUNTIF, but checks <strong>multiple</strong> conditions at once. A row only counts if it passes <strong>all</strong> of them.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=COUNTIFS(A1:A5,"Blue",B1:B5,">100")</td><td>Counts rows where A says "Blue" and B is over 100.</td></tr>
+                        </table>
+                    </div>
+                    <div class="excel-table-wrapper">
+                        <strong>Highlighted</strong> means that cell alone satisfies its condition. Only rows 1 and 4 are highlighted in <strong>both</strong> columns, so the count is 2. Row 3 is "Blue" but its Score isn't over 100, so it doesn't count.
+                        <table class="excel-table">
+                            <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td></tr>
+                            <tr><td class="header-cell">1</td><td class="result-cell">Blue</td><td class="result-cell">150</td></tr>
+                            <tr><td class="header-cell">2</td><td>Red</td><td class="result-cell">200</td></tr>
+                            <tr><td class="header-cell">3</td><td class="result-cell">Blue</td><td>90</td></tr>
+                            <tr><td class="header-cell">4</td><td class="result-cell">Blue</td><td class="result-cell">120</td></tr>
+                            <tr><td class="header-cell">5</td><td>Red</td><td>50</td></tr>
                         </table>
                     </div>
                     <div class="tip"><i class="bi bi-mortarboard-fill"></i> <span><strong>Binned data:</strong> this counts every value greater than F2 and up to G2 with <code>=COUNTIFS($C$2:$C$101;"&gt;"&F2;$C$2:$C$101;"&lt;="&G2)</code>. It's the standard way to count a frequency bin.</span></div>
+                    <div class="tip" style="margin-top: 8px;"><i class="bi bi-mortarboard-fill"></i> <span><strong>Where this shows up in this course:</strong> on the exam, COUNTIFS is what you use whenever you're asked for <strong>absolute frequency</strong>, how many values fall in a bin or category. Divide that count by the total number of observations (n) and you get the <strong>relative frequency</strong> instead.</span></div>
                 </li>
                 <li id="fn-sumproduct">
                     <div class="topic-title">SUMPRODUCT</div>
@@ -1096,6 +1250,7 @@
                         </table>
                     </div>
                     <div class="tip"><i class="bi bi-mortarboard-fill"></i> <span><strong>Binned data variance:</strong> <code>=SUMPRODUCT(G2:G7;G2:G7;F2:F7)</code> gives Σ(midpoint² × frequency). Full variance = <code>(n/(n-1)) × (that result − mean²)</code>.</span></div>
+                    <div class="tip" style="margin-top: 8px;"><i class="bi bi-mortarboard-fill"></i> <span><strong>Where this shows up in this course:</strong> once COUNTIFS gives you the relative frequencies, SUMPRODUCT is what actually calculates the <strong>average</strong> and <strong>standard deviation</strong> (and variance) for discrete or binned data.</span></div>
                 </li>
                 </ul>
             </div>
@@ -1232,13 +1387,30 @@
                     <div class="info-box" style="margin-top: 16px;">
                         <strong>Reading the output</strong>
                         <table class="def-table">
-                            <tr><td>Multiple R</td><td>How strongly X and Y are correlated.</td></tr>
+                            <tr><td>Multiple R</td><td>The <strong>correlation</strong> between X and Y, how strongly they're related.</td></tr>
                             <tr><td>R Square</td><td>% of the change in Y explained by X. Higher = better fit.</td></tr>
                             <tr><td>Observations</td><td>Number of data rows used.</td></tr>
                             <tr><td>Intercept</td><td>The <code>a</code> in <code>a+bx</code>. It's the starting value, what Y is when X is 0.</td></tr>
                             <tr><td>X Variable</td><td>The <code>b</code> in <code>a+bx</code>. It's the slope, how much Y changes each time X goes up by 1.</td></tr>
                         </table>
                     </div>
+                </li>
+                <li id="correlation-matrix">
+                    <div class="topic-title">Correlation Matrix</div>
+                    <p>Shows how every pair of variables in your data relates to each other, all at once, instead of running Multiple R one pair at a time.</p>
+
+                    <div class="excel-table-wrapper">
+                        <strong>Nothing appears above the diagonal.</strong> Since the correlation between Age and Spending is the same as between Spending and Age, Excel only fills in each pair once. The diagonal is always 1, since anything is perfectly correlated with itself.
+                        <table class="excel-table">
+                            <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td><td class="header-cell">D</td></tr>
+                            <tr><td class="header-cell">1</td><td></td><td>Age</td><td>Income</td><td>Spending</td></tr>
+                            <tr><td class="header-cell">2</td><td>Age</td><td class="locked-cell">1</td><td></td><td></td></tr>
+                            <tr><td class="header-cell">3</td><td>Income</td><td>0.42</td><td class="locked-cell">1</td><td></td></tr>
+                            <tr><td class="header-cell">4</td><td>Spending</td><td>0.68</td><td>0.35</td><td class="locked-cell">1</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="tip"><i class="bi bi-lightbulb-fill"></i> <span><strong>Reading it:</strong> find where a row and column meet. Row "Spending", column "Age" gives <code>0.68</code>, a strong positive correlation. If the cell above the diagonal is blank, look for the same pair mirrored below it instead.</span></div>
                 </li>
                 </ul>
             </div>
@@ -1322,15 +1494,22 @@
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menuToggle');
         const overlay = document.getElementById('sidebarOverlay');
+        const brandHeader = document.getElementById('brandHeader');
         const navLinks = Array.from(document.querySelectorAll('.sidebar-link, .sidebar-group-title'));
+
+        const menuToggleIcon = menuToggle.querySelector('i');
 
         function openSidebar() {
             sidebar.classList.add('open');
             overlay.classList.add('show');
+            brandHeader.classList.add('sidebar-active');
+            menuToggleIcon.classList.replace('bi-list', 'bi-x-lg');
         }
         function closeSidebar() {
             sidebar.classList.remove('open');
             overlay.classList.remove('show');
+            brandHeader.classList.remove('sidebar-active');
+            menuToggleIcon.classList.replace('bi-x-lg', 'bi-list');
         }
 
         menuToggle.addEventListener('click', () => {

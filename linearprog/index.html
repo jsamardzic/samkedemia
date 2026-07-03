@@ -5,6 +5,19 @@
   <meta charset="UTF-8">
   <title>Samkedemia: Linear Programming Solver</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free interactive linear programming solver for university courses: set up constraints, visualize the feasible region, and walk through the step-by-step solution, by Samkedemia.">
+  <meta property="og:title" content="Samkedemia: Linear Programming Solver">
+  <meta property="og:description" content="Free interactive linear programming solver for university courses: set up constraints, visualize the feasible region, and walk through the step-by-step solution, by Samkedemia.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.samkedemia.com/linearprog/">
+  <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
+  <meta name="twitter:title" content="Samkedemia: Linear Programming Solver">
+  <meta name="twitter:description" content="Free interactive linear programming solver for university courses: set up constraints, visualize the feasible region, and walk through the step-by-step solution, by Samkedemia.">
+  <link rel="icon" type="image/png" href="../images/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
@@ -17,7 +30,7 @@
     --taupe-dark: #0c3840;
     --taupe-mid: #2f6a73;
     --taupe-light: #83acb2;
-    --accent-green: #ff4d00;
+    --accent-green: #ff5500;
     --font-title: 'Outfit', sans-serif;
     --font-body: 'Atkinson Hyperlegible', sans-serif;
 }
@@ -32,8 +45,15 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.print-header {
+    display: none;
+}
+
 .brand-header {
+    box-sizing: border-box;
+    width: 90%;
     max-width: 800px;
+    height: 68px;
     margin: 20px auto;
     padding: 15px 30px;
     display: flex;
@@ -56,36 +76,25 @@ body {
     align-items: center;
 }
 
-.logo-stack {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-    letter-spacing: -0.5px;
-}
-
-.brand-logo .logo-name {
-    font-size: 1.2rem;
-    color: var(--accent-green);
-}
-
-.brand-logo .logo-sub {
-    color: var(--taupe-dark);
-    font-size: 0.52rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+.brand-logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    object-position: left center;
 }
 
 .logo-separator {
-    color: rgba(12,56,64,0.2);
-    margin: 0 12px;
-    font-weight: 400;
-    font-size: 1.2rem;
+    display: inline-block;
+    width: 1px;
+    height: 38px;
+    background-color: rgba(12, 56, 64, 0.2);
+    margin: 0 18px;
 }
 
 .logo-page-title {
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--taupe-mid);
     letter-spacing: normal;
@@ -117,6 +126,28 @@ body {
 }
 
 .social-icon i { font-size: 18px; line-height: 1; }
+.social-icon .bi-envelope { -webkit-text-stroke: 0.5px currentColor; }
+
+@media (max-width: 650px) {
+    .header-socials a:nth-child(n+2) {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .brand-header {
+        padding: 12px 18px;
+        flex-wrap: nowrap;
+    }
+
+    .logo-page-title {
+        display: none;
+    }
+
+    .logo-separator {
+        display: none;
+    }
+}
 
 .wrapper {
     display: flex;
@@ -133,29 +164,27 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(255, 77, 0, 0.06);
-    border: 1px solid var(--accent-green);
-    margin: 20px -30px -30px -30px;
-    padding: 20px 30px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-top: 1px solid var(--accent-green);
+    background-color: rgba(255, 85, 0, 0.06);
+    border: 1px solid rgba(255, 85, 0, 0.3);
+    margin: 0 0 16px 0;
+    padding: 8px 20px;
+    border-radius: 8px;
 }
 
 .summary-item {
     text-align: center;
-    padding: 0 20px;
+    padding: 0 16px;
 }
 
 .summary-item .label {
-    font-size: 14px;
+    font-size: 11px;
     color: var(--accent-green);
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .summary-item .value {
-    font-size: 22px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--accent-green);
     font-family: 'IBM Plex Mono', monospace;
@@ -175,6 +204,11 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.05);
     box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+}
+
+#exercisesBtn {
+    padding: 6px 12px;
+    font-size: 12px;
 }
 
 h2 {
@@ -203,8 +237,8 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    margin-bottom: 25px;
+    margin: -30px -30px 25px -30px;
+    padding: 20px 30px;
     border-bottom: 1px solid var(--taupe-light);
 }
 
@@ -241,7 +275,7 @@ input {
 input:focus {
     outline: none;
     border-color: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
 }
 
 .variables input {
@@ -286,7 +320,7 @@ input:focus {
 }
 
 .constraint-sign:hover {
-    background-color: rgba(255, 77, 0, 0.06);
+    background-color: rgba(255, 85, 0, 0.06);
     border-color: var(--accent-green);
 }
 
@@ -365,14 +399,15 @@ input:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 6px;
     width: 100%;
     margin: 12px 0;
-    padding: 12px 8px;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--taupe-mid);
+    padding: 8px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--taupe-light);
     background-color: transparent;
-    border: 2px dashed var(--taupe-light);
+    border: 1.5px dashed var(--taupe-light);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -429,14 +464,23 @@ input:focus {
 }
 
 .chart-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
     display: flex;
     align-items: center;
-    margin-left: auto;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(131, 172, 178, 0.35);
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .chart-toggles {
     display: flex;
-    margin-right: 15px;
     gap: 8px;
 }
 
@@ -455,7 +499,7 @@ input:focus {
 .chart-toggle-btn:hover { background-color: #f1f5f9; }
 
 .chart-toggle-btn.active {
-    background-color: rgba(255, 77, 0, 0.06);
+    background-color: rgba(255, 85, 0, 0.06);
     color: var(--accent-green);
     border-color: var(--accent-green);
 }
@@ -583,19 +627,28 @@ input:focus {
 
 .breakdown-item {
     display: flex;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(131,172,178,0.18);
+    align-items: flex-start;
+    gap: 12px;
+    padding: 6px 0;
     font-size: 14px;
 }
 
-.breakdown-item:last-child { border-bottom: none; }
-
 .breakdown-label {
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--taupe-mid);
-    width: 110px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--taupe-dark);
+    background-color: rgba(131,172,178,0.18);
+    min-width: 70px;
     flex-shrink: 0;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 1px;
 }
 
 .breakdown-content { color: #3c4858; }
@@ -732,6 +785,8 @@ input:focus {
     width: 100%;
     height: 6px;
     background: transparent;
+    border: none;
+    padding: 0;
     outline: none;
     flex-grow: 1;
 }
@@ -741,7 +796,7 @@ input:focus {
     appearance: none;
     width: 18px;
     height: 18px;
-    background: #ff4d00;
+    background: #ff5500;
     border-radius: 50%;
     cursor: pointer;
     margin-top: -6px;
@@ -752,7 +807,7 @@ input:focus {
 .level-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
-    background: #ff4d00;
+    background: #ff5500;
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -763,7 +818,7 @@ input:focus {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(to right, #ff4d00 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
+    background: linear-gradient(to right, #ff5500 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
     border-radius: 3px;
 }
 
@@ -771,14 +826,12 @@ input:focus {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(to right, #ff4d00 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
+    background: linear-gradient(to right, #ff5500 var(--progress, 50%), var(--taupe-light) var(--progress, 50%));
     border-radius: 3px;
 }
 
 .contour-controls {
-    padding: 0 0 20px 0;
-    border-bottom: 1px solid var(--taupe-light);
-    margin-bottom: 25px;
+    margin-bottom: 16px;
 }
 
 .contour-row {
@@ -799,12 +852,39 @@ input:focus {
 
 #level-value {
     font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
     background-color: #f1f5f9;
+    border: 1px solid transparent;
     padding: 4px 8px;
     border-radius: 4px;
     color: var(--taupe-dark);
     width: 55px;
     text-align: center;
+    cursor: text;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+#level-value:hover {
+    background-color: #e2e8f0;
+}
+
+#level-value:focus {
+    outline: none;
+    background-color: white;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15);
+}
+
+#level-value::-webkit-inner-spin-button,
+#level-value::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#level-value {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .modal-backdrop {
@@ -847,7 +927,7 @@ input:focus {
 .close-btn {
     background: transparent;
     border: none;
-    font-size: 28px;
+    font-size: 18px;
     line-height: 1;
     color: var(--taupe-light);
     cursor: pointer;
@@ -876,7 +956,7 @@ input:focus {
 }
 
 .exercise-item:hover {
-    background-color: rgba(255, 77, 0, 0.06);
+    background-color: rgba(255, 85, 0, 0.06);
     color: var(--accent-green);
     border-color: var(--accent-green);
 }
@@ -943,9 +1023,9 @@ input:focus {
     .solution-summary-card {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
-        margin: 20px -20px -20px -20px;
-        padding: 20px;
+        gap: 8px;
+        margin: 0 0 16px 0;
+        padding: 12px 16px;
     }
 
     .summary-item { text-align: left; padding: 0; }
@@ -959,8 +1039,6 @@ input:focus {
         gap: 5px;
     }
 
-    .breakdown-label { width: auto; }
-
     .paper.collapsed .card-header,
     .paper .card-header {
         margin: -20px -20px 25px -20px;
@@ -970,6 +1048,116 @@ input:focus {
     .chart-container { height: 350px; }
     #step3.paper { overflow-x: hidden; }
 }
+
+/* ====================================================== */
+/* PRINT / PDF — export just the step-by-step solution    */
+/* (content is generated per-exercise, so this formats     */
+/* whatever is currently in the DOM, not a static file)     */
+/* ====================================================== */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm 14mm;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        box-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    body { background: white; }
+
+    .brand-header,
+    #exercises-modal,
+    #step3,
+    .main-container > .paper:not(#step2) {
+        display: none !important;
+    }
+
+    .wrapper, .content-area, .main-container {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #step2.paper {
+        display: block !important;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    #step2.paper #inequalities-breakdown {
+        display: block !important;
+    }
+
+    #step2 .card-header {
+        margin: 0 0 16px 0;
+        padding: 0;
+        border-bottom: 2px solid var(--accent-green);
+        padding-bottom: 10px;
+    }
+
+    #step2-header i,
+    #exportPdfBtn {
+        display: none !important;
+    }
+
+    .step-heading {
+        break-after: avoid;
+        margin-top: 18px;
+    }
+
+    .step-heading, .step-subtitle, .inequality-card, .breakdown-item, .chart-container {
+        break-inside: avoid;
+    }
+
+    /* Each step (Variables, Constraints, Feasible Region, ...) is its own direct
+       child of #inequalities-breakdown — keep each one from splitting across pages. */
+    #inequalities-breakdown > div {
+        break-inside: avoid;
+    }
+
+    /* Two-column card grids don't fit A4 print width cleanly — stack them instead. */
+    .inequality-cards-grid,
+    .direction-step-container {
+        grid-template-columns: 1fr !important;
+    }
+
+    .print-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 12px;
+        margin-bottom: 18px;
+        border-bottom: 2px solid var(--accent-green);
+    }
+
+    .print-header-logo { height: 22px; width: auto; }
+
+    .print-header-text h1 {
+        font-family: var(--font-title);
+        font-size: 16px;
+        font-weight: 900;
+        color: var(--taupe-dark);
+        margin: 0;
+    }
+
+    .print-header-text p {
+        font-size: 10px;
+        color: var(--taupe-mid);
+        margin: 2px 0 0;
+    }
+
+    #step2 .card-header h2 {
+        font-size: 15px;
+    }
+}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
@@ -978,14 +1166,19 @@ input:focus {
 
 <body>
 
+  <div class="print-header">
+    <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="print-header-logo">
+    <div class="print-header-text">
+      <h1>Linear Programming — Step-by-Step Solution</h1>
+      <p id="print-header-meta"></p>
+    </div>
+  </div>
+
   <header class="brand-header">
     <a href="https://samkedemia.com" target="_blank" class="brand-logo">
-      <span class="logo-stack">
-        <span class="logo-name">samkedemia</span>
-        <span class="logo-sub">education</span>
-      </span>
-      <span class="logo-separator">|</span>
-      <span class="logo-page-title">Samkedemia: Linear Programming Solver</span>
+      <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
+      <span class="logo-separator"></span>
+      <span class="logo-page-title">Linear Programming Solver</span>
     </a>
     <div class="header-socials">
       <a href="https://wa.me/32490100821" target="_blank" class="social-icon">
@@ -994,7 +1187,7 @@ input:focus {
       <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon">
         <i class="bi bi-instagram"></i>
       </a>
-      <a href="mailto:jovan@samkedemia.com" class="social-icon">
+      <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon">
         <i class="bi bi-envelope"></i>
       </a>
     </div>
@@ -1007,7 +1200,7 @@ input:focus {
             <h2>Problem Setup <span id="current-exercise-display"></span></h2>
             <button id="exercisesBtn" class="action-btn"><i class="bi bi-folder2-open"></i>Load Exercise</button>
           </div>
-          <h3>Labels</h3>
+          <h3>Variable Names</h3>
   
           <div class="variables">
             <div>
@@ -1028,7 +1221,7 @@ input:focus {
   
           <div id="constraints"></div>
   
-          <button id="addConstraintBtn">+ Add Constraint</button>
+          <button id="addConstraintBtn"><i class="bi bi-plus-lg"></i> Add Constraint</button>
   
           <h3>Target function</h3>
           <div class="target-function">
@@ -1050,36 +1243,35 @@ input:focus {
         <div class="paper" id="step3" style="display: none;">
           <div class="card-header">
             <h2>Feasible Region</h2>
-              <div class="chart-controls">
-                <div id="chart-toggles" class="chart-toggles">
-                    <button class="chart-toggle-btn" data-target="contour">Contour</button>
-                    <button class="chart-toggle-btn active" data-target="boundaries">Lines</button>
-                    <button class="chart-toggle-btn active" data-target="vertices">Vertices</button> 
-                </div>
-                <button id="resetZoomBtn" style="display: none;">Reset Zoom</button>
-              </div>
           </div>
           <div class="contour-controls">
             <div class="contour-row">
-              <label for="level-slider">Level:</label>
               <input type="range" id="level-slider" class="level-slider" min="0" max="100" value="50">
-              <span id="level-value">50</span>
+              <label for="level-slider">Level: <input type="number" id="level-value" value="50"></label>
             </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="feasibleRegionChart"></canvas>
           </div>
           <div id="solution-summary-card" class="solution-summary-card" style="display: none;">
             <!-- This will be populated by JavaScript -->
+          </div>
+          <div class="chart-container">
+            <div class="chart-controls">
+              <div id="chart-toggles" class="chart-toggles">
+                  <button class="chart-toggle-btn" data-target="contour">Contour</button>
+                  <button class="chart-toggle-btn active" data-target="boundaries">Lines</button>
+                  <button class="chart-toggle-btn active" data-target="vertices">Vertices</button>
+              </div>
+              <button id="resetZoomBtn" style="display: none;">Reset Zoom</button>
+            </div>
+            <canvas id="feasibleRegionChart"></canvas>
           </div>
         </div>
       </div>
 
       <!-- Moved "Solve Each Inequality" card to the bottom -->
       <div class="paper collapsed" id="step2" style="display: none;">
-        <div class="card-header" style="margin: -30px -30px 25px -30px; padding: 20px 30px;">
-          <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-step solution <i class="bi bi-chevron-down"></i></h2>
-          <button id="exportPdfBtn" class="action-btn" disabled><i class="bi bi-file-pdf"></i> Coming Soon</button>
+        <div class="card-header">
+          <h2 id="step2-header" style="margin: 0; border: none; padding: 0; cursor: pointer;">Step-by-Step Solution <i class="bi bi-chevron-down"></i></h2>
+          <button id="exportPdfBtn" class="action-btn"><i class="bi bi-file-pdf"></i> Save as PDF</button>
         </div>
         <div id="inequalities-breakdown">
         </div>
@@ -1090,7 +1282,7 @@ input:focus {
         <div class="modal-content">
           <div class="modal-header">
             <h2>Select an Exercise</h2>
-            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <button id="close-modal-btn" class="close-btn"><i class="bi bi-x-lg"></i></button>
           </div>
           <div class="modal-body">
             <div class="exercise-list">
@@ -1143,6 +1335,34 @@ input:focus {
     const step2Header = document.getElementById('step2-header');
     step2Header.addEventListener('click', () => {
       step2Div.classList.toggle('collapsed');
+    });
+
+    document.getElementById('exportPdfBtn').addEventListener('click', () => {
+      // Fill in the print-only header: which exercise this is (if any) and today's date.
+      const exerciseLabel = document.getElementById('current-exercise-display').textContent.trim();
+      const dateLabel = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('print-header-meta').textContent =
+        (exerciseLabel ? exerciseLabel + ' · ' : 'Custom problem · ') + dateLabel;
+
+      // The step-by-step charts (feasible region, step 6) are drawn with Chart.js,
+      // which bakes in a zero-size canvas if drawn while its container is collapsed
+      // (display:none). Force the section open and resize the charts before printing
+      // so they actually redraw at their real, visible dimensions.
+      const wasCollapsed = step2Div.classList.contains('collapsed');
+      if (wasCollapsed) step2Div.classList.remove('collapsed');
+
+      requestAnimationFrame(() => {
+        [feasibleRegionChart, staticFeasibleRegionChart, step6Chart].forEach(chart => {
+          if (chart) chart.resize();
+        });
+        window.print();
+      });
+
+      const restoreCollapsedState = () => {
+        if (wasCollapsed) step2Div.classList.add('collapsed');
+        window.removeEventListener('afterprint', restoreCollapsedState);
+      };
+      window.addEventListener('afterprint', restoreCollapsedState);
     });
 
     optimizationModeToggle.addEventListener('click', (e) => {
@@ -1237,6 +1457,68 @@ input:focus {
     let feasibleRegionChart;
     let staticFeasibleRegionChart;
     let step6Chart;
+
+    // Shared vertex-label drawing used by all three feasible-region charts.
+    // Labels are pushed radially outward from the polygon's pixel centroid so
+    // they land in open space next to a vertex instead of sitting on top of
+    // whichever boundary line happens to pass through that point.
+    //
+    // The optimal-vertex indices are read off the chart instance itself
+    // (chart.$optimalVertexIndices) rather than passed in as a closure
+    // argument. Charts that get updated in place (chart.data.datasets = ...;
+    // chart.update()) keep their *original* plugins array — the afterDraw
+    // closure from whenever the chart was first created never changes — so a
+    // captured variable goes stale and silently keeps coloring whichever
+    // vertex was optimal on the very first render. Reading a property off
+    // the chart avoids that: it's whatever was set most recently.
+    function drawVertexLabels(chart) {
+      const optimalIndices = chart.$optimalVertexIndices || [];
+      const ctx = chart.ctx;
+      const dsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices');
+      if (dsIdx === -1) return;
+      const meta = chart.getDatasetMeta(dsIdx);
+      if (!meta || !meta.data || !meta.data.length) return;
+
+      const cx = meta.data.reduce((sum, p) => sum + p.x, 0) / meta.data.length;
+      const cy = meta.data.reduce((sum, p) => sum + p.y, 0) / meta.data.length;
+      const offset = 18;
+
+      ctx.save();
+      ctx.font = '700 15px "Atkinson Hyperlegible", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      meta.data.forEach((el, index) => {
+        let dx = el.x - cx;
+        let dy = el.y - cy;
+        const dist = Math.hypot(dx, dy) || 1;
+        dx /= dist;
+        dy /= dist;
+
+        ctx.fillStyle = optimalIndices.includes(index) ? '#ff5500' : '#2f6a73';
+        const label = String.fromCharCode(65 + index);
+        ctx.fillText(label, el.x + dx * offset, el.y + dy * offset);
+      });
+      ctx.restore();
+    }
+
+    // Chart.js always draws a scale title rotated to run parallel to its axis,
+    // so the y-axis label comes out sideways by default. Each chart disables
+    // that built-in title (scales.y.title.display = false) and this draws the
+    // variable name horizontally at the top-left of the plot area instead.
+    function drawYAxisLabel(chart) {
+      const text = toSubscript(var2Input.value);
+      if (!text) return;
+      const ctx = chart.ctx;
+      const y = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+      ctx.save();
+      ctx.font = '400 14px "Atkinson Hyperlegible", sans-serif';
+      ctx.fillStyle = '#0c3840';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 16, y);
+      ctx.restore();
+    }
 
     function formatVar(name) {
       name = name.trim();
@@ -1694,7 +1976,10 @@ input:focus {
       // Render Step 6 chart: feasible set + two contour lines + optimal vertex highlighted
       const step6Canvas = document.getElementById('step6FeasibleRegionChart');
       if (step6Canvas && datasets) {
-        const step6Datasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line');
+        // Keep just the feasible region + vertices here — the dashed constraint
+        // boundary lines were already shown in step 3, so step 6 only needs the
+        // shaded region and the two contour lines to explain the direction of improvement.
+        const step6Datasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line' && !d.label.startsWith('Constraint ('));
 
         // Use actual objective value range at vertices so contour lines are always visible
         const allObjVals = feasibleVertices.map(v => a * v.x + b * v.y + c_offset);
@@ -1710,12 +1995,12 @@ input:focus {
           step6Datasets.push({
             label: 'Contour 1', type: 'line', fill: false, order: 3, pointRadius: 0,
             data: [{ x: minX, y: cSlope * minX + cInt1 }, { x: maxX * 1.1, y: cSlope * (maxX * 1.1) + cInt1 }],
-            borderColor: 'rgba(255, 77, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
+            borderColor: 'rgba(255, 85, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
           });
           step6Datasets.push({
             label: 'Contour 2', type: 'line', fill: false, order: 3, pointRadius: 0,
             data: [{ x: minX, y: cSlope * minX + cInt2 }, { x: maxX * 1.1, y: cSlope * (maxX * 1.1) + cInt2 }],
-            borderColor: '#ff4d00', borderWidth: 2,
+            borderColor: '#ff5500', borderWidth: 2,
           });
         } else if (a !== 0) {
           const cx1 = (cLevel1 - c_offset) / a;
@@ -1723,23 +2008,47 @@ input:focus {
           step6Datasets.push({
             label: 'Contour 1', type: 'line', fill: false, order: 3, pointRadius: 0,
             data: [{ x: cx1, y: minY }, { x: cx1, y: maxY * 1.1 }],
-            borderColor: 'rgba(255, 77, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
+            borderColor: 'rgba(255, 85, 0, 0.45)', borderWidth: 1.5, borderDash: [5, 4],
           });
           step6Datasets.push({
             label: 'Contour 2', type: 'line', fill: false, order: 3, pointRadius: 0,
             data: [{ x: cx2, y: minY }, { x: cx2, y: maxY * 1.1 }],
-            borderColor: '#ff4d00', borderWidth: 2,
+            borderColor: '#ff5500', borderWidth: 2,
           });
         }
 
         step6Chart = new Chart(step6Canvas, {
           type: 'scatter',
           data: { datasets: step6Datasets },
+          plugins: [{
+            id: 'feasibleRegionOverlay',
+            afterDraw: chart => {
+              const ctx = chart.ctx;
+
+              // Draw feasible region as filled polygon
+              const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+              if (fDsIdx !== -1) {
+                const fMeta = chart.getDatasetMeta(fDsIdx);
+                if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                  ctx.save();
+                  ctx.beginPath();
+                  fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                  ctx.closePath();
+                  ctx.fillStyle = 'rgba(131, 172, 178, 0.2)';
+                  ctx.fill();
+                  ctx.restore();
+                }
+              }
+
+              drawVertexLabels(chart);
+              drawYAxisLabel(chart);
+            }
+          }],
           options: {
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14 } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14, weight: 'normal' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -1748,7 +2057,7 @@ input:focus {
               },
               y: {
                 min: minY, max: maxY * 1.1,
-                title: { display: true, text: toSubscript(var2Input.value), font: { size: 14 } },
+                title: { display: false }, // Drawn horizontally by drawYAxisLabel instead
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -1756,46 +2065,17 @@ input:focus {
                 ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
               }
             },
+            layout: { padding: { left: 26 } },
             plugins: {
               zoom: { zoom: { wheel: { enabled: false } }, pan: { enabled: false } },
               legend: { display: false },
               tooltip: { enabled: false },
-              afterDraw: chart => {
-                const ctx = chart.ctx;
-
-                // Draw feasible region as filled polygon
-                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
-                if (fDsIdx !== -1) {
-                  const fMeta = chart.getDatasetMeta(fDsIdx);
-                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
-                    ctx.save();
-                    ctx.beginPath();
-                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
-                    ctx.closePath();
-                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
-                    ctx.fill();
-                    ctx.restore();
-                  }
-                }
-
-                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
-                if (!verticesMeta || !verticesMeta.data.length) return;
-                ctx.save();
-                ctx.font = 'bold 12px "IBM Plex Sans"';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                verticesMeta.data.forEach((element, index) => {
-                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#ff4d00' : '#2f6a73';
-                  const label = String.fromCharCode(65 + index);
-                  ctx.fillText(label, element.x, element.y - 5);
-                });
-                ctx.restore();
-              },
             },
             responsive: true,
             maintainAspectRatio: false,
           }
         });
+        step6Chart.$optimalVertexIndices = optimalVertexIndices;
       }
 
       // --- Create Step 7: Find the Optimal Solution ---
@@ -2014,9 +2294,10 @@ input:focus {
         datasets.push({
           label: 'Feasible Region',
           data: [...feasibleVertices, feasibleVertices[0]], // Close the polygon
-          fill: true,
-          backgroundColor: 'rgba(12, 56, 64, 0.10)',
-          borderColor: 'rgba(12, 56, 64, 0.28)',
+          fill: false, // The actual fill is painted by the feasibleRegionOverlay plugin (afterDraw),
+                        // since Chart.js's own line fill fills toward the axis origin, not the
+                        // enclosed polygon shape — this dataset only supplies the vertex positions.
+          borderColor: 'rgba(131, 172, 178, 0.6)',
           borderWidth: 3,
           showLine: true,
           type: 'line', // Use 'line' type for the dataset to enable filling
@@ -2063,8 +2344,8 @@ input:focus {
         datasets.push({
           label: 'Feasible Vertices',
           data: feasibleVertices,
-          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#ff4d00' : '#83acb2'),
-          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#cc3d00' : '#2f6a73'),
+          backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#ff5500' : '#83acb2'),
+          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#cc2200' : '#2f6a73'),
           borderWidth: 1.5,
           pointRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 8 : 5), // Larger radius for optimal
           pointHoverRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 10 : 7),
@@ -2101,9 +2382,9 @@ input:focus {
       if (feasibleRegionChart) {
         feasibleRegionChart.data.datasets = datasets;
         feasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
-        feasibleRegionChart.options.scales.y.title.text = toSubscript(var2Input.value);
         feasibleRegionChart.options.scales.x.title.font.size = 16;
-        feasibleRegionChart.options.scales.y.title.font.size = 16;
+        // The y-axis label is drawn by drawYAxisLabel (afterDraw), which reads
+        // var2Input.value live, so there's nothing to update here for it.
         if (!preserveZoom) {
           feasibleRegionChart.options.scales.x.max = maxX * 1.1; // Keep this line
           feasibleRegionChart.options.scales.x.min = minX;
@@ -2111,11 +2392,36 @@ input:focus {
           feasibleRegionChart.options.scales.y.min = minY;
         }
         feasibleRegionChart.options.plugins.tooltip = tooltipCallbacks;
+        feasibleRegionChart.$optimalVertexIndices = optimalVertexIndices;
         feasibleRegionChart.update('none'); // Use 'none' for a smoother update
       } else {
         feasibleRegionChart = new Chart(chartCanvas, {
           type: 'scatter', // Set the main chart type to 'scatter'
           data: { datasets },
+          plugins: [{
+            id: 'feasibleRegionOverlay',
+            afterDraw: chart => {
+              const ctx = chart.ctx;
+
+              // Draw feasible region as filled polygon
+              const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+              if (fDsIdx !== -1) {
+                const fMeta = chart.getDatasetMeta(fDsIdx);
+                if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                  ctx.save();
+                  ctx.beginPath();
+                  fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                  ctx.closePath();
+                  ctx.fillStyle = 'rgba(131, 172, 178, 0.2)';
+                  ctx.fill();
+                  ctx.restore();
+                }
+              }
+
+              drawVertexLabels(chart);
+              drawYAxisLabel(chart);
+            }
+          }],
           options: {
             scales: {
               x: {
@@ -2144,13 +2450,7 @@ input:focus {
               y: {
                 min: minY,
                 max: maxY * 1.1,
-                title: {
-                  display: true,
-                  text: toSubscript(var2Input.value),
-                  font: {
-                    size: 16
-                  }
-                },
+                title: { display: false }, // Drawn horizontally by drawYAxisLabel instead
                 grid: {
                   z: -1, // Draw grid lines behind datasets
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1), // Bolder line for the axis
@@ -2163,6 +2463,7 @@ input:focus {
                 }
               }
             },
+            layout: { padding: { left: 26 } },
             plugins: {
               zoom: {
                 pan: {
@@ -2186,38 +2487,6 @@ input:focus {
                   y: {min: minY}
                 }
               },
-              // Custom plugin: polygon fill + vertex labels
-              afterDraw: chart => {
-                const ctx = chart.ctx;
-
-                // Draw feasible region as filled polygon
-                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
-                if (fDsIdx !== -1) {
-                  const fMeta = chart.getDatasetMeta(fDsIdx);
-                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
-                    ctx.save();
-                    ctx.beginPath();
-                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
-                    ctx.closePath();
-                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
-                    ctx.fill();
-                    ctx.restore();
-                  }
-                }
-
-                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
-                if (!verticesMeta) return;
-
-                ctx.font = 'bold 14px Lato';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-
-                verticesMeta.data.forEach((element, index) => {
-                  ctx.fillStyle = optimalVertexIndices.includes(index) ? '#ff4d00' : '#2f6a73';
-                  const label = String.fromCharCode(65 + index);
-                  ctx.fillText(label, element.x, element.y - 5);
-                });
-              },
               legend: { display: false },
               tooltip: tooltipCallbacks
             },
@@ -2225,6 +2494,7 @@ input:focus {
             maintainAspectRatio: false,
           }
         });
+        feasibleRegionChart.$optimalVertexIndices = optimalVertexIndices;
       }
 
       const solutionData = { feasibleVertices, optimalVertexIndices, optimalValue };
@@ -2279,7 +2549,7 @@ input:focus {
       const midValue = (parseFloat(levelSlider.min) + parseFloat(levelSlider.max)) / 2;
       levelSlider.value = midValue;
       // Also update the displayed value
-      document.getElementById('level-value').textContent = formatNumber(midValue);
+      document.getElementById('level-value').value = formatNumber(midValue);
       updateSliderFill(levelSlider);
     }
 
@@ -2298,7 +2568,7 @@ input:focus {
       const b = parseFloat(document.getElementById('obj-b').value) || 0;
       const c = parseFloat(document.getElementById('obj-c').value) || 0;
       const level = parseFloat(levelSlider.value);
-      document.getElementById('level-value').textContent = formatNumber(level);
+      document.getElementById('level-value').value = formatNumber(level);
       updateSliderFill(levelSlider);
 
       // Find and remove the old contour line first
@@ -2324,7 +2594,7 @@ input:focus {
       const contourDataset = {
         label: 'Contour Line',
         data: contourPoints,
-        borderColor: '#ff4d00',
+        borderColor: '#ff5500',
         borderWidth: 2,
         type: 'line',
         pointRadius: 0,
@@ -2355,7 +2625,6 @@ input:focus {
       if (staticFeasibleRegionChart) {
         staticFeasibleRegionChart.data.datasets = staticDatasets;
         staticFeasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
-        staticFeasibleRegionChart.options.scales.y.title.text = toSubscript(var2Input.value);
         staticFeasibleRegionChart.options.scales.x.max = maxX * 1.1;
         staticFeasibleRegionChart.options.scales.x.min = minX;
         staticFeasibleRegionChart.options.scales.y.max = maxY * 1.1;
@@ -2365,11 +2634,37 @@ input:focus {
         staticFeasibleRegionChart = new Chart(staticChartCanvas, {
           type: 'scatter',
           data: { datasets: staticDatasets },
+          plugins: [{
+            id: 'feasibleRegionOverlay',
+            afterDraw: chart => {
+              const ctx = chart.ctx;
+
+              // Draw feasible region as filled polygon
+              const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
+              if (fDsIdx !== -1) {
+                const fMeta = chart.getDatasetMeta(fDsIdx);
+                if (fMeta && fMeta.data && fMeta.data.length >= 3) {
+                  ctx.save();
+                  ctx.beginPath();
+                  fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
+                  ctx.closePath();
+                  ctx.fillStyle = 'rgba(131, 172, 178, 0.2)';
+                  ctx.fill();
+                  ctx.restore();
+                }
+              }
+
+              // Step 3 shows the feasible set only — no optimal-vertex distinction yet,
+              // so chart.$optimalVertexIndices is deliberately left unset here.
+              drawVertexLabels(chart);
+              drawYAxisLabel(chart);
+            }
+          }],
           options: {
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14 } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14, weight: 'normal' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -2378,7 +2673,7 @@ input:focus {
               },
               y: {
                 min: minY, max: maxY * 1.1,
-                title: { display: true, text: toSubscript(var2Input.value), font: { size: 14 } },
+                title: { display: false }, // Drawn horizontally by drawYAxisLabel instead
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -2386,44 +2681,11 @@ input:focus {
                 ticks: { callback: (value) => formatNumber(value), font: { size: 10 } }
               }
             },
+            layout: { padding: { left: 26 } },
             plugins: {
               zoom: { zoom: { wheel: { enabled: false } }, pan: { enabled: false } }, // Disable zoom/pan
               legend: { display: false },
               tooltip: { enabled: false }, // Disable tooltips
-              afterDraw: chart => {
-                const ctx = chart.ctx;
-
-                // Draw feasible region as filled polygon
-                const fDsIdx = chart.data.datasets.findIndex(d => d.label === 'Feasible Region');
-                if (fDsIdx !== -1) {
-                  const fMeta = chart.getDatasetMeta(fDsIdx);
-                  if (fMeta && fMeta.data && fMeta.data.length >= 3) {
-                    ctx.save();
-                    ctx.beginPath();
-                    fMeta.data.forEach((pt, i) => { i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y); });
-                    ctx.closePath();
-                    ctx.fillStyle = 'rgba(12, 56, 64, 0.12)';
-                    ctx.fill();
-                    ctx.restore();
-                  }
-                }
-
-                const verticesMeta = chart.getDatasetMeta(chart.data.datasets.findIndex(d => d.label === 'Feasible Vertices'));
-                const optimalVertexIndices = solutionData ? solutionData.optimalVertexIndices : [];
-                if (!verticesMeta || !verticesMeta.data.length) return;
-
-                ctx.save();
-                ctx.font = 'bold 12px "IBM Plex Sans"';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-
-                verticesMeta.data.forEach((element, index) => {
-                  ctx.fillStyle = '#2f6a73';
-                  const label = String.fromCharCode(65 + index);
-                  ctx.fillText(label, element.x, element.y - 5);
-                });
-                ctx.restore();
-              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -2520,7 +2782,7 @@ input:focus {
     objBInput.addEventListener("change", handleInputChange);
     objCInput.addEventListener("change", handleInputChange);
 
-    levelSlider.addEventListener('input', () => {
+    function handleLevelChange() {
       if (!feasibleRegionChart) return;
 
       // If contour is not visible, turn it on when the user starts sliding
@@ -2535,6 +2797,22 @@ input:focus {
       const minY = feasibleRegionChart.options.scales.y.min;
       const maxY = feasibleRegionChart.options.scales.y.max;
       drawContourLine(minX, maxX, minY, maxY);
+    }
+
+    levelSlider.addEventListener('input', handleLevelChange);
+
+    const levelValueInput = document.getElementById('level-value');
+    levelValueInput.addEventListener('change', () => {
+      const min = parseFloat(levelSlider.min);
+      const max = parseFloat(levelSlider.max);
+      let typed = parseFloat(levelValueInput.value);
+      if (isNaN(typed)) typed = parseFloat(levelSlider.value);
+      typed = Math.min(max, Math.max(min, typed));
+      levelSlider.value = typed;
+      handleLevelChange();
+    });
+    levelValueInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') levelValueInput.blur();
     });
 
     var1Input.addEventListener("change", renderConstraints);
