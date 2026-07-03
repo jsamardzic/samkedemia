@@ -1559,13 +1559,19 @@
 
         /* === Mobile Breakpoint (≤ 768px) === */
         @media (max-width: 768px) {
-            /* Header pill — shrinks to content, no excess space between logo and actions */
+            /* Header pill — fixed size on mobile, no scroll animation */
             header {
                 width: fit-content;
                 max-width: calc(100% - 40px);
                 top: 12px;
                 padding: 13px 26px;
                 gap: 24px;
+                height: auto;
+                justify-content: flex-start;
+                transition: none;
+            }
+            header.scrolled {
+                max-width: calc(100% - 40px);
             }
             .hamburger-btn {
                 display: flex;
