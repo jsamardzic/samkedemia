@@ -1447,13 +1447,11 @@
             to   { opacity: 1; }
         }
 
-        /* Show hamburger when scrolled; absolute-center it in the pill on desktop */
-        header.scrolled .hamburger-btn {
-            display: flex;
-            animation: hamburgerFadeIn 0.12s ease 0.18s both;
-        }
+        /* Show hamburger when scrolled (desktop only — mobile always shows it) */
         @media (min-width: 769px) {
             header.scrolled .hamburger-btn {
+                display: flex;
+                animation: hamburgerFadeIn 0.12s ease 0.18s both;
                 position: absolute;
                 left: 50%;
                 top: 50%;
