@@ -1,23 +1,42 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Excel Cheat Sheet</title>
+    <title>Samkedemia: Excel Cheat Sheet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <meta property="og:title" content="Samkedemia: Excel Cheat Sheet">
+    <meta property="og:description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.samkedemia.com/excel/">
+    <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
+    <meta name="twitter:title" content="Samkedemia: Excel Cheat Sheet">
+    <meta name="twitter:description" content="Free Excel cheat sheet for university statistics & probability exams — absolute referencing, IF, AVERAGE, STDEV.S, COVARIANCE, COUNTIFS, SUMPRODUCT & regression, by Samkedemia.">
+    <link rel="icon" type="image/png" href="../images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Vidaloka&family=Outfit:wght@700;900&display=swap');
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             /* --- BRAND COLORS --- */
             --color-brand-dark: #0c3840; /* Main dark color for text and UI elements */
-            --color-brand-accent: #ff4d00; /* Accent for borders, highlights */
+            --color-brand-accent: #ff5500; /* Accent for borders, highlights */
+            --color-brand-dark-rgb: 12, 56, 64; /* Same as --color-brand-dark, for use inside rgba() */
+            --color-brand-accent-rgb: 255, 85, 0; /* Same as --color-brand-accent, for use inside rgba() */
 
             /* --- NEUTRAL COLORS --- */
-            --color-bg-page: #F4F9FA;
+            --color-bg-page: #f4f9fa;
             --color-bg-card: #ffffff;
-            --color-bg-subtle: #F4F9FA; /* For code blocks, examples */
-            --color-border: #e5eced;
+            --color-bg-subtle: #f4f9fa; /* For code blocks, examples */
+            --color-border: #ebe7e2;
 
             /* --- TEXT COLORS --- */
             --color-text-primary: #2C2825;
@@ -33,77 +52,33 @@
             overflow-y: scroll; /* Prevent layout shift when scrollbar appears/disappears */
         }
 
-        .container {
-            max-width: 800px;
-            margin: 40px auto; /* Centering the content */
-        }
-
         h1 {
             font-family: 'Vidaloka', serif;
             font-size: 28px;
             color: var(--color-brand-dark);
             border-bottom: 2px solid var(--color-brand-accent);
             padding-bottom: 10px;
-            margin-bottom: 40px;
-        }
-
-        h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 16px;
-            font-weight: 900;
-            color: var(--color-brand-dark);
-            text-transform: uppercase;
-            border-left: 4px solid var(--color-brand-accent);
-            padding-left: 12px;
-            margin-top: 0;
-        }
-
-        summary {
-            display: block;
-            cursor: pointer;
-            position: relative;
-        }
-
-        summary::-webkit-details-marker {
-            display: none; /* Hide default arrow in Chrome/Safari */
-        }
-
-        summary {
-            list-style: none; /* Hide default arrow in Firefox */
-        }
-
-        summary::after {
-            content: '';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            width: 8px;
-            height: 8px;
-            border-bottom: 3px solid var(--color-brand-accent);
-            border-right: 3px solid var(--color-brand-accent);
-            transform: translateY(-60%) rotate(-45deg); /* Initial right-pointing arrow */
-            transition: transform 0.3s ease-in-out;
-        }
-
-        details[open] > summary::after {
-            transform: translateY(-75%) rotate(45deg); /* Rotates to down-pointing arrow */
+            margin-bottom: 30px;
+            scroll-margin-top: 110px;
         }
 
         ul {
             list-style: none;
             padding-left: 0;
+            margin: 0;
         }
 
         li {
-            padding-bottom: 30px;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            padding: 26px 30px;
+            margin-bottom: 20px;
+            scroll-margin-top: 110px;
         }
 
         li:last-child {
-            border-bottom: none;
             margin-bottom: 0;
-            padding-bottom: 0;
         }
 
         code, kbd {
@@ -117,7 +92,7 @@
         }
 
         .example {
-            background-color: #f5f7f8;
+            background-color: var(--color-bg-subtle);
             border-left: 4px solid var(--color-brand-dark);
             padding: 10px 15px;
             margin-top: 8px;
@@ -126,17 +101,14 @@
         }
 
         .section-box {
-            background: var(--color-bg-card);
-            padding: 30px 40px;
-            border-radius: 24px;
-            border: 1px solid var(--color-border);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            scroll-margin-top: 110px;
         }
 
         .excel-table-wrapper {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f5f7f8;
+            background-color: var(--color-bg-subtle);
             border-radius: 12px;
             border: 1px solid var(--color-border);
         }
@@ -148,7 +120,7 @@
         }
 
         .excel-table th, .excel-table td {
-            border: 1px solid #DCD9D4;
+            border: 1px solid var(--color-border);
             padding: 8px 12px;
             text-align: center;
             font-size: 13px;
@@ -156,27 +128,277 @@
         }
 
         .excel-table .header-cell {
-            background-color: #EBE7E2;
+            background-color: var(--color-border);
             font-weight: 700;
             color: var(--color-text-secondary);
         }
 
         .excel-table .formula-cell {
-            background-color: #e8f0fe; /* Light blue to indicate a formula */
+            background-color: var(--color-bg-subtle);
             font-family: "Courier New", Courier, monospace;
             text-align: left;
         }
 
         .excel-table .locked-cell {
-            background-color: #fff2cc; /* Light yellow to indicate the locked cell */
-            border: 2px solid #ffc107;
+            background-color: rgba(var(--color-brand-accent-rgb), 0.08);
+            border: 1px solid rgba(var(--color-brand-accent-rgb), 0.4);
             font-weight: bold;
         }
 
         .excel-table .result-cell {
-            background-color: #e4f8e9; /* Light green for results */
+            background-color: var(--color-bg-subtle);
             font-weight: bold;
-            border: 2px solid var(--color-brand-accent);
+            border: 1px solid var(--color-brand-accent);
+        }
+
+        .excel-table .error-cell {
+            background-color: var(--color-brand-accent);
+            color: var(--color-text-inverted);
+            border: 1px solid var(--color-brand-accent);
+            font-family: "Courier New", Courier, monospace;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .excel-table .error-cell i {
+            color: var(--color-text-inverted);
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        .ref-locked {
+            color: var(--color-brand-accent);
+            font-weight: 800;
+        }
+
+        /* --- Topic titles (name at the start of each item) --- */
+        .topic-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: var(--color-brand-dark);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* --- Tip / exam-note callouts --- */
+        .tip {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background-color: var(--color-bg-subtle);
+            border-left: 4px solid var(--color-brand-accent);
+            padding: 10px 15px;
+            margin-top: 8px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+        }
+
+        .tip i {
+            color: var(--color-brand-accent);
+            font-size: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* --- Plain info box (for non-spreadsheet reference content) --- */
+        .info-box {
+            margin-top: 16px;
+            padding: 18px 20px;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+        }
+
+        .info-box > strong {
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-brand-dark);
+        }
+
+        .def-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        .def-table td {
+            padding: 9px 12px 9px 0;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: top;
+        }
+
+        .def-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .def-table td:first-child {
+            font-family: "Courier New", Courier, monospace;
+            font-weight: 700;
+            color: var(--color-brand-dark);
+            white-space: nowrap;
+            width: 1%;
+            padding-right: 20px;
+        }
+
+        /* --- Formula reference tables (longer code, needs to wrap) --- */
+        .def-table.formulas td:first-child {
+            white-space: normal;
+            width: 55%;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        @media (max-width: 600px) {
+            .def-table.formulas tr {
+                display: flex;
+                flex-direction: column;
+            }
+            .def-table.formulas td:first-child {
+                width: auto;
+                padding-right: 0;
+                padding-bottom: 4px;
+                border-bottom: none;
+            }
+        }
+
+        /* --- Interactive reference-type demo (Absolute Referencing section) --- */
+        .ref-interactive {
+            margin-top: 16px;
+        }
+
+        .ref-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .ref-tab {
+            background: none;
+            border: 1.5px solid var(--color-border);
+            color: var(--color-text-secondary);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s, border-color 0.18s, color 0.18s;
+        }
+
+        .ref-tab:hover:not(.active) {
+            border-color: var(--color-brand-dark);
+            color: var(--color-brand-dark);
+        }
+
+        .ref-tab.active {
+            background: var(--color-brand-accent);
+            border-color: var(--color-brand-accent);
+            color: white;
+        }
+
+        .ref-interactive-body {
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .ref-interactive-table {
+            margin: 0 auto;
+        }
+
+        .ref-cell {
+            cursor: pointer;
+            transition: filter 0.15s, transform 0.15s;
+        }
+
+        .ref-cell:hover {
+            filter: brightness(0.96);
+        }
+
+        .ref-cell.selected {
+            outline: 2px solid var(--color-brand-accent);
+            outline-offset: -2px;
+        }
+
+        .ref-explain {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-top: 18px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 13.5px;
+            color: var(--color-text-secondary);
+            min-height: 20px;
+        }
+
+        .ref-explain i {
+            color: var(--color-brand-accent);
+            font-size: 15px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .ref-explain strong {
+            color: var(--color-brand-dark);
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        .ref-result-badge {
+            display: inline-block;
+            background: var(--color-brand-accent);
+            color: white;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 8px;
+        }
+
+        .ref-explain-body {
+            display: block;
+            margin-top: 6px;
+        }
+
+        /* Static fallback for the interactive demo — print/PDF only, hidden on screen */
+        .print-ref-grid {
+            display: none;
+        }
+
+        /* Print-only title block, hidden on screen */
+        .print-header {
+            display: none;
+        }
+
+        /* --- Icons: main sections only (h1 + sidebar group titles) --- */
+        h1 i {
+            color: var(--color-brand-accent);
+            margin-right: 10px;
+            font-size: 0.8em;
+        }
+
+        .sidebar-group-title i {
+            margin-right: 8px;
+            font-size: 0.85em;
+            width: 14px;
+            display: inline-block;
+            text-align: center;
         }
 
         /* --- Header Styles --- */
@@ -194,7 +416,12 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             position: sticky;
             top: 20px;
-            z-index: 100;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
         }
 
         .brand-logo {
@@ -204,36 +431,25 @@
             align-items: center;
         }
 
-        .logo-stack {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-            letter-spacing: -0.5px;
-        }
-
-        .brand-logo .logo-name {
-            font-size: 1.2rem;
-            color: var(--color-brand-accent);
-        }
-
-        .brand-logo .logo-sub {
-            color: var(--color-brand-dark);
-            font-size: 0.52rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+        .brand-logo-img {
+            height: 28px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            object-position: left center;
         }
 
         .logo-separator {
-            color: rgba(12,56,64,0.2);
-            margin: 0 12px;
-            font-weight: 400;
-            font-size: 1.2rem;
+            display: inline-block;
+            width: 1px;
+            height: 38px;
+            background-color: rgba(var(--color-brand-dark-rgb), 0.2);
+            margin: 0 18px;
         }
 
         .logo-page-title {
             font-family: 'Atkinson Hyperlegible', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1.05rem;
             font-weight: 600;
             color: var(--color-text-secondary);
             letter-spacing: normal;
@@ -244,7 +460,7 @@
             gap: 10px;
         }
 
-        .social-icon {
+        .social-icon, .menu-toggle {
             width: 38px; height: 38px;
             border-radius: 50%;
             background: rgba(0,0,0,0.05);
@@ -252,21 +468,469 @@
             display: flex; align-items: center; justify-content: center;
             color: var(--color-brand-dark);
             transition: all 0.3s;
+            cursor: pointer;
         }
-        .social-icon:hover { transform: translateY(-2px); background: var(--color-brand-accent); border-color: var(--color-brand-accent); color: white; }
-        .social-icon i { font-size: 18px; line-height: 1; }
+        .social-icon:hover, .menu-toggle:hover { transform: translateY(-2px); background: var(--color-brand-accent); border-color: var(--color-brand-accent); color: white; }
+        button.social-icon { font: inherit; padding: 0; }
+        .social-icon i, .menu-toggle i { font-size: 18px; line-height: 1; }
+        .social-icon .bi-envelope { -webkit-text-stroke: 0.5px currentColor; }
+
+        .menu-toggle {
+            display: none;
+            margin-right: 14px;
+            flex-shrink: 0;
+            border: none;
+        }
+
+        /* --- Intro Banner --- */
+        .intro-banner-wrap {
+            max-width: 1400px;
+            box-sizing: border-box;
+            margin: 10px auto 0;
+            padding: 0 3%;
+        }
+
+        .intro-banner {
+            position: relative;
+            box-sizing: border-box;
+            padding: 18px 26px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .intro-banner.hidden {
+            display: none;
+        }
+
+        .intro-banner i.bi-info-circle-fill {
+            color: var(--color-brand-accent);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .intro-banner p {
+            flex: 1;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .intro-banner strong {
+            color: var(--color-brand-dark);
+        }
+
+        .intro-banner-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-card);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            color: var(--color-brand-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .intro-banner-close:hover {
+            background: var(--color-brand-accent);
+            border-color: var(--color-brand-accent);
+            color: white;
+            transform: translateY(-2px) scale(1.06);
+        }
+
+        .intro-banner-close i {
+            font-size: 12px;
+        }
+
+        /* --- Page Layout --- */
+        .page-layout {
+            max-width: 1400px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding: 10px 3% 60px;
+            display: flex;
+            align-items: flex-start;
+            gap: 50px;
+        }
+
+        /* --- Sidebar Nav --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(var(--color-brand-dark-rgb), 0.35);
+            z-index: 998;
+        }
+
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 110px;
+            max-height: calc(100vh - 130px);
+            overflow-y: auto;
+        }
+
+        .sidebar-group {
+            margin-bottom: 26px;
+        }
+
+        .sidebar-group-title {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--color-brand-accent);
+            text-decoration: none;
+            margin-bottom: 10px;
+            padding-left: 13px;
+            cursor: pointer;
+            transition: color 0.18s;
+        }
+
+        .sidebar-group-title:hover,
+        .sidebar-group-title.active {
+            color: var(--color-brand-dark);
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 7px 13px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            border-radius: 0 8px 8px 0;
+            transition: background 0.18s, color 0.18s, border-color 0.18s;
+        }
+
+        .sidebar-link:hover {
+            color: var(--color-brand-dark);
+            background: rgba(var(--color-brand-dark-rgb), 0.05);
+        }
+
+        .sidebar-link.active {
+            color: var(--color-brand-dark);
+            background: rgba(var(--color-brand-accent-rgb), 0.07);
+            border-left-color: var(--color-brand-accent);
+            font-weight: 800;
+        }
+
+        .btn-save-pdf {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+            padding: 9px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            background: var(--color-brand-accent);
+            color: white;
+            border: none;
+            border-radius: 100px;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(var(--color-brand-accent-rgb), 0.25);
+            transition: all 0.25s;
+        }
+
+        .btn-save-pdf i {
+            font-size: 12px;
+        }
+
+        .btn-save-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(var(--color-brand-accent-rgb), 0.35);
+        }
+
+        /* --- Main Content --- */
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (max-width: 960px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .page-layout {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 270px;
+                max-height: 100vh;
+                height: 100vh;
+                background: var(--color-bg-page);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 999;
+                padding: 100px 24px 30px;
+                margin: 0;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+
+            .content {
+                max-width: 100%;
+            }
+        }
+
+        /* ====================================================== */
+        /* PRINT / PDF — a dense reference sheet, not a web dump   */
+        /* ====================================================== */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm 12mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                box-shadow: none !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            html, body {
+                background: white;
+                font-size: 8.5px;
+                line-height: 1.35;
+            }
+
+            /* Hide all screen-only chrome */
+            .brand-header,
+            .intro-banner-wrap,
+            .sidebar-overlay,
+            .sidebar,
+            .menu-toggle,
+            .ref-interactive {
+                display: none !important;
+            }
+
+            /* Show the print-only title block */
+            .print-header {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding-bottom: 8px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid var(--color-brand-accent);
+            }
+
+            .print-header-logo {
+                height: 22px;
+                width: auto;
+            }
+
+            .print-header-text h1 {
+                font-family: 'Vidaloka', serif;
+                font-size: 15px;
+                color: var(--color-brand-dark);
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-header-text p {
+                font-size: 7.5px;
+                color: var(--color-text-secondary);
+                margin: 2px 0 0;
+            }
+
+            /* Show the static reference grid, in place of the interactive demo */
+            .print-ref-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                margin-top: 8px;
+                break-inside: avoid;
+            }
+
+            .print-ref-card {
+                border: 1px solid var(--color-border);
+                border-radius: 4px;
+                padding: 5px 6px;
+            }
+
+            .print-ref-card-title {
+                font-family: 'Outfit', sans-serif;
+                font-size: 7px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: var(--color-brand-dark);
+                margin-bottom: 3px;
+            }
+
+            .print-ref-grid .excel-table {
+                margin-top: 0;
+            }
+
+            .print-ref-grid .excel-table th,
+            .print-ref-grid .excel-table td {
+                min-width: 0;
+                padding: 2px 4px;
+                font-size: 6.5px;
+            }
+
+            /* Flatten the layout: no sidebar column, dense multi-column flow */
+            .page-layout {
+                display: block;
+                max-width: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .content {
+                max-width: none;
+                column-count: 2;
+                column-gap: 16px;
+            }
+
+            h1 {
+                font-family: 'Outfit', sans-serif;
+                font-size: 11px;
+                font-weight: 900;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                border-bottom: 1px solid var(--color-brand-accent);
+                padding-bottom: 4px;
+                margin: 10px 0 6px;
+                break-after: avoid;
+                column-span: all;
+            }
+
+            h1 i {
+                font-size: 0.9em;
+                margin-right: 6px;
+            }
+
+            .section-box {
+                margin-bottom: 0;
+            }
+
+            ul {
+                margin: 0;
+            }
+
+            li {
+                border: 1px solid var(--color-border);
+                border-radius: 6px;
+                padding: 8px 10px;
+                margin-bottom: 8px;
+                break-inside: avoid;
+            }
+
+            .topic-title {
+                font-size: 9px;
+                padding-bottom: 5px;
+                margin-bottom: 6px;
+            }
+
+            p {
+                margin: 0 0 6px;
+            }
+
+            code, kbd {
+                font-size: 7.5px;
+                padding: 1px 3px;
+            }
+
+            .example, .tip, .info-box {
+                font-size: 7.5px;
+                padding: 6px 8px;
+                margin-top: 6px;
+            }
+
+            .info-box > strong {
+                font-size: 7px;
+                margin-bottom: 5px;
+            }
+
+            .def-table {
+                font-size: 7.5px;
+            }
+
+            .def-table td {
+                padding: 4px 8px 4px 0;
+            }
+
+            .excel-table-wrapper {
+                padding: 8px;
+                margin-top: 6px;
+            }
+
+            .excel-table th, .excel-table td {
+                padding: 3px 6px;
+                font-size: 7px;
+                min-width: 0;
+            }
+
+            .ref-result-badge {
+                font-size: 7px;
+                padding: 1px 5px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="print-header">
+        <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="print-header-logo">
+        <div class="print-header-text">
+            <h1>Excel Cheat Sheet</h1>
+            <p>Descriptive statistics &amp; probability, based on past exam questions &middot; samkedemia.com</p>
+        </div>
+    </div>
+
     <header class="brand-header">
-        <a href="https://samkedemia.com" target="_blank" class="brand-logo">
-            <span class="logo-stack">
-                <span class="logo-name">samkedemia</span>
-                <span class="logo-sub">education</span>
-            </span>
-            <span class="logo-separator">|</span>
-            <span class="logo-page-title">Excel Cheat Sheet</span>
-        </a>
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+            <a href="https://samkedemia.com" target="_blank" class="brand-logo">
+                <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
+                <span class="logo-separator"></span>
+                <span class="logo-page-title">Excel Cheat Sheet</span>
+            </a>
+        </div>
         <div class="header-socials">
             <a href="https://wa.me/32490100821" target="_blank" class="social-icon">
                 <i class="bi bi-whatsapp"></i>
@@ -279,180 +943,419 @@
             </a>
         </div>
     </header>
-    <div class="container">
 
-        <details class="section-box" open>
-            <summary>
-                <h2>Syntax &amp; Referencing Concepts</h2>
-            </summary>
-            <ul>
-            <li>
-                <strong>Absolute Cell Referencing ($):</strong> Locks a cell reference so it doesn't change when you copy or drag a formula. Think of the <code>$</code> as putting glue on a cell address to hold it firmly in place.
-                <div class="example">
-                    <strong>The Problem:</strong> Look at the visual table. To get the "Total" in cell <strong>B2</strong>, you might write the formula <code>=A2*C1</code>. This works for the first row. But when you drag that formula down to cell B3, Excel automatically changes it to <code>=A3*C2</code>, which is wrong because the VAT rate is not in C2.
-                </div>
-                <div class="example">
-                    <strong>The Solution:</strong> To fix this, you must "lock" the reference to the VAT cell. In cell <strong>B2</strong>, you change the formula to <code>=A2*$C$1</code>. Now, when you drag it down to B3, the formula correctly becomes <code>=A3*$C$1</code>. The part without the dollar sign (A3) changes, but the part with the dollar signs ($C$1) stays locked.
-                </div>
-                <div class="excel-table-wrapper">
-                    <strong>Visual Example:</strong> Here's how it looks in a spreadsheet. The formula in cell B2 is dragged down to B3 and B4. Notice how the reference to <code>$C$1</code> (the VAT rate) never changes.
-                    <table class="excel-table">
-                        <tr>
-                            <td class="header-cell"></td>
-                            <td class="header-cell">A</td>
-                            <td class="header-cell">B</td>
-                            <td class="header-cell">C</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">1</td>
-                            <td>Price</td>
-                            <td>Total</td>
-                            <td class="locked-cell">20%</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">2</td>
-                            <td>100</td>
-                            <td class="formula-cell">=A2*$C$1</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">3</td>
-                            <td>150</td>
-                            <td class="formula-cell">=A3*$C$1</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="example">
-                    <strong>Types of Locking:</strong><br>
-                    * <code>A1</code> (Fully Relative): Both column and row change when dragged. This is the default.<br>
-                    * <code>$A$1</code> (Fully Absolute): Both column and row are locked. The formula will always point to cell A1, no matter where you copy it.<br>
-                    * <code>$A1</code> (Mixed): The column is locked, but the row can change. Useful for dragging formulas down a column while always referring to column A.<br>
-                    * <code>A$1</code> (Mixed): The row is locked, but the column can change. Useful for dragging formulas across a row while always referring to row 1.
-                </div>
-                <div class="example">
-                    <strong>Example:</strong> In our visual table, the formula is <code>=A2*$C$1</code>. When you drag it down one row, it becomes <code>=A3*$C$1</code>. The <code>A2</code> reference shifted to <code>A3</code> because it was relative, but the <code>$C$1</code> stayed completely locked.
-                </div>
-                <div class="example">
-                    <strong>Common question:</strong> If a question asks you to modify a formula like <code>=COUNTIFS(C2:C101;F2)</code> so it can be safely dragged down without shifting the source data range, you add dollar signs to lock the range coordinates: <code>=COUNTIFS($C$2:$C$101;F2)</code>.
-                </div>
-
-            </li>
-            </ul>
-        </details>
-
-        <details class="section-box" open>
-            <summary>
-                <h2>Excel Functions</h2>
-            </summary>
-            <ul>
-            <li>
-                <strong>IF:</strong> Asks a "true or false" question about a cell. It gives one answer if the question is true, and a different answer if it's false.
-                <div class="example"><strong>Simple Example:</strong> <code>=IF(A1>50, "Pass", "Fail")</code> checks if the score in cell A1 is greater than 50. If it is, the cell shows "Pass"; otherwise, it shows "Fail".</div>
-                <div class="example"><strong>Example:</strong> <code>=IF(C2&lt;&gt;$F$7;"negative";"positive")</code> checks if the value in C2 is NOT EQUAL to the value in F7. If they are different, it prints "negative". If they are the same, it prints "positive".</div>
-            </li>
-            <li>
-                <strong>AVERAGE:</strong> Calculates the mean (the most common type of average) for a group of numbers.
-                <div class="example"><strong>Example:</strong> <code>=AVERAGE(B2:B101)</code> finds the average value of all data from cell B2 down to B101.</div>
-            </li>
-            <li>
-                <strong>STDEV.S:</strong> Measures how spread out your numbers are from the average. A low number means the data is tightly clustered, while a high number means it's widely scattered. Use this when your data is a small sample of a larger group.
-                <div class="example"><strong>Example:</strong> <code>=STDEV.S(B2:B101)</code> shows the variation or spread of the data in that column range.</div>
-            </li>
-            <li>
-                <strong>COVARIANCE.S:</strong> Checks if two different sets of data tend to move in the same direction. For example, as temperature goes up, do ice cream sales also go up? Use this for sample data.
-                <div class="example"><strong>Example:</strong> <code>=COVARIANCE.S(C2:C101;D2:D101)</code> calculates the sample covariance to see if delivery time changes predictably alongside age.</div>
-            </li>
-            <li>
-                <strong>COVARIANCE.P:</strong> Calculates covariance for an entire <strong>population</strong>. We do not use this on the exam. We always use <code>COVARIANCE.S</code> because course exercises are always based on <strong>sample data</strong>.
-                <div class="example">This function is for when you have data for every single member of a group, which is rare in practice. For exams, always use <code>COVARIANCE.S</code>.</div>
-            </li>
-            <li>
-                <strong>COUNTIFS:</strong> Counts the number of cells that meet several rules at once. It only adds to the count if a cell satisfies all the conditions you set.
-                <div class="example"><strong>Simple Example:</strong> <code>=COUNTIFS(A1:A10, "Yes", B1:B10, ">100")</code> counts every row where column A says "Yes" AND the corresponding value in column B is over 100.</div>
-                <div class="excel-table-wrapper">
-                    <strong>Visual Example:</strong> The formula looks for rows where column A is "Yes" and column B is greater than 100. Only rows 2 and 5 match both conditions.
-                    <table class="excel-table">
-                        <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
-                        <tr><td class="header-cell">1</td><td>Attended?</td><td>Sales</td><td>Result</td></tr>
-                        <tr><td class="header-cell">2</td><td>Yes</td><td>150</td><td rowspan="2" class="result-cell" style="vertical-align: middle;">2</td></tr>
-                        <tr><td class="header-cell">3</td><td>No</td><td>200</td></tr>
-                        <tr><td class="header-cell">4</td><td>Yes</td><td>90</td><td class="formula-cell" style="font-size: 11px;">=COUNTIFS(A2:A6,"Yes",B2:B6,"&gt;100")</td></tr>
-                        <tr><td class="header-cell">5</td><td>Yes</td><td>120</td><td></td></tr>
-                        <tr><td class="header-cell">6</td><td>No</td><td>50</td><td></td></tr>
-                    </table>
-                </div>
-                <div class="example"><strong>Absolute frequencies in binned data:</strong> <code>=COUNTIFS($C$2:$C$101;"&gt;"&F2;$C$2:$C$101;"&lt;="&G2)</code> counts how many numbers in column C are strictly greater than the number in F2 AND less than or equal to the number in G2.</div>
-            </li>
-            <li>
-                <strong>SUMPRODUCT:</strong> Imagine two shopping lists with items and their prices. This function multiplies the quantity of each item by its price and then adds up all those totals to give you the final bill.
-                <div class="example"><strong>Binned Data Mean:</strong> <code>=SUMPRODUCT(F2:F7, G2:G7)</code> calculates the mean for binned data, where F2:F7 contains the relative frequencies and G2:G7 contains the corresponding midpoints.</div>
-                <div class="excel-table-wrapper">
-                    <strong>Visual Example:</strong> The formula multiplies each frequency by its midpoint (0.2*5, 0.5*15, etc.) and then sums those products to get the weighted mean.
-                    <table class="excel-table">
-                        <tr>
-                            <td class="header-cell"></td>
-                            <td class="header-cell">F</td>
-                            <td class="header-cell">G</td>
-                            <td class="header-cell">H</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">1</td>
-                            <td>Rel. Freq</td>
-                            <td>Midpoint</td>
-                            <td>Mean</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">2</td>
-                            <td>0.2</td>
-                            <td>5</td>
-                            <td rowspan="3" class="result-cell" style="vertical-align: middle;">14.5</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">3</td>
-                            <td>0.5</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td class="header-cell">4</td>
-                            <td>0.3</td>
-                            <td>20</td>
-                        </tr>
-                        <tr><td class="header-cell">5</td><td></td><td></td><td class="formula-cell" style="font-size: 12px;">=SUMPRODUCT(F2:F4,G2:G4)</td></tr>
-                    </table>
-                </div>
-                <div class="example"><strong>Binned Data Variance:</strong> <code>=SUMPRODUCT(G2:G7;G2:G7;F2:F7)</code> is used when finding the variance for binned data. It calculates the sum of (midpoint² * frequency). The full variance formula is typically <code>(n/(n-1)) * (SUMPRODUCT_result - mean²)</code>.</div>
-            </li>
-            </ul>
-        </details>
-
-        <details class="section-box" open>
-            <summary>
-                <h2>Data Analysis Toolpak - Regression</h2>
-            </summary>
-            <ul>
-            <li>
-                A powerful tool that helps you understand how one factor (X) affects another (Y). It's used for least squares line and making predictions.
-                <div class="example">
-                    <strong>Setup Variables:</strong>
-                    <ul style="padding-left: 20px; margin-top: 10px; list-style-type: disc;">
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Input Y range:</strong> The data you want to predict (the outcome).</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Input X range:</strong> The data you are using to make the prediction.</li>
-                    </ul>
-                </div>
-                <div class="example">
-                    <strong>Output Interpretations:</strong> The toolpak provides a lot of information that we don't use in this course. The only outputs we need are:
-                    <ul style="padding-left: 20px; margin-top: 10px; list-style-type: disc;">
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Multiple R:</strong> The correlation value. It tells you how strongly X and Y are related.</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>R Square:</strong> Shows how much of the change in your outcome (Y) can be explained by your input factor (X). A higher percentage means a better fit.</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Observations:</strong> The total number of data rows evaluated (e.g., 100).</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Coefficients (Intercept):</strong> The value of <code>a</code> in the equation <code>a+bx</code>. This is your starting baseline when X is zero.</li>
-                        <li style="border: none; padding: 5px 0; margin: 0;"><strong>Coefficients (Age/Variable X):</strong> The value of <code>b</code> in the equation <code>a+bx</code>. This is the slope, telling you how much Y changes for every single step change in X.</li>
-                    </ul>
-                </div>
-            </li>
-            </ul>
-        </details>
+    <div class="intro-banner-wrap">
+        <div class="intro-banner" id="introBanner">
+            <i class="bi bi-info-circle-fill"></i>
+            <p><strong>Heads up:</strong> this isn't a full Excel tutorial.<br> It's a cheat sheet for the <strong>Descriptive Statistics &amp; Probability for Business</strong> questions that have actually shown up on past exams. <br> Just the concise, tested stuff, not everything Excel can do.</p>
+            <button class="intro-banner-close" id="introBannerClose" aria-label="Dismiss">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
     </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="page-layout">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-group">
+                <a class="sidebar-group-title" href="#functions-heading"><i class="bi bi-code-slash"></i>Functions</a>
+                <div class="sidebar-links">
+                    <a class="sidebar-link" href="#fn-if">IF</a>
+                    <a class="sidebar-link" href="#fn-average">AVERAGE</a>
+                    <a class="sidebar-link" href="#fn-stdevs">STDEV.S</a>
+                    <a class="sidebar-link" href="#fn-covs">COVARIANCE.S</a>
+                    <a class="sidebar-link" href="#fn-countifs">COUNTIFS</a>
+                    <a class="sidebar-link" href="#fn-sumproduct">SUMPRODUCT</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a class="sidebar-group-title" href="#syntax-heading"><i class="bi bi-lock-fill"></i>Absolute Referencing ($)</a>
+                <div class="sidebar-links">
+                    <a class="sidebar-link" href="#abs-referencing">Absolute Referencing ($)</a>
+                    <a class="sidebar-link" href="#abs-referencing-example">Example</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a class="sidebar-group-title" href="#regression-heading"><i class="bi bi-graph-up-arrow"></i>Data Analysis Toolpak</a>
+                <div class="sidebar-links">
+                    <a class="sidebar-link" href="#regression-toolpak">Regression</a>
+                </div>
+            </div>
+
+            <a class="btn-save-pdf" href="samkedemia-excel-cheatsheet.pdf" target="_blank" rel="noopener">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+                Download PDF
+            </a>
+        </nav>
+
+        <div class="content">
+            <h1 id="functions-heading"><i class="bi bi-code-slash"></i>Functions</h1>
+
+            <div class="section-box" id="functions">
+                <ul>
+                <li id="fn-if">
+                    <div class="topic-title">IF</div>
+                    <p>Checks if something is true or false, then shows one result if it is and another if it isn't.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=IF(A1>50, "Pass", "Fail")</td><td>If the score in A1 is above 50, shows "Pass"; otherwise "Fail".</td></tr>
+                            <tr><td>=IF(C2&lt;&gt;$F$7;"negative";"positive")</td><td>If C2 is different from F7, shows "negative"; if they match, shows "positive".</td></tr>
+                        </table>
+                    </div>
+                </li>
+                <li id="fn-average">
+                    <div class="topic-title">AVERAGE</div>
+                    <p>Gives you the average of a group of numbers.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=AVERAGE(B2:B101)</td><td>Averages every value from B2 down to B101.</td></tr>
+                        </table>
+                    </div>
+                </li>
+                <li id="fn-stdevs">
+                    <div class="topic-title">STDEV.S</div>
+                    <p>Shows how spread out your numbers are. Low means they're close together, high means they're all over the place.<br><br>We use STDEV.S (and not STDEV.P) because we always work with a sample, a selected set, not the full population.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=STDEV.S(B2:B101)</td><td>Spread of the values in that range.</td></tr>
+                        </table>
+                    </div>
+                </li>
+                <li id="fn-covs">
+                    <div class="topic-title">COVARIANCE.S</div>
+                    <p>Checks if two things move together. For example, when it gets hotter, do ice cream sales go up too?<br><br>We use COVARIANCE.S (and not COVARIANCE.P) because we always work with a sample, not the full population.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=COVARIANCE.S(C2:C101;D2:D101)</td><td>Sample covariance between the two ranges.</td></tr>
+                        </table>
+                    </div>
+                </li>
+                <li id="fn-countifs">
+                    <div class="topic-title">COUNTIFS</div>
+                    <p>Counts cells that meet <strong>every</strong> condition you give it. A row only counts if it passes all of them.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=COUNTIFS(A1:A10, "Yes", B1:B10, ">100")</td><td>Counts rows where A is "Yes" and B is over 100.</td></tr>
+                        </table>
+                    </div>
+                    <div class="excel-table-wrapper">
+                        <strong>Only rows 2 and 5 match both conditions</strong>, so the count is 2.
+                        <table class="excel-table">
+                            <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                            <tr><td class="header-cell">1</td><td>Attended?</td><td>Sales</td><td>Result</td></tr>
+                            <tr><td class="header-cell">2</td><td>Yes</td><td>150</td><td rowspan="2" class="result-cell" style="vertical-align: middle;">2</td></tr>
+                            <tr><td class="header-cell">3</td><td>No</td><td>200</td></tr>
+                            <tr><td class="header-cell">4</td><td>Yes</td><td>90</td><td class="formula-cell" style="font-size: 11px;">=COUNTIFS(A2:A6,"Yes",B2:B6,"&gt;100")</td></tr>
+                            <tr><td class="header-cell">5</td><td>Yes</td><td>120</td><td></td></tr>
+                            <tr><td class="header-cell">6</td><td>No</td><td>50</td><td></td></tr>
+                        </table>
+                    </div>
+                    <div class="tip"><i class="bi bi-mortarboard-fill"></i> <span><strong>Binned data:</strong> this counts every value greater than F2 and up to G2 with <code>=COUNTIFS($C$2:$C$101;"&gt;"&F2;$C$2:$C$101;"&lt;="&G2)</code>. It's the standard way to count a frequency bin.</span></div>
+                </li>
+                <li id="fn-sumproduct">
+                    <div class="topic-title">SUMPRODUCT</div>
+                    <p>Multiplies matching pairs from two ranges, then adds up the results. Think of it like multiplying quantity by price for each item on a receipt, then totalling the bill.</p>
+                    <div class="info-box">
+                        <table class="def-table formulas">
+                            <tr><td>=SUMPRODUCT(F2:F7, G2:G7)</td><td>Binned data mean. F holds the relative frequency, G holds the midpoint of each bin.</td></tr>
+                        </table>
+                    </div>
+                    <div class="excel-table-wrapper">
+                        <strong>Each frequency × its midpoint, summed</strong> (0.2×5 + 0.5×15 + 0.3×20), gives the weighted mean.
+                        <table class="excel-table">
+                            <tr>
+                                <td class="header-cell"></td>
+                                <td class="header-cell">F</td>
+                                <td class="header-cell">G</td>
+                                <td class="header-cell">H</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">1</td>
+                                <td>Rel. Freq</td>
+                                <td>Midpoint</td>
+                                <td>Mean</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">2</td>
+                                <td>0.2</td>
+                                <td>5</td>
+                                <td rowspan="3" class="result-cell" style="vertical-align: middle;">14.5</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">3</td>
+                                <td>0.5</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">4</td>
+                                <td>0.3</td>
+                                <td>20</td>
+                            </tr>
+                            <tr><td class="header-cell">5</td><td></td><td></td><td class="formula-cell" style="font-size: 12px;">=SUMPRODUCT(F2:F4,G2:G4)</td></tr>
+                        </table>
+                    </div>
+                    <div class="tip"><i class="bi bi-mortarboard-fill"></i> <span><strong>Binned data variance:</strong> <code>=SUMPRODUCT(G2:G7;G2:G7;F2:F7)</code> gives Σ(midpoint² × frequency). Full variance = <code>(n/(n-1)) × (that result − mean²)</code>.</span></div>
+                </li>
+                </ul>
+            </div>
+
+            <h1 id="syntax-heading"><i class="bi bi-lock-fill"></i>Absolute Referencing ($)</h1>
+
+            <div class="section-box" id="syntax">
+                <ul>
+                <li id="abs-referencing">
+                    <div class="topic-title">Absolute Cell Referencing ($)</div>
+                    <p>A dollar sign (<code>$</code>) locks part of a cell reference so it stays put when you copy or drag a formula. Without it, Excel quietly shifts every reference by however far you drag.</p>
+
+                    <div class="excel-table-wrapper">
+                        <strong>Why it matters:</strong> the formula in <strong>B2</strong> multiplies the price by the VAT rate in <strong>C1</strong>. Drag it down to B3 without a $, and Excel shifts C1 to C2, which is empty, so the formula breaks. Lock it as <code>$C$1</code> and every row keeps pointing at the same VAT cell.
+                        <table class="excel-table">
+                            <tr>
+                                <td class="header-cell"></td>
+                                <td class="header-cell">A</td>
+                                <td class="header-cell">B</td>
+                                <td class="header-cell">C</td>
+                                <td class="header-cell">D</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">1</td>
+                                <td>Price</td>
+                                <td>Total (wrong)</td>
+                                <td class="locked-cell">20%</td>
+                                <td>Total (correct)</td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">2</td>
+                                <td>100</td>
+                                <td class="formula-cell">=A2*C1</td>
+                                <td></td>
+                                <td class="formula-cell">=A2*<span class="ref-locked">$C$1</span></td>
+                            </tr>
+                            <tr>
+                                <td class="header-cell">3</td>
+                                <td>150</td>
+                                <td class="error-cell">=A3*C2<i class="bi bi-exclamation-triangle-fill"></i></td>
+                                <td></td>
+                                <td class="formula-cell">=A3*<span class="ref-locked">$C$1</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="tip"><i class="bi bi-lightbulb-fill"></i> <span><strong>Reading the $ sign:</strong> it locks whatever comes right after it. <code>$C$1</code> locks the column <em>and</em> the row. <code>$C1</code> locks only the column. <code>C$1</code> locks only the row.</span></div>
+                </li>
+                <li id="abs-referencing-example">
+                    <div class="topic-title">Example</div>
+                    <p><strong>All four combinations:</strong> same formula in B2, dragged one column right (C2) and one row down (B3). Pick a type below, then click a formula cell to see exactly how it's calculated.</p>
+
+                    <div class="ref-interactive">
+                        <div class="ref-tabs" id="refTabs">
+                            <button class="ref-tab active" data-type="relative">A1 — Relative</button>
+                            <button class="ref-tab" data-type="absolute">$A$1 — Absolute</button>
+                            <button class="ref-tab" data-type="colLocked">$A1 — Column locked</button>
+                            <button class="ref-tab" data-type="rowLocked">A$1 — Row locked</button>
+                        </div>
+                        <div class="ref-interactive-body">
+                            <table class="excel-table ref-interactive-table" id="refTable">
+                                <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                                <tr><td class="header-cell">1</td><td class="locked-cell">10</td><td>20</td><td>30</td></tr>
+                                <tr><td class="header-cell">2</td><td>40</td><td class="formula-cell ref-cell" data-cell="B2"></td><td class="formula-cell ref-cell" data-cell="C2"></td></tr>
+                                <tr><td class="header-cell">3</td><td></td><td class="formula-cell ref-cell" data-cell="B3"></td><td></td></tr>
+                            </table>
+                            <div class="ref-explain" id="refExplain">
+                                <i class="bi bi-cursor-fill"></i>
+                                <span>Click a formula cell above to see exactly what it does and how it's calculated.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="print-ref-grid">
+                        <div class="print-ref-card">
+                            <div class="print-ref-card-title">A1 — Relative</div>
+                            <table class="excel-table">
+                                <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                                <tr><td class="header-cell">1</td><td class="locked-cell">10</td><td>20</td><td>30</td></tr>
+                                <tr><td class="header-cell">2</td><td>40</td><td class="formula-cell">=A1 <b>(10)</b></td><td class="formula-cell">=B1 <b>(20)</b></td></tr>
+                                <tr><td class="header-cell">3</td><td></td><td class="formula-cell">=A2 <b>(40)</b></td><td></td></tr>
+                            </table>
+                        </div>
+                        <div class="print-ref-card">
+                            <div class="print-ref-card-title">$A$1 — Absolute</div>
+                            <table class="excel-table">
+                                <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                                <tr><td class="header-cell">1</td><td class="locked-cell">10</td><td>20</td><td>30</td></tr>
+                                <tr><td class="header-cell">2</td><td>40</td><td class="result-cell">=$A$1 <b>(10)</b></td><td class="result-cell">=$A$1 <b>(10)</b></td></tr>
+                                <tr><td class="header-cell">3</td><td></td><td class="result-cell">=$A$1 <b>(10)</b></td><td></td></tr>
+                            </table>
+                        </div>
+                        <div class="print-ref-card">
+                            <div class="print-ref-card-title">$A1 — Column locked</div>
+                            <table class="excel-table">
+                                <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                                <tr><td class="header-cell">1</td><td class="locked-cell">10</td><td>20</td><td>30</td></tr>
+                                <tr><td class="header-cell">2</td><td>40</td><td class="formula-cell">=$A1 <b>(10)</b></td><td class="formula-cell">=$A1 <b>(10)</b></td></tr>
+                                <tr><td class="header-cell">3</td><td></td><td class="formula-cell">=$A2 <b>(40)</b></td><td></td></tr>
+                            </table>
+                        </div>
+                        <div class="print-ref-card">
+                            <div class="print-ref-card-title">A$1 — Row locked</div>
+                            <table class="excel-table">
+                                <tr><td class="header-cell"></td><td class="header-cell">A</td><td class="header-cell">B</td><td class="header-cell">C</td></tr>
+                                <tr><td class="header-cell">1</td><td class="locked-cell">10</td><td>20</td><td>30</td></tr>
+                                <tr><td class="header-cell">2</td><td>40</td><td class="formula-cell">=A$1 <b>(10)</b></td><td class="formula-cell">=B$1 <b>(20)</b></td></tr>
+                                <tr><td class="header-cell">3</td><td></td><td class="formula-cell">=A$1 <b>(10)</b></td><td></td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tip" style="margin-top: 16px;"><i class="bi bi-mortarboard-fill"></i> <span><strong>Exam tip:</strong> if you're asked to fix a formula like <code>=COUNTIFS(C2:C101;F2)</code> so it can be dragged down safely, lock the data range like this: <code>=COUNTIFS($C$2:$C$101;F2)</code>.</span></div>
+                </li>
+                </ul>
+            </div>
+
+            <h1 id="regression-heading"><i class="bi bi-graph-up-arrow"></i>Data Analysis Toolpak</h1>
+
+            <div class="section-box" id="regression">
+                <ul>
+                <li id="regression-toolpak">
+                    <div class="topic-title">Regression</div>
+                    <p>Shows how one thing (X) predicts another (Y). Used for the least-squares line and for making predictions.</p>
+
+                    <div class="info-box">
+                        <strong>Setup</strong>
+                        <table class="def-table">
+                            <tr><td>Input Y Range</td><td>The outcome you want to predict.</td></tr>
+                            <tr><td>Input X Range</td><td>The variable you're using to predict it.</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 16px;">
+                        <strong>Reading the output</strong>
+                        <table class="def-table">
+                            <tr><td>Multiple R</td><td>How strongly X and Y are correlated.</td></tr>
+                            <tr><td>R Square</td><td>% of the change in Y explained by X. Higher = better fit.</td></tr>
+                            <tr><td>Observations</td><td>Number of data rows used.</td></tr>
+                            <tr><td>Intercept</td><td>The <code>a</code> in <code>a+bx</code>. It's the starting value, what Y is when X is 0.</td></tr>
+                            <tr><td>X Variable</td><td>The <code>b</code> in <code>a+bx</code>. It's the slope, how much Y changes each time X goes up by 1.</td></tr>
+                        </table>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive reference-type demo (Absolute Referencing section)
+        const refData = {
+            relative: {
+                cells: {
+                    B2: { formula: '=A1', result: 10, explain: "Points at A1, which holds 10. There's no $ sign, so both the column and row are free to shift when the formula moves." },
+                    C2: { formula: '=B1', result: 20, explain: "Dragged one column right, from B to C. The column shifted from A to B, so it now points at B1, which holds 20." },
+                    B3: { formula: '=A2', result: 40, explain: "Dragged one row down, from row 2 to row 3. The row shifted from 1 to 2, so it now points at A2, which holds 40." }
+                }
+            },
+            absolute: {
+                cells: {
+                    B2: { formula: '=<span class="ref-locked">$A$1</span>', result: 10, explain: "Both the column and row are locked with $. This always points at A1, which holds 10, no matter where you put it." },
+                    C2: { formula: '=<span class="ref-locked">$A$1</span>', result: 10, explain: "Dragged one column right, but $A locked the column, so it's still pointing at A1. The result stays 10." },
+                    B3: { formula: '=<span class="ref-locked">$A$1</span>', result: 10, explain: "Dragged one row down, but $1 locked the row, so it's still pointing at A1. The result stays 10." }
+                }
+            },
+            colLocked: {
+                cells: {
+                    B2: { formula: '=<span class="ref-locked">$A</span>1', result: 10, explain: "The $ before A locks the column. The row (1) has no $, so it's still free to shift. Right now it points at A1, which holds 10." },
+                    C2: { formula: '=<span class="ref-locked">$A</span>1', result: 10, explain: "Dragged one column right, but the column is locked with $A, so it's still pointing at A1. Without the lock, this would have shifted to B1 and returned 20 instead." },
+                    B3: { formula: '=<span class="ref-locked">$A</span>2', result: 40, explain: "Dragged one row down. The row isn't locked, so it shifted to row 2. The column stayed A, so it now points at A2, which holds 40." }
+                }
+            },
+            rowLocked: {
+                cells: {
+                    B2: { formula: '=A<span class="ref-locked">$1</span>', result: 10, explain: "The $ before 1 locks the row. The column (A) has no $, so it's still free to shift. Right now it points at A1, which holds 10." },
+                    C2: { formula: '=B<span class="ref-locked">$1</span>', result: 20, explain: "Dragged one column right. The column isn't locked, so it shifted from A to B. The row stayed 1, so it now points at B1, which holds 20." },
+                    B3: { formula: '=A<span class="ref-locked">$1</span>', result: 10, explain: "Dragged one row down, but the row is locked with $1, so it's still pointing at A1. Without the lock, this would have shifted to A2 and returned 40 instead." }
+                }
+            }
+        };
+
+        const refTabs = document.getElementById('refTabs');
+        const refTable = document.getElementById('refTable');
+        const refExplain = document.getElementById('refExplain');
+        let currentRefType = 'relative';
+
+        function renderRefTable(type) {
+            currentRefType = type;
+            refTable.querySelectorAll('.ref-cell').forEach(cell => {
+                const cellId = cell.getAttribute('data-cell');
+                cell.innerHTML = refData[type].cells[cellId].formula;
+                cell.classList.remove('selected');
+            });
+            refExplain.innerHTML = '<i class="bi bi-cursor-fill"></i><span>Click a formula cell above to see exactly what it does and how it\'s calculated.</span>';
+        }
+
+        refTabs.querySelectorAll('.ref-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                refTabs.querySelectorAll('.ref-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderRefTable(tab.getAttribute('data-type'));
+            });
+        });
+
+        refTable.querySelectorAll('.ref-cell').forEach(cell => {
+            cell.addEventListener('click', () => {
+                refTable.querySelectorAll('.ref-cell').forEach(c => c.classList.remove('selected'));
+                cell.classList.add('selected');
+                const cellId = cell.getAttribute('data-cell');
+                const info = refData[currentRefType].cells[cellId];
+                refExplain.innerHTML = '<i class="bi bi-info-circle-fill"></i><span><strong>' + info.formula + '</strong><span class="ref-result-badge">= ' + info.result + '</span><span class="ref-explain-body">' + info.explain + '</span></span>';
+            });
+        });
+
+        renderRefTable('relative');
+
+        const introBanner = document.getElementById('introBanner');
+        const introBannerClose = document.getElementById('introBannerClose');
+        introBannerClose.addEventListener('click', () => {
+            introBanner.classList.add('hidden');
+        });
+
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const navLinks = Array.from(document.querySelectorAll('.sidebar-link, .sidebar-group-title'));
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+        });
+        overlay.addEventListener('click', closeSidebar);
+        navLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+        // Scrollspy: highlight the nav link for whichever item is in view
+        const targets = navLinks
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = '#' + entry.target.id;
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === id);
+                    });
+                }
+            });
+        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+        targets.forEach(target => observer.observe(target));
+    </script>
 </body>
 </html>
