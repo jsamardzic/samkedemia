@@ -22,7 +22,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <style>
 /* --- Theming Variables --- */
 :root {
@@ -281,6 +284,7 @@ input:focus {
 .variables input {
     width: 40px;
     font-family: 'IBM Plex Mono', monospace;
+    text-align: center;
 }
 
 #obj-fn-name {
@@ -547,7 +551,7 @@ input:focus {
     color: #252f3f;
 }
 
-.paper #step2 h2 { cursor: pointer; }
+#step2 h2 { cursor: pointer; }
 
 .paper h2 i {
     font-size: 18px;
@@ -649,6 +653,10 @@ input:focus {
     border-radius: 4px;
     text-align: center;
     margin-top: 1px;
+}
+
+.step5-card .breakdown-label {
+    min-width: 150px;
 }
 
 .breakdown-content { color: #3c4858; }
@@ -765,7 +773,7 @@ input:focus {
 .target-function-inputs {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     font-size: 18px;
     flex-wrap: wrap;
 }
@@ -1333,9 +1341,17 @@ input:focus {
 
     // Make Step 2 card collapsible
     const step2Header = document.getElementById('step2-header');
+    const step2HeaderIcon = step2Header.querySelector('i');
+    function syncStep2Icon() {
+      const collapsed = step2Div.classList.contains('collapsed');
+      step2HeaderIcon.classList.toggle('bi-chevron-down', !collapsed);
+      step2HeaderIcon.classList.toggle('bi-chevron-right', collapsed);
+    }
     step2Header.addEventListener('click', () => {
       step2Div.classList.toggle('collapsed');
+      syncStep2Icon();
     });
+    syncStep2Icon();
 
     document.getElementById('exportPdfBtn').addEventListener('click', () => {
       // Fill in the print-only header: which exercise this is (if any) and today's date.
@@ -1350,6 +1366,7 @@ input:focus {
       // so they actually redraw at their real, visible dimensions.
       const wasCollapsed = step2Div.classList.contains('collapsed');
       if (wasCollapsed) step2Div.classList.remove('collapsed');
+      syncStep2Icon();
 
       requestAnimationFrame(() => {
         [feasibleRegionChart, staticFeasibleRegionChart, step6Chart].forEach(chart => {
@@ -1360,6 +1377,7 @@ input:focus {
 
       const restoreCollapsedState = () => {
         if (wasCollapsed) step2Div.classList.add('collapsed');
+        syncStep2Icon();
         window.removeEventListener('afterprint', restoreCollapsedState);
       };
       window.addEventListener('afterprint', restoreCollapsedState);
@@ -1512,7 +1530,7 @@ input:focus {
       const ctx = chart.ctx;
       const y = (chart.chartArea.top + chart.chartArea.bottom) / 2;
       ctx.save();
-      ctx.font = '400 14px "Atkinson Hyperlegible", sans-serif';
+      ctx.font = 'italic 500 15px "STIX Two Text", serif';
       ctx.fillStyle = '#0c3840';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -1525,6 +1543,26 @@ input:focus {
       if (name.includes("_")) {
         const parts = name.split("_");
         return parts[0] + "<sub>" + parts[1] + "</sub>";
+      }
+      return name;
+    }
+
+    // Renders a LaTeX string to HTML via KaTeX, inline in the flow of text.
+    function M(tex) {
+      try {
+        return katex.renderToString(tex, { throwOnError: false, output: 'html' });
+      } catch (e) {
+        return tex;
+      }
+    }
+
+    // "q_1" -> "q_1" (already valid LaTeX subscript syntax); "q_12" -> "q_{12}"
+    // so multi-character subscripts don't silently truncate to one character.
+    function latexVar(name) {
+      name = (name || '').trim();
+      if (name.includes('_')) {
+        const [base, sub] = name.split('_');
+        return sub.length > 1 ? `${base}_{${sub}}` : `${base}_${sub}`;
       }
       return name;
     }
@@ -1561,13 +1599,17 @@ input:focus {
 
       // Update target function variable names
       const fnName = objFnNameInput.value || 'T';
-      document.getElementById('obj-fn-text-1').innerHTML = `${fnName}(${formatVar(var1Input.value)}, ${formatVar(var2Input.value)}) &nbsp;=&nbsp; `;
-      document.getElementById('obj-fn-text-2').innerHTML = ` ${formatVar(var1Input.value)} + `;
-      document.getElementById('obj-fn-text-3').innerHTML = ` ${formatVar(var2Input.value)} + `;
+      const v1Lp = latexVar(var1Input.value || "q_1");
+      const v2Lp = latexVar(var2Input.value || "q_2");
+      const v1Katex = M(v1Lp);
+      const v2Katex = M(v2Lp);
+      document.getElementById('obj-fn-text-1').innerHTML = M(`\\text{${fnName}}(${v1Lp}, ${v2Lp}) =`);
+      document.getElementById('obj-fn-text-2').innerHTML = M(`${v1Lp} +`);
+      document.getElementById('obj-fn-text-3').innerHTML = M(`${v2Lp} +`);
 
 
-      const v1 = formatVar(var1Input.value || "q_1");
-      const v2 = formatVar(var2Input.value || "q_2");
+      const v1 = v1Katex;
+      const v2 = v2Katex;
 
       constraintsList.forEach((c, index) => {
         const div = document.createElement("div");
@@ -1587,7 +1629,7 @@ input:focus {
           span.insertAdjacentHTML('beforeend', `${v2} `);
         } else { // Standard linear combination for all other constraints
           span.appendChild(createConstraintInput(c.c1, index, 'c1'));
-          span.insertAdjacentHTML('beforeend', `&nbsp;${v1} + `);
+          span.insertAdjacentHTML('beforeend', `&nbsp;${v1}<span style="margin: 0 8px;">${M('+')}</span>`);
 
           span.appendChild(createConstraintInput(c.c2, index, 'c2'));
           span.insertAdjacentHTML('beforeend', `&nbsp;${v2} `);
@@ -1597,7 +1639,7 @@ input:focus {
         if (index > 1) {
           const signButton = document.createElement('button');
           signButton.className = 'constraint-sign';
-          signButton.innerHTML = c.sign === 'le' ? '&le;' : '&ge;';
+          signButton.innerHTML = M(c.sign === 'le' ? '\\le' : '\\ge');
           signButton.onclick = () => {
               constraintsList[index].sign = constraintsList[index].sign === 'le' ? 'ge' : 'le';
               document.getElementById('current-exercise-display').textContent = '';
@@ -1607,7 +1649,7 @@ input:focus {
         } else {
           const signSpan = document.createElement('span');
           signSpan.className = 'constraint-sign-disabled';
-          signSpan.innerHTML = '&ge;';
+          signSpan.innerHTML = M('\\ge');
           span.appendChild(signSpan);
         }
 
@@ -1659,6 +1701,11 @@ input:focus {
       const v2_raw = var2Input.value || "q_2";
       const v1 = formatVar(v1_raw);
       const v2 = formatVar(v2_raw);
+      const v1L = latexVar(v1_raw);
+      const v2L = latexVar(v2_raw);
+      const v1M = M(v1L);
+      const v2M = M(v2L);
+      const ARROW = '\\quad \\Rightarrow \\quad';
 
       // --- Create Step 1: Variables ---
       const step1Container = document.createElement('div');
@@ -1666,8 +1713,8 @@ input:focus {
         <h3 class="step-heading"><span class="step-num-badge">1</span> Variables</h3>
         <p class="step-subtitle">Define what each variable represents and include real-world units in actual problems.</p>
         <div class="var-display">
-          <span class="var-chip">${v1}</span>
-          <span class="var-chip">${v2}</span>
+          <span class="var-chip">${v1M}</span>
+          <span class="var-chip">${v2M}</span>
         </div>
       `;
       inequalitiesBreakdownDiv.appendChild(step1Container);
@@ -1686,42 +1733,46 @@ input:focus {
         const container = document.createElement('div');
         container.className = 'inequality-card';
 
-        const headerText = formatConstraint(c, v1, v2);
+        const headerText = M(formatConstraint(c, v1L, v2L));
 
         let boundaryLineHTML = '';
         if (c.c1 === 0 && c.c2 !== 0) {
           const val = formatNumber(c.rhs / c.c2);
-          boundaryLineHTML = `<strong>${v2} = ${val}</strong><div style="margin-top:4px;font-size:13px;color:#475569;">Horizontal line — ${v2} is always ${val}.</div>`;
+          const lineEq = `<strong style="font-size: 16px;">${M(`${v2L} = ${val}`)}</strong>`;
+          const note = `<div class="derivation-box" style="margin-top:10px;">
+            <div class="derivation-description">Horizontal line:</div><div class="derivation-equation">${M(`${v2L} \\text{ is always } ${val}`)}</div>
+          </div>`;
+          boundaryLineHTML = `${lineEq}${note}`;
         } else if (c.c1 !== 0 && c.c2 === 0) {
           const val = formatNumber(c.rhs / c.c1);
-          boundaryLineHTML = `<strong>${v1} = ${val}</strong><div style="margin-top:4px;font-size:13px;color:#475569;">Vertical line — ${v1} is always ${val}.</div>`;
+          const lineEq = `<strong style="font-size: 16px;">${M(`${v1L} = ${val}`)}</strong>`;
+          const note = `<div class="derivation-box" style="margin-top:10px;">
+            <div class="derivation-description">Vertical line:</div><div class="derivation-equation">${M(`${v1L} \\text{ is always } ${val}`)}</div>
+          </div>`;
+          boundaryLineHTML = `${lineEq}${note}`;
         } else {
-          const terms = [];
-          if (c.c1 !== 0) terms.push(c.c1 === 1 ? `1&middot;${v1}` : (c.c1 === -1 ? `-1&middot;${v1}` : `${formatNumber(c.c1)}&middot;${v1}`));
+          const termsL = [];
+          if (c.c1 !== 0) termsL.push(c.c1 === 1 ? v1L : (c.c1 === -1 ? `-${v1L}` : `${formatNumber(c.c1)}${v1L}`));
           if (c.c2 !== 0) {
-            if (terms.length > 0 && c.c2 > 0) terms.push('+');
-            terms.push(c.c2 === 1 ? `1&middot;${v2}` : (c.c2 === -1 ? `-1&middot;${v2}` : `${formatNumber(c.c2)}&middot;${v2}`));
+            if (termsL.length > 0 && c.c2 > 0) termsL.push('+');
+            termsL.push(c.c2 === 1 ? v2L : (c.c2 === -1 ? `-${v2L}` : `${formatNumber(c.c2)}${v2L}`));
           }
-          const lineEq = `<strong>${terms.join(' ')} = ${formatNumber(c.rhs)}</strong>`;
-          const yInt = (c.c2 !== 0) ? `<div style="margin-top:6px;">
-              <span style="font-weight:600;color:#475569;font-size:12px;">Set ${v1} = 0:</span>&ensp;${formatNumber(c.c2)}&middot;${v2} = ${formatNumber(c.rhs)} &rarr; <strong>(0, ${formatNumber(c.rhs/c.c2)})</strong>
-            </div>` : '';
-          const xInt = (c.c1 !== 0) ? `<div style="margin-top:4px;">
-              <span style="font-weight:600;color:#475569;font-size:12px;">Set ${v2} = 0:</span>&ensp;${formatNumber(c.c1)}&middot;${v1} = ${formatNumber(c.rhs)} &rarr; <strong>(${formatNumber(c.rhs/c.c1)}, 0)</strong>
-            </div>` : '';
-          boundaryLineHTML = `${lineEq}<div style="font-size:13px;">${xInt}${yInt}</div>`;
+          const lineEq = `<strong style="font-size: 16px;">${M(`${termsL.join(' ')} = ${formatNumber(c.rhs)}`)}</strong>`;
+          const yInt = (c.c2 !== 0) ? `<div class="derivation-description">${M(`\\text{Set } ${v1L} = 0`)}</div><div class="derivation-equation">${M(`${formatNumber(c.c2)}${v2L} = ${formatNumber(c.rhs)} ${ARROW} (0,\\ ${formatNumber(c.rhs/c.c2)})`)}</div>` : '';
+          const xInt = (c.c1 !== 0) ? `<div class="derivation-description">${M(`\\text{Set } ${v2L} = 0`)}</div><div class="derivation-equation">${M(`${formatNumber(c.c1)}${v1L} = ${formatNumber(c.rhs)} ${ARROW} (${formatNumber(c.rhs/c.c1)},\\ 0)`)}</div>` : '';
+          const intercepts = (xInt || yInt) ? `<div class="derivation-box" style="margin-top:10px;">${xInt}${yInt}</div>` : '';
+          boundaryLineHTML = `${lineEq}${intercepts}`;
         }
 
         let testPoint = { x: 0, y: 0 };
-        let testPointLabel = '(0, 0)';
-        if (c.rhs === 0) { testPoint = { x: 1, y: 1 }; testPointLabel = '(1, 1)'; }
+        if (c.rhs === 0) { testPoint = { x: 1, y: 1 }; }
 
         const testVal = c.c1 * testPoint.x + c.c2 * testPoint.y;
         const testPasses = c.sign === 'le' ? (testVal <= c.rhs) : (testVal >= c.rhs);
-        const signStr = c.sign === 'le' ? '≤' : '≥';
+        const signL = c.sign === 'le' ? '\\le' : '\\ge';
         const resultColor = testPasses ? '#16a34a' : '#dc2626';
-        const resultStr = testPasses ? '✓ True' : '✗ False';
-        const testPointResult = `${formatNumber(c.c1)}·${testPoint.x} + ${formatNumber(c.c2)}·${testPoint.y} ${signStr} ${formatNumber(c.rhs)} &rarr; <strong style="color:${resultColor};">${resultStr}</strong>`;
+        const resultL = testPasses ? '\\checkmark\\ \\text{True}' : '\\times\\ \\text{False}';
+        const testPointResult = M(`(${testPoint.x},\\ ${testPoint.y}):\\quad ${formatNumber(c.c1)}(${testPoint.x}) + ${formatNumber(c.c2)}(${testPoint.y}) ${signL} ${formatNumber(c.rhs)} ${ARROW} \\textcolor{${resultColor}}{${resultL}}`);
 
         let region;
         if (c.c1 !== 0 && c.c2 === 0) {
@@ -1742,24 +1793,22 @@ input:focus {
 
         if (c.type === 'base') {
           if (c.text.includes("v1")) {
-            boundaryLineHTML = `<strong>${v1} = 0</strong> <span style="color:#475569;">(vertical axis)</span>`;
-            testPointLabel = '(1, 0)';
+            boundaryLineHTML = `<strong>${M(`${v1L} = 0`)}</strong> <span style="color:#475569;">(vertical axis)</span>`;
             region = `Area to the <strong>left</strong> of the line.`;
-            const tpr = `1 ≥ 0 &rarr; <strong style="color:#16a34a;">✓ True</strong>`;
+            const tpr = M(`(1,\\ 0):\\quad 1 \\ge 0 ${ARROW} \\textcolor{#16a34a}{\\checkmark\\ \\text{True}}`);
             container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
               <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
-              <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${tpr}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Test</span><span class="breakdown-content">${tpr}</span></div>
               <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
             cardsGridContainer.appendChild(container);
             return;
           } else {
-            boundaryLineHTML = `<strong>${v2} = 0</strong> <span style="color:#475569;">(horizontal axis)</span>`;
-            testPointLabel = '(0, 1)';
+            boundaryLineHTML = `<strong>${M(`${v2L} = 0`)}</strong> <span style="color:#475569;">(horizontal axis)</span>`;
             region = `Area <strong>below</strong> the line.`;
-            const tpr = `1 ≥ 0 &rarr; <strong style="color:#16a34a;">✓ True</strong>`;
+            const tpr = M(`(0,\\ 1):\\quad 1 \\ge 0 ${ARROW} \\textcolor{#16a34a}{\\checkmark\\ \\text{True}}`);
             container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
               <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
-              <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${tpr}</span></div>
+              <div class="breakdown-item"><span class="breakdown-label">Test</span><span class="breakdown-content">${tpr}</span></div>
               <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
             cardsGridContainer.appendChild(container);
             return;
@@ -1768,7 +1817,7 @@ input:focus {
 
         container.innerHTML = `<div class="card-header-constraint">(${index + 1}) ${headerText}</div>
           <div class="breakdown-item"><span class="breakdown-label">Boundary</span><span class="breakdown-content">${boundaryLineHTML}</span></div>
-          <div class="breakdown-item"><span class="breakdown-label">Test ${testPointLabel}</span><span class="breakdown-content">${testPointResult}</span></div>
+          <div class="breakdown-item"><span class="breakdown-label">Test</span><span class="breakdown-content">${testPointResult}</span></div>
           <div class="breakdown-item"><span class="breakdown-label">Remove</span><span class="breakdown-content">${region}</span></div>`;
         cardsGridContainer.appendChild(container);
       });
@@ -1806,21 +1855,26 @@ input:focus {
       const v2_raw = var2Input.value || "q_2";
       const v1 = formatVar(v1_raw);
       const v2 = formatVar(v2_raw);
-      let targetFnString = `${fnName}(${v1}, ${v2}) = `;
+      const v1L = latexVar(v1_raw);
+      const v2L = latexVar(v2_raw);
+      const v1M = M(v1L);
+      const v2M = M(v2L);
+      const ARROW = '\\quad \\Rightarrow \\quad';
+
       const terms = [];
-      if (a !== 0) terms.push(a === 1 ? `1&middot;${v1}` : (a === -1 ? `-1&middot;${v1}` : `${formatNumber(a)}&middot;${v1}`));
+      if (a !== 0) terms.push(a === 1 ? v1L : (a === -1 ? `-${v1L}` : `${formatNumber(a)}${v1L}`));
       if (b !== 0) {
           if (terms.length > 0 && b > 0) terms.push('+');
-          terms.push(b === 1 ? `1&middot;${v2}` : (b === -1 ? `-1&middot;${v2}` : `${formatNumber(b)}&middot;${v2}`));
+          terms.push(b === 1 ? v2L : (b === -1 ? `-${v2L}` : `${formatNumber(b)}${v2L}`));
       }
       if (c_offset !== 0) {
           if (terms.length > 0 && c_offset > 0) terms.push('+');
           terms.push(formatNumber(c_offset));
       }
       if (terms.length === 0) terms.push('0');
-      targetFnString += terms.join(' ');
+      const targetFnLatex = `${fnName}(${v1L}, ${v2L}) = ${terms.join(' ')}`;
 
-      targetFnContainer.innerHTML = `<span class="breakdown-label">Function</span><span class="breakdown-content" style="font-size: 16px; font-family: 'IBM Plex Mono', monospace;">${targetFnString}</span>`;
+      targetFnContainer.innerHTML = `<span class="breakdown-label">Function</span><span class="breakdown-content" style="font-size: 18px;">${M(targetFnLatex)}</span>`;
       step4Container.appendChild(targetFnContainer);
 
       const mode = document.querySelector('#optimization-mode-toggle .segmented-btn.active').dataset.mode;
@@ -1836,45 +1890,43 @@ input:focus {
             levelVar = 'L'; // Use 'L' if 'a' is already a variable name
         }
 
-        const initialTargetFnTerms = [];
-        if (a !== 0) initialTargetFnTerms.push(a === 1 ? `1&middot;${v1}` : (a === -1 ? `-1&middot;${v1}` : `${formatNumber(a)}&middot;${v1}`));
-        if (b !== 0) {
-            if (initialTargetFnTerms.length > 0 && b > 0) initialTargetFnTerms.push('+');
-            initialTargetFnTerms.push(b === 1 ? `1&middot;${v2}` : (b === -1 ? `-1&middot;${v2}` : `${formatNumber(b)}&middot;${v2}`));
-        }
-        if (c_offset !== 0) {
-            if (initialTargetFnTerms.length > 0 && c_offset > 0) initialTargetFnTerms.push('+');
-            initialTargetFnTerms.push(formatNumber(c_offset));
-        }
-        const initialTargetFnString = `${initialTargetFnTerms.join(' ')} = ${levelVar}`;
+        const initialTargetFnLatex = `${terms.join(' ')} = ${levelVar}`;
 
         const step5Container = document.createElement('div');
         let step5HTML = `<h3 class="step-heading"><span class="step-num-badge">5</span> Contour Line Equation</h3>
-            <p class="step-subtitle">Set the objective equal to an arbitrary level '${levelVar}' and isolate ${v2} to expose the slope. All contour lines are parallel and share this slope.</p>`;
+            <p class="step-subtitle">Set the objective equal to an arbitrary level '${levelVar}' and isolate ${v2M} to expose the slope. All contour lines are parallel and share this slope.</p>`;
 
         const derivationSteps = [];
+        let finalEquation = '';
 
         if (b !== 0) {
-            const slope_frac = `(-${formatNumber(a)} / ${formatNumber(b)})`;
-            const intercept_frac = `(${levelVar} - ${formatNumber(c_offset)}) / ${formatNumber(b)}`;
             const slope_dec = formatNumber(-a / b);
 
             const c_offset_term_isolate = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
             const c_offset_term_frac = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
             const c_offset_term_dec = c_offset !== 0 ? ` - ${formatNumber(c_offset/b)}` : '';
 
-            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${initialTargetFnString}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Isolate ${v2}:</div><div class="derivation-equation">${formatNumber(b)}&middot;${v2} = -${formatNumber(a)}&middot;${v1} + ${levelVar}${c_offset_term_isolate}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Solve for ${v2}:</div><div class="derivation-equation">${v2} = ${slope_frac}&middot;${v1} + (${levelVar}${c_offset_term_frac}) / ${formatNumber(b)}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Final equation:</div><div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${formatNumber(1/b)}&middot;${levelVar}${c_offset_term_dec}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${M(initialTargetFnLatex)}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Isolate ${v2M}:</div><div class="derivation-equation">${M(`${formatNumber(b)}${v2L} = -${formatNumber(a)}${v1L} + ${levelVar}${c_offset_term_isolate}`)}</div>`);
+            derivationSteps.push(`<div class="derivation-description">Solve for ${v2M}:</div><div class="derivation-equation">${M(`${v2L} = \\left(\\dfrac{-${formatNumber(a)}}{${formatNumber(b)}}\\right)${v1L} + \\dfrac{${levelVar}${c_offset_term_frac}}{${formatNumber(b)}}`)}</div>`);
 
-            step5HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
+            finalEquation = M(`${v2L} = ${slope_dec}${v1L} + ${formatNumber(1/b)}${levelVar}${c_offset_term_dec}`);
+
+            step5HTML += `<div class="inequality-card step5-card">
+                <div class="breakdown-item"><span class="breakdown-label">Solve for Y</span><span class="breakdown-content"><div class="derivation-box">${derivationSteps.join('')}</div></span></div>
+                <div class="breakdown-item"><span class="breakdown-label">Contour Line Equation</span><span class="breakdown-content">${finalEquation}</span></div>
+            </div>`;
         } else if (a !== 0) { // Handle vertical contour lines
             const c_offset_term_vertical = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
 
-            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${initialTargetFnString}</div>`);
-            derivationSteps.push(`<div class="derivation-description">Solve for ${v1}:</div><div class="derivation-equation">${v1} = (${levelVar}${c_offset_term_vertical}) / ${formatNumber(a)}</div>`);
-            step5HTML += `<div class="derivation-box">${derivationSteps.join('')}</div>`;
+            derivationSteps.push(`<div class="derivation-description">Start with function:</div><div class="derivation-equation">${M(initialTargetFnLatex)}</div>`);
+
+            finalEquation = M(`${v1L} = \\dfrac{${levelVar}${c_offset_term_vertical}}{${formatNumber(a)}}`);
+
+            step5HTML += `<div class="inequality-card step5-card">
+                <div class="breakdown-item"><span class="breakdown-label">Solve for X</span><span class="breakdown-content"><div class="derivation-box">${derivationSteps.join('')}</div></span></div>
+                <div class="breakdown-item"><span class="breakdown-label">Contour Line Equation</span><span class="breakdown-content">${finalEquation}</span></div>
+            </div>`;
         }
         step5Container.innerHTML = step5HTML;
         inequalitiesBreakdownDiv.appendChild(step5Container);
@@ -1882,7 +1934,7 @@ input:focus {
       // --- Create Step 6: Determine Direction of Improvement ---
       const step6Container = document.createElement('div');
       let step6HTML = `<h3 class="step-heading"><span class="step-num-badge">6</span> Direction of Improvement</h3>
-        <p class="step-subtitle">Pick two level values for '${levelVar}' — the minimum and maximum objective values at the feasible vertices — so both contour lines fall clearly within the graph. Graph each by finding its axis intercepts. The shift between the two lines reveals which direction to move when optimizing.</p>`;
+        <p class="step-subtitle">Look at the graph to see the visible range of ${v2M} values. Pick two convenient intercepts within that range, work out the level '${levelVar}' each one corresponds to, then graph both lines. The shift between them reveals which direction to move when optimizing.</p>`;
 
       // Use actual objective values at the feasible vertices so sample lines are meaningful
       const allObjValsForLevel = feasibleVertices.map(v => a * v.x + b * v.y + c_offset);
@@ -1898,66 +1950,88 @@ input:focus {
       if (b !== 0) { // Standard case with a slope
         const slope_dec = formatNumber(-a / b);
         const slope_num = -a / b;
-        const int1_num = (level1 - c_offset) / b;
-        const int2_num = (level2 - c_offset) / b;
-        const intercept1 = formatNumber(int1_num);
-        const intercept2 = formatNumber(int2_num);
+        const c_offset_term_frac = c_offset !== 0 ? ` - ${formatNumber(c_offset)}` : '';
 
-        // Origin case: when intercept = 0 the line passes through (0,0) — need another point
-        const isOrigin1 = Math.abs(int1_num) < 1e-9;
-        const isOrigin2 = Math.abs(int2_num) < 1e-9;
+        // Use the two objective levels at the feasible vertices (level1/level2,
+        // computed above) so the lines actually fall near the region — same
+        // levels the chart below graphs. Read off each line's y-intercept first
+        // (as if we'd picked it straight off the graph), then work out the
+        // level it corresponds to.
+        const intercept1_num = (level1 - c_offset) / b;
+        const intercept2_num = (level2 - c_offset) / b;
+        const intercept1 = formatNumber(intercept1_num);
+        const intercept2 = formatNumber(intercept2_num);
+        const chosenLevel1 = level1;
+        const chosenLevel2 = level2;
 
-        const yIntRow1 = isOrigin1
-          ? `<div class="derivation-description">Through (0,0):</div>
-             <div class="derivation-equation">Pick ${v1} = 1 &rarr; ${v2} = ${formatNumber(slope_num)} &rarr; point <strong>(1, ${formatNumber(slope_num)})</strong></div>`
-          : `<div class="derivation-description">Set ${v1} = 0:</div>
-             <div class="derivation-equation">${v1} = 0 &rarr; ${v2} = ${intercept1} &rarr; point <strong>(0, ${intercept1})</strong></div>`;
-        const yIntRow2 = isOrigin2
-          ? `<div class="derivation-description">Through (0,0):</div>
-             <div class="derivation-equation">Pick ${v1} = 1 &rarr; ${v2} = ${formatNumber(slope_num)} &rarr; point <strong>(1, ${formatNumber(slope_num)})</strong></div>`
-          : `<div class="derivation-description">Set ${v1} = 0:</div>
-             <div class="derivation-equation">${v1} = 0 &rarr; ${v2} = ${intercept2} &rarr; point <strong>(0, ${intercept2})</strong></div>`;
+        // Objective equation with x = 0 and y = intercept substituted in, e.g. "4(0) + 2(500)"
+        const substitutedTerms = (interceptStr) => {
+          const parts = [];
+          if (a !== 0) parts.push(`${formatNumber(a)}(0)`);
+          if (b !== 0) {
+            if (parts.length > 0) parts.push('+');
+            parts.push(`${formatNumber(b)}(${interceptStr})`);
+          }
+          if (c_offset !== 0) {
+            if (parts.length > 0 && c_offset > 0) parts.push('+');
+            parts.push(formatNumber(c_offset));
+          }
+          return parts.join(' ');
+        };
 
-        const xInt1Val = formatNumber(-int1_num / slope_num);
-        const xInt2Val = formatNumber(-int2_num / slope_num);
-        const xIntRow1 = (a !== 0 && !isOrigin1) ? `
-          <div class="derivation-description">Set ${v2} = 0:</div>
-          <div class="derivation-equation">${v2} = 0 &rarr; ${v1} = ${xInt1Val} &rarr; point <strong>(${xInt1Val}, 0)</strong></div>` : '';
-        const xIntRow2 = (a !== 0 && !isOrigin2) ? `
-          <div class="derivation-description">Set ${v2} = 0:</div>
-          <div class="derivation-equation">${v2} = 0 &rarr; ${v1} = ${xInt2Val} &rarr; point <strong>(${xInt2Val}, 0)</strong></div>` : '';
+        const levelLatex = (interceptStr, levelVal) =>
+          `${initialTargetFnLatex} ${ARROW} ${levelVar} = ${substitutedTerms(interceptStr)} ${ARROW} ${levelVar} = ${formatNumber(levelVal)}`;
 
+        const equationLatex = (interceptStr) =>
+          `${v2L} = ${slope_dec}${v1L} + \\dfrac{${levelVar}${c_offset_term_frac}}{${formatNumber(b)}} ${ARROW} ${v2L} = ${slope_dec}${v1L} + ${interceptStr}`;
+
+        const xInt1Val = a !== 0 ? formatNumber(-intercept1_num / slope_num) : null;
+        const xInt2Val = a !== 0 ? formatNumber(-intercept2_num / slope_num) : null;
+
+        const interceptsBox = (interceptStr, xVal) => `
+          <div class="derivation-description">${M(`\\text{Set } ${v1L} = 0`)}</div>
+          <div class="derivation-equation">${M(`${v1L} = 0 ${ARROW} ${v2L} = ${interceptStr}`)}</div>
+          ${xVal !== null ? `<div class="derivation-description">${M(`\\text{Set } ${v2L} = 0`)}</div>
+          <div class="derivation-equation">${M(`${v2L} = 0 ${ARROW} ${v1L} = ${xVal}`)}</div>` : ''}
+        `;
+
+        directionStepsContainer.className = 'inequality-cards-grid';
         directionStepsContainer.innerHTML = `
-          <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${formatNumber(level1)}:</div>
-            <div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${intercept1}</div>
-            ${yIntRow1}
-            ${xIntRow1}
+          <div class="inequality-card">
+            <div class="card-header-constraint">Line 1</div>
+            <div class="breakdown-item"><span class="breakdown-label">Intercept</span><span class="breakdown-content">${M(`${v2L} = ${intercept1}`)}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Level ${levelVar}</span><span class="breakdown-content">${M(levelLatex(intercept1, chosenLevel1))}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Equation</span><span class="breakdown-content">${M(equationLatex(intercept1))}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Intercepts</span><span class="breakdown-content"><div class="derivation-box">${interceptsBox(intercept1, xInt1Val)}</div></span></div>
           </div>
-          <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${formatNumber(level2)}:</div>
-            <div class="derivation-equation">${v2} = ${slope_dec}&middot;${v1} + ${intercept2}</div>
-            ${yIntRow2}
-            ${xIntRow2}
+          <div class="inequality-card">
+            <div class="card-header-constraint">Line 2</div>
+            <div class="breakdown-item"><span class="breakdown-label">Intercept</span><span class="breakdown-content">${M(`${v2L} = ${intercept2}`)}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Level ${levelVar}</span><span class="breakdown-content">${M(levelLatex(intercept2, chosenLevel2))}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Equation</span><span class="breakdown-content">${M(equationLatex(intercept2))}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Intercepts</span><span class="breakdown-content"><div class="derivation-box">${interceptsBox(intercept2, xInt2Val)}</div></span></div>
           </div>
         `;
 
-        const y_intercept_change = int2_num - int1_num;
+        const y_intercept_change = intercept2_num - intercept1_num;
         const moveDirection = y_intercept_change > 0 ? 'up' : 'down';
-        directionConclusion = `As '${levelVar}' increases from ${formatNumber(level1)} to ${formatNumber(level2)}, the y-intercept shifts ${moveDirection === 'up' ? 'from ' + intercept1 + ' to ' + intercept2 : 'from ' + intercept1 + ' to ' + intercept2}, so the line moves <strong>${moveDirection}</strong>.`;
+        directionConclusion = `As the intercept moves from ${intercept1} to ${intercept2}, the level '${levelVar}' goes from ${formatNumber(chosenLevel1)} to ${formatNumber(chosenLevel2)}, so the line moves <strong>${moveDirection}</strong>.`;
 
       } else if (a !== 0) { // Vertical lines
         const x_val1 = formatNumber((level1 - c_offset) / a);
         const x_val2 = formatNumber((level2 - c_offset) / a);
 
+        directionStepsContainer.className = 'inequality-cards-grid';
         directionStepsContainer.innerHTML = `
-          <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${formatNumber(level1)}:</div>
-            <div class="derivation-equation">${v1} = ${x_val1} &nbsp;&nbsp; (vertical line)</div>
+          <div class="inequality-card">
+            <div class="card-header-constraint">For ${levelVar} = ${formatNumber(level1)}</div>
+            <div class="breakdown-item"><span class="breakdown-label">Equation</span><span class="breakdown-content">${M(`${v1L} = ${x_val1}`)}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Note</span><span class="breakdown-content"><div class="derivation-box"><div class="derivation-description">Vertical line:</div><div class="derivation-equation">${M(`${v1L} \\text{ is always } ${x_val1}`)}</div></div></span></div>
           </div>
-          <div class="derivation-box">
-            <div class="derivation-description">For ${levelVar} = ${formatNumber(level2)}:</div>
-            <div class="derivation-equation">${v1} = ${x_val2} &nbsp;&nbsp; (vertical line)</div>
+          <div class="inequality-card">
+            <div class="card-header-constraint">For ${levelVar} = ${formatNumber(level2)}</div>
+            <div class="breakdown-item"><span class="breakdown-label">Equation</span><span class="breakdown-content">${M(`${v1L} = ${x_val2}`)}</span></div>
+            <div class="breakdown-item"><span class="breakdown-label">Note</span><span class="breakdown-content"><div class="derivation-box"><div class="derivation-description">Vertical line:</div><div class="derivation-equation">${M(`${v1L} \\text{ is always } ${x_val2}`)}</div></div></span></div>
           </div>
         `;
         const x_val_change = (level2 - c_offset) / a - (level1 - c_offset) / a;
@@ -1981,12 +2055,9 @@ input:focus {
         // shaded region and the two contour lines to explain the direction of improvement.
         const step6Datasets = JSON.parse(JSON.stringify(datasets)).filter(d => d.label !== 'Contour Line' && !d.label.startsWith('Constraint ('));
 
-        // Use actual objective value range at vertices so contour lines are always visible
-        const allObjVals = feasibleVertices.map(v => a * v.x + b * v.y + c_offset);
-        const minObjVal = allObjVals.length > 0 ? Math.min(...allObjVals) : level1;
-        const maxObjVal = allObjVals.length > 0 ? Math.max(...allObjVals) : level2;
-        const cLevel1 = minObjVal !== maxObjVal ? minObjVal : minObjVal - 5;
-        const cLevel2 = minObjVal !== maxObjVal ? maxObjVal : maxObjVal + 5;
+        // Graph the exact same two lines derived in the cards above (level1/level2).
+        const cLevel1 = level1;
+        const cLevel2 = level2;
 
         if (b !== 0) {
           const cSlope = -a / b;
@@ -2048,7 +2119,7 @@ input:focus {
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14, weight: 'normal' } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: "STIX Two Text", style: 'italic', weight: '500' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -2095,16 +2166,16 @@ input:focus {
 
         step7HTML += `<p class="step-subtitle" style="margin-bottom:10px;">The optimal vertex is at <strong>Vertex ${vertexLetter}</strong>, the intersection of constraints (${line1Index + 1}) and (${line2Index + 1}). Solve the system simultaneously to find exact coordinates.</p>`;
 
-        const systemEq1 = `${formatConstraint(line1, v1, v2).replace(/&le;|&ge;|≤|≥/g, '=')}`;
-        const systemEq2 = `${formatConstraint(line2, v1, v2).replace(/&le;|&ge;|≤|≥/g, '=')}`;
+        const systemEq1 = formatConstraint(line1, v1L, v2L).replace(/\\le|\\ge/g, '=');
+        const systemEq2 = formatConstraint(line2, v1L, v2L).replace(/\\le|\\ge/g, '=');
 
         step7HTML += `<div class="derivation-box">
           <div class="derivation-description">System:</div>
-          <div class="derivation-equation">${systemEq1}<br>${systemEq2}</div>
+          <div class="derivation-equation">${M(systemEq1)}<br>${M(systemEq2)}</div>
         </div>`;
         step7HTML += `<div class="derivation-box" style="margin-top: 10px;">
           <div class="derivation-description">Solution:</div>
-          <div class="derivation-equation">${v1} = ${formatNumber(optimalVertex.x)}, &nbsp;&nbsp; ${v2} = ${formatNumber(optimalVertex.y)}</div>
+          <div class="derivation-equation">${M(`${v1L} = ${formatNumber(optimalVertex.x)}, \\quad ${v2L} = ${formatNumber(optimalVertex.y)}`)}</div>
         </div>`;
 
         step7HTML += `<p class="direction-text" style="margin-top: 12px;">
@@ -2382,7 +2453,7 @@ input:focus {
       if (feasibleRegionChart) {
         feasibleRegionChart.data.datasets = datasets;
         feasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
-        feasibleRegionChart.options.scales.x.title.font.size = 16;
+        feasibleRegionChart.options.scales.x.title.font.size = 15;
         // The y-axis label is drawn by drawYAxisLabel (afterDraw), which reads
         // var2Input.value live, so there's nothing to update here for it.
         if (!preserveZoom) {
@@ -2433,7 +2504,10 @@ input:focus {
                   display: true,
                   text: toSubscript(var1Input.value),
                   font: {
-                    size: 16
+                    size: 15,
+                    family: "STIX Two Text",
+                    style: 'italic',
+                    weight: '500'
                   }
                 },
                 grid: {
@@ -2664,7 +2738,7 @@ input:focus {
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 14, weight: 'normal' } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: "STIX Two Text", style: 'italic', weight: '500' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),
@@ -2734,33 +2808,36 @@ input:focus {
         alert("Failed to load exercises.json. Please check the file and the console for errors.");
       }
       step2Div.classList.add('collapsed'); // Start collapsed
+      syncStep2Icon();
     }
 
+    // Returns a LaTeX string (not HTML) — wrap the result in M() to render it.
+    // v1/v2 here are expected to already be LaTeX variable names (see latexVar()).
     function formatConstraint(c, v1, v2) {
         if (c.type === 'base') {
-            return c.text.replace(/\{\{v1\}\}/g, v1).replace(/\{\{v2\}\}/g, v2);
+            return c.text.replace(/\{\{v1\}\}/g, v1).replace(/\{\{v2\}\}/g, v2).replace(/≥/g, '\\ge').replace(/≤/g, '\\le');
         }
 
         const terms = [];
         if (c.c1 !== 0) {
-            if (c.c1 === 1) terms.push(`1&middot;${v1}`);
-            else if (c.c1 === -1) terms.push(`-1&middot;${v1}`);
-            else terms.push(`${formatNumber(c.c1)}&middot;${v1}`);
+            if (c.c1 === 1) terms.push(v1);
+            else if (c.c1 === -1) terms.push(`-${v1}`);
+            else terms.push(`${formatNumber(c.c1)}${v1}`);
         }
 
         if (c.c2 !== 0) {
             if (terms.length > 0 && c.c2 > 0) terms.push('+');
-            if (c.c2 === 1) terms.push(`1&middot;${v2}`);
-            else if (c.c2 === -1) terms.push(`-1&middot;${v2}`);
-            else terms.push(`${formatNumber(c.c2)}&middot;${v2}`);
+            if (c.c2 === 1) terms.push(v2);
+            else if (c.c2 === -1) terms.push(`-${v2}`);
+            else terms.push(`${formatNumber(c.c2)}${v2}`);
         }
 
         if (terms.length === 0) {
             terms.push('0');
         }
 
-        const sign = c.sign === 'le' ? '&le;' : '&ge;';
-        return `${terms.join(' ')} ${sign} ${c.rhs}`;
+        const sign = c.sign === 'le' ? '\\le' : '\\ge';
+        return `${terms.join(' ')} ${sign} ${formatNumber(c.rhs)}`;
     }
 
     addBtn.addEventListener("click", () => {

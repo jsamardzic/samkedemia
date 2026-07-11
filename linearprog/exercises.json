@@ -142,8 +142,8 @@
     },
     "36": {
         "variables": {
-            "var1": "f_I",
-            "var2": "f_II"
+            "var1": "f_1",
+            "var2": "f_2"
         },
         "target": {
             "name": "C",
@@ -379,8 +379,8 @@
     },
     "41": {
         "variables": {
-            "var1": "F_I",
-            "var2": "F_II"
+            "var1": "F_1",
+            "var2": "F_2"
         },
         "target": {
             "name": "C",

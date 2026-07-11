@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Samkedemia: Central Limit Theorem Simulator</title>
+    <title>Samkedemia: Stats Animations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
-    <meta property="og:title" content="Samkedemia: Central Limit Theorem Simulator">
+    <meta property="og:title" content="Samkedemia: Stats Animations">
     <meta property="og:description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.samkedemia.com/clt/">
+    <meta property="og:url" content="https://www.samkedemia.com/statsanim/">
     <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
-    <meta name="twitter:title" content="Samkedemia: Central Limit Theorem Simulator">
+    <meta name="twitter:title" content="Samkedemia: Stats Animations">
     <meta name="twitter:description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
     <link rel="icon" type="image/png" href="../images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Vidaloka&family=Outfit:wght@700;900&family=STIX+Two+Text:ital,wght@0,500;0,700;1,500;1,700&display=swap');
 
@@ -156,24 +158,10 @@
         @media (max-width: 620px) { .clt-formula { border-left: none; padding-left: 0; border-top: 1px solid var(--color-border); padding-top: 16px; } }
         .clt-formula-title { align-self: center; }
         .clt-formula-eq {
-            flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
-            font-family: 'STIX Two Text', serif; font-style: italic; font-weight: 500;
-            font-size: 25px; color: var(--color-brand-dark);
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: var(--color-brand-dark);
         }
-        .clt-formula-eq .xbar { position: relative; display: inline-block; margin-right: 2px; }
-        .clt-formula-eq .xbar::after {
-            content: ''; position: absolute; left: -2px; right: -2px; top: -0.14em; height: 1.4px; background: currentColor;
-        }
-        .clt-formula-eq .approx { font-style: normal; margin: 0 1px; }
-        .clt-formula-eq .paren { font-style: normal; font-weight: 400; }
-        .clt-formula-eq .frac {
-            display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle;
-            font-size: 0.72em; line-height: 1.15; margin: 0 3px;
-        }
-        .clt-formula-eq .frac-num { padding: 0 4px 3px; border-bottom: 1.4px solid currentColor; }
-        .clt-formula-eq .frac-den { padding-top: 3px; display: flex; align-items: baseline; }
-        .clt-formula-eq .radical { padding-left: 0.1em; }
-        .clt-formula-eq .radicand { border-top: 1.3px solid currentColor; padding: 0 2px 0 1px; margin-left: 1px; }
+        .clt-formula-eq .katex { color: var(--color-brand-dark); }
 
         /* --- Header --- */
         .brand-header {
@@ -392,11 +380,6 @@
             transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .clt-axis {
-            display: flex; justify-content: space-between; font-size: 10.5px;
-            color: var(--color-text-secondary); opacity: 0.7; padding: 4px 2px 14px;
-        }
-
         .clt-dots-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
         .clt-dot {
             position: absolute; width: 7px; height: 7px; border-radius: 50%;
@@ -449,7 +432,7 @@
             <a href="https://samkedemia.com" target="_blank" class="brand-logo">
                 <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
                 <span class="logo-separator"></span>
-                <span class="logo-page-title">Probability Distributions</span>
+                <span class="logo-page-title">Stats Animations</span>
             </a>
         </div>
         <div class="header-socials">
@@ -483,9 +466,9 @@
                     <div class="topic-header">
                         <div class="topic-title">CLT Animation</div>
                         <div class="info-tooltip-wrap" tabindex="0">
-                            <button class="info-icon-btn" aria-label="How to use this"><i class="bi bi-info-lg"></i></button>
+                            <button class="info-icon-btn" aria-label="How to use"><i class="bi bi-info-lg"></i></button>
                             <div class="info-tooltip-panel">
-                                <div class="info-tooltip-title">How to use this</div>
+                                <div class="info-tooltip-title">How to use</div>
                                 <ul class="info-checklist">
                                     <li><i class="bi bi-check2-square"></i> <span>Drag the <strong>Population Shape</strong> slider to change what the underlying data looks like.</span></li>
                                     <li><i class="bi bi-check2-square"></i> <span><strong>Sample Size</strong> (n).</span></li>
@@ -532,8 +515,6 @@
                             <div class="clt-panel-caption">Distribution of the Sample Mean</div>
                             <div class="bars-row" id="meansBars"></div>
                         </div>
-                        <div class="clt-axis"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-
                         <div class="clt-dots-layer" id="dotsLayer"></div>
                     </div>
                 </li>
@@ -547,19 +528,14 @@
                             <div class="clt-conditions">
                                 <div class="clt-conditions-title">Conditions</div>
                                 <ul>
-                                    <li><span class="clt-cond-num">1</span> X₁, X₂, …, Xₙ come from any distribution</li>
+                                    <li><span class="clt-cond-num">1</span> <span class="cond-math" id="condMath1"></span> come from any distribution</li>
                                     <li><span class="clt-cond-num">2</span> Each observation is independent</li>
-                                    <li><span class="clt-cond-num">3</span> n ≥ 30</li>
+                                    <li><span class="clt-cond-num">3</span> <span class="cond-math" id="condMath3"></span></li>
                                 </ul>
                             </div>
                             <div class="clt-formula">
                                 <div class="clt-formula-title">Then</div>
-                                <div class="clt-formula-eq">
-                                    <span class="xbar">X</span>
-                                    <span class="approx">≈</span>
-                                    𝒩<span class="paren">(</span>μ,
-                                    <span class="frac"><span class="frac-num">σ</span><span class="frac-den"><span class="radical">√<span class="radicand">n</span></span></span></span><span class="paren">)</span>
-                                </div>
+                                <div class="clt-formula-eq" id="cltFormulaEq"></div>
                             </div>
                         </div>
                     </div>
@@ -741,21 +717,20 @@
         }
 
         // ---------- Dot animation helpers ----------
-        // Explicit per-tier transition durations (top, left, opacity) so the CSS transition
-        // always finishes within the JS wait time, even at the fastest tier — otherwise the
-        // dot gets removed mid-transition and never visibly renders.
-        const TIER_DUR = {
-            0: { top: 480, left: 380, opacity: 260 }, // slow, first couple draws
-            1: { top: 260, left: 200, opacity: 150 }, // fast
-            2: { top: 150, left: 120, opacity: 100 }  // super fast, rest of a big batch
-        };
-        const TIER_STAGGER = { 0: 5, 1: 2, 2: 1 };
-        const TIER_VISIBLE = { 0: 45, 1: 18, 2: 10 };
+        // The initial drop (population -> sample) always runs at this one constant, "normal" speed.
+        const FALL_TOP = 260, FALL_OPACITY = 150, FALL_STAGGER = 3, FALL_VISIBLE = 20;
 
-        function makeDot(extraClass, dur) {
+        // Converging into the mean, and the mean dropping into the histogram, still speed up
+        // per tier (0 = slow first couple draws, 1 = fast, 2 = super fast for the rest of a batch).
+        const TIER_DUR = {
+            0: { convergeLeft: 380, convergeOpacity: 260, dropTop: 480, dropOpacity: 260 },
+            1: { convergeLeft: 200, convergeOpacity: 150, dropTop: 260, dropOpacity: 150 },
+            2: { convergeLeft: 120, convergeOpacity: 100, dropTop: 150, dropOpacity: 100 }
+        };
+
+        function makeDot(extraClass) {
             const dot = document.createElement('div');
             dot.className = 'clt-dot' + (extraClass ? ' ' + extraClass : '');
-            dot.style.transitionDuration = `${dur.top}ms, ${dur.left}ms, ${dur.opacity}ms`;
             dotsLayer.appendChild(dot);
             return dot;
         }
@@ -770,19 +745,18 @@
             for (let i = 0; i < state.n; i++) values.push(clamp(d.sample()));
             const meanVal = values.reduce((a, b) => a + b, 0) / values.length;
 
-            const dur = TIER_DUR[speed];
-            const stagger = TIER_STAGGER[speed];
-            const visible = values.slice(0, Math.min(values.length, TIER_VISIBLE[speed]));
-            const fall1Wait = dur.top + visible.length * stagger;
-            const convergeWait = dur.left;
-            const fall2Wait = dur.top;
-            const fadeWait = dur.opacity;
+            const tier = TIER_DUR[speed];
+            const visible = values.slice(0, Math.min(values.length, FALL_VISIBLE));
+            const fall1Wait = FALL_TOP + visible.length * FALL_STAGGER;
+            const convergeWait = tier.convergeLeft;
+            const fall2Wait = tier.dropTop;
+            const fadeWait = tier.dropOpacity;
 
             const startY = panelY(popPanelEl, 1);
             const midY = panelY(samplePanelEl, 0.5);
 
             const dots = visible.map(v => {
-                const dot = makeDot(null, dur);
+                const dot = makeDot();
                 dot.style.left = v + '%';
                 dot.style.top = startY + 'px';
                 return dot;
@@ -791,7 +765,8 @@
             await wait(20);
             if (state.runId !== myRun) return;
             dots.forEach((dot, i) => {
-                dot.style.transitionDelay = (i * stagger) + 'ms';
+                dot.style.transitionDuration = `${FALL_TOP}ms, 0ms, ${FALL_OPACITY}ms`;
+                dot.style.transitionDelay = (i * FALL_STAGGER) + 'ms';
                 dot.style.opacity = '1';
                 dot.style.top = midY + 'px';
             });
@@ -799,6 +774,7 @@
             if (state.runId !== myRun) return;
 
             dots.forEach(dot => {
+                dot.style.transitionDuration = `0ms, ${tier.convergeLeft}ms, ${tier.convergeOpacity}ms`;
                 dot.style.transitionDelay = '0ms';
                 dot.style.left = meanVal + '%';
                 dot.style.opacity = '0';
@@ -807,9 +783,10 @@
             dots.forEach(dot => dot.remove());
             if (state.runId !== myRun) return;
 
-            const meanDot = makeDot('mean-dot', dur);
+            const meanDot = makeDot('mean-dot');
             meanDot.style.left = meanVal + '%';
             meanDot.style.top = midY + 'px';
+            meanDot.style.transitionDuration = `0ms, 0ms, ${FALL_OPACITY}ms`;
             meanDot.style.opacity = '1';
             await wait(20);
             if (state.runId !== myRun) { meanDot.remove(); return; }
@@ -821,8 +798,10 @@
             const newBarHeightPx = (state.binCounts[bin] / scale) * meansPanelEl.querySelector('.bars-row').offsetHeight;
             const landY = panelY(meansPanelEl.querySelector('.bars-row'), 1) - newBarHeightPx + meansPanelEl.offsetTop;
 
+            meanDot.style.transitionDuration = `${tier.dropTop}ms, 0ms, 0ms`;
             meanDot.style.top = landY + 'px';
             await wait(fall2Wait);
+            meanDot.style.transitionDuration = `0ms, 0ms, ${tier.dropOpacity}ms`;
             meanDot.style.opacity = '0';
             await wait(fadeWait);
             meanDot.remove();
@@ -929,6 +908,9 @@
         targets.forEach(target => observer.observe(target));
 
         // ---------- Init ----------
+        katex.render('\\overline{X} \\approx \\mathcal{N}\\!\\left(\\mu,\\ \\dfrac{\\sigma}{\\sqrt{n}}\\right)', document.getElementById('cltFormulaEq'), { throwOnError: false });
+        katex.render('X_1, X_2, \\dots, X_n', document.getElementById('condMath1'), { throwOnError: false });
+        katex.render('n \\ge 30', document.getElementById('condMath3'), { throwOnError: false });
         updateSliderFill(shapeSlider);
         updateSliderFill(nSlider);
         updateSliderFill(drawsSlider);
