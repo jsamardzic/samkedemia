@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Samkedemia: Central Limit Theorem Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
+    <meta property="og:title" content="Samkedemia: Central Limit Theorem Simulator">
+    <meta property="og:description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.samkedemia.com/clt/">
+    <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
+    <meta name="twitter:title" content="Samkedemia: Central Limit Theorem Simulator">
+    <meta name="twitter:description" content="Free interactive Central Limit Theorem simulator: pick a population shape, watch samples fall and combine into means, and see the distribution of sample means turn normal, by Samkedemia.">
+    <link rel="icon" type="image/png" href="../images/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Vidaloka&family=Outfit:wght@700;900&family=STIX+Two+Text:ital,wght@0,500;0,700;1,500;1,700&display=swap');
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            --color-brand-dark: #0c3840;
+            --color-brand-accent: #ff5500;
+            --color-brand-dark-rgb: 12, 56, 64;
+            --color-brand-accent-rgb: 255, 85, 0;
+
+            --color-bg-page: #f4f9fa;
+            --color-bg-card: #ffffff;
+            --color-bg-subtle: #f4f9fa;
+            --color-border: #ebe7e2;
+
+            --color-text-primary: #2C2825;
+            --color-text-secondary: #2f6a73;
+            --color-text-secondary-rgb: 47, 106, 115;
+            --color-text-inverted: #ffffff;
+
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-bg-page);
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            overflow-y: scroll;
+        }
+
+        h1 {
+            font-family: 'Vidaloka', serif;
+            font-size: 28px;
+            color: var(--color-brand-dark);
+            border-bottom: 2px solid var(--color-brand-accent);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            scroll-margin-top: 110px;
+        }
+        h1 i { color: var(--color-brand-accent); margin-right: 10px; font-size: 0.8em; }
+
+        ul { list-style: none; padding-left: 0; margin: 0; }
+        li {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            padding: 26px 30px;
+            margin-bottom: 20px;
+            scroll-margin-top: 110px;
+        }
+        li:last-child { margin-bottom: 0; }
+
+        code {
+            font-family: "Courier New", Courier, monospace;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--color-brand-dark);
+        }
+
+        .topic-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: var(--color-brand-dark);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tip {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background-color: rgba(var(--color-brand-accent-rgb), 0.08);
+            border-left: 4px solid var(--color-brand-accent);
+            padding: 10px 15px;
+            margin-top: 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+        }
+        .tip i { color: var(--color-brand-accent); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+        .tip-list {
+            list-style: disc; margin: 6px 0 0; padding-left: 18px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .tip-list li {
+            background: none; border: none; border-radius: 0; padding: 0; margin: 0;
+            display: list-item; scroll-margin-top: 0;
+        }
+
+        .info-box {
+            margin-top: 16px;
+            padding: 18px 20px;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+        }
+        .info-box > strong {
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-brand-dark);
+        }
+
+        /* --- CLT conditions / formula --- */
+        .clt-formula-grid {
+            display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: stretch;
+        }
+        @media (max-width: 620px) { .clt-formula-grid { grid-template-columns: 1fr; } }
+        .clt-conditions-title, .clt-formula-title {
+            font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--color-text-secondary); margin-bottom: 12px;
+        }
+        .clt-conditions ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+        .clt-conditions li {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13.5px; color: var(--color-text-primary);
+        }
+        .clt-cond-num {
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            width: 21px; height: 21px; border-radius: 50%;
+            background: rgba(var(--color-brand-dark-rgb), 0.07); color: var(--color-brand-dark);
+            font-family: 'Outfit', sans-serif; font-size: 10.5px; font-weight: 800;
+        }
+        .clt-formula {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border-left: 1px solid var(--color-border); padding-left: 28px;
+        }
+        @media (max-width: 620px) { .clt-formula { border-left: none; padding-left: 0; border-top: 1px solid var(--color-border); padding-top: 16px; } }
+        .clt-formula-title { align-self: center; }
+        .clt-formula-eq {
+            flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+            font-family: 'STIX Two Text', serif; font-style: italic; font-weight: 500;
+            font-size: 25px; color: var(--color-brand-dark);
+        }
+        .clt-formula-eq .xbar { position: relative; display: inline-block; margin-right: 2px; }
+        .clt-formula-eq .xbar::after {
+            content: ''; position: absolute; left: -2px; right: -2px; top: -0.14em; height: 1.4px; background: currentColor;
+        }
+        .clt-formula-eq .approx { font-style: normal; margin: 0 1px; }
+        .clt-formula-eq .paren { font-style: normal; font-weight: 400; }
+        .clt-formula-eq .frac {
+            display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle;
+            font-size: 0.72em; line-height: 1.15; margin: 0 3px;
+        }
+        .clt-formula-eq .frac-num { padding: 0 4px 3px; border-bottom: 1.4px solid currentColor; }
+        .clt-formula-eq .frac-den { padding-top: 3px; display: flex; align-items: baseline; }
+        .clt-formula-eq .radical { padding-left: 0.1em; }
+        .clt-formula-eq .radicand { border-top: 1.3px solid currentColor; padding: 0 2px 0 1px; margin-left: 1px; }
+
+        /* --- Header --- */
+        .brand-header {
+            box-sizing: border-box;
+            width: 90%;
+            max-width: 800px;
+            height: 68px;
+            margin: 20px auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 100px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            overflow: hidden;
+            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-left { display: flex; align-items: center; }
+        .brand-logo { font-weight: 800; text-decoration: none; display: flex; align-items: center; }
+        .brand-logo-img { height: 28px; width: auto; display: block; object-fit: contain; object-position: left center; }
+        .logo-separator { display: inline-block; width: 1px; height: 38px; background-color: rgba(var(--color-brand-dark-rgb), 0.2); margin: 0 18px; }
+        .logo-page-title { font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--color-text-secondary); letter-spacing: normal; }
+        .header-socials { display: flex; gap: 10px; }
+
+        .social-icon, .menu-toggle {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-brand-dark);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .social-icon:hover, .menu-toggle:hover { transform: translateY(-2px); background: var(--color-brand-accent); border-color: var(--color-brand-accent); color: white; }
+        .social-icon i, .menu-toggle i { font-size: 18px; line-height: 1; }
+        .social-icon .bi-envelope { -webkit-text-stroke: 0.5px currentColor; }
+        .menu-toggle { display: none; margin-right: 14px; flex-shrink: 0; border: none; }
+
+        /* --- Layout --- */
+        .page-layout { max-width: 1400px; box-sizing: border-box; margin: 0 auto; padding: 10px 3% 60px; display: flex; align-items: flex-start; gap: 50px; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(var(--color-brand-dark-rgb), 0.35); z-index: 998; }
+        .sidebar { width: 240px; flex-shrink: 0; position: sticky; top: 110px; max-height: calc(100vh - 130px); overflow-y: auto; }
+        .sidebar-group { margin-bottom: 26px; }
+        .sidebar-brand-logo { display: none; }
+        .sidebar-group-title {
+            display: block; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-brand-accent);
+            text-decoration: none; margin-bottom: 10px; padding-left: 13px; cursor: pointer; transition: color 0.18s;
+        }
+        .sidebar-group-title:hover, .sidebar-group-title.active { color: var(--color-brand-dark); }
+        .sidebar-group-title i { margin-right: 8px; font-size: 0.85em; width: 14px; display: inline-block; text-align: center; }
+        .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
+        .sidebar-link {
+            display: block; padding: 7px 13px; font-size: 13.5px; font-weight: 600; color: var(--color-text-secondary);
+            text-decoration: none; border-left: 2px solid transparent; border-radius: 0 8px 8px 0;
+            transition: background 0.18s, color 0.18s, border-color 0.18s;
+        }
+        .sidebar-link:hover { color: var(--color-brand-dark); background: rgba(var(--color-brand-dark-rgb), 0.05); }
+        .sidebar-link.active { color: var(--color-brand-dark); background: rgba(var(--color-brand-accent-rgb), 0.07); border-left-color: var(--color-brand-accent); font-weight: 800; }
+        .sidebar-note { font-size: 12px; color: var(--color-text-secondary); opacity: 0.7; padding: 10px 13px 0; font-style: italic; }
+
+        .content { flex: 1; min-width: 0; }
+
+        /* --- Sliders --- */
+        .control-row { margin-top: 20px; }
+        .control-row:first-child { margin-top: 0; }
+        .control-label {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--color-brand-dark); margin-bottom: 8px;
+        }
+        .control-label .control-value {
+            font-family: "Courier New", Courier, monospace; background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border); padding: 2px 9px; border-radius: 6px; color: var(--color-brand-accent);
+            font-weight: 700; text-transform: none; letter-spacing: normal; font-size: 13px;
+        }
+        .clt-slider {
+            -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+            background: transparent; border: none; padding: 0; outline: none;
+        }
+        .clt-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
+            background: var(--color-brand-accent); border-radius: 50%; cursor: pointer;
+            margin-top: -7px; border: 3px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+        }
+        .clt-slider::-moz-range-thumb {
+            width: 20px; height: 20px; background: var(--color-brand-accent); border-radius: 50%;
+            cursor: pointer; border: 3px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+        }
+        .clt-slider::-webkit-slider-runnable-track {
+            width: 100%; height: 6px; cursor: pointer; border-radius: 3px;
+            background: linear-gradient(to right, var(--color-brand-accent) var(--progress, 6%), var(--color-border) var(--progress, 6%));
+        }
+        .clt-slider::-moz-range-track {
+            width: 100%; height: 6px; cursor: pointer; border-radius: 3px;
+            background: linear-gradient(to right, var(--color-brand-accent) var(--progress, 6%), var(--color-border) var(--progress, 6%));
+        }
+        .shape-ticks {
+            position: relative; height: 13px; margin-top: 6px; padding: 0 2px;
+            font-size: 10.5px; color: var(--color-text-secondary); opacity: 0.7;
+        }
+        .shape-ticks span { position: absolute; top: 0; white-space: nowrap; transform: translateX(-50%); }
+        .shape-ticks span:nth-child(1) { left: 0; transform: translateX(0); }
+        .shape-ticks span:nth-child(2) { left: 33.333%; }
+        .shape-ticks span:nth-child(3) { left: 66.666%; }
+        .shape-ticks span:nth-child(4) { left: 100%; transform: translateX(-100%); }
+
+        .controls-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 30px; align-items: start; }
+        .controls-grid .control-row { margin-top: 0; }
+        @media (max-width: 760px) { .controls-grid { grid-template-columns: 1fr; } }
+
+        .action-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; align-items: center; justify-content: center; }
+        .draw-progress {
+            font-family: "Courier New", Courier, monospace; font-size: 13px; font-weight: 700;
+            color: var(--color-text-secondary); min-width: 42px; text-align: center;
+        }
+
+        /* --- Topic header + info tooltip --- */
+        .topic-header {
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--color-border);
+        }
+        .topic-header .topic-title { border-bottom: none; padding-bottom: 0; margin-bottom: 0; flex: 1; }
+        .info-tooltip-wrap { position: relative; display: inline-flex; }
+        .info-icon-btn {
+            width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer;
+            background: rgba(var(--color-brand-dark-rgb), 0.08); color: var(--color-brand-dark);
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .info-icon-btn:hover { background: var(--color-brand-accent); color: white; }
+        .info-tooltip-panel {
+            position: absolute; top: calc(100% + 10px); right: 0; width: 240px; z-index: 20;
+            background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12); padding: 10px 12px;
+            opacity: 0; visibility: hidden; transform: translateY(-6px);
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+        }
+        .info-tooltip-wrap:hover .info-tooltip-panel,
+        .info-tooltip-wrap:focus-within .info-tooltip-panel {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .info-tooltip-title {
+            font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--color-brand-dark); margin-bottom: 8px;
+        }
+        .info-checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+        .info-checklist li {
+            display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: var(--color-text-secondary); line-height: 1.35;
+            background: none; border: none; border-radius: 0; padding: 0; margin: 0; scroll-margin-top: 0;
+        }
+        .info-checklist i { color: var(--color-brand-accent); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+        .info-checklist strong { color: var(--color-brand-dark); }
+        .btn {
+            display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border-radius: 100px;
+            font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 13px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--color-brand-accent); color: white; box-shadow: 0 6px 14px rgba(var(--color-brand-accent-rgb), 0.25); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(var(--color-brand-accent-rgb), 0.35); }
+        .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1.5px dashed var(--color-border); }
+        .btn-ghost:hover { border-color: var(--color-brand-accent); color: var(--color-brand-accent); }
+        .btn i { font-size: 14px; }
+
+        /* --- Visualization stage (three stacked panels, Brown-style) --- */
+        .clt-stage {
+            position: relative;
+            margin-top: 26px;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 18px 18px 10px;
+        }
+
+        .clt-panel { position: relative; }
+        .clt-panel-caption {
+            font-family: 'Outfit', sans-serif; font-size: 10.5px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--color-text-secondary); margin-bottom: 6px;
+        }
+
+        #popPanel { margin-bottom: 6px; }
+        .curve-box {
+            height: 110px; position: relative;
+            border-bottom: 1.5px solid rgba(var(--color-brand-dark-rgb), 0.35);
+        }
+        .curve-box svg { width: 100%; height: 100%; display: block; }
+
+        #samplePanel {
+            height: 64px;
+            margin: 6px 0;
+            border-top: 1px dashed var(--color-border);
+            border-bottom: 1px dashed var(--color-border);
+        }
+        #samplePanel .baseline {
+            position: absolute; left: 0; right: 0; top: 50%; height: 1.5px;
+            background: rgba(var(--color-brand-dark-rgb), 0.25);
+        }
+
+        #meansPanel { margin-top: 6px; position: relative; }
+        .bars-row {
+            display: flex; align-items: flex-end; width: 100%; height: 210px; position: relative;
+            border-bottom: 1.5px solid rgba(var(--color-brand-dark-rgb), 0.35);
+        }
+        .bars-row .bar {
+            flex: 1; margin: 0 1px; border-radius: 2px 2px 0 0;
+            background: rgba(255, 85, 0, 0.55);
+            transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .clt-axis {
+            display: flex; justify-content: space-between; font-size: 10.5px;
+            color: var(--color-text-secondary); opacity: 0.7; padding: 4px 2px 14px;
+        }
+
+        .clt-dots-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+        .clt-dot {
+            position: absolute; width: 7px; height: 7px; border-radius: 50%;
+            background: var(--color-text-secondary); transform: translate(-50%, -50%);
+            opacity: 0; top: 0; left: 0;
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.6, 1), left 0.22s ease, opacity 0.18s ease;
+        }
+        .clt-dot.mean-dot { width: 10px; height: 10px; background: var(--color-brand-accent); box-shadow: 0 0 0 3px rgba(255,85,0,0.18); }
+
+        @media (max-width: 960px) {
+            .menu-toggle { display: flex; }
+            .page-layout { display: block; }
+            .sidebar {
+                position: fixed; top: 0; left: 0; width: 270px; max-height: 100vh; height: 100vh;
+                background: var(--color-bg-page); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+                transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 999; padding: 32px 24px 30px; margin: 0;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-brand-logo {
+                display: block; width: 150px; height: 32px; margin: 0 0 30px 13px;
+                background-color: rgba(var(--color-text-secondary-rgb), 0.4);
+                -webkit-mask-image: url('../images/samkedemia-horizontal.svg'); -webkit-mask-size: contain;
+                -webkit-mask-repeat: no-repeat; -webkit-mask-position: left center;
+                mask-image: url('../images/samkedemia-horizontal.svg'); mask-size: contain;
+                mask-repeat: no-repeat; mask-position: left center;
+            }
+            .sidebar-overlay.show { display: block; }
+            .content { max-width: 100%; }
+            .brand-header.sidebar-active { max-width: 48px; height: 48px; padding: 5px; transform: translateX(-20px); }
+            .brand-logo, .header-socials { transition: opacity 0.2s ease; }
+            .brand-header.sidebar-active .brand-logo, .brand-header.sidebar-active .header-socials { opacity: 0; pointer-events: none; }
+            .brand-header.sidebar-active .menu-toggle { background: none; border: none; }
+            .brand-header.sidebar-active .menu-toggle:hover { background: var(--color-brand-accent); }
+        }
+        @media (max-width: 650px) { .header-socials a:nth-child(n+2) { display: none; } }
+        @media (max-width: 520px) {
+            .brand-header { padding: 12px 18px; flex-wrap: nowrap; }
+            .logo-page-title { display: none; }
+            .logo-separator { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="brand-header" id="brandHeader">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+            <a href="https://samkedemia.com" target="_blank" class="brand-logo">
+                <img src="../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
+                <span class="logo-separator"></span>
+                <span class="logo-page-title">Probability Distributions</span>
+            </a>
+        </div>
+        <div class="header-socials">
+            <a href="https://wa.me/32490100821" target="_blank" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+            <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+            <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon"><i class="bi bi-envelope"></i></a>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="page-layout">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-brand-logo"></div>
+            <div class="sidebar-group">
+                <a class="sidebar-group-title" href="#clt-heading"><i class="bi bi-bar-chart-line-fill"></i>Central Limit Theorem</a>
+                <div class="sidebar-links">
+                    <a class="sidebar-link" href="#clt">CLT Animation</a>
+                    <a class="sidebar-link" href="#explanation">CLT in Words</a>
+                </div>
+                <div class="sidebar-note">More topics coming soon</div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <h1 id="clt-heading"><i class="bi bi-bar-chart-line-fill"></i>Central Limit Theorem</h1>
+
+            <div class="section-box">
+                <ul>
+                <li id="clt">
+                    <div class="topic-header">
+                        <div class="topic-title">CLT Animation</div>
+                        <div class="info-tooltip-wrap" tabindex="0">
+                            <button class="info-icon-btn" aria-label="How to use this"><i class="bi bi-info-lg"></i></button>
+                            <div class="info-tooltip-panel">
+                                <div class="info-tooltip-title">How to use this</div>
+                                <ul class="info-checklist">
+                                    <li><i class="bi bi-check2-square"></i> <span>Drag the <strong>Population Shape</strong> slider to change what the underlying data looks like.</span></li>
+                                    <li><i class="bi bi-check2-square"></i> <span><strong>Sample Size</strong> (n).</span></li>
+                                    <li><i class="bi bi-check2-square"></i> <span>Hit <strong>Draw Sample</strong> to get the mean.</span></li>
+                                    <li><i class="bi bi-check2-square"></i> <span>Watch that mean drop into the histogram at the bottom.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="controls-grid">
+                        <div class="control-row">
+                            <div class="control-label">Population Shape <span class="control-value" id="shapeValue">Right-Skewed</span></div>
+                            <input type="range" id="shapeSlider" class="clt-slider" min="0" max="3" step="1" value="2">
+                            <div class="shape-ticks"><span>Uniform</span><span>Normal</span><span>Right-Skewed</span><span>Left-Skewed</span></div>
+                        </div>
+                        <div class="control-row">
+                            <div class="control-label">Sample Size (n) <span class="control-value" id="nValue">30</span></div>
+                            <input type="range" id="nSlider" class="clt-slider" min="1" max="100" value="30">
+                        </div>
+                        <div class="control-row">
+                            <div class="control-label">Draws per Click <span class="control-value" id="drawsValue">10</span></div>
+                            <input type="range" id="drawsSlider" class="clt-slider" min="1" max="30" value="10">
+                        </div>
+                    </div>
+
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="sampleBtn"><i class="bi bi-dice-5-fill"></i> Draw Sample</button>
+                        <button class="btn btn-ghost" id="resetBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                        <span class="draw-progress" id="drawProgress"></span>
+                    </div>
+
+                    <div class="clt-stage" id="cltStage">
+                        <div class="clt-panel" id="popPanel">
+                            <div class="clt-panel-caption">Population</div>
+                            <div class="curve-box"><svg id="popCurve"></svg></div>
+                        </div>
+
+                        <div class="clt-panel" id="samplePanel">
+                            <div class="baseline"></div>
+                        </div>
+
+                        <div class="clt-panel" id="meansPanel">
+                            <div class="clt-panel-caption">Distribution of the Sample Mean</div>
+                            <div class="bars-row" id="meansBars"></div>
+                        </div>
+                        <div class="clt-axis"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+
+                        <div class="clt-dots-layer" id="dotsLayer"></div>
+                    </div>
+                </li>
+
+                <li id="explanation">
+                    <div class="topic-title">CLT in Words</div>
+                    <p>The Central Limit Theorem (CLT) says: if you repeatedly take random samples of size <code>n</code> from <strong>any</strong> population and calculate each sample's mean, those sample means will be approximately normally distributed, centered on the true population mean, as long as <code>n</code> is reasonably large. It doesn't matter whether the original population is uniform, skewed, or anything else.</p>
+
+                    <div class="info-box">
+                        <div class="clt-formula-grid">
+                            <div class="clt-conditions">
+                                <div class="clt-conditions-title">Conditions</div>
+                                <ul>
+                                    <li><span class="clt-cond-num">1</span> X₁, X₂, …, Xₙ come from any distribution</li>
+                                    <li><span class="clt-cond-num">2</span> Each observation is independent</li>
+                                    <li><span class="clt-cond-num">3</span> n ≥ 30</li>
+                                </ul>
+                            </div>
+                            <div class="clt-formula">
+                                <div class="clt-formula-title">Then</div>
+                                <div class="clt-formula-eq">
+                                    <span class="xbar">X</span>
+                                    <span class="approx">≈</span>
+                                    𝒩<span class="paren">(</span>μ,
+                                    <span class="frac"><span class="frac-num">σ</span><span class="frac-den"><span class="radical">√<span class="radicand">n</span></span></span></span><span class="paren">)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip">
+                        <i class="bi bi-lightbulb-fill"></i>
+                        <span>
+                            <strong>Why this matters, in practice:</strong>
+                            <ul class="tip-list">
+                                <li>A political poll reports "52% ± 3%", that little margin of error only works because of the CLT.</li>
+                                <li>A factory checks the average weight of each batch against a target, those checks only make sense because batch averages settle into a predictable bell curve.</li>
+                                <li>Comparing two versions of a website or product to see which one actually performs better relies on the CLT to tell a real difference from random luck.</li>
+                            </ul>
+                        </span>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- Domain & bins ----------
+        const DOMAIN_MIN = 0, DOMAIN_MAX = 100, BIN_COUNT = 25;
+        const BIN_WIDTH = (DOMAIN_MAX - DOMAIN_MIN) / BIN_COUNT;
+        const clamp = x => Math.min(Math.max(x, DOMAIN_MIN), DOMAIN_MAX);
+        const binIndex = x => Math.min(BIN_COUNT - 1, Math.max(0, Math.floor((clamp(x) - DOMAIN_MIN) / BIN_WIDTH)));
+
+        function randNormal(mean, sd) {
+            let u = 0, v = 0;
+            while (u === 0) u = Math.random();
+            while (v === 0) v = Math.random();
+            const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+            return mean + z * sd;
+        }
+        function normalPdf(x, mean, sd) {
+            if (sd <= 0) return 0;
+            return (1 / (sd * Math.sqrt(2 * Math.PI))) * Math.exp(-Math.pow(x - mean, 2) / (2 * sd * sd));
+        }
+        function erlangPdf(x, k, rate) {
+            if (x < 0) return 0;
+            let fact = 1;
+            for (let i = 2; i < k; i++) fact *= i;
+            return Math.pow(rate, k) * Math.pow(x, k - 1) * Math.exp(-rate * x) / fact;
+        }
+        const wait = ms => new Promise(res => setTimeout(res, ms));
+
+        // ---------- Population shapes (plain slider, no alpha/beta) ----------
+        const SKEW_K = 3, SKEW_RATE = SKEW_K / 35; // mean 35, moderate skew
+        const rightSkewSample = () => { let s = 0; for (let i = 0; i < SKEW_K; i++) s += -(1 / SKEW_RATE) * Math.log(1 - Math.random()); return s; };
+        const shapes = [
+            { label: 'Uniform', mean: 50, std: 100 / Math.sqrt(12), sample: () => Math.random() * 100, pdf: x => (x >= 0 && x <= 100 ? 1 / 100 : 0) },
+            { label: 'Normal', mean: 50, std: 15, sample: () => randNormal(50, 15), pdf: x => normalPdf(x, 50, 15) },
+            {
+                label: 'Right-Skewed', mean: 35, std: 35 / Math.sqrt(SKEW_K),
+                sample: rightSkewSample,
+                pdf: x => erlangPdf(x, SKEW_K, SKEW_RATE)
+            },
+            {
+                label: 'Left-Skewed', mean: 65, std: 35 / Math.sqrt(SKEW_K),
+                sample: () => 100 - rightSkewSample(),
+                pdf: x => erlangPdf(100 - x, SKEW_K, SKEW_RATE)
+            }
+        ];
+
+        // ---------- State ----------
+        const state = {
+            shapeIdx: 2,
+            n: 30,
+            draws: 10,
+            binCounts: new Array(BIN_COUNT).fill(0),
+            maxBinCount: 0,
+            isAnimating: false,
+            runId: 0
+        };
+        const currentShape = () => shapes[state.shapeIdx];
+
+        // ---------- DOM refs ----------
+        const meansBarsEl = document.getElementById('meansBars');
+        const popCurveEl = document.getElementById('popCurve');
+        const dotsLayer = document.getElementById('dotsLayer');
+        const popPanelEl = document.getElementById('popPanel');
+        const samplePanelEl = document.getElementById('samplePanel');
+        const meansPanelEl = document.getElementById('meansPanel');
+        const sampleBtn = document.getElementById('sampleBtn');
+        const drawProgressEl = document.getElementById('drawProgress');
+
+        // ---------- Build bar elements (sampling distribution only) ----------
+        const meansBarEls = [];
+        for (let i = 0; i < BIN_COUNT; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = '0%';
+            meansBarsEl.appendChild(bar);
+            meansBarEls.push(bar);
+        }
+
+        // ---------- Population curve (with morph animation on shape change) ----------
+        const CURVE_STEPS = 100;
+        let curveFrame = null;
+        let curveYs = null; // currently displayed y-values, kept for morphing into the next shape
+
+        function pdfSamples(d) {
+            const ys = [];
+            let maxY = 0;
+            for (let i = 0; i <= CURVE_STEPS; i++) {
+                const x = DOMAIN_MIN + (DOMAIN_MAX - DOMAIN_MIN) * i / CURVE_STEPS;
+                const y = d.pdf(x);
+                ys.push(y);
+                if (y > maxY) maxY = y;
+            }
+            return { ys, maxY: maxY * 1.15 || 1 };
+        }
+
+        function drawCurve(ys, maxY) {
+            const box = popCurveEl.parentElement;
+            const w = box.clientWidth || 1, h = box.clientHeight || 1;
+            popCurveEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
+            popCurveEl.setAttribute('width', w);
+            popCurveEl.setAttribute('height', h);
+
+            let lineD = '';
+            ys.forEach((y, i) => {
+                const x = DOMAIN_MIN + (DOMAIN_MAX - DOMAIN_MIN) * i / CURVE_STEPS;
+                const px = (x / 100) * w;
+                const py = h - (y / maxY) * h;
+                lineD += (i === 0 ? 'M' : 'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+            });
+            const areaD = lineD + `L${w},${h} L0,${h} Z`;
+            popCurveEl.innerHTML =
+                `<path d="${areaD}" fill="rgba(47,106,115,0.22)" stroke="none"/>` +
+                `<path d="${lineD}" fill="none" stroke="#2f6a73" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+        }
+
+        function renderPopulation() {
+            const d = currentShape();
+            document.getElementById('shapeValue').textContent = d.label;
+            const { ys: targetYs, maxY: targetMax } = pdfSamples(d);
+
+            if (curveFrame) cancelAnimationFrame(curveFrame);
+
+            if (!curveYs) {
+                curveYs = targetYs;
+                drawCurve(curveYs, targetMax);
+                return;
+            }
+
+            const fromYs = curveYs;
+            const fromMax = fromYs.reduce((m, y) => Math.max(m, y), 0) * 1.15 || 1;
+            const duration = 420;
+            const start = performance.now();
+
+            function step(now) {
+                const t = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                const ys = targetYs.map((y, i) => fromYs[i] + (y - fromYs[i]) * eased);
+                const maxY = fromMax + (targetMax - fromMax) * eased;
+                drawCurve(ys, maxY);
+                if (t < 1) {
+                    curveFrame = requestAnimationFrame(step);
+                } else {
+                    curveYs = targetYs;
+                    curveFrame = null;
+                }
+            }
+            curveFrame = requestAnimationFrame(step);
+        }
+
+        // ---------- Sample-means histogram ----------
+        function renderMeansBars() {
+            const scale = Math.max(state.maxBinCount, 1);
+            meansBarEls.forEach((bar, i) => { bar.style.height = (state.binCounts[i] / scale * 100) + '%'; });
+        }
+
+        function recordMean(meanVal) {
+            const bin = binIndex(meanVal);
+            state.binCounts[bin]++;
+            if (state.binCounts[bin] > state.maxBinCount) state.maxBinCount = state.binCounts[bin];
+        }
+
+        // ---------- Dot animation helpers ----------
+        // Explicit per-tier transition durations (top, left, opacity) so the CSS transition
+        // always finishes within the JS wait time, even at the fastest tier — otherwise the
+        // dot gets removed mid-transition and never visibly renders.
+        const TIER_DUR = {
+            0: { top: 480, left: 380, opacity: 260 }, // slow, first couple draws
+            1: { top: 260, left: 200, opacity: 150 }, // fast
+            2: { top: 150, left: 120, opacity: 100 }  // super fast, rest of a big batch
+        };
+        const TIER_STAGGER = { 0: 5, 1: 2, 2: 1 };
+        const TIER_VISIBLE = { 0: 45, 1: 18, 2: 10 };
+
+        function makeDot(extraClass, dur) {
+            const dot = document.createElement('div');
+            dot.className = 'clt-dot' + (extraClass ? ' ' + extraClass : '');
+            dot.style.transitionDuration = `${dur.top}ms, ${dur.left}ms, ${dur.opacity}ms`;
+            dotsLayer.appendChild(dot);
+            return dot;
+        }
+        function panelY(panelEl, fraction) {
+            return panelEl.offsetTop + panelEl.offsetHeight * fraction;
+        }
+
+        // speed: 0 = slow (first couple draws), 1 = fast, 2 = super fast (rest of a big batch)
+        async function animateOneDraw(speed, myRun) {
+            const d = currentShape();
+            const values = [];
+            for (let i = 0; i < state.n; i++) values.push(clamp(d.sample()));
+            const meanVal = values.reduce((a, b) => a + b, 0) / values.length;
+
+            const dur = TIER_DUR[speed];
+            const stagger = TIER_STAGGER[speed];
+            const visible = values.slice(0, Math.min(values.length, TIER_VISIBLE[speed]));
+            const fall1Wait = dur.top + visible.length * stagger;
+            const convergeWait = dur.left;
+            const fall2Wait = dur.top;
+            const fadeWait = dur.opacity;
+
+            const startY = panelY(popPanelEl, 1);
+            const midY = panelY(samplePanelEl, 0.5);
+
+            const dots = visible.map(v => {
+                const dot = makeDot(null, dur);
+                dot.style.left = v + '%';
+                dot.style.top = startY + 'px';
+                return dot;
+            });
+
+            await wait(20);
+            if (state.runId !== myRun) return;
+            dots.forEach((dot, i) => {
+                dot.style.transitionDelay = (i * stagger) + 'ms';
+                dot.style.opacity = '1';
+                dot.style.top = midY + 'px';
+            });
+            await wait(fall1Wait);
+            if (state.runId !== myRun) return;
+
+            dots.forEach(dot => {
+                dot.style.transitionDelay = '0ms';
+                dot.style.left = meanVal + '%';
+                dot.style.opacity = '0';
+            });
+            await wait(convergeWait);
+            dots.forEach(dot => dot.remove());
+            if (state.runId !== myRun) return;
+
+            const meanDot = makeDot('mean-dot', dur);
+            meanDot.style.left = meanVal + '%';
+            meanDot.style.top = midY + 'px';
+            meanDot.style.opacity = '1';
+            await wait(20);
+            if (state.runId !== myRun) { meanDot.remove(); return; }
+
+            recordMean(meanVal);
+            renderMeansBars();
+            const scale = Math.max(state.maxBinCount, 1);
+            const bin = binIndex(meanVal);
+            const newBarHeightPx = (state.binCounts[bin] / scale) * meansPanelEl.querySelector('.bars-row').offsetHeight;
+            const landY = panelY(meansPanelEl.querySelector('.bars-row'), 1) - newBarHeightPx + meansPanelEl.offsetTop;
+
+            meanDot.style.top = landY + 'px';
+            await wait(fall2Wait);
+            meanDot.style.opacity = '0';
+            await wait(fadeWait);
+            meanDot.remove();
+        }
+
+        async function handleSample() {
+            if (state.isAnimating) return;
+            state.isAnimating = true;
+            sampleBtn.disabled = true;
+            const myRun = ++state.runId;
+
+            for (let i = 0; i < state.draws; i++) {
+                if (state.runId !== myRun) break;
+                drawProgressEl.textContent = `${i + 1}/${state.draws}`;
+                const speed = i < 2 ? 0 : i < 5 ? 1 : 2;
+                await animateOneDraw(speed, myRun);
+            }
+
+            if (state.runId === myRun) {
+                state.isAnimating = false;
+                sampleBtn.disabled = false;
+                drawProgressEl.textContent = '';
+            }
+        }
+
+        function resetAll() {
+            state.runId++;
+            state.binCounts = new Array(BIN_COUNT).fill(0);
+            state.maxBinCount = 0;
+            state.isAnimating = false;
+            dotsLayer.innerHTML = '';
+            sampleBtn.disabled = false;
+            drawProgressEl.textContent = '';
+            renderMeansBars();
+        }
+
+        // ---------- Slider fill ----------
+        function updateSliderFill(slider) {
+            const min = Number(slider.min), max = Number(slider.max), val = Number(slider.value);
+            slider.style.setProperty('--progress', ((val - min) / (max - min)) * 100 + '%');
+        }
+
+        // ---------- Wiring ----------
+        const shapeSlider = document.getElementById('shapeSlider');
+        const nSlider = document.getElementById('nSlider');
+        const drawsSlider = document.getElementById('drawsSlider');
+
+        shapeSlider.addEventListener('input', () => {
+            state.shapeIdx = Number(shapeSlider.value);
+            updateSliderFill(shapeSlider);
+            resetAll();
+            renderPopulation();
+        });
+        nSlider.addEventListener('input', () => {
+            state.n = Number(nSlider.value);
+            document.getElementById('nValue').textContent = state.n;
+            updateSliderFill(nSlider);
+            resetAll();
+        });
+        drawsSlider.addEventListener('input', () => {
+            state.draws = Number(drawsSlider.value);
+            document.getElementById('drawsValue').textContent = state.draws;
+            updateSliderFill(drawsSlider);
+        });
+
+        sampleBtn.addEventListener('click', handleSample);
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        window.addEventListener('resize', () => renderPopulation());
+
+        // ---------- Header / sidebar behaviour ----------
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const brandHeader = document.getElementById('brandHeader');
+        const navLinks = Array.from(document.querySelectorAll('.sidebar-link, .sidebar-group-title'));
+        const menuToggleIcon = menuToggle.querySelector('i');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+            brandHeader.classList.add('sidebar-active');
+            menuToggleIcon.classList.replace('bi-list', 'bi-x-lg');
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            brandHeader.classList.remove('sidebar-active');
+            menuToggleIcon.classList.replace('bi-x-lg', 'bi-list');
+        }
+        menuToggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+        overlay.addEventListener('click', closeSidebar);
+        navLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+        const targets = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = '#' + entry.target.id;
+                    navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === id));
+                }
+            });
+        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+        targets.forEach(target => observer.observe(target));
+
+        // ---------- Init ----------
+        updateSliderFill(shapeSlider);
+        updateSliderFill(nSlider);
+        updateSliderFill(drawsSlider);
+        renderPopulation();
+        renderMeansBars();
+    </script>
+</body>
+</html>
