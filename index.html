@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samkedemia: University Math Tutoring & Exam Prep</title>
-    <meta name="description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €399.">
+    <meta name="description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, VUB & more. Programs from €399.">
     <meta property="og:title" content="Samkedemia: University Math Tutoring & Exam Prep">
-    <meta property="og:description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €399.">
+    <meta property="og:description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, VUB & more. Programs from €399.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.samkedemia.com/">
     <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
@@ -16,7 +16,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
     <meta name="twitter:title" content="Samkedemia: University Math Tutoring & Exam Prep">
-    <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, Erasmus, Bocconi & more. Programs from €399.">
+    <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed with 99% satisfaction. Expert exam prep for KU Leuven, VUB & more. Programs from €399.">
     <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2214,8 +2214,6 @@
                     <div class="course-sel-group">
                         <label class="course-sel-label" for="uni-sel">University</label>
                         <select class="course-sel" id="uni-sel">
-                            <option value="bocconi">Bocconi</option>
-                            <option value="erasmus">Erasmus Rotterdam</option>
                             <option value="kuleuven" selected>KU Leuven</option>
                             <option value="vub">Vrije Universiteit Brussel</option>
                             <option disabled>Université Libre de Bruxelles (Coming Soon)</option>
@@ -2261,7 +2259,7 @@
                         </div>
                         <div class="faq-item">
                             <button class="faq-item-btn">I failed the course, does your support carry over to next year?<i class="bi bi-chevron-down"></i></button>
-                            <div class="faq-item-body"><p>The program covers one exam cycle. If you don't pass and want to prepare again the following year, you're welcome to re-enroll. But it would be a new program at the standard rate.<br><br>The exception is the VIP Coaching Program: it comes with a Lifetime Retake Coverage, so if you don't pass, you keep getting support through the Essential Group program at no extra cost, until you do.</p></div>
+                            <div class="faq-item-body"><p>The program covers one exam cycle. If you don't pass and want to prepare again the following year, you're welcome to re-enroll. But it would be a new program at the standard rate.<br><br>The exception is the VIP Coaching Program: it comes with Lifetime Coverage, so if you don't pass, you keep getting support through the Essential Group program at no extra cost, until you do.</p></div>
                         </div>
                     </div>
                     <div class="faq-panel" data-faq="during">
@@ -2466,7 +2464,7 @@
                         <div class="pass-bar-name samk">Samkedemia</div>
                     </div>
                 </div>
-                <p class="results-footnote">* Based on internal research conducted in 2025.</p>
+                <p class="results-footnote">* Based on internal research conducted in 2026.</p>
 
                 <p class="results-label divider">By the numbers</p>
 
@@ -3146,9 +3144,9 @@
                             -->
                             <tr>
                                 <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
+                                <td><span class="pt-no">—</span></td>
                                 <td><span class="pt-yes">6 months</span></td>
-                                <td><span class="pt-yes">24 months</span></td>
-                                <td><span class="pt-yes">Lifetime Retake Coverage</span></td>
+                                <td><span class="pt-yes">Lifetime Coverage</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -3159,7 +3157,7 @@
                     <!-- SAMKE AI FOOTNOTE — restore when uncommenting the row above, and change sup>2 on Extended Service back to sup>2
                     <p><sup>1</sup> Structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude). Coming in Oct 2026.</p>
                     -->
-                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Essential and Plus programs are entitled to retain full access to all completed sessions. <br> Students in the VIP Coaching Program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
+                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Plus program are entitled to retain full access to all completed sessions for 6 months. <br> Students in the VIP Coaching program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
                 </div>
 
             </div>
@@ -3180,6 +3178,7 @@
                     gap: 16px;
                     overflow-x: auto;
                     scroll-snap-type: x mandatory;
+                    scroll-padding-left: 40px;
                     -webkit-overflow-scrolling: touch;
                     padding: 4px 40px 20px;
                     scrollbar-width: none;
@@ -3213,6 +3212,7 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    object-position: center 34%;
                 }
                 .resource-card-body {
                     padding: 14px 16px 12px;
@@ -3315,15 +3315,17 @@
                     }
                     .resource-scroll-track {
                         padding: 4px 16px 16px;
+                        scroll-padding-left: 16px;
                     }
                 }
             </style>
             <div class="card-content" style="width: 100%; max-width: 1100px; text-align: center;">
                 <span class="card-tag">Study smarter.</span>
                 <h3>Resources<i class="bi bi-bookmark-star-fill"></i></h3>
-                <p style="color: var(--teal-mid); font-size: 1.05rem; margin-top: 0;">
-                    Free tools and solution books to help you get there.
+                <p style="color: var(--teal-mid); font-size: 1.05rem; margin-top: 0; margin-bottom: 24px;">
+                    Custom-built tools and solution books, made with one goal: get you there faster.
                 </p>
+                <p class="results-label">Free Tools</p>
                 <div class="resource-scroll-wrap">
                     <div class="resource-scroll-track">
 
@@ -3369,10 +3371,17 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                <p class="results-label divider">Ultimate Solution Books</p>
+                <div class="resource-scroll-wrap">
+                    <div class="resource-scroll-track">
+
                         <div class="resource-card-item">
                             <div class="resource-card-img">
                                 <img src="images/resource4.png" alt="Math A">
-                                <span class="resource-price-badge resource-price-paid">€35</span>
+                                <span class="resource-price-badge resource-price-paid">€40</span>
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3387,7 +3396,7 @@
                         <div class="resource-card-item">
                             <div class="resource-card-img">
                                 <img src="images/resource5.png" alt="Math B">
-                                <span class="resource-price-badge resource-price-paid">€35</span>
+                                <span class="resource-price-badge resource-price-paid">€40</span>
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3402,7 +3411,7 @@
                         <div class="resource-card-item">
                             <div class="resource-card-img">
                                 <img src="images/resource6.png" alt="Descriptive Stats">
-                                <span class="resource-price-badge resource-price-paid">€35</span>
+                                <span class="resource-price-badge resource-price-paid">€40</span>
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3417,7 +3426,7 @@
                         <div class="resource-card-item">
                             <div class="resource-card-img">
                                 <img src="images/resource7.png" alt="Inferential Stats">
-                                <span class="resource-price-badge resource-price-paid">€35</span>
+                                <span class="resource-price-badge resource-price-paid">€40</span>
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3432,7 +3441,7 @@
                         <div class="resource-card-item">
                             <div class="resource-card-img">
                                 <img src="images/resource8.png" alt="IMOR">
-                                <span class="resource-price-badge resource-price-paid">€35</span>
+                                <span class="resource-price-badge resource-price-paid">€40</span>
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3440,6 +3449,21 @@
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/imor-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
+                                <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
+                            </div>
+                        </div>
+
+                        <div class="resource-card-item">
+                            <div class="resource-card-img">
+                                <img src="images/resource9.png" alt="Research Methods 3">
+                                <span class="resource-price-badge resource-price-paid">€40</span>
+                            </div>
+                            <div class="resource-card-body">
+                                <div class="resource-book-label">Solution Book</div>
+                                <h4>Research Methods 3</h4>
+                            </div>
+                            <div class="resource-card-footer">
+                                <a href="samplebooks/rm3-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
                                 <a href="#contact" class="resource-go-btn resource-buy-btn">Buy Now →</a>
                             </div>
                         </div>
@@ -3670,36 +3694,29 @@
                         { name: 'Descriptive Statistics and Probability for Business', ects: 6, year: 1, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA09HE' },
                         { name: 'Inferential Statistics for Business',                 ects: 3, year: 2, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA69AE' },
                         { name: 'Introduction to Methods in Operational Research',     ects: 3, year: 2, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA15CE.htm' },
+                        { name: 'Research Methods 3',                                  ects: 6, year: 3, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBA27CE.htm' },
                     ],
-                    'MSc Statistics and Data Science': [
-                        { name: 'Fundamental Concepts of Statistics', ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/G0A17BE.htm' },
-                        { name: 'Linear Models',                      ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/G0Z50AE.htm' },
-                        { name: 'Multivariate Statistics',            ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/D0M62CE.htm' },
-                    ]
-                },
-                erasmus: {
-                    Psychology: [
-                        { name: 'Psychometrics: An Introduction',                        ects: 5, year: 2, sem: 2, url: 'https://eur.osiris-student.nl/onderwijscatalogus/extern/cursus?cursuscode=FSWP2-052-A&collegejaar=2025' },
-                        { name: 'Methods & Statistics II: Explaining and Predicting',    ects: 6, year: 2, sem: 1, url: 'https://eur.osiris-student.nl/onderwijscatalogus/extern/cursus?cursuscode=FSWP2-020-A&collegejaar=2025' },
-                        { name: 'Methods & Statistics III: Multivariate Data Analysis', ects: 6, year: 3, sem: 2, url: 'https://www.eur.nl/en/bachelor/international-bachelor-psychology/programme-overview' },
-                    ]
-                },
-                bocconi: {
-                    BIEM: [
-                        { name: '30001 Statistics', ects: 8, year: 1, sem: 1, url: 'https://didattica.unibocconi.eu/ts/tsn_anteprima.php?cod_ins=30001&anno=2026' },
+                    BBE: [
+                        { name: 'Mathematics for Business Engineers I',            ects: 6, year: 1, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBE01E.htm' },
+                        { name: 'Mathematics for Business Engineers II',           ects: 6, year: 1, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBE02E.htm' },
+                        { name: 'Probability Theory and Descriptive Statistics',   ects: 3, year: 2, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBE08E.htm' },
+                        { name: 'Software Development',                           ects: 3, year: 2, sem: 1, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBN64B.htm' },
+                        { name: 'Statistics for Data Science',                    ects: 6, year: 2, sem: 2, url: 'https://onderwijsaanbod.kuleuven.be/syllabi/e/HBE09E.htm' },
                     ]
                 },
                 vub: {
-                    'BSc Social Sciences': [
-                        { name: 'Statistics for Social Sciences', ects: 6, year: 1, sem: 1, url: 'https://caliweb.vub.be/?page=course-offer&id=009462&anchor=1&target=pr&year=2223&language=en&output=html' },
+                    'Business Economics': [
+                        { name: 'Business Information Systems',                ects: 6, year: 1, sem: 1, url: 'https://caliweb.vub.be/?page=course-offer&id=010259&anchor=1&target=pr&year=2526&language=en&output=html' },
+                        { name: 'Mathematics for Business and Economics I',    ects: 6, year: 1, sem: 1, url: 'https://caliweb.vub.be/?page=course-offer&id=010258&anchor=1&target=pr&year=2526&language=en&output=html' },
+                        { name: 'Statistics for Business and Economics I',     ects: 6, year: 1, sem: 2, url: 'https://caliweb.vub.be/?page=course-offer&id=010257&anchor=1&target=pr&year=2526&language=en&output=html' },
+                        { name: 'Mathematics for Business and Economics II',   ects: 6, year: 2, sem: 2, url: 'https://caliweb.vub.be/?page=course-offer&id=010371&anchor=1&target=pr&year=2526&language=en&output=html' },
+                        { name: 'Statistics for Business and Economics II',    ects: 6, year: 2, sem: 2, url: 'https://caliweb.vub.be/?page=course-offer&id=010370&anchor=1&target=pr&year=2526&language=en&output=html' },
                     ]
                 }
             };
             const programs = {
-                kuleuven: [{ name: 'BBA', soon: false }, { name: 'MSc Statistics and Data Science', soon: false }, { name: 'BBE', soon: true }],
-                erasmus:  [{ name: 'Psychology', soon: false }],
-                bocconi:  [{ name: 'BIEM', soon: false }],
-                vub:      [{ name: 'BSc Social Sciences', soon: false }]
+                kuleuven: [{ name: 'BBA', soon: false }, { name: 'BBE', soon: false }],
+                vub:      [{ name: 'Business Economics', soon: false }]
             };
             const uniSel  = document.getElementById('uni-sel');
             const progSel = document.getElementById('prog-sel');
