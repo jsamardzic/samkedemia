@@ -1004,22 +1004,22 @@ LFN['invNorm('] = [1, 4, (p, m = 0, s = 1, tail = 1) => {
 }];
 /* ================= Number formatting (10 significant digits, TI style) ================= */
 function stripZero(s) { return s; }             // always keep the leading 0 (0.5, not .5) on both calculators
-function mant(m) {
+function mant(m, p = 10) {
   if (SET.fix >= 0) return m.toFixed(SET.fix);
-  return String(Number(m.toPrecision(10)));
+  return String(Number(m.toPrecision(p)));
 }
-function fmt(v) {
+function fmt(v, p = 10) {                        // p: significant digits (10 normally; the table's bottom line shows 14)
   if (v === 0 || Math.abs(v) < 1e-99) return SET.fix > 0 && SET.note === 'NORMAL' ? stripZero((0).toFixed(SET.fix)) : '0';
-  v = Number(v.toPrecision(10));
+  v = Number(v.toPrecision(p));
   const a = Math.abs(v);
   const sci = SET.note !== 'NORMAL' || a >= 1e10 || a < 1e-3;
   if (!sci) return stripZero(SET.fix >= 0 ? v.toFixed(SET.fix) : String(v));
   let e = Math.floor(Math.log10(a)), m = v / Math.pow(10, e);
-  m = Number(m.toPrecision(10));
+  m = Number(m.toPrecision(p));
   if (Math.abs(m) >= 10) { m /= 10; e++; }
   if (Math.abs(m) < 1) { m *= 10; e--; }
-  if (SET.note === 'ENG') { const sh = ((e % 3) + 3) % 3; e -= sh; m = Number((m * Math.pow(10, sh)).toPrecision(10)); }
-  return mant(m) + 'ᴇ' + e;
+  if (SET.note === 'ENG') { const sh = ((e % 3) + 3) % 3; e -= sh; m = Number((m * Math.pow(10, sh)).toPrecision(p)); }
+  return mant(m, p) + 'ᴇ' + e;
 }
 function fmtShort(v, w) {
   if (!Number.isFinite(v)) return 'ERROR';
@@ -1338,6 +1338,7 @@ for (const k in SBMP) {
   SF[k] = { w, rows };
 }
 SF[' '] = { w:4, rows:new Array(14).fill(0) };
+SF['▲'] = { w:9, rows:[0, 0, 0, 0, 0x10, 0x38, 0x7c, 0xfe, 0, 0, 0, 0, 0, 0] };      // solid up-triangle (status-bar hints)
 /* On the LCD: "⁻¹" is one character cell, × shows as ∗ and ÷ as / (as on the real calculator) */
 const D = s => s.replace(/x̄/g, '\uE020').replace(/p̂/g, '\uE021').replace(/⁻¹/g, '').replace(/×/g, '*').replace(/÷/g, '/');
 function blit(g, rows, w, x, y, color) {
@@ -1677,8 +1678,9 @@ function lineKey(ed, a) {
 function freshEdit(o, toks, a) {
   const ed = { t:toks, c:o.c };
   if (a === '@clear') { toks.length = 0; o.c = 0; o.fresh = false; return true; }
-  if (a[0] !== '@' && o.fresh) { toks.length = 0; ed.c = 0; }
-  if (a[0] !== '@' || a === '@del') o.fresh = false;
+  if (o.fresh) ed.c = 0;                                    // a field you have just arrived at shows its cursor at the START, because the first key you type replaces the old value
+  if (a[0] !== '@' && o.fresh) toks.length = 0;
+  if (a[0] !== '@' || a === '@del' || a === '@left' || a === '@right') o.fresh = false;   // moving the cursor means you want to edit the old value instead
   const r = lineKey(ed, a); o.c = ed.c; return r;
 }
 const isCalcErr = e => { if (!(e instanceof CalcErr)) throw e; return true; };
@@ -1712,6 +1714,19 @@ function fmtOut(r) {
   if (!SET.mp || !s.includes('/')) return s;
   const [nn, dd] = s.split('/'), neg = nn[0] === '-';
   return [...(neg ? ['-'] : []), { t:'frac', n:[...(neg ? nn.slice(1) : nn)], d:[...dd] }];
+}
+/* a long single-line editor scrolls sideways: the offset that keeps its cursor in view */
+function followCursor(ed, L, viewW, off) {
+  const probe = { row:rowOf(ed), i:ed.i, color:'#000', found:null };
+  L.draw(DRY, 0, 20, probe);
+  const cx = probe.found ? probe.found.x : 0;
+  if (cx + 14 > off + viewW) off = cx + 14 - viewW;
+  if (cx < off + 20) off = Math.max(0, cx - 20);
+  return Math.max(0, Math.min(off, Math.max(0, L.w + 14 - viewW)));
+}
+function edgeArrows(g, x0, x1, base, off, w, viewW) {                     // ◄ ► when part of a scrolled line is hidden
+  if (off > 0) { g.fillStyle = '#fff'; g.fillRect(x0, base - 14, 9, 16); sglyph(g, '◄', x0 + 1, base - 14, '#000'); }
+  if (w - off > viewW) { g.fillStyle = '#fff'; g.fillRect(x1 - 10, base - 14, 10, 16); sglyph(g, '►', x1 - 9, base - 14, '#000'); }
 }
 const DRY = document.createElement('canvas').getContext('2d');       // scratch surface to measure where the cursor lands
 const home = {
@@ -2086,7 +2101,7 @@ const modeScr = {
 /* ---- Y= editor (matches the CE: colour swatch, line-style icon, subscript index, MathPrint entry) ---- */
 const YE = Y.map(r => newEd(r));
 const yeqScr = {
-  canvas:true, sel:0,
+  canvas:true, sel:0, off:[],
   key(a) {
     const ed = YE[this.sel];
     if ((a === '@up' || a === '@down') && edInput(ed, a)) return;
@@ -2110,7 +2125,10 @@ const yeqScr = {
         const active = Y[i].length > 0;
         if (active) { g.fillStyle = '#000'; g.fillRect(42, base - 15, 12, 16); }
         lglyph(g, '=', 42, base - 15, active ? '#fff' : '#000');
-        L.draw(g, 56, base, i === this.sel ? ctx : null);
+        const vw = GW - 58, off = this.off[i] = i === this.sel ? followCursor(YE[i], L, vw, this.off[i] || 0) : 0;
+        g.save(); g.beginPath(); g.rect(56, y - 2, vw + 2, hs[i] + 4); g.clip();
+        L.draw(g, 56 - off, base, i === this.sel ? ctx : null);
+        g.restore(); edgeArrows(g, 56, GW - 2, base, off, L.w, vw);
       }
       y += hs[i];
     });
@@ -2145,7 +2163,7 @@ const winScr = {
     const b = blank(); let cursor;
     put(b, 0, 0, 'WINDOW');
     const c0 = CL() ? 0 : 1;
-    WFIELDS.forEach(([lab], i) => { put(b, i + 1, c0, lab + '='); const cc = putField(b, i + 1, c0 + lab.length + 1, this.toks[i], i === this.sel, this.c); if (i === this.sel) cursor = cc; });
+    WFIELDS.forEach(([lab], i) => { put(b, i + 1, c0, lab + '='); const cc = putField(b, i + 1, c0 + lab.length + 1, this.toks[i], i === this.sel, this.fresh ? 0 : this.c); if (i === this.sel) cursor = cc; });
     return { buf:b, cursor };
   }
 };
@@ -2186,7 +2204,7 @@ const tblsetScr = {
     const b = blank(); let cursor;
     put(b, 0, 0, 'TABLE SETUP');
     const c0 = CL() ? 0 : 1;
-    this.f.forEach((f, i) => { put(b, i + 1, c0, f.lab); const cc = putField(b, i + 1, c0 + f.lab.length, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc; });
+    this.f.forEach((f, i) => { put(b, i + 1, c0, f.lab); const cc = putField(b, i + 1, c0 + f.lab.length, f.t, this.sel === i, this.fresh ? 0 : this.c); if (this.sel === i) cursor = cc; });
     [['Indpnt:', TBL.indpnt], ['Depend:', TBL.depend]].forEach(([lab, val], k) => {
       const r = k + 3; put(b, r, c0, lab);
       ['Auto', 'Ask'].forEach((o, j) => {
@@ -2202,7 +2220,7 @@ const tblsetScr = {
 const tableScr = {
   canvas:true, r:0, c:0, coff:0, base:0, xs:[], inp:null, shown:new Set(),
   enter() { this.base = TBL.start; this.r = 0; this.c = 0; this.coff = 0; this.inp = null; },
-  hint() { return 'PRESS + FOR ΔTbl'; },
+  hint() { return this.c > 0 ? 'PRESS ▲ TO EDIT FUNCTION' : 'PRESS + FOR ΔTbl'; },
   cols() { return [-1, ...activeFns()]; },
   xAt(r) { return TBL.indpnt === 'Ask' ? this.xs[r] : Number((this.base + r * TBL.step).toPrecision(12)); },
   yShown(fi, x) { return TBL.depend === 'Auto' || this.shown.has(fi + ':' + x); },
@@ -2249,14 +2267,13 @@ const tableScr = {
     for (let r = 1; r < NR; r++) g.fillRect(0, HH + r * RH, 320, 1);
     vis.forEach((ci, k) => {
       const x0 = k * CW, fi = cols[ci], name = ci === 0 ? 'X' : 'Y' + String.fromCharCode(0x2081 + fi), selCol = ci === this.c;
-      if (selCol) { g.fillStyle = '#000'; g.fillRect(x0 + 1, 0, CW - 2, HH); }
-      stext(g, name, x0 + ((CW - swidth(name)) >> 1), 1, selCol ? '#fff' : ci === 0 ? '#000' : COLORS[fi]);
+      stext(g, name, x0 + ((CW - swidth(name)) >> 1), 1, ci === 0 ? '#000' : COLORS[fi]);           // the header row is never highlighted, only the cell
       for (let r = 0; r < NR; r++) {
         const x = this.xAt(r), y0 = HH + 1 + r * RH, sel = r === this.r && ci === this.c;
         let s = '';
         if (x !== undefined) {
-          if (ci === 0) s = fmtShort(x, 8);
-          else if (this.yShown(fi, x)) { const y = evalAt(Y[fi], x); s = Number.isFinite(y) ? fmtShort(y, 8) : 'ERROR'; }
+          if (ci === 0) s = fmtShort(x, 6);
+          else if (this.yShown(fi, x)) { const y = evalAt(Y[fi], x); s = Number.isFinite(y) ? fmtShort(y, 6) : 'ERROR'; }
         }
         if (sel) { g.fillStyle = '#000'; g.fillRect(x0 + 1, y0, CW - 2, RH - 1); }
         stext(g, s, x0 + 4, y0, sel ? '#fff' : ci === 0 ? '#000' : COLORS[fi]);
@@ -2272,7 +2289,7 @@ const tableScr = {
       if (this.c === 0) bottom = 'X=' + (x === undefined ? '' : fmt(x));
       else if (x !== undefined) {
         const fi = cols[this.c], y = evalAt(Y[fi], x); colr = COLORS[fi];
-        bottom = 'Y' + String.fromCharCode(0x2081 + fi) + '=' + (this.yShown(fi, x) ? (Number.isFinite(y) ? fmt(y) : 'ERROR') : '');
+        bottom = 'Y' + String.fromCharCode(0x2081 + fi) + '=' + (this.yShown(fi, x) ? (Number.isFinite(y) ? fmt(y, 14) : 'ERROR') : '');   // the bottom line shows 14 digits
       }
     }
     const end = ltext(g, bottom, 2, GH - 18, colr);
@@ -2280,18 +2297,33 @@ const tableScr = {
   }
 };
 
+/* Pasting a wizard's text into a MathPrint editor: a template such as √( opens a box, so the ) that closes it in the pasted text
+   must step out of the box instead of being typed inside it (otherwise the expression ends up with a stray parenthesis) */
+function pasteTokens(target, toks) {
+  const ed = target === home ? home.ed : target === yeqScr ? YE[yeqScr.sel] : (target === solverScr && solverScr.state === 'eq') ? solverScr.eds()[Math.min(solverScr.sel, 1)] : null;
+  if (!ed || !SET.mp) { toks.forEach(t => target.key(t)); return; }
+  const OPEN = new Set(['√(', 'abs(', '³√(']), stack = [];
+  for (const t of toks) {
+    const top = stack[stack.length - 1];
+    if (t === ')' && top && top.depth === ed.path.length && top.par === 0) { stack.pop(); edRight(ed); continue; }
+    const before = ed.path.length;
+    target.key(t);
+    if (OPEN.has(t) && ed.path.length > before) stack.push({ depth:ed.path.length, par:0 });
+    else if (top && top.depth === ed.path.length) { if (t === ')') top.par--; else if (t === '(' || t.endsWith('(')) top.par++; }
+  }
+}
 /* ---- DISTR input wizards (fill in the arguments, then Paste) ---- */
 const WIZ = {
   'normalpdf(':[['x',''],['μ','0'],['σ','1']],
-  'normalcdf(':[['lower',''],['upper',''],['μ','0'],['σ','1']],
+  'normalcdf(':[['lower','-1ᴇ99'],['upper',''],['μ','0'],['σ','1']],
   'invNorm(':[['area',''],['μ','0'],['σ','1'],['Tail','LEFT',['LEFT','CENTER','RIGHT']]],
   'invT(':[['area',''],['df','']],
   'tpdf(':[['x',''],['df','']],
-  'tcdf(':[['lower',''],['upper',''],['df','']],
+  'tcdf(':[['lower','-1ᴇ99'],['upper',''],['df','']],
   'χ²pdf(':[['x',''],['df','']],
-  'χ²cdf(':[['lower',''],['upper',''],['df','']],
+  'χ²cdf(':[['lower','0'],['upper',''],['df','']],
   'Fpdf(':[['x',''],['numerator df',''],['denominator df','']],
-  'Fcdf(':[['lower',''],['upper',''],['numerator df',''],['denominator df','']],
+  'Fcdf(':[['lower','0'],['upper',''],['numerator df',''],['denominator df','']],
   'binompdf(':[['trials',''],['p',''],['x value','']],
   'binomcdf(':[['trials',''],['p',''],['x value','']],
   'invBinom(':[['area',''],['trials',''],['p','']],
@@ -2328,7 +2360,7 @@ const wizScr = {
     const toks = [this.fn];
     this.fields.forEach((f, i) => { if (i) toks.push(','); toks.push(...f.t); });
     toks.push(')');
-    cur = this.prev; toks.forEach(t => this.prev.key(t));
+    cur = this.prev; pasteTokens(this.prev, toks);
   },
   render() {
     const b = blank(); let cursor;
@@ -2336,7 +2368,7 @@ const wizScr = {
     this.fields.forEach((f, i) => {
       const lab = f.lab + ':'; put(b, i + 1, 0, lab);
       if (f.opts) { let x = lab.length; f.opts.forEach(o => { put(b, i + 1, x, o, { inv:f.t[0] === o }); x += o.length + 1; }); if (this.sel === i) cursor = null; return; }
-      const cc = putField(b, i + 1, lab.length, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc;
+      const cc = putField(b, i + 1, lab.length, f.t, this.sel === i, this.fresh ? 0 : this.c); if (this.sel === i) cursor = cc;
     });
     const pr = this.fields.length + 1, onPaste = this.sel === this.fields.length;
     put(b, pr, 0, 'Paste', { inv:onPaste && S.blink });
@@ -2345,7 +2377,7 @@ const wizScr = {
 };
 
 /* ---- Numeric Solver: E1 and E2 boxes → OK → pick a variable → SOLVE ---- */
-const SOLV = { e1:newEd(), e2:newEd(), bt:[...'(-1ᴇ99,1ᴇ99)'], b:[-1e99, 1e99] };   // bt: text of the bound=(lo,hi) line (84 Plus), b: its parsed values
+const SOLV = { e1:newEd(), e2:newEd(), off:[0, 0], bt:[...'(-1ᴇ99,1ᴇ99)'], b:[-1e99, 1e99] };   // bt: text of the bound=(lo,hi) line (84 Plus), b: its parsed values
 /* value of x that brings f(x) as close to 0 as possible (wide multi-scale scan around the guess, then a local refinement) */
 function closestTo0(f, guess) {
   const F = safe(f); let best = null, bv = Infinity;
@@ -2402,10 +2434,14 @@ const solverScr = {
   rhs() { return SOLV.e2.root.length ? lin(SOLV.e2.root) : ['0']; },
   toVars() {
     if (!SOLV.e1.root.length) return;
-    let L;
-    try { L = lex([...this.lhs(), ',', ...this.rhs()]); } catch (e) { isCalcErr(e); return showError(e.message, null, this); }
-    const names = [];
-    L.forEach(t => { if (t.s && VARS.has(t.s) && !names.includes(t.s)) names.push(t.s); });
+    const names = [], seen = new Set();
+    /* the unknowns are the letters in the equation, plus those inside any Y₁…Y₉ it uses (Y₁ = 0.95 solves for X) */
+    const scan = toks => lex(toks).forEach(t => {
+      if (!t.s) return;
+      if (VARS.has(t.s) && !names.includes(t.s)) names.push(t.s);
+      else if (YVARS.includes(t.s) && !seen.has(t.s)) { seen.add(t.s); scan(lin(Y[YVARS.indexOf(t.s)])); }
+    });
+    try { scan([...this.lhs(), ',', ...this.rhs()]); } catch (e) { isCalcErr(e); return showError(e.message, null, this); }
     if (!names.length) return showError('INVALID', null, this);
     this.vars = names.map(n => ({ n, t:[...fmt(V[n] || 0)] }));
     if (CL()) this.vars.push({ n:'bound', bound:true, t:SOLV.bt });
@@ -2460,7 +2496,7 @@ const solverScr = {
       shown.forEach((v, i) => {
         if (this.solved === v.n) put(b2, i, 0, '■');
         put(b2, i, 1, v.n + '=');
-        const cc = putField(b2, i, 3, v.t, start + i === this.sel, this.c); if (start + i === this.sel) cursor = cc;
+        const cc = putField(b2, i, 3, v.t, start + i === this.sel, this.fresh ? 0 : this.c); if (start + i === this.sel) cursor = cc;
       });
       put(b2, shown.length, 1, 'bound={-1ᴇ99,1ᴇ99}');
       if (this.resid !== null) put(b2, shown.length + 1, 1, 'E1−E2=' + fmt(this.resid));
@@ -2474,13 +2510,16 @@ const solverScr = {
     let y = 24;
     let found = null;
     this.eds().forEach((ed, i) => {
-      const L = lay(ed.root, 0, false), h = Math.max(62, Math.max(L.asc, 15) + Math.max(L.desc, 1) + 8), base = y + 4 + Math.max(L.asc, 15);
+      const L = lay(ed.root, 0, false), asc = Math.max(L.asc, 15), desc = Math.max(L.desc, 1), h = Math.max(62, asc + desc + 8), base = y + ((h - asc - desc) >> 1) + asc;   // centred in the box
       ltext(g, 'E' + (i + 1) + ':', 1, y + ((h - 16) >> 1), '#000');
       g.fillStyle = '#000';
       const bx = 37, bw = GW - bx - 1, t = i === this.sel ? 2 : 1;
       g.fillRect(bx, y, bw, t); g.fillRect(bx, y + h - t, bw, t); g.fillRect(bx, y, t, h); g.fillRect(bx + bw - t, y, t, h);
       const ctx = { row:rowOf(ed), i:ed.i, color:'#000', found:null };
-      L.draw(g, bx + 4, base, i === this.sel ? ctx : null);
+      const vw = bw - 12, off = SOLV.off[i] = i === this.sel ? followCursor(ed, L, vw, SOLV.off[i] || 0) : 0;
+      g.save(); g.beginPath(); g.rect(bx + 3, y + 1, bw - 6, h - 2); g.clip();
+      L.draw(g, bx + 4 - off, base, i === this.sel ? ctx : null);
+      g.restore(); edgeArrows(g, bx + 3, bx + bw - 3, base, off, L.w, vw);
       if (i === this.sel) found = ctx.found;
       y += h + 8;
     });
@@ -2822,7 +2861,7 @@ const statWiz = {
         opts.forEach((o, j) => { put(b, y, x, o, { inv:(act === j) !== (focus && this.opt === j && S.blink) }); x += llen(o) + 1; });
         continue;
       }
-      const cc = putField(b, y, x0, this.st.v[k], focus, this.c);
+      const cc = putField(b, y, x0, this.st.v[k], focus, this.fresh ? 0 : this.c);
       if (focus) cursor = cc;
     }
     return { buf:b, cursor };
@@ -3412,8 +3451,7 @@ tableScr.paint84 = function () {
   const vis = [0, ...cols.slice(1).map((_, i) => i + 1).slice(this.coff, this.coff + 2)], NR = R - 2;
   vis.forEach((ci, k) => {
     const x0 = k * 32, fi = cols[ci], name = ci === 0 ? 'X' : 'Y' + (fi + 1), selCol = ci === this.c;
-    if (selCol) brect(x0, 0, 31, 7);
-    drawCells(cells84(name), x0 + 1, 0, selCol);
+    drawCells(cells84(name), x0 + 1, 0, false);
     for (let r = 0; r < NR; r++) {
       const x = this.xAt(r), y = 8 + r * 8, sel = r === this.r && ci === this.c;
       let s = '';
@@ -3549,10 +3587,10 @@ solverScr.render84 = function () {
   const y0 = eq.length, cap = Math.max(1, R - y0 - 1), n = this.vars.length;
   const start = Math.min(Math.max(0, this.sel - cap + 1), Math.max(0, n - cap)), shown = this.vars.slice(start, start + cap);
   shown.forEach((v, i) => {
-    if (v.bound) { put(b, y0 + i, 0, 'bound='); const cc = putField(b, y0 + i, 6, v.t, start + i === this.sel, this.c); if (start + i === this.sel) cursor = cc; return; }
+    if (v.bound) { put(b, y0 + i, 0, 'bound='); const cc = putField(b, y0 + i, 6, v.t, start + i === this.sel, this.fresh ? 0 : this.c); if (start + i === this.sel) cursor = cc; return; }
     if (this.solved === v.n) put(b, y0 + i, 0, '■');
     put(b, y0 + i, 1, v.n + '=');
-    const cc = putField(b, y0 + i, 3, v.t, start + i === this.sel, this.c); if (start + i === this.sel) cursor = cc;
+    const cc = putField(b, y0 + i, 3, v.t, start + i === this.sel, this.fresh ? 0 : this.c); if (start + i === this.sel) cursor = cc;
   });
   put(b, y0 + shown.length, 0, 'left-rt=' + (this.resid !== null ? fmt(this.resid) : ''));
   return { buf:b, cursor };
