@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="TI-84 CE">
+<meta name="apple-mobile-web-app-title" content="TI-84">
 <meta name="theme-color" content="#0c0d0f">
-<title>TI-84 Plus CE</title>
+<title>TI-84</title>
 <style>
 :root{--blue:#56b8ea;--green:#91c93f}
 *{box-sizing:border-box}
@@ -26,7 +26,7 @@ html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;b
   box-shadow:0 0 0 1px #3a3a3a,0 30px 70px rgba(0,0,0,.65),inset 0 2px 1px rgba(255,255,255,.10),inset 0 -2px 4px rgba(0,0,0,.6)}
 #body > *{position:absolute}
 .title{left:0;right:0;text-align:center;color:#f4f4f4;font:700 18px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.2px}
-.title span{font-weight:400}
+.title .tx span{font-weight:400}
 .ti{left:0;right:0;text-align:center;color:#ededed;font:600 13px/1 Georgia,"Times New Roman",serif;letter-spacing:.6px;font-variant:small-caps}
 .bezel{border-radius:16px 16px 26px 26px;background:linear-gradient(170deg,#1b1b1c 0%,#0b0b0c 40%,#0e0e0f 100%);
   box-shadow:inset 0 0 0 1px #2c2c2c,inset 0 1px 0 rgba(255,255,255,.13)}
@@ -71,7 +71,7 @@ html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;b
 #dpad path.pet{transition:fill .7s cubic-bezier(.2,.6,.3,1)}
 #dpad path.pet.hl{fill:#ffd54a;transition:none}
 /* ---- screenshot buttons ---- */
-#shots{position:absolute;left:342px;top:950px;z-index:5}
+#shots{position:absolute;left:50px;top:946px;z-index:5}
 #shots button{all:unset;box-sizing:border-box;width:48px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
   background:rgba(30,32,37,.92);border:1px solid #3a3e46;color:#d5d8dd;box-shadow:0 4px 14px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent}
 #shots button:hover{background:#2b2f36;color:#fff} #shots button:active{transform:scale(.94)}
@@ -79,6 +79,61 @@ html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;b
 #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);z-index:6;padding:10px 16px;border-radius:10px;background:rgba(20,22,26,.96);
   border:1px solid #3a3e46;color:#eef0f3;font:600 13px/1 "Helvetica Neue",Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---- model switch (click the name) ---- */
+#stage{transition:opacity .14s ease,transform .14s ease}
+#stage.swap{opacity:0;transform:scale(.965)}
+.title{pointer-events:none;display:flex;justify-content:center;align-items:center;height:34px}
+.tt{pointer-events:auto;cursor:pointer;position:relative;display:block;padding:7px 34px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);transition:background .15s,border-color .15s;white-space:nowrap}
+.tt:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.34)}
+.tt:active{transform:scale(.97)}
+.tt svg{position:absolute;right:11px;top:50%;margin-top:-6px;width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.6;transition:opacity .15s}
+.tt:hover svg{opacity:1}
+#hw84,#lcdfx{display:none;left:0;top:0;pointer-events:none}
+#hw84{width:100%;height:100%}
+#hw84 svg{display:block}
+#lcdfx{width:320px;height:240px;box-shadow:inset 0 0 0 1px rgba(20,24,14,.55),inset 0 0 16px rgba(30,40,20,.28)}
+/* ---- TI-84 Plus skin ---- */
+#calc.m84{--blue:#7f99c9;--green:#83b56c}
+#calc.m84 .lb.oncover{--blue:#4a68a3;--green:#4a8632}
+#calc.m84 #hw84,#calc.m84 #lcdfx{display:block}
+#calc.m84 #body{background:none;box-shadow:none}
+#calc.m84 .bezel,#calc.m84 .padlb{display:none}
+#calc.m84 .tt{border-color:rgba(70,85,122,.30);background:rgba(70,85,122,.06)}
+#calc.m84 .tt:hover{background:rgba(70,85,122,.16);border-color:rgba(70,85,122,.55)}
+#calc.m84 .title{color:#485a7c;font:italic 700 18px/1 Verdana,Tahoma,"DejaVu Sans",Geneva,sans-serif;letter-spacing:0}
+#calc.m84 .title span{font-weight:700}
+#calc.m84 #lcd{box-shadow:none;height:213px}
+#calc.m84 #lcdfx{height:213px}
+#calc.m84 .lb .g{margin-left:0}
+#calc.m84 .lb[data-k=xt] .g{display:none}
+#calc.m84 .lb{font:italic 700 10.5px/14px "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif}
+#calc.m84 .lb .up{text-transform:uppercase}
+#calc.m84 .key{border-radius:20% 20% 46% 46% / 26% 26% 62% 62%;font:800 12.5px/1 "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif;letter-spacing:.3px;
+  background:linear-gradient(#3b4658,#161c28 32%,#080b11);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(255,255,255,.05),0 0 0 1.5px #05070b,0 3px 4px rgba(0,0,0,.55)}
+#calc.m84 .key.up2{text-transform:uppercase}
+#calc.m84 .key.fn,#calc.m84 .key.fnsm{font-size:12.5px}
+#calc.m84 .key.down{box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 0 0 1.5px #05070b}
+#calc.m84 .key.k2nd{color:#fff;background:linear-gradient(#b2c9ee,#7396cf 55%,#5779b5);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),0 0 0 1.5px #1d2a45,0 3px 4px rgba(0,0,0,.55)}
+#calc.m84 .key.kalpha{color:#fff;background:linear-gradient(#b0e09d,#6eb55d 55%,#4a9340);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 0 0 1.5px #1c3a1a,0 3px 4px rgba(0,0,0,.55)}
+#calc.m84 #k-apps{color:#c9a0ea}
+#calc.m84 .key.light{color:#fff;background:linear-gradient(#cfcfcf,#959595 55%,#7a7a7a);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),0 0 0 1.5px #2a2c30,0 3px 4px rgba(0,0,0,.5)}
+#calc.m84 .key.light.fn{border-radius:42% 42% 50% 50% / 45% 45% 60% 60%;font-size:11.5px;letter-spacing:.1px;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+#calc.m84 .key.light.op{font-size:24px;font-weight:700}
+#calc.m84 .key.light.sm{align-items:flex-start;padding-top:13px;font-size:12.5px}
+#calc.m84 .key.light.num{color:#141414;font:italic 800 24px/1 "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif;
+  background:radial-gradient(ellipse 80% 65% at 50% 30%,#fff,#efefef 52%,#c2c2c2);
+  box-shadow:inset 0 -2px 3px rgba(0,0,0,.16),0 0 0 2px #232b39,0 0 0 3.5px #3a465a,0 3px 5px rgba(0,0,0,.5)}
+#calc.m84 .key.light.num.neg{font-size:18px}
+#calc.m84 .key.light.num.down{box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 0 0 2px #232b39,0 0 0 3.5px #3a465a}
+#calc.m84 #dpad path.pet{fill:url(#petg84)}
+#calc.m84 #dpad path.pet.half{fill:transparent}
+#calc.m84 #dpad path.pet.half.down{fill:rgba(255,255,255,.28)}
+#calc.m84 #dpad path.pet.half.hl{fill:rgba(255,213,74,.85)}
+#calc.m84 #dpad path.pet.down{fill:#d9d9d9}
+#calc.m84 #dpad path.pet.hl{fill:#ffd54a}
 </style>
 </head>
 <body>
@@ -95,9 +150,10 @@ html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;b
 <script>
 "use strict";
 /* ================= Constants & state ================= */
-const W = 26, R = 10;               // home screen: 26 columns × 10 rows (large font)
+let W = 26, R = 10;                // home screen: 26 columns × 10 rows (large font)
 const SBH = 30;                     // status bar height in LCD pixels
 const GW = 320, GH = 240 - SBH;     // drawing area below the status bar
+let MODEL = 'ce';                     // 'ce' = TI-84 Plus CE, '84' = TI-84 Plus (classic)
 const $ = id => document.getElementById(id);
 const S = { second:false, alpha:false, alock:false, ins:false, off:false, blink:true, bright:1 };
 const SET = { note:'NORMAL', fix:-1, angle:'RADIAN', mp:true };
@@ -399,7 +455,6 @@ const FN = {
   /* DISTR */
   'normalpdf(': [1,3,(x, m = 0, s = 1) => { if (!(s > 0)) err('DOMAIN'); const z = (x - m) / s; return Math.exp(-z * z / 2) / (s * Math.sqrt(2 * Math.PI)); }],
   'normalcdf(': [2,4,(a, b, m = 0, s = 1) => { if (!(s > 0)) err('DOMAIN'); return normBetween((a - m) / s, (b - m) / s); }],
-  'invNorm(':   [1,3,(p, m = 0, s = 1) => { if (!(s > 0)) err('DOMAIN'); return m + s * invNormStd(p); }],
   'invT(':      [2,2,(p, df) => {
     if (!(p > 0 && p < 1)) err('DOMAIN'); posDF(df);
     let lo = -1, hi = 1; while (tLo(lo, df) > p) lo *= 2; while (tLo(hi, df) < p) hi *= 2;
@@ -456,6 +511,7 @@ const SYSVARS = {
   Xmin:() => WIN.xmin, Xmax:() => WIN.xmax, Xscl:() => WIN.xscl, Ymin:() => WIN.ymin, Ymax:() => WIN.ymax, Yscl:() => WIN.yscl,
   Xres:() => WIN.xres, 'ΔX':() => (WIN.xmax - WIN.xmin) / 264, 'ΔY':() => (WIN.ymax - WIN.ymin) / 164,
   TblStart:() => TBL.start, 'ΔTbl':() => TBL.step,
+  LEFT:() => 1, CENTER:() => 2, RIGHT:() => 3,          // invNorm tail options
 };
 /* keys that auto-insert "Ans" when pressed first on an empty home line */
 const OPSTART = new Set(['+','−','×','÷','^','²','⁻¹','³','!','→','ˣ√',' nPr ',' nCr ','°','ʳ','=','≠','>','≥','<','≤',' and ',' or ',' xor ', ...FMTOPS]);
@@ -916,8 +972,20 @@ function fmtDMS(v) {
   return sg + d + '°' + m + "'" + stripZero(String(s)) + '"';
 }
 
+
+/* invNorm(area, μ, σ, tail): tail LEFT (1, default) = area to the left, CENTER (2) = middle area → {lower, upper}, RIGHT (3) = area to the right */
+LFN['invNorm('] = [1, 4, (p, m = 0, s = 1, tail = 1) => {
+  if (typeof m !== 'number' || typeof s !== 'number' || typeof tail !== 'number') err('DATA TYPE');
+  if (!(s > 0)) err('DOMAIN'); if (tail !== 1 && tail !== 2 && tail !== 3) err('DOMAIN');
+  const one = q => {
+    if (!(q > 0 && q < 1)) err('DOMAIN');
+    if (tail === 2) { const z = invNormStd((1 + q) / 2); return [m - s * z, m + s * z]; }
+    return m + s * invNormStd(tail === 3 ? 1 - q : q);
+  };
+  return isL(p) ? p.map(q => { const r = one(q); if (tail === 2) err('DATA TYPE'); return r; }) : one(p);
+}];
 /* ================= Number formatting (10 significant digits, TI style) ================= */
-function stripZero(s) { return s; }             // keep the leading 0 (0.5, not .5)
+function stripZero(s) { return MODEL === '84' ? s.replace(/^(-?)0\./, '$1.') : s; }   // CE keeps the leading 0 (0.5); the 84 Plus shows .5
 function mant(m) {
   if (SET.fix >= 0) return m.toFixed(SET.fix);
   return String(Number(m.toPrecision(10)));
@@ -1642,7 +1710,8 @@ const home = {
     if (this.sel !== null) {
       const it = this.histItems()[this.sel], hh = this.hist[it.i];
       const mn = it.part === 'out' && Array.isArray(hh.out) ? hh.out.find(x => typeof x === 'object' && x.t === 'mat') : null;
-      if (mn && (a === '@left' || a === '@right')) { mn.off = Math.max(0, Math.min(mn.cols - 1, (mn.off || 0) + (a === '@left' ? -1 : 1))); return; }
+      if (CL() && it.part === 'out' && typeof hh.out === 'string' && (a === '@left' || a === '@right')) { hh.off = Math.max(0, (hh.off || 0) + (a === '@left' ? -1 : 1)); return; }
+      if (mn && (a === '@left' || a === '@right')) { mn.off = CL() ? Math.max(0, (mn.off || 0) + (a === '@left' ? -1 : 1)) : Math.max(0, Math.min(mn.cols - 1, (mn.off || 0) + (a === '@left' ? -1 : 1))); return; }
       this.sel = null;
       if (a === '@enter') {                      // paste the highlighted entry/answer at the cursor
         const h = hh, src = it.part === 'in' ? clone(h.row) : typeof h.out === 'string' ? [...h.out] : mn ? matTokens(mn) : clone(h.out);
@@ -1721,7 +1790,7 @@ const errScr = {
   },
   render() {
     const b = blank();
-    put(b, 0, 0, 'ERROR:' + this.type);
+    put(b, 0, 0, (CL() ? 'ERR:' : 'ERROR:') + this.type);
     put(b, 2, 0, '1:', { inv:this.sel === 0 }); put(b, 2, 2, 'Quit');
     put(b, 3, 0, '2:', { inv:this.sel === 1 }); put(b, 3, 2, 'Goto');
     return { buf:b };
@@ -1736,6 +1805,7 @@ const stubScr = {
   render() {
     const b = blank();
     put(b, 0, 0, this.title.slice(0, W), { inv:true });
+    if (CL()) { put(b, 2, 0, 'Not part of'); put(b, 3, 0, 'this emulation.'); put(b, 5, 0, 'Press any key.'); return { buf:b }; }
     put(b, 2, 0, 'This feature is not');
     put(b, 3, 0, 'part of this emulation.');
     put(b, 5, 0, 'Press any key to return');
@@ -1781,11 +1851,11 @@ const MENUS = {
     ['ZBox', zoomGo(() => {})],
     ['Zoom In', zoomGo(() => zoomBy(1/4))],
     ['Zoom Out', zoomGo(() => zoomBy(4))],
-    ['ZDecimal', zoomGo(() => setWin(-6.6, 6.6, 1, -4.1, 4.1, 1))],
+    ['ZDecimal', zoomGo(() => CL() ? setWin(-4.7, 4.7, 1, -3.1, 3.1, 1) : setWin(-6.6, 6.6, 1, -4.1, 4.1, 1))],
     ['ZSquare', zoomGo(() => { const cx = (WIN.xmin + WIN.xmax) / 2, h = (WIN.ymax - WIN.ymin) * PW / PH / 2; WIN.xmin = cx - h; WIN.xmax = cx + h; })],
     ['ZStandard', zoomGo(() => setWin(-10, 10, 1, -10, 10, 1))],
     ['ZTrig', zoomGo(() => isDeg() ? setWin(-352.5, 352.5, 90, -4, 4, 1) : setWin(-6.152285613, 6.152285613, Math.PI / 2, -4, 4, 1))],
-    ['ZInteger', zoomGo(() => setWin(-160, 159, 10, -105, 105, 10))],
+    ['ZInteger', zoomGo(() => CL() ? setWin(-47, 47, 10, -31, 31, 10) : setWin(-160, 159, 10, -105, 105, 10))],
     ['ZoomStat', zoomGo(() => {})],
     ['ZoomFit', zoomGo(zoomFit)],
   ]}],
@@ -1809,7 +1879,7 @@ MENUS.CATALOG = [{ name:'CATALOG', numbered:false, items:[...new Set([...Object.
 const numLabel = i => i < 9 ? String(i + 1) : i === 9 ? '0' : String.fromCharCode(65 + i - 10);
 const menu = {
   def:null, tab:0, sel:0, top:0, prev:null,
-  open(name) { this.def = MENUS[name]; this.tab = 0; this.sel = 0; this.top = 0; this.prev = cur === this ? this.prev : cur; setScreen(this); },
+  open(name) { this.def = (CL() && MENUS84[name]) || MENUS[name]; this.tab = 0; this.sel = 0; this.top = 0; this.prev = cur === this ? this.prev : cur; setScreen(this); },
   get items() { const it = this.def[this.tab].items; return typeof it === 'function' ? it() : it; },
   key(a) {
     const n = this.items.length, numbered = this.def[this.tab].numbered !== false;
@@ -1821,13 +1891,13 @@ const menu = {
     else if (numbered && /^[0-9]$/.test(a)) { const i = a === '0' ? 9 : +a - 1; if (i < n) return this.choose(i); }
     else if (numbered && /^[A-Z]$/.test(a)) { const i = 10 + a.charCodeAt(0) - 65; if (i < n) return this.choose(i); }
     if (this.sel < this.top) this.top = this.sel;
-    if (this.sel > this.top + 8) this.top = this.sel - 8;
+    if (this.sel > this.top + R - 2) this.top = this.sel - (R - 2);
   },
   choose(i) {
     const act = this.items[i][1], prev = this.prev;
     cur = prev;
     if (typeof act === 'function') act();
-    else if (WIZ[act]) wizScr.open(act, prev);          // DISTR functions open their input wizard
+    else if (WIZ[act] && !CL()) wizScr.open(act, prev);          // DISTR functions open their input wizard
     else prev.key(act);
   },
   render() {
@@ -1835,13 +1905,13 @@ const menu = {
     let x = 0;
     this.def.forEach((t, i) => { put(b, 0, x, t.name, { inv:i === this.tab }); x += t.name.length + 1; });
     const tab = this.def[this.tab], items = this.items;
-    for (let r = 0; r < 9 && this.top + r < items.length; r++) {
+    for (let r = 0; r < R - 1 && this.top + r < items.length; r++) {
       const i = this.top + r;
       if (tab.numbered === false) {
         put(b, r + 1, 0, i === this.sel ? '►' : ' ');
         put(b, r + 1, 1, items[i][0]);
       } else {
-        const more = r === 8 && i < items.length - 1;
+        const more = r === R - 2 && i < items.length - 1;
         put(b, r + 1, 0, numLabel(i) + (more ? '↓' : ':'), { inv:i === this.sel });
         put(b, r + 1, 2, items[i][0]);
       }
@@ -1895,7 +1965,8 @@ const popScr = {
 /* ---- MODE screen ---- */
 const modeScr = {
   r:0, i:0,
-  rows:[
+  get rows() { return CL() ? this.rowsAll.slice(0, 3) : this.rowsAll; },
+  rowsAll:[
     { opts:['NORMAL','SCI','ENG'], get:() => ['NORMAL','SCI','ENG'].indexOf(SET.note), set:i => SET.note = ['NORMAL','SCI','ENG'][i] },
     { opts:['FLOAT','0','1','2','3','4','5','6','7','8','9'], get:() => SET.fix + 1, set:i => SET.fix = i - 1 },
     { opts:['RADIAN','DEGREE'], get:() => SET.angle === 'RADIAN' ? 0 : 1, set:i => SET.angle = i ? 'DEGREE' : 'RADIAN' },
@@ -1913,6 +1984,20 @@ const modeScr = {
   },
   render() {
     const b = blank();
+    if (CL()) {                                              // 84 Plus MODE screen: 8 rows of 16 characters
+      this.rows.forEach((row, r) => {
+        let x = 0; const act = row.get();
+        row.opts.forEach((o, j) => {
+          const focus = this.r === r && this.i === j;
+          put(b, r, x, o, { inv:(act === j) !== (focus && S.blink) });
+          x += r === 1 && j > 0 ? 1 : o.length + 1;              // FLOAT 0123456789: the digits sit side by side
+        });
+      });
+      [['FUNC','PAR','POL','SEQ'],['CONNECTED','DOT'],['SEQUENTIAL','SIMUL'],['REAL','a+bi','re^θi'],['FULL','HORIZ','G−T']].forEach((row, k) => {
+        let x = 0; row.forEach((o, j) => { put(b, 3 + k, x, o, { inv:j === 0 }); x += o.length + 1; });
+      });
+      return { buf:b };
+    }
     this.rows.forEach((row, r) => {
       let x = 0; const act = row.get();
       row.opts.forEach((o, j) => {
@@ -1987,7 +2072,8 @@ const winScr = {
   render() {
     const b = blank(); let cursor;
     put(b, 0, 0, 'WINDOW');
-    WFIELDS.forEach(([lab], i) => { put(b, i + 1, 1, lab + '='); const cc = putField(b, i + 1, lab.length + 2, this.toks[i], i === this.sel, this.c); if (i === this.sel) cursor = cc; });
+    const c0 = CL() ? 0 : 1;
+    WFIELDS.forEach(([lab], i) => { put(b, i + 1, c0, lab + '='); const cc = putField(b, i + 1, c0 + lab.length + 1, this.toks[i], i === this.sel, this.c); if (i === this.sel) cursor = cc; });
     return { buf:b, cursor };
   }
 };
@@ -2027,12 +2113,13 @@ const tblsetScr = {
   render() {
     const b = blank(); let cursor;
     put(b, 0, 0, 'TABLE SETUP');
-    this.f.forEach((f, i) => { put(b, i + 1, 1, f.lab); const cc = putField(b, i + 1, f.lab.length + 1, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc; });
+    const c0 = CL() ? 0 : 1;
+    this.f.forEach((f, i) => { put(b, i + 1, c0, f.lab); const cc = putField(b, i + 1, c0 + f.lab.length, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc; });
     [['Indpnt:', TBL.indpnt], ['Depend:', TBL.depend]].forEach(([lab, val], k) => {
-      const r = k + 3; put(b, r, 1, lab);
+      const r = k + 3; put(b, r, c0, lab);
       ['Auto', 'Ask'].forEach((o, j) => {
         const act = val === o, focus = this.sel === k + 2 && this.opt === j;
-        put(b, r, j ? 14 : 9, o, { inv:act !== (focus && S.blink) });
+        put(b, r, CL() ? (j ? 13 : 8) : (j ? 14 : 9), o, { inv:act !== (focus && S.blink) });
       });
     });
     return { buf:b, cursor };
@@ -2053,7 +2140,7 @@ const tableScr = {
     if (this.inp !== null) {
       if (a === '@enter') {
         const t = this.inp; this.inp = null; if (!t.length) return;
-        try { const v = evaluate(t).v; this.xs[this.r] = v; this.xs = this.xs.filter(x => x !== undefined); if (this.r < 10) this.r = Math.min(this.r + 1, this.xs.length); }
+        try { const v = evaluate(t).v; this.xs[this.r] = v; this.xs = this.xs.filter(x => x !== undefined); if (this.r < (CL() ? R - 3 : 10)) this.r = Math.min(this.r + 1, this.xs.length); }
         catch (e) { isCalcErr(e); showError(e.message, null, this); }
         return;
       }
@@ -2064,7 +2151,7 @@ const tableScr = {
     }
     if (a === '@up') { if (this.r > 0) this.r--; else if (TBL.indpnt === 'Auto') this.base = Number((this.base - TBL.step).toPrecision(12)); return; }
     if (a === '@down') {
-      const max = TBL.indpnt === 'Ask' ? Math.min(10, this.xs.length) : 10;
+      const tr = CL() ? R - 3 : 10, max = TBL.indpnt === 'Ask' ? Math.min(tr, this.xs.length) : tr;
       if (this.r < max) this.r++; else if (TBL.indpnt === 'Auto') this.base = Number((this.base + TBL.step).toPrecision(12));
       return;
     }
@@ -2125,7 +2212,7 @@ const tableScr = {
 const WIZ = {
   'normalpdf(':[['x',''],['μ','0'],['σ','1']],
   'normalcdf(':[['lower',''],['upper',''],['μ','0'],['σ','1']],
-  'invNorm(':[['area',''],['μ','0'],['σ','1']],
+  'invNorm(':[['area',''],['μ','0'],['σ','1'],['Tail','LEFT',['LEFT','CENTER','RIGHT']]],
   'invT(':[['area',''],['df','']],
   'tpdf(':[['x',''],['df','']],
   'tcdf(':[['lower',''],['upper',''],['df','']],
@@ -2146,8 +2233,8 @@ const wizScr = {
   fn:'', fields:[], sel:0, c:0, fresh:true, prev:null,
   open(fn, prev) {
     this.fn = fn; this.prev = prev;
-    if (!WIZVAL[fn]) WIZVAL[fn] = WIZ[fn].map(([, d]) => [...d]);
-    this.fields = WIZ[fn].map(([lab], i) => ({ lab, t:WIZVAL[fn][i] }));
+    if (!WIZVAL[fn]) WIZVAL[fn] = WIZ[fn].map(([, d, o]) => o ? [d] : [...d]);        // an option field holds one word, e.g. ['LEFT']
+    this.fields = WIZ[fn].map(([lab, , opts], i) => ({ lab, opts, t:WIZVAL[fn][i] }));
     this.sel = 0; this.c = this.fields[0].t.length; this.fresh = true; cur = this;
   },
   key(a) {
@@ -2158,6 +2245,11 @@ const wizScr = {
     }
     if (a === '@enter') return this.paste();
     if (a === '@clear' && this.sel === n) { cur = this.prev; return; }
+    const f = this.fields[this.sel];
+    if (f && f.opts) {                                       // option row: ◀ ▶ choose LEFT / CENTER / RIGHT
+      if (a === '@left' || a === '@right') { const k = f.opts.indexOf(f.t[0]) + (a === '@left' ? -1 : 1); f.t[0] = f.opts[(k + f.opts.length) % f.opts.length]; }
+      return;
+    }
     if (this.sel < n) freshEdit(this, this.fields[this.sel].t, a);
   },
   paste() {
@@ -2169,7 +2261,11 @@ const wizScr = {
   render() {
     const b = blank(); let cursor;
     put(b, 0, 0, this.fn.replace('(', ''));
-    this.fields.forEach((f, i) => { const lab = f.lab + ':'; put(b, i + 1, 0, lab); const cc = putField(b, i + 1, lab.length, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc; });
+    this.fields.forEach((f, i) => {
+      const lab = f.lab + ':'; put(b, i + 1, 0, lab);
+      if (f.opts) { let x = lab.length; f.opts.forEach(o => { put(b, i + 1, x, o, { inv:f.t[0] === o }); x += o.length + 1; }); if (this.sel === i) cursor = null; return; }
+      const cc = putField(b, i + 1, lab.length, f.t, this.sel === i, this.c); if (this.sel === i) cursor = cc;
+    });
     const pr = this.fields.length + 1, onPaste = this.sel === this.fields.length;
     put(b, pr, 0, 'Paste', { inv:onPaste && S.blink });
     return { buf:b, cursor:onPaste ? null : cursor };
@@ -2177,7 +2273,7 @@ const wizScr = {
 };
 
 /* ---- Numeric Solver: E1 and E2 boxes → OK → pick a variable → SOLVE ---- */
-const SOLV = { e1:newEd(), e2:newEd() };
+const SOLV = { e1:newEd(), e2:newEd(), bt:[...'(-1ᴇ99,1ᴇ99)'], b:[-1e99, 1e99] };   // bt: text of the bound=(lo,hi) line (84 Plus), b: its parsed values
 /* value of x that brings f(x) as close to 0 as possible (wide multi-scale scan around the guess, then a local refinement) */
 function closestTo0(f, guess) {
   const F = safe(f); let best = null, bv = Infinity;
@@ -2197,6 +2293,13 @@ const solverScr = {
   eds() { return [SOLV.e1, SOLV.e2]; },
   f5() { if (this.state === 'eq') this.toVars(); else this.solve(); },
   key(a) {
+    if (CL() && this.state === 'eq') {                       // 84 Plus: one line, eqn:0=
+      this.sel = 0; const ed = SOLV.e1;
+      if (a === '@enter' || a === '@down' || a === '@solve') return this.toVars();
+      if (a === '@up') return;
+      if (a[0] !== '@' && this.newBox[0]) edClear(ed);
+      this.newBox[0] = false; edInput(ed, a); return;
+    }
     if (this.state === 'eq') {
       const ed = this.eds()[Math.min(this.sel, 1)];
       if (this.sel < 2 && (a === '@up' || a === '@down') && edInput(ed, a)) return;
@@ -2212,7 +2315,7 @@ const solverScr = {
     }
     if (a === '@up') {
       this.commit();
-      if (this.sel === 0) { this.state = 'eq'; this.sel = 2; } else { this.sel--; this.c = this.vars[this.sel].t.length; this.fresh = true; }
+      if (this.sel === 0) { this.state = 'eq'; this.sel = CL() ? 0 : 2; } else { this.sel--; this.c = this.vars[this.sel].t.length; this.fresh = true; }
       return;
     }
     if (a === '@down' || a === '@enter') {
@@ -2233,20 +2336,34 @@ const solverScr = {
     L.forEach(t => { if (t.s && VARS.has(t.s) && !names.includes(t.s)) names.push(t.s); });
     if (!names.length) return showError('INVALID', null, this);
     this.vars = names.map(n => ({ n, t:[...fmt(V[n] || 0)] }));
-    this.state = 'vars'; this.sel = 0; this.c = this.vars[0].t.length; this.fresh = true; this.solved = null; this.resid = null;
+    if (CL()) this.vars.push({ n:'bound', bound:true, t:SOLV.bt });
+    this.last = 0; this.state = 'vars'; this.sel = 0; this.c = this.vars[0].t.length; this.fresh = true; this.solved = null; this.resid = null;
+  },
+  boundParse(t) {                                             // "(lo,hi)" — the parentheses are optional
+    let s = t.slice(); if (s[0] === '(') s.shift(); if (s[s.length - 1] === ')') s.pop();
+    const k = s.indexOf(','); if (k < 0) err('INVALID');
+    const lo = needNum(evaluate(s.slice(0, k)).v), hi = needNum(evaluate(s.slice(k + 1)).v);
+    if (!(lo < hi)) err('BOUND');
+    return [lo, hi];
   },
   commit() {
     const v = this.vars[this.sel]; if (!v) return;
+    if (v.bound) {
+      try { SOLV.b = this.boundParse(v.t); } catch (e) { isCalcErr(e); v.t = SOLV.bt = [...'(' + fmt(SOLV.b[0]) + ',' + fmt(SOLV.b[1]) + ')']; return showError(e.message, null, this); }
+      SOLV.bt = v.t = [...'(' + fmt(SOLV.b[0]) + ',' + fmt(SOLV.b[1]) + ')']; return;
+    }
+    this.last = this.sel;
     try { V[v.n] = evaluate(v.t).v; } catch (e) { isCalcErr(e); }
     v.t = [...fmt(V[v.n] || 0)];
   },
   solve() {
     this.commit();
-    const v = this.vars[this.sel], guess = V[v.n] || 0;
+    const v = this.vars[this.vars[this.sel].bound ? this.last : this.sel], guess = V[v.n] || 0, [lo, hi] = CL() ? SOLV.b : [-1e99, 1e99];
+    if (guess < lo || guess > hi) return showError('BOUND', null, this);
     const f = x => { V[v.n] = x; return evaluate(this.lhs()).v - evaluate(this.rhs()).v; };
     try {
       let r;
-      try { r = findRoot(f, guess); }
+      try { r = findRoot(f, guess, lo, hi); }
       catch (e) {                                            // like the real solver: no exact root → report the closest value found
         if (!(e instanceof CalcErr) || e.message !== 'NO SIGN CHANGE') throw e;
         r = closestTo0(f, guess);
@@ -2314,7 +2431,7 @@ function evalAt(row, x) {
   const save = V.X; V.X = x;
   try { return evaluate(lin(row)).v; } catch (e) { return NaN; } finally { V.X = save; }
 }
-const PX = 25, PY = 16, PW = 265, PH = 165;      // graph window inside the grey border (CE layout)
+const PX = 25, PY = 16; let PW = 265, PH = 165;      // graph window inside the grey border (CE layout)
 const PROMPTS = { zero:['Left Bound?','Right Bound?','Guess?'], minimum:['Left Bound?','Right Bound?','Guess?'], maximum:['Left Bound?','Right Bound?','Guess?'],
   intersect:['First curve?','Second curve?','Guess?'], integral:['Lower Limit?','Upper Limit?'], dydx:[''], value:[''] };
 const graphScr = {
@@ -2645,7 +2762,7 @@ const listEd = {
   canvas:true, c:0, r:0, top:0, coff:0, inp:null,
   get name() { return LNAMES[this.c]; },
   enter() { this.inp = null; },
-  clampR() { this.r = Math.min(this.r, LISTS[this.name].length); if (this.r < this.top) this.top = Math.max(0, this.r); if (this.r > this.top + 10) this.top = this.r - 10; },
+  clampR() { this.r = Math.min(this.r, LISTS[this.name].length); if (this.r < this.top) this.top = Math.max(0, this.r); const vr = CL() ? R - 3 : 10; if (this.r > this.top + vr) this.top = this.r - vr; },
   key(a) {
     const Ls = LISTS[this.name];
     if (this.inp !== null) {
@@ -2751,8 +2868,9 @@ const matEd = {
   },
   get m() { return MATS[this.name]; },
   scroll() {
-    if (this.r < this.top) this.top = this.r; if (this.r > this.top + 11) this.top = this.r - 11;
-    if (this.c < this.coff) this.coff = this.c; if (this.c > this.coff + 4) this.coff = this.c - 4;
+    const vr = CL() ? R - 4 : 11, vc = CL() ? 2 : 4;
+    if (this.r < this.top) this.top = this.r; if (this.r > this.top + vr) this.top = this.r - vr;
+    if (this.c < this.coff) this.coff = this.c; if (this.c > this.coff + vc) this.coff = this.c - vc;
   },
   next() {                                       // ENTER: on to the next entry, wrapping to the next row
     const m = this.m; if (this.c < m.c - 1) this.c++; else if (this.r < m.r - 1) { this.r++; this.c = 0; }
@@ -2937,7 +3055,7 @@ function dispatch(act) {
   const go = s => { leaveCur(); setScreen(s); };
   const menuOpen = name => { leaveCur(); menu.open(name); };
   if (act === '@graph' && cur.f5) cur.f5();                               // soft key above GRAPH (OK / SOLVE)
-  else if (act.startsWith('@pop:')) popScr.open(+act.slice(5));
+  else if (act.startsWith('@pop:')) { if (!CL()) popScr.open(+act.slice(5)); }
   else if (act === '@bright+' || act === '@bright-') {
     S.bright = Math.max(.35, Math.min(1.25, S.bright + (act === '@bright+' ? .1 : -.1)));
     $('lcd').style.filter = `brightness(${S.bright})`;
@@ -2992,26 +3110,417 @@ function drawScreen(scr) {
 }
 function paint() {
   armKeys();
+  if (CL()) return paint84();
   g.setTransform(2, 0, 0, 2, 0, 0);
-  if (S.off) { g.fillStyle = '#050505'; g.fillRect(0, 0, 320, 240); return; }
+  if (S.off) { g.fillStyle = MODEL === '84' ? '#7d8672' : '#050505'; g.fillRect(0, 0, 320, 240); return; }
   drawStatus();
   drawScreen(cur);
 }
+/* TI-84 Plus screen: monochrome — everything is reduced to dark ink on a grey-green LCD */
+function mono() {
+  const id = g.getImageData(0, 0, 640, 480), d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    let t = ((0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2]) - 110) / 80; t = t < 0 ? 0 : t > 1 ? 1 : t;
+    d[i] = 22 + t * 143; d[i + 1] = 26 + t * 148; d[i + 2] = 18 + t * 134;
+  }
+  g.putImageData(id, 0, 0);
+}
+
+/* ================= TI-84 Plus (classic OS) =================
+   Its own screen: 96×64 monochrome pixels, a 16-column × 8-row text grid (6×8 cells, 5×7 glyphs), no status bar.
+   Everything under "TI-84 Plus" in this file only runs while MODEL === '84'; the maths engine, editors and
+   stats code are shared with the CE. */
+const CL = () => MODEL === '84';
+const LW = 96, LH = 64, B84 = new Uint8Array(LW * LH);
+
+/* ---- 5×7 font (rows of 5 pixels, 8 rows per cell) ---- */
+const G84_SRC = {
+  ' ':'...../...../...../...../...../...../.....',
+  '0':'.###./#...#/#..##/#.#.#/##..#/#...#/.###.', '1':'..#../.##../..#../..#../..#../..#../.###.', '2':'.###./#...#/....#/...#./..#../.#.../#####',
+  '3':'#####/...#./..#../...#./....#/#...#/.###.', '4':'...#./..##./.#.#./#..#./#####/...#./...#.', '5':'#####/#..../####./....#/....#/#...#/.###.',
+  '6':'..##./.#.../#..../####./#...#/#...#/.###.', '7':'#####/....#/...#./..#../.#.../.#.../.#...', '8':'.###./#...#/#...#/.###./#...#/#...#/.###.',
+  '9':'.###./#...#/#...#/.####/....#/...#./.##..',
+  'A':'.###./#...#/#...#/#####/#...#/#...#/#...#', 'B':'####./#...#/#...#/####./#...#/#...#/####.', 'C':'.###./#...#/#..../#..../#..../#...#/.###.',
+  'D':'####./#...#/#...#/#...#/#...#/#...#/####.', 'E':'#####/#..../#..../####./#..../#..../#####', 'F':'#####/#..../#..../####./#..../#..../#....',
+  'G':'.###./#...#/#..../#.###/#...#/#...#/.####', 'H':'#...#/#...#/#...#/#####/#...#/#...#/#...#', 'I':'.###./..#../..#../..#../..#../..#../.###.',
+  'J':'..###/...#./...#./...#./...#./#..#./.##..', 'K':'#...#/#..#./#.#../##.../#.#../#..#./#...#', 'L':'#..../#..../#..../#..../#..../#..../#####',
+  'M':'#...#/##.##/#.#.#/#.#.#/#...#/#...#/#...#', 'N':'#...#/#...#/##..#/#.#.#/#..##/#...#/#...#', 'O':'.###./#...#/#...#/#...#/#...#/#...#/.###.',
+  'P':'####./#...#/#...#/####./#..../#..../#....', 'Q':'.###./#...#/#...#/#...#/#.#.#/#..#./.##.#', 'R':'####./#...#/#...#/####./#.#../#..#./#...#',
+  'S':'.####/#..../#..../.###./....#/....#/####.', 'T':'#####/..#../..#../..#../..#../..#../..#..', 'U':'#...#/#...#/#...#/#...#/#...#/#...#/.###.',
+  'V':'#...#/#...#/#...#/#...#/#...#/.#.#./..#..', 'W':'#...#/#...#/#...#/#.#.#/#.#.#/##.##/#...#', 'X':'#...#/#...#/.#.#./..#../.#.#./#...#/#...#',
+  'Y':'#...#/#...#/.#.#./..#../..#../..#../..#..', 'Z':'#####/....#/...#./..#../.#.../#..../#####',
+  'a':'...../...../.###./....#/.####/#...#/.####', 'b':'#..../#..../####./#...#/#...#/#...#/####.', 'c':'...../...../.###./#...#/#..../#...#/.###.',
+  'd':'....#/....#/.####/#...#/#...#/#...#/.####', 'e':'...../...../.###./#...#/#####/#..../.###.', 'f':'..##./.#..#/.#.../###../.#.../.#.../.#...',
+  'g':'...../...../.####/#...#/#...#/.####/....#/.###.', 'h':'#..../#..../#.##./##..#/#...#/#...#/#...#', 'i':'..#../...../.##../..#../..#../..#../.###.',
+  'j':'...#./...../..##./...#./...#./...#./#..#./.##..', 'k':'#..../#..../#..#./#.#../##.../#.#../#..#.', 'l':'.##../..#../..#../..#../..#../..#../.###.',
+  'm':'...../...../##.#./#.#.#/#.#.#/#.#.#/#.#.#', 'n':'...../...../#.##./##..#/#...#/#...#/#...#', 'o':'...../...../.###./#...#/#...#/#...#/.###.',
+  'p':'...../...../####./#...#/#...#/####./#..../#....', 'q':'...../...../.####/#...#/#...#/.####/....#/....#', 'r':'...../...../#.##./##..#/#..../#..../#....',
+  's':'...../...../.####/#..../.###./....#/####.', 't':'.#.../.#.../###../.#.../.#.../.#..#/..##.', 'u':'...../...../#...#/#...#/#...#/#..##/.##.#',
+  'v':'...../...../#...#/#...#/#...#/.#.#./..#..', 'w':'...../...../#...#/#...#/#.#.#/#.#.#/.#.#.', 'x':'...../...../#...#/.#.#./..#../.#.#./#...#',
+  'y':'...../...../#...#/#...#/#...#/.####/....#/.###.', 'z':'...../...../#####/...#./..#../.#.../#####',
+  '!':'..#../..#../..#../..#../..#../...../..#..', '"':'.#.#./.#.#./...../...../...../...../.....', '#':'.#.#./.#.#./#####/.#.#./#####/.#.#./.#.#.',
+  '$':'..#../.####/#.#../.###./..#.#/####./..#..', '%':'##..#/##..#/...#./..#../.#.../#..##/#..##', '&':'.##../#..#./#.#../.#.../#.#.#/#..#./.##.#',
+  "'":'..#../..#../.#.../...../...../...../.....', '(':'...#./..#../.#.../.#.../.#.../..#../...#.', ')':'.#.../..#../...#./...#./...#./..#../.#...',
+  '*':'...../#.#.#/.###./#####/.###./#.#.#/.....', '+':'...../..#../..#../#####/..#../..#../.....', ',':'...../...../...../...../..##./...#./..#..',
+  '-':'...../...../...../.###./...../...../.....', '.':'...../...../...../...../...../..##./..##.', '/':'....#/....#/...#./..#../.#.../#..../#....',
+  ':':'...../..##./..##./...../..##./..##./.....', ';':'...../..##./..##./...../..##./...#./..#..', '<':'...#./..#../.#.../..#../...#./...../.....',
+  '=':'...../...../#####/...../#####/...../.....', '>':'.#.../..#../...#./..#../.#.../...../.....', '?':'.###./#...#/....#/...#./..#../...../..#..',
+  '@':'.###./#...#/#.###/#.#.#/#.###/#..../.###.', '[':'.###./.#.../.#.../.#.../.#.../.#.../.###.', '\\':'#..../#..../.#.../..#../...#./....#/....#',
+  ']':'.###./...#./...#./...#./...#./...#./.###.', '^':'..#../.#.#./#...#/...../...../...../.....', '_':'...../...../...../...../...../...../#####',
+  '`':'.#.../..#../...../...../...../...../.....', '{':'..##./..#../..#../.#.../..#../..#../..##.', '|':'..#../..#../..#../..#../..#../..#../..#..',
+  '}':'.##../..#../..#../...#./..#../..#../.##..', '~':'...../...../.#..#/#.##./...../...../.....',
+  '−':'...../...../...../#####/...../...../.....', '‐':'...../...../...../.###./...../...../.....',
+  'θ':'.###./#...#/#...#/#####/#...#/#...#/.###.', 'π':'...../#####/.#.#./.#.#./.#.#./.#.#./.#..#', '√':'....#/....#/...#./#..#./.#.#./..##./..#..',
+  '²':'##.../..#../.#.../###../...../...../.....', '³':'##.../..#../.##../..#../##.../...../.....', '°':'.##../#..#./.##../...../...../...../.....',
+  'ʳ':'#.#../##.../#..../...../...../...../.....', 'ˣ':'#.#../.#.../#.#../...../...../...../.....',
+  '≠':'....#/...#./#####/..#../#####/.#.../#....', '≥':'.#.../..#../...#./..#../.#.../...../#####', '≤':'...#./..#../.#.../..#../...#./...../#####',
+  '↑':'..#../.###./#.#.#/..#../..#../..#../..#..', '↓':'..#../..#../..#../..#../#.#.#/.###./..#..', '…':'...../...../...../...../...../...../#.#.#',
+  '■':'...../.###./.###./.###./.###./.###./.....', '▪':'...../...../.##../.##../...../...../.....',
+  'Σ':'#####/#..../.#.../..#../.#.../#..../#####', 'χ':'...../...../#...#/.#.#./..#../.#.#./#...#', '∫':'..###/..#../..#../..#../..#../..#../##...',
+  'ᴇ':'...../...../####./#..../###../#..../####.', '→':'...../..#../...#./#####/...#./..#../.....', '␣':'...../...../...../...../...../#...#/#####',
+  'μ':'...../...../#...#/#...#/#...#/#..##/####./#....', 'σ':'...../...../.####/#..#./#..#./#..#./.##../.....', 'ρ':'...../...../.###./#...#/#...#/#...#/####./#....',
+  'β':'.##../#..#./#.##./#..#./#..#./#.##./#....', 'Δ':'..#../..#../.#.#./.#.#./#...#/#...#/#####', '∠':'...../...#./..#../.#.../#..../#####/.....',
+  'ʟ':'#..../#..../#..../#..../#..../#..../#####', 'ℯ':'...../...../.###./#...#/#####/#..../.###.',
+  'ȳ':'.###./...../#...#/#...#/#...#/.####/....#/.###.', '\uE020':'.###./...../#...#/.#.#./..#../.#.#./#...#',
+  '\uE021':'..#../.#.#./####./#...#/#...#/####./#..../#....', '\uE001':'...#./..##./##.#./...#./...#./...../.....', '\uE030':'...../...../#...#/.#.#./..#../.#.#./#...#',
+  '►':'#..../##.../###../####./###../##.../#....', '◄':'....#/...##/..###/.####/..###/...##/....#', 'ᵀ':'###../.#.../.#.../...../...../...../.....',
+};
+const G84 = {};
+for (const k in G84_SRC) {
+  const rows = G84_SRC[k].split('/').map(r => parseInt(r.replace(/#/g, '1').replace(/\./g, '0'), 2));
+  while (rows.length < 8) rows.push(0);
+  G84[k] = rows;
+}
+'0123456789'.split('').forEach((d, i) => {                                   // subscript digits ₀…₉ (3×5, low in the cell)
+  const p = ['###/#.#/#.#/#.#/###', '.#./##./.#./.#./###', '##./..#/.#./#../###', '##./..#/.#./..#/##.', '#.#/#.#/###/..#/..#',
+    '###/#../##./..#/##.', '.##/#../###/#.#/###', '###/..#/.#./.#./.#.', '###/#.#/###/#.#/###', '###/#.#/###/..#/##.'][i].split('/');
+  G84[String.fromCharCode(0x2080 + i)] = [0, 0, 0, ...p.map(r => parseInt('0' + r.replace(/#/g, '1').replace(/\./g, '0') + '0', 2))];
+});
+function g84(ch, x, y, inv) {
+  const rows = G84[ch] || G84['?'];
+  if (inv) for (let r = 0; r < 8; r++) for (let c = 0; c < 6; c++) bset(x + c, y + r, 1);
+  for (let r = 0; r < 8; r++) { const bits = rows[r]; for (let c = 0; c < 5; c++) if ((bits >> (4 - c)) & 1) bset(x + c, y + r, inv ? 0 : 1); }
+}
+function t84(str, x, y, inv) { for (const ch of D(str)) { g84(ch, x, y, inv); x += 6; } return x; }
+function bset(x, y, v = 1) { if (x >= 0 && x < LW && y >= 0 && y < LH) B84[y * LW + x] = v; }
+const bget = (x, y) => (x >= 0 && x < LW && y >= 0 && y < LH ? B84[y * LW + x] : 0);
+function brect(x, y, w, h, v = 1) { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) bset(x + i, y + j, v); }
+function binv(x, y, w, h) { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) if (x + i >= 0 && x + i < LW && y + j >= 0 && y + j < LH) B84[(y + j) * LW + x + i] ^= 1; }
+function bline(x0, y0, x1, y1, v = 1) {
+  x0 = Math.round(x0); y0 = Math.round(y0); x1 = Math.round(x1); y1 = Math.round(y1);
+  const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+  let e = dx + dy;
+  for (;;) { bset(x0, y0, v); if (x0 === x1 && y0 === y1) break; const e2 = 2 * e; if (e2 >= dy) { e += dy; x0 += sx; } if (e2 <= dx) { e += dx; y0 += sy; } }
+}
+/* the cursor as the real calculator draws it: a black block; ↑ after 2nd, A after ALPHA, an underscore in insert mode */
+function cursor84(x, y, under) {
+  if (!S.blink) return;
+  if (S.second) { g84('↑', x, y, true); return; }
+  if (S.alpha || S.alock) { g84('A', x, y, true); return; }
+  if (S.ins) { if (under && under !== ' ') g84(under, x, y, false); brect(x, y + 7, 6, 1, 1); return; }
+  if (under && under !== ' ') g84(under, x, y, true); else brect(x, y, 6, 8, 1);
+}
+/* the pixel buffer → the LCD canvas: dark pixels on a grey-green background with the faint dot grid of a real LCD */
+function flush84() {
+  const x = g, S6 = 6;
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  x.fillStyle = S.off ? '#8d9683' : '#a7b09a'; x.fillRect(0, 0, LW * S6, LH * S6);
+  if (S.off) return;
+  x.fillStyle = 'rgba(80,92,66,.08)';
+  for (let i = 1; i < LW; i++) x.fillRect(i * S6 - 1, 0, 1, LH * S6);
+  for (let j = 1; j < LH; j++) x.fillRect(0, j * S6 - 1, LW * S6, 1);
+  x.fillStyle = '#1a1e14';
+  for (let j = 0; j < LH; j++) for (let i = 0; i < LW; i++) if (B84[j * LW + i]) x.fillRect(i * S6, j * S6, i + 1 < LW && B84[j * LW + i + 1] ? S6 : S6 - 1, j + 1 < LH && B84[(j + 1) * LW + i] ? S6 : S6 - 1);
+}
+/* a character grid (menus, settings, wizards): buf[row][col] = {c, inv, cur} — same structure the CE grid screens build */
+function paintGrid84({ buf, cursor }) {
+  for (let r = 0; r < R; r++) for (let c = 0; c < W; c++) {
+    const cell = buf[r][c], x = c * 6, y = r * 8;
+    if (cell.c !== ' ' || cell.inv) g84(cell.c, x, y, cell.inv);
+  }
+  if (cursor && cursor.r >= 0 && cursor.r < R && cursor.c >= 0 && cursor.c < W) cursor84(cursor.c * 6, cursor.r * 8, buf[cursor.r][cursor.c].c);
+}
+const cells84 = s => [...D(String(s))];
+const chunk84 = (a, w) => { const L = []; for (let i = 0; i < a.length; i += w) L.push(a.slice(i, i + w)); if (!L.length) L.push([]); return L; };
+function drawCells(cs, x, y, inv) { cs.forEach((ch, k) => g84(ch, x + k * 6, y, inv)); }
+
+/* ---- menus as printed on the 84 Plus ---- */
+const MENUS84 = {};
+(() => {
+  const M = MENUS, cp = defs => defs.map(t => ({ ...t, items:typeof t.items === 'function' ? t.items : t.items.map(x => [...x]) }));
+  MENUS84.MATH = [
+    { name:'MATH', items:[...M.MATH[0].items.slice(0, 9), it('summation(', 'Σ('), it('logBASE('), ['Solver...', () => setScreen(solverScr)]] },
+    { name:'NUM', items:M.MATH[1].items }, { name:'CPX', items:M.MATH[2].items }, { name:'PRB', items:M.MATH[3].items },
+  ];
+  MENUS84.DISTR = [{ name:'DISTR', items:M.DISTR[0].items.filter(x => x[0] !== 'invBinom(') }];   // no input forms: the name is pasted and you type the arguments
+  MENUS84.VARS = cp(M.VARS); MENUS84.VARS[0].items[3][0] = 'Picture...'; MENUS84.VARS[1].name = 'Y-VARS';
+  MENUS84.STAT = [
+    M.STAT[0],
+    { name:'CALC', items:[...['1‐Var Stats ', '2‐Var Stats ', 'Med‐Med ', 'LinReg(ax+b) ', 'QuadReg ', 'CubicReg ', 'QuartReg ', 'LinReg(a+bx) ', 'LnReg ', 'ExpReg ', 'PwrReg ']
+      .map(c => [c.trim(), c]), ['Logistic', notAvail('LOGISTIC')], ['SinReg', notAvail('SINREG')]] },
+    M.STAT[2],
+  ];
+  MENUS84.CATALOG = [{ ...M.CATALOG[0], items:M.CATALOG[0].items.filter(x => !['piecewise(', 'invBinom('].includes(x[1])) }];
+})();
+
+/* ---- HOME screen ---- */
+function tokCells84(toks) { const out = [], starts = []; for (const t of toks) { starts.push(out.length); out.push(...cells84(t)); } starts.push(out.length); return { out, starts }; }
+function outLines84(h) {
+  const out = h.out, clip = (c, off) => {                    // long answers scroll sideways with ◀ ▶ once highlighted
+    if (c.length <= 16) return { cells:c, right:true };
+    off = Math.max(0, Math.min(off || 0, c.length - 16));
+    const v = c.slice(off, off + 16); if (off > 0) v[0] = '…'; if (off + 16 < c.length) v[15] = '…';
+    return { cells:v, right:false, off };
+  };
+  if (typeof out === 'string') { const l = clip(cells84(out), h.off); h.off = l.off || 0; return [l]; }
+  const mn = out.find(n => n && typeof n === 'object' && n.t === 'mat');
+  if (mn) {
+    const rows = [];
+    for (let i = 0; i < mn.rows; i++) { const nums = []; for (let j = 0; j < mn.cols; j++) nums.push(mn.cells[i * mn.cols + j]); rows.push(cells84((i === 0 ? '[[' : ' [') + nums.join(' ') + (i === mn.rows - 1 ? ']]' : ']'))); }
+    const mx = Math.max(...rows.map(r => r.length)); mn.off = Math.max(0, Math.min(mn.off || 0, Math.max(0, mx - 16)));
+    return rows.map(r => { const v = r.slice(mn.off, mn.off + 16); if (mn.off > 0 && v.length) v[0] = '…'; if (mn.off + 16 < r.length) v[v.length - 1] = '…'; return { cells:v, right:false }; });
+  }
+  return [{ cells:cells84(lin(out).join('')), right:true }];
+}
+home.paint84 = function () {
+  const items = this.histItems(), selIt = this.sel !== null ? items[this.sel] : null, selId = selIt ? selIt.i * 2 + (selIt.part === 'in' ? 0 : 1) : -1;
+  const L = [];
+  this.hist.forEach((h, hi) => {
+    chunk84(cells84(lin(h.row).join('')), 16).forEach(c => L.push({ cells:c, item:hi * 2, sel:hi * 2 === selId }));
+    outLines84(h).forEach(l => L.push({ ...l, item:hi * 2 + 1, sel:hi * 2 + 1 === selId }));
+  });
+  const toks = lin(this.ed.root), { out, starts } = tokCells84(toks), ci = starts[Math.min(this.ed.i, toks.length)];
+  const cl = chunk84(out, 16);
+  if (ci === out.length && out.length > 0 && out.length % 16 === 0) cl.push([]);
+  const curLine = L.length + Math.floor(ci / 16), curCol = ci % 16;
+  cl.forEach(c => L.push({ cells:c, item:-2 }));
+  let start = Math.max(0, L.length - R);
+  if (selId >= 0) {
+    const idx = L.map((l, k) => l.item === selId ? k : -1).filter(k => k >= 0);
+    if (idx.length) { if (idx[0] < start) start = idx[0]; if (idx[idx.length - 1] >= start + R) start = idx[idx.length - 1] - (R - 1); }
+  }
+  for (let k = 0; k < R && start + k < L.length; k++) {
+    const l = L[start + k], x = l.right ? (16 - l.cells.length) * 6 : 0;
+    if (l.sel) brect(x, k * 8, l.cells.length * 6, 8);
+    drawCells(l.cells, x, k * 8, l.sel);
+  }
+  if (selId < 0 && curLine - start >= 0 && curLine - start < R) cursor84(curCol * 6, (curLine - start) * 8, out[ci]);
+};
+
+/* ---- Y= ---- */
+yeqScr.top84 = 0;
+yeqScr.paint84 = function () {
+  ['Plot1', 'Plot2', 'Plot3'].forEach((t, i) => t84(t, i * 33, 0, false));
+  const lines = [];
+  Y.forEach((row, i) => {
+    const { out, starts } = tokCells84(lin(row));
+    const ch = chunk84(out, 12);
+    if (i === this.sel) { const c = starts[Math.min(YE[i].i, row.length)]; if (c === out.length && out.length > 0 && out.length % 12 === 0) ch.push([]); this.cc = c; }
+    ch.forEach((c, k) => lines.push({ fi:i, k, cells:c }));
+  });
+  const curIdx = lines.findIndex(l => l.fi === this.sel && l.k === Math.floor(this.cc / 12));
+  if (curIdx < this.top84) this.top84 = curIdx;
+  if (curIdx >= this.top84 + (R - 1)) this.top84 = curIdx - (R - 2);
+  for (let r = 0; r < R - 1 && this.top84 + r < lines.length; r++) {
+    const l = lines[this.top84 + r], y = (r + 1) * 8;
+    if (l.k === 0) { g84('\\', 0, y); t84('Y' + (l.fi + 1), 6, y); g84('=', 18, y, Y[l.fi].length > 0); }
+    drawCells(l.cells, 24, y);
+    if (this.top84 + r === curIdx) cursor84(24 + (this.cc % 12) * 6, y, l.cells[this.cc % 12]);
+  }
+};
+
+/* ---- TABLE ---- */
+tableScr.paint84 = function () {
+  const cols = this.cols(); this.c = Math.min(this.c, cols.length - 1);
+  const vis = [0, ...cols.slice(1).map((_, i) => i + 1).slice(this.coff, this.coff + 2)], NR = R - 2;
+  vis.forEach((ci, k) => {
+    const x0 = k * 32, fi = cols[ci], name = ci === 0 ? 'X' : 'Y' + (fi + 1), selCol = ci === this.c;
+    if (selCol) brect(x0, 0, 31, 7);
+    drawCells(cells84(name), x0 + 1, 0, selCol);
+    for (let r = 0; r < NR; r++) {
+      const x = this.xAt(r), y = 8 + r * 8, sel = r === this.r && ci === this.c;
+      let s = '';
+      if (x !== undefined) {
+        if (ci === 0) s = fmtShort(x, 5);
+        else if (this.yShown(fi, x)) { const v = evalAt(Y[fi], x); s = Number.isFinite(v) ? fmtShort(v, 5) : 'ERROR'; }
+      }
+      if (sel) brect(x0, y, 31, 8);
+      drawCells(cells84(s), x0 + 1, y, sel);
+    }
+  });
+  brect(0, 7, LW, 1); brect(31, 0, 1, 8 + NR * 8); brect(63, 0, 1, 8 + NR * 8);
+  let bottom = '';
+  if (this.inp !== null) bottom = 'X=' + this.inp.join('');
+  else {
+    const x = this.xAt(this.r);
+    if (this.c === 0) bottom = 'X=' + (x === undefined ? '' : fmt(x));
+    else if (x !== undefined) { const fi = cols[this.c], v = evalAt(Y[fi], x); bottom = 'Y' + (fi + 1) + '=' + (this.yShown(fi, x) ? (Number.isFinite(v) ? fmt(v) : 'ERROR') : ''); }
+  }
+  const end = t84(bottom, 0, (R - 1) * 8);
+  if (this.inp !== null) cursor84(end, (R - 1) * 8);
+};
+
+/* ---- GRAPH (95 × 63 pixels, the whole screen) ---- */
+graphScr.paint84 = function () {
+  const { xmin, xmax, ymin, ymax, xscl, yscl } = WIN;
+  const X = x => (x - xmin) / (xmax - xmin) * PW, Yp = y => PH - (y - ymin) / (ymax - ymin) * PH;
+  const ox = X(0), oy = Yp(0);
+  if (oy >= 0 && oy <= PH) {
+    const py = Math.round(oy); for (let x = 0; x <= PW; x++) bset(x, py);
+    if (xscl > 0 && (xmax - xmin) / xscl < 300) for (let k = Math.ceil(xmin / xscl); k <= xmax / xscl; k++) { const px = Math.round(X(k * xscl)); bset(px, py - 1); bset(px, py + 1); }
+  }
+  if (ox >= 0 && ox <= PW) {
+    const px = Math.round(ox); for (let y = 0; y <= PH; y++) bset(px, y);
+    if (yscl > 0 && (ymax - ymin) / yscl < 300) for (let k = Math.ceil(ymin / yscl); k <= ymax / yscl; k++) { const py = Math.round(Yp(k * yscl)); bset(px - 1, py); bset(px + 1, py); }
+  }
+  if (this.shade) {                                              // ∫f(x)dx: hatched area between the curve and the x-axis
+    const f = this.fn(this.shade.fi), y0 = Math.max(0, Math.min(PH, Yp(0)));
+    for (let px = Math.ceil(X(this.shade.a)); px <= X(this.shade.b); px++) {
+      const y = f(xmin + px * (xmax - xmin) / PW); if (!Number.isFinite(y)) continue;
+      const py = Math.max(0, Math.min(PH, Yp(y))), a = Math.round(Math.min(py, y0)), b = Math.round(Math.max(py, y0));
+      for (let yy = a; yy <= b; yy++) if ((yy + px) % 2 === 0) bset(px, yy);
+    }
+  }
+  activeFns().forEach(i => {
+    const f = this.fn(i); let prev = null;
+    for (let px = 0; px <= PW; px++) {
+      const y = f(xmin + px * (xmax - xmin) / PW), py = Yp(y);
+      if (!Number.isFinite(y) || Math.abs(py) > 1e5) { prev = null; continue; }
+      if (prev && Math.abs(py - prev.py) <= PH * 1.5) bline(prev.px, prev.py, px, py); else bset(px, Math.round(py));
+      prev = { px, py };
+    }
+  });
+  this.marks.forEach(m => {                                      // chosen bounds: dotted vertical line with a small marker on top
+    const px = Math.round(X(m.x));
+    for (let y = 0; y <= PH; y += 2) bset(px, y);
+    bset(px - 1, 0); bset(px + 1, 0); bset(px, 1);
+  });
+  let y = NaN;
+  if (this.trace) {
+    y = this.fn()(this.tx);
+    const px = Math.round(X(this.tx)), py = Math.round(Yp(y));
+    if (Number.isFinite(y) && py >= -3 && py <= PH + 3 && S.blink) { bline(px - 2, py - 2, px + 2, py + 2); bline(px - 2, py + 2, px + 2, py - 2); }
+    const top = 'Y' + (this.fi + 1) + '=' + lin(Y[this.fi]).join(''), tc = cells84(top).slice(0, 16);
+    brect(0, 0, tc.length * 6, 8, 0); drawCells(tc, 0, 0);
+    const prompt = this.calc ? PROMPTS[this.calc.type][this.calc.step] : '', label = prompt || (this.result && this.result.label) || '';
+    if (label) { brect(0, 48, cells84(label).length * 6, 8, 0); t84(label, 0, 48); }
+    brect(0, 56, LW, 8, 0);
+    if (this.inp !== null) { const end = t84('X=' + this.inp.join(''), 0, 56); cursor84(end, 56); }
+    else if (this.result && this.result.text) t84(this.result.text, 0, 56);
+    else { t84('X=' + fmtShort(this.tx, 6), 0, 56); t84('Y=' + (Number.isFinite(y) ? fmtShort(y, 6) : ''), 48, 56); }
+  }
+};
+
+/* ---- STAT list editor ---- */
+listEd.paint84 = function () {
+  const NR = R - 2, CW = 32;
+  for (let k = 0; k < 3; k++) {
+    const ci = this.coff + k, Ls = LISTS[LNAMES[ci]], x0 = k * CW, selCol = ci === this.c;
+    if (selCol && this.r < 0) brect(x0, 0, CW - 1, 7);
+    drawCells(cells84(LNAMES[ci]), x0 + 10, 0, selCol && this.r < 0);
+    for (let r = 0; r < NR; r++) {
+      const ri = this.top + r, y = 8 + r * 8, sel = selCol && ri === this.r;
+      if (sel) brect(x0, y, CW - 1, 8);
+      if (ri < Ls.length) drawCells(cells84(fmtShort(Ls[ri], 5)), x0 + 1, y, sel);
+    }
+  }
+  brect(0, 7, LW, 1); brect(31, 0, 1, 8 + NR * 8); brect(63, 0, 1, 8 + NR * 8);
+  const Ls = LISTS[this.name];
+  let bottom = this.r < 0 ? this.name + '=' : this.name + '(' + (this.r + 1) + ')=';
+  if (this.inp !== null) bottom += this.inp.join('');
+  else if (this.r < 0) bottom += Ls.length ? fmtList(Ls) : '';
+  else if (this.r < Ls.length) bottom += fmt(Ls[this.r]);
+  const cs = cells84(bottom), shown = cs.length > 16 ? cs.slice(cs.length - 16) : cs;
+  drawCells(shown, 0, (R - 1) * 8);
+  if (this.inp !== null) cursor84(shown.length * 6, (R - 1) * 8);
+};
+
+/* ---- MATRIX editor ---- */
+matEd.paint84 = function () {
+  const m = this.m, typing = this.inp !== null && this.zone === 'dim', on = this.zone === 'dim';
+  const part = (s, x, hl) => { const c = cells84(s); if (hl) brect(x - 1, 0, c.length * 6 + 1, 8); drawCells(c, x, 0, hl); return x + c.length * 6; };
+  let hx = part('MATRIX' + this.name + ' ', 0, false);
+  hx = part(typing && this.dc === 0 ? this.inp.join('') : String(m.r), hx, on && this.dc === 0);
+  hx = part('', hx, false);
+  part(typing && this.dc === 1 ? this.inp.join('') : String(m.c), hx, on && this.dc === 1);
+  const NR = R - 3, top = this.zone === 'dim' ? 0 : this.top, coff = this.zone === 'dim' ? 0 : this.coff;
+  for (let i = 0; i < NR && top + i < m.r; i++) for (let j = 0; j < 3 && coff + j < m.c; j++) {
+    const x0 = j * 32, y = 8 + i * 8, sel = this.zone === 'grid' && top + i === this.r && coff + j === this.c;
+    if (sel) brect(x0, y, 31, 8);
+    drawCells(cells84(fmtShort(m.a[top + i][coff + j], 5)), x0 + 1, y, sel);
+  }
+  if (this.zone === 'grid') {
+    const lab = (this.r + 1) + ',' + (this.c + 1) + '=', end = t84(lab, 0, (R - 1) * 8);
+    if (this.inp !== null) { const e2 = t84(this.inp.join(''), end, (R - 1) * 8); cursor84(e2, (R - 1) * 8); }
+    else t84(fmt(m.a[this.r][this.c]), end, (R - 1) * 8);
+  }
+};
+
+/* ---- Equation Solver: eqn:0= one line, then the variables with bound=(-1E99,1E99) and left-rt= ---- */
+solverScr.render84 = function () {
+  const b = blank(); let cursor = null;
+  const ed = SOLV.e1, toks = lin(ed.root);
+  if (this.state === 'eq') {
+    put(b, 0, 0, 'EQUATION SOLVER');
+    const pre = cells84('eqn:0='), { out, starts } = tokCells84(toks), all = [...pre, ...out], ci = pre.length + starts[Math.min(ed.i, toks.length)];
+    chunk84(all, W).forEach((c, k) => c.forEach((ch, j) => { if (1 + k < R) b[1 + k][j] = { c:ch, inv:false, col:'' }; }));
+    if (1 + Math.floor(ci / W) < R) cursor = { r:1 + Math.floor(ci / W), c:ci % W };
+    return { buf:b, cursor };
+  }
+  const eq = chunk84(cells84(toks.join('') + '=0'), W).slice(0, 2);
+  eq.forEach((c, k) => c.forEach((ch, j) => { b[k][j] = { c:ch, inv:false, col:'' }; }));
+  const y0 = eq.length, cap = Math.max(1, R - y0 - 1), n = this.vars.length;
+  const start = Math.min(Math.max(0, this.sel - cap + 1), Math.max(0, n - cap)), shown = this.vars.slice(start, start + cap);
+  shown.forEach((v, i) => {
+    if (v.bound) { put(b, y0 + i, 0, 'bound='); const cc = putField(b, y0 + i, 6, v.t, start + i === this.sel, this.c); if (start + i === this.sel) cursor = cc; return; }
+    if (this.solved === v.n) put(b, y0 + i, 0, '■');
+    put(b, y0 + i, 1, v.n + '=');
+    const cc = putField(b, y0 + i, 3, v.t, start + i === this.sel, this.c); if (start + i === this.sel) cursor = cc;
+  });
+  put(b, y0 + shown.length, 0, 'left-rt=' + (this.resid !== null ? fmt(this.resid) : ''));
+  return { buf:b, cursor };
+};
+solverScr.paint84 = function () { paintGrid84(this.render84()); };
+
+/* ---- the painter for the 84 ---- */
+function paint84() {
+  bclr();
+  if (!S.off) {
+    const s = cur;
+    if (s.paint84) s.paint84(); else if (s.render) paintGrid84(s.render());
+  }
+  flush84();
+}
+function bclr() { B84.fill(0); }
+/* entering / leaving classic mode: flatten any MathPrint templates so the linear editors can take over */
+function flatten84() {
+  const flat = r => lin(r);
+  home.hist.forEach(h => { h.row = flat(h.row); if (Array.isArray(h.out) && !h.out.some(n => n && n.t === 'mat')) h.out = lin(h.out).join(''); });
+  home.entries = home.entries.map(flat); home.ed = newEd(flat(home.ed.root)); home.sel = null;
+  for (let i = 0; i < Y.length; i++) { const t = lin(Y[i]); Y[i].length = 0; Y[i].push(...t); YE[i].path = []; YE[i].i = Math.min(YE[i].i, Y[i].length); }
+  [SOLV.e1, SOLV.e2].forEach(e => { const t = lin(e.root); e.root.length = 0; e.root.push(...t); e.path = []; e.i = e.root.length; });
+}
 
 /* ================= Build the hardware ================= */
+const PADS = {};
 const KS = 320 / 239, OX = 437, OY = 216;          // photo px → CSS px; LCD is exactly 320×240
 const P = v => Math.round(v * KS * 10) / 10;
 function place(el, x, y, w, h) {
   el.style.left = P(x - OX) + 'px'; el.style.top = P(y - OY) + 'px';
   if (w != null) el.style.width = P(w) + 'px';
   if (h != null) el.style.height = P(h) + 'px';
+  el._ce = { l: el.style.left, t: el.style.top, w: el.style.width, h: el.style.height };
   return el;
 }
 const body = $('body');
 function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; body.append(e); return e; }
-function label(cx, top, blue, green, kw = 0) {
-  const e = el('div', 'lb', (blue ? `<span class="b">${blue}</span>` : '') + (green ? `<span class="g">${green}</span>` : ''));
+const plainLen = s => String(s).replace(/<[^>]*>/g, '').length;
+function label(cx, top, blue, green, kw = 0, id = '') {
+  const sp = (c, s) => s ? `<span class="${c}${plainLen(s) > 2 ? ' up' : ''}">${s}</span>` : '';   // 'up': the 84 Plus prints long labels in capitals
+  const e = el('div', 'lb', sp('b', blue) + sp('g', green));
   e.style.left = P(cx - OX) + 'px'; e.style.minWidth = P(kw) + 'px'; e.style.top = (P(top - OY) - 16) + 'px';
+  e._ce = { l: e.style.left, t: e.style.top, w: e.style.minWidth };
+  if (id) e.dataset.k = id; else e.classList.add('padlb');
 }
 function bindPress(e, id) {
   const up = () => e.classList.remove('down');
@@ -3020,9 +3529,12 @@ function bindPress(e, id) {
   e.addEventListener('contextmenu', ev => ev.preventDefault());
 }
 
-el('div', 'title', 'TI-84 <span>Plus CE</span>').style.top = (P(238 - OY) - 9) + 'px';
+const hw84 = el('div'); hw84.id = 'hw84'; body.prepend(hw84);
+const ttl = el('div', 'title', '<span class="tt" title="Click to switch calculator"><span class="tx"></span><svg viewBox="0 0 12 12"><path d="M1.5 4h9M8 1.5 10.5 4 8 6.5M10.5 8h-9M4 5.5 1.5 8 4 10.5"/></svg></span>');
 place(el('div', 'bezel'), 457, 259, 286, 209);
+ttl.style.top = (P(259 - OY) / 2 - 17) + 'px'; ttl._ce = { t: ttl.style.top };   // centred in the top frame, above the screen bezel
 const lcd = el('canvas'); lcd.id = 'lcd'; lcd.width = 640; lcd.height = 480; place(lcd, 481, 272);
+const lcdfx = el('div'); lcdfx.id = 'lcdfx';
 g = lcd.getContext('2d');
 
 for (const [id, face, cls, [x, y, w, h], ma, s, sa, a, aa] of KEYDEFS) {
@@ -3030,7 +3542,8 @@ for (const [id, face, cls, [x, y, w, h], ma, s, sa, a, aa] of KEYDEFS) {
   const b = place(el('button', ('key ' + cls).trim(), face), x, y, w, h);
   b.id = 'k-' + id; b.setAttribute('aria-label', id);
   bindPress(b, id);
-  if (s || a) label(x + w / 2, y, s, a, w);
+  if (s || a) label(x + w / 2, y, s, a, w, id);
+  if (!/</.test(face)) b.classList.add('up2');
 }
 
 /* D-pad: four light petals split by two thin straight diagonal gaps, a large black hub and small dark arrow marks,
@@ -3058,7 +3571,8 @@ for (const [id, face, cls, [x, y, w, h], ma, s, sa, a, aa] of KEYDEFS) {
     ${Object.values(dirs).map(m => `<path d="${arrow(m)}" fill="#5d5f61" pointer-events="none"/>`).join('')}
     <circle cx="${c}" cy="${c}" r="${ri}" fill="#151515" stroke="#050505" stroke-width="1"/></svg>`;
   place(pad, 682 - 37, 584 - 37);
-  Object.keys(dirs).forEach(d => bindPress($('k-' + d), d));
+  const bindPad = () => Object.keys(dirs).forEach(d => bindPress($('k-' + d), d));
+  bindPad(); PADS.bind = bindPad; PADS.ce = pad.innerHTML;
   /* small blue/green icons around the pad: brightness (sun + three thin lines with a pointer) above and below, home / end at the sides */
   const SUN = '<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><circle cx="6" cy="6" r="2.7" stroke="none"/><path d="M6 .7v1.7M6 9.6v1.7M.7 6h1.7M9.6 6h1.7M2.2 2.2l1.2 1.2M8.6 8.6l1.2 1.2M9.8 2.2 8.6 3.4M3.4 8.6 2.2 9.8" fill="none"/></svg>';
   const LINES_UP = '<svg width="9" height="12" viewBox="0 0 9 12" fill="currentColor"><path d="M4.5.5 8.4 4.6H.6z"/><rect x=".6" y="6.3" width="7.8" height="1"/><rect x=".6" y="8.3" width="7.8" height="1"/><rect x=".6" y="10.3" width="7.8" height="1"/></svg>';
@@ -3070,6 +3584,128 @@ for (const [id, face, cls, [x, y, w, h], ma, s, sa, a, aa] of KEYDEFS) {
   label(639, 590, SKIP_L, '');                       // home            (2nd ◀)
   label(725, 590, SKIP_R, '');                       // end             (2nd ▶)
 })();
+
+/* ================= Calculator models (click the name to switch) =================
+   'ce'  TI-84 Plus CE — the layout built above.
+   '84'  TI-84 Plus   — same logic; its own body, key shapes, pad and a monochrome LCD.
+   Geometry for the 84 is measured from a reference image (image px → CSS px below).   */
+const S84 = 0.4771, Y84 = y => y + (y >= 880 ? 34 : 0);        // the LCD is 96:64 (320×213 here); the key block gets 34 image px of air under the grey top
+const cx84 = x => (x - 20) * S84, cy84 = y => (Y84(y) - 30) * S84, r1 = v => Math.round(v * 10) / 10;
+const GEO84 = {
+  yequ:[140,752,115,47], window:[278,752,120,47], zoom:[420,752,120,47], trace:[560,752,120,47], graph:[700,752,120,47],
+  second:[140,928,115,64], mode:[280,928,115,64], del:[421,928,116,64],
+  alpha:[142,1032,113,64], xt:[280,1032,117,64], stat:[421,1032,116,64],
+  math:[140,1136,112,64], apps:[280,1136,117,64], prgm:[421,1136,116,64], vars:[561,1136,116,64], clear:[702,1136,118,64],
+  inv:[140,1240,114,64], sin:[280,1240,117,64], cos:[421,1240,116,64], tan:[561,1240,116,64], pow:[702,1240,118,64],
+  sq:[140,1344,114,64], comma:[280,1344,117,64], lp:[421,1344,116,64], rp:[561,1344,116,64], div:[702,1344,118,64],
+  log:[140,1448,114,68], 7:[278,1450,120,86], 8:[420,1450,120,86], 9:[560,1450,120,86], mul:[702,1448,118,68],
+  ln:[140,1558,114,68], 4:[278,1590,120,86], 5:[420,1590,120,86], 6:[560,1590,120,86], sub:[702,1558,118,68],
+  sto:[140,1668,114,68], 1:[278,1730,120,86], 2:[420,1730,120,86], 3:[560,1730,120,86], add:[702,1668,118,68],
+  on:[150,1778,110,78], 0:[278,1870,120,86], dot:[420,1870,120,86], neg:[560,1870,120,86], enter:[703,1778,107,117],
+};
+const CALC_H = { ce: 1018, '84': 1034 };
+const LCD84 = { l: 59, t: 88, h: 213 };
+
+function hw84Svg() {
+  const path = s => s.replace(/([MLCQZ])([^MLCQZ]*)/g, (m, c, n) => {
+    const v = n.trim().split(/[\s,]+/).filter(Boolean).map(Number); let o = c;
+    for (let i = 0; i < v.length; i += 2) o += ' ' + r1(cx84(v[i])) + ' ' + r1(cy84(v[i + 1]));
+    return o;
+  });
+  const pcx = cx84(710), pr = 84 * S84, ybot = cy84(875), ptop = cy84(850) + 34 * S84 + 6 * S84, apex = ptop - 26;   // the bump above the pad
+  const body = 'M22 100 C22 70 38 56 62 55 L898 55 C922 56 935 70 935 100 L935 1800 C935 1990 900 2100 780 2140 C700 2162 260 2162 175 2140 C55 2100 22 1990 22 1800 Z';
+  const gripL = 'M22 100 C22 70 38 56 62 55 L98 52 L72 875 C66 1300 64 1700 100 1980 Q135 2090 175 2140 C55 2100 22 1990 22 1800 Z';
+  const gripR = 'M935 100 C935 70 919 56 895 55 L859 52 L885 875 C891 1300 893 1700 857 1980 Q822 2090 782 2140 C902 2100 935 1990 935 1800 Z';
+  const gripEdgeL = 'M98 52 L72 875 C66 1300 64 1700 100 1980 Q135 2090 175 2140', gripEdgeR = 'M859 52 L885 875 C891 1300 893 1700 857 1980 Q822 2090 782 2140';
+  const cover = path('M98 52 C230 34 360 28 478 28 C596 28 726 34 859 52 L885 875') + ` L${r1(pcx + pr)} ${r1(ybot)} A${r1(pr)} ${r1(ybot - apex)} 0 0 0 ${r1(pcx - pr)} ${r1(ybot)} ` + path('L72 875 Z');
+  const W = 438, H = CALC_H['84'];
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <defs>
+      <linearGradient id="hwBody" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#3b475c"/><stop offset="1" stop-color="#28313f"/></linearGradient>
+      <linearGradient id="hwCover" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe0e0"/><stop offset=".62" stop-color="#c7c8c8"/><stop offset="1" stop-color="#a9aaab"/></linearGradient>
+    </defs>
+    <path d="${path(body)}" fill="url(#hwBody)" stroke="#0f141c" stroke-width="1.5"/>
+    <clipPath id="hwClip"><path d="${path(body)}"/></clipPath>
+    <filter id="hwBlur" x="-10%" y="-5%" width="120%" height="110%"><feGaussianBlur stdDeviation="1.3"/></filter>
+    <path d="${path(gripL)}" fill="#252d3a"/><path d="${path(gripR)}" fill="#252d3a"/>
+    <path d="${path(gripEdgeL)}" fill="none" stroke="#141a23" stroke-width="1.2" opacity=".85"/><path d="${path(gripEdgeR)}" fill="none" stroke="#141a23" stroke-width="1.2" opacity=".85"/>
+
+    <path d="${path(body)}" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="1" transform="translate(.6 .6)"/>
+    <path d="${cover}" fill="url(#hwCover)" stroke="#161b24" stroke-width="1.3" stroke-linejoin="round"/>
+    <rect x="${LCD84.l - 8}" y="${LCD84.t - 8}" width="336" height="${LCD84.h + 16}" rx="9" fill="#b0b2b2" stroke="#8b8d8d"/>
+    <rect x="${LCD84.l - 3.5}" y="${LCD84.t - 3.5}" width="327" height="${LCD84.h + 7}" rx="4" fill="none" stroke="#15180f" stroke-width="2.2"/>
+  </svg>`;
+}
+function pad84Svg() {
+  const dumb = 'M90 45C90 10 105 0 139 0C173 0 188 10 188 45C188 75 162 95 162 118C162 141 188 161 188 191C188 226 173 237 139 237C105 237 90 226 90 191C90 161 116 141 116 118C116 95 90 75 90 45Z';
+  const up = 'M90 45C90 10 105 0 139 0C173 0 188 10 188 45C188 75 162 95 162 118L116 118C116 95 90 75 90 45Z';
+  const dn = 'M116 118L162 118C162 141 188 161 188 191C188 226 173 237 139 237C105 237 90 226 90 191C90 161 116 141 116 118Z';
+  const lf = 'M70 70C40 72 8 80 4 118C8 155 40 166 70 167C88 150 95 132 95 118C95 104 88 86 70 70Z';
+  const rt = 'M210 70C240 72 272 80 276 118C272 155 240 166 210 167C192 150 185 132 185 118C185 104 192 86 210 70Z';
+  const S = 'stroke="#2b2b2b" stroke-width="2.6" stroke-linejoin="round"';
+  const arcs = ys => ys.map(y => `<path d="M124 ${y}Q139 ${y + 5} 154 ${y}" fill="none" stroke="#9ad07d" stroke-width="3" stroke-linecap="round"/>`).join('');
+  return `<svg width="${r1(280 * S84)}" height="${r1(240 * S84)}" viewBox="0 0 280 240" style="overflow:visible">
+    <defs><linearGradient id="petg84" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a6a6a6"/><stop offset="1" stop-color="#7d7d7d"/></linearGradient></defs>
+    <path d="${dumb}" fill="url(#petg84)" ${S} pointer-events="none"/>
+    <path class="pet half" id="k-up" d="${up}"/><path class="pet half" id="k-down" d="${dn}"/>
+    <path class="pet" id="k-left" d="${lf}" ${S}/><path class="pet" id="k-right" d="${rt}" ${S}/>
+    <g pointer-events="none">
+      <path d="M112 34L139 15L166 34Q139 27 112 34Z" fill="#fff"/><path d="M112 204L139 223L166 204Q139 211 112 204Z" fill="#fff"/>
+      <path d="M42 96Q22 118 42 140Q33 118 42 96Z" fill="#fff"/><path d="M238 96Q258 118 238 140Q247 118 238 96Z" fill="#fff"/>
+      <path d="M128 61L139 51L150 61Z" fill="#9ad07d"/>${arcs([67, 75, 83])}
+      ${arcs([152, 160, 168])}<path d="M128 175L139 185L150 175Z" fill="#9ad07d"/>
+      <path d="M129 101L139 92L149 101Z" fill="#7f9fd3"/><path d="M129 135L139 144L149 135Z" fill="#7f9fd3"/>
+      <circle cx="139" cy="118" r="14" fill="none" stroke="#7f9fd3" stroke-width="2"/><path d="M125 118A14 14 0 0 1 153 118Z" fill="#7f9fd3"/>
+    </g></svg>`;
+}
+PADS['84'] = pad84Svg();
+
+function applyModel(m) {
+  const was = MODEL; MODEL = m; const calc = $('calc'), is84 = m === '84', H = CALC_H[m];
+  if (was !== m) {                                            // the two calculators have different screens: swap the text grid, graph size and entry mode
+    if (is84) { SETMP_CE = SET.mp; SET.mp = false; W = 16; R = 8; PW = 94; PH = 62; }
+    else { SET.mp = SETMP_CE; W = 26; R = 10; PW = 265; PH = 165; }
+    lcd.width = is84 ? 576 : 640; lcd.height = is84 ? 384 : 480; g = lcd.getContext('2d');
+    if (is84) flatten84();
+    S.second = S.alpha = S.alock = S.ins = false;
+    if (typeof cur !== 'undefined' && cur) { leaveCur(); setScreen(home); }
+    [['yequ', '@pop:0'], ['window', '@pop:1'], ['zoom', '@pop:2'], ['trace', '@pop:3'], ['graph', '@graph']].forEach(([id, a]) => { K[id].aa = is84 ? '' : a; });
+  }
+  calc.classList.toggle('m84', is84); calc.style.height = H + 'px'; $('body').style.height = H + 'px';
+  if (is84 && !hw84.firstChild) hw84.innerHTML = hw84Svg();
+  ttl.querySelector('.tx').innerHTML = is84 ? 'TI-84 <span>Plus</span>' : 'TI-84 <span>Plus CE</span>';
+  ttl.style.top = is84 ? '25px' : ttl._ce.t;
+  for (const [id] of KEYDEFS) {
+    const b = $('k-' + id);
+    if (is84) { const [x, y, w, h] = GEO84[id]; b.style.left = r1(cx84(x)) + 'px'; b.style.top = r1(cy84(y)) + 'px'; b.style.width = r1(w * S84) + 'px'; b.style.height = r1(h * S84) + 'px'; }
+    else { const c = b._ce; b.style.left = c.l; b.style.top = c.t; b.style.width = c.w; b.style.height = c.h; }
+  }
+  for (const e of document.querySelectorAll('.lb[data-k]')) {
+    e.classList.toggle('oncover', ['yequ', 'window', 'zoom', 'trace', 'graph'].includes(e.dataset.k));
+    if (is84) { const [x, y, w] = GEO84[e.dataset.k]; e.style.left = r1(cx84(x + w / 2)) + 'px'; e.style.minWidth = '0px'; e.style.top = r1(cy84(y) - 17) + 'px'; }
+    else { e.style.left = e._ce.l; e.style.minWidth = e._ce.w; e.style.top = e._ce.t; }
+  }
+  K.xt.aa = is84 ? '' : 'n/d';                        // the fraction shortcut is a CE feature
+  const pad = $('dpad'); pad.innerHTML = PADS[m]; PADS.bind();
+  if (is84) { pad.style.left = r1(cx84(570)) + 'px'; pad.style.top = r1(cy84(850) + 34 * S84) + 'px'; }
+  else { pad.style.left = pad._ce.l; pad.style.top = pad._ce.t; }
+  lcd.style.left = lcdfx.style.left = (is84 ? LCD84.l + 'px' : lcd._ce.l);
+  lcd.style.top = lcdfx.style.top = (is84 ? LCD84.t + 'px' : lcd._ce.t);
+  const sh = $('shots'); sh.style.left = is84 ? r1(cx84(160)) + 'px' : ''; sh.style.top = is84 ? r1(cy84(1880)) + 'px' : '';
+  try { localStorage.setItem('ti-model', m); } catch (e) {}
+}
+let swapping = false, SETMP_CE = true;
+function switchModel() {
+  if (swapping) return; swapping = true;
+  const st = $('stage'); st.classList.add('swap');
+  setTimeout(() => {
+    applyModel(MODEL === 'ce' ? '84' : 'ce'); fit(); paint();
+    requestAnimationFrame(() => requestAnimationFrame(() => { st.classList.remove('swap'); setTimeout(() => { swapping = false; }, 150); }));
+  }, 140);
+}
+ttl.firstChild.addEventListener('click', switchModel);
+let saved = 'ce'; try { saved = localStorage.getItem('ti-model') || 'ce'; } catch (e) {}
+applyModel(saved === '84' ? '84' : 'ce');
 
 /* ================= Physical keyboard ================= */
 const KB = { '+':'add','-':'sub','*':'mul','/':'div','^':'pow','(':'lp',')':'rp',',':'comma','.':'dot',
@@ -3118,8 +3754,8 @@ function toast(msg) {
 /* the whole 320×240 screen (status bar included, cursor visible) scaled 3× with hard pixel edges */
 function shotCanvas() {
   const keep = S.blink; S.blink = true; paint();
-  const c = document.createElement('canvas'); c.width = 960; c.height = 720;
-  const x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(lcd, 0, 0, 960, 720);
+  const c = document.createElement('canvas'); c.width = lcd.width * 1.5; c.height = lcd.height * 1.5;
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(lcd, 0, 0, c.width, c.height);
   S.blink = keep; paint();
   return c;
 }
@@ -3144,14 +3780,17 @@ $('shotCopy').onclick = copyShot;
 /* scale the whole calculator to the visible area (iPad Safari: visualViewport excludes the toolbars) and centre it */
 function fit() {
   const c = $('calc'), vv = window.visualViewport;
+  if (vv && Math.abs(vv.scale - 1) > 0.01) return;   // pinch-zoomed: the visual viewport shrinks and pans, so refitting would push the calculator off screen; leave the layout alone until zoom returns to 1
   const vw = vv ? vv.width : innerWidth, vh = vv ? vv.height : innerHeight, pad = 8;
-  const s = Math.min((vw - 2 * pad) / 438, (vh - 2 * pad) / 1018);
-  const x = (vw - 438 * s) / 2, y = (vh - 1018 * s) / 2;
+  const ch = CALC_H[MODEL];
+  const s = Math.min((vw - 2 * pad) / 438, (vh - 2 * pad) / ch);
+  const x = (vw - 438 * s) / 2, y = (vh - ch * s) / 2;
   c.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
 }
 addEventListener('resize', fit);
 addEventListener('orientationchange', () => setTimeout(fit, 250));
 if (window.visualViewport) visualViewport.addEventListener('resize', fit);
+if (window.visualViewport) visualViewport.addEventListener('scroll', () => { if (Math.abs(visualViewport.scale - 1) <= 0.01) fit(); });
 /* browsers (notably iPad Safari) can drop a canvas's pixels while in the background: redraw when it comes back */
 lcd.addEventListener('contextrestored', () => paint());
 document.addEventListener('visibilitychange', () => { if (!document.hidden) paint(); });
