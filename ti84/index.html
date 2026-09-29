@@ -71,11 +71,27 @@ html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;b
 #dpad path.pet{transition:fill .7s cubic-bezier(.2,.6,.3,1)}
 #dpad path.pet.hl{fill:#ffd54a;transition:none}
 /* ---- screenshot buttons ---- */
-#shots{position:absolute;left:50px;top:946px;z-index:5}
-#shots button{all:unset;box-sizing:border-box;width:48px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
-  background:rgba(30,32,37,.92);border:1px solid #3a3e46;color:#d5d8dd;box-shadow:0 4px 14px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent}
-#shots button:hover{background:#2b2f36;color:#fff} #shots button:active{transform:scale(.94)}
-#shots svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* the screenshot button sits right of the calculator name, styled like it */
+.ttwrap{position:relative;display:block}
+#shots{position:absolute;left:100%;top:0;bottom:0;margin-left:8px;pointer-events:auto;z-index:5}
+#shots button{all:unset;box-sizing:border-box;height:100%;padding:0 13px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:inherit;transition:background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+#shots button:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.34)} #shots button:active{transform:scale(.95)}
+#shots svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+#shots button:hover svg{opacity:1}
+#exBtn{all:unset;box-sizing:border-box;position:absolute;right:100%;top:0;bottom:0;margin-right:8px;padding:0 13px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:inherit;transition:background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+#exBtn:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.34)} #exBtn:active{transform:scale(.95)}
+#exBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.75} #exBtn:hover svg{opacity:1}
+#exPanel{position:absolute;left:-52px;top:calc(100% + 10px);width:230px;padding:12px 14px;border-radius:12px;background:rgba(24,26,31,.97);border:1px solid #3a3e46;color:#eef0f3;
+  font:600 13px/1.45 "Helvetica Neue",Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .15s,transform .15s;z-index:30;white-space:normal;text-align:left}
+#exPanel b{display:block;margin-bottom:4px;font-size:14px} #exPanel span{opacity:.75;font-weight:500}
+#exPanel.on{opacity:1;transform:none;pointer-events:auto}
+#calc.m84 #exBtn{border-color:rgba(70,85,122,.30);background:rgba(70,85,122,.06)}
+#calc.m84 #exBtn:hover{background:rgba(70,85,122,.16);border-color:rgba(70,85,122,.55)}
+#calc.m84 #exPanel{background:rgba(238,240,243,.98);border-color:#9aa3b5;color:#33415f;box-shadow:0 10px 30px rgba(20,30,50,.35)}
+#calc.m84 #shots button{border-color:rgba(70,85,122,.30);background:rgba(70,85,122,.06)}
+#calc.m84 #shots button:hover{background:rgba(70,85,122,.16);border-color:rgba(70,85,122,.55)}
 #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);z-index:6;padding:10px 16px;border-radius:10px;background:rgba(20,22,26,.96);
   border:1px solid #3a3e46;color:#eef0f3;font:600 13px/1 "Helvetica Neue",Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 #toast.on{opacity:1;transform:translate(-50%,0)}
@@ -155,7 +171,7 @@ const SBH = 30;                     // status bar height in LCD pixels
 const GW = 320, GH = 240 - SBH;     // drawing area below the status bar
 let MODEL = 'ce';                     // 'ce' = TI-84 Plus CE, '84' = TI-84 Plus (classic)
 const $ = id => document.getElementById(id);
-const S = { second:false, alpha:false, alock:false, ins:false, off:false, blink:true, bright:1 };
+const S = { second:false, alpha:false, alock:false, ins:false, off:false, blink:true, bright:1, contrast:4 };   // bright: CE backlight (max 1); contrast: 84 Plus 0–9
 const SET = { note:'NORMAL', fix:-1, angle:'RADIAN', mp:true };
 const VARS = new Set('ABCDEFGHIJKLMNOPQRSTUVWXYZθ'.split(''));
 const V = {}; let ANS = 0;
@@ -1695,8 +1711,9 @@ function fmtOut(r) {
   const [nn, dd] = s.split('/'), neg = nn[0] === '-';
   return [...(neg ? ['-'] : []), { t:'frac', n:[...(neg ? nn.slice(1) : nn)], d:[...dd] }];
 }
+const DRY = document.createElement('canvas').getContext('2d');       // scratch surface to measure where the cursor lands
 const home = {
-  canvas:true, hist:[], ed:newEd(), entries:[], eIdx:-1,
+  canvas:true, hist:[], ed:newEd(), entries:[], eIdx:-1, cOff:0,
   sel:null,                                    // index into history entries (input/output) highlighted with ↑/↓
   histItems() { const L = []; this.hist.forEach((h, i) => { L.push({ i, part:'in' }); L.push({ i, part:'out' }); }); return L; },
   key(a) {
@@ -1710,6 +1727,10 @@ const home = {
     if (this.sel !== null) {
       const it = this.histItems()[this.sel], hh = this.hist[it.i];
       const mn = it.part === 'out' && Array.isArray(hh.out) ? hh.out.find(x => typeof x === 'object' && x.t === 'mat') : null;
+      if (!CL() && SET.mp && (a === '@left' || a === '@right')) {
+        const kW = it.part === 'in' ? 'wIn' : 'wOut', kO = it.part === 'in' ? 'oi' : 'oo';
+        if ((hh[kW] || 0) > 314) { hh[kO] = Math.max(0, Math.min(hh[kW] - 314, (hh[kO] || 0) + (a === '@left' ? -40 : 40))); return; }
+      }
       if (CL() && it.part === 'out' && typeof hh.out === 'string' && (a === '@left' || a === '@right')) { hh.off = Math.max(0, (hh.off || 0) + (a === '@left' ? -1 : 1)); return; }
       if (mn && (a === '@left' || a === '@right')) { mn.off = CL() ? Math.max(0, (mn.off || 0) + (a === '@left' ? -1 : 1)) : Math.max(0, Math.min(mn.cols - 1, (mn.off || 0) + (a === '@left' ? -1 : 1))); return; }
       this.sel = null;
@@ -1746,15 +1767,32 @@ const home = {
       this.ed = newEd();
     } catch (e) { isCalcErr(e); showError(e.message, clone(row), home); }
   },
+  /* MathPrint (the CE default): a long entry or answer stays on ONE line and scrolls sideways (◄ ► mark the hidden side).
+     Classic mode wraps onto the next line instead. */
   draw(g) {
-    const blocks = [], PAD = 5;
-    const block = (L, right, item, rule) => blocks.push({ L, right, item, rule, h:Math.max(L.asc, 15) + Math.max(L.desc, 1) + PAD + (rule ? 3 : 0) });
+    const blocks = [], PAD = 5, MP = SET.mp, VW = 314;
+    const block = (L, right, item, rule, o = {}) => blocks.push({ L, right, item, rule, ...o, h:Math.max(L.asc, 15) + Math.max(L.desc, 1) + PAD + (rule ? 3 : 0) });
     this.hist.forEach((h, hi) => {
-      splitLines(h.row, 314).forEach(([s, e]) => block(lay(h.row, 0, false, s, e), false, hi * 2));
-      block(lay(typeof h.out === 'string' ? [h.out] : h.out, 0, false), true, hi * 2 + 1, true);
+      if (MP) {
+        const Li = lay(h.row, 0, false), Lo = lay(typeof h.out === 'string' ? [h.out] : h.out, 0, false);
+        h.wIn = Li.w; h.wOut = Lo.w;
+        h.oi = Math.max(0, Math.min(h.oi || 0, Math.max(0, Li.w - VW))); h.oo = Math.max(0, Math.min(h.oo || 0, Math.max(0, Lo.w - VW)));
+        block(Li, false, hi * 2, false, { off:h.oi }); block(Lo, true, hi * 2 + 1, true, { off:h.oo });
+      } else {
+        splitLines(h.row, VW).forEach(([s, e]) => block(lay(h.row, 0, false, s, e), false, hi * 2));
+        block(lay(typeof h.out === 'string' ? [h.out] : h.out, 0, false), true, hi * 2 + 1, true);
+      }
     });
     const row = this.ed.root;
-    splitLines(row, 314).forEach(([s, e]) => block(lay(row, 0, false, s, e), false));
+    if (MP) {
+      const L = lay(row, 0, false), probe = { row:rowOf(this.ed), i:this.ed.i, color:'#000', found:null };
+      L.draw(DRY, 0, 20, probe);                                   // where would the cursor be? scroll so that it stays visible
+      const cx = probe.found ? probe.found.x : 0;
+      if (cx + 16 > this.cOff + VW) this.cOff = cx + 16 - VW;
+      if (cx < this.cOff + 24) this.cOff = Math.max(0, cx - 24);
+      this.cOff = Math.max(0, Math.min(this.cOff, Math.max(0, L.w + 14 - VW)));
+      block(L, false, -2, false, { off:this.cOff });
+    } else splitLines(row, VW).forEach(([s, e]) => block(lay(row, 0, false, s, e), false));
     const total = blocks.reduce((a, b) => a + b.h, 0);
     let y = Math.min(1, GH - total - 1);
     if (this.sel !== null) {                       // keep the highlighted entry on screen
@@ -1763,10 +1801,17 @@ const home = {
     }
     const ctx = { row:rowOf(this.ed), i:this.ed.i, color:'#000', found:null };
     for (const b of blocks) {
-      const base = y + Math.max(b.L.asc, 15) + 2, x = b.right ? 318 - b.L.w : 2;
+      const asc = Math.max(b.L.asc, 15), base = y + asc + 2, wide = MP && b.L.w > VW, x = wide ? 2 - b.off : b.right ? 318 - b.L.w : 2;
       if (y + b.h > -20 && y < GH) {
-        if (b.item === this.sel) { g.fillStyle = '#9ff4f4'; g.fillRect(x - 1, base - Math.max(b.L.asc, 15) - 1, b.L.w + 2, Math.max(b.L.asc, 15) + Math.max(b.L.desc, 1) + 2); }
+        g.save();
+        if (wide || (MP && b.item === -2)) { g.beginPath(); g.rect(0, y - 2, GW, b.h + 4); g.clip(); }
+        if (b.item === this.sel) { g.fillStyle = '#9ff4f4'; g.fillRect(x - 1, base - asc - 1, b.L.w + 2, asc + Math.max(b.L.desc, 1) + 2); }
         b.L.draw(g, x, base, this.sel === null ? ctx : null);
+        g.restore();
+        if (wide) {                                                // ◄ ► : more to the left / right
+          if (b.off > 0) { g.fillStyle = '#fff'; g.fillRect(0, base - 14, 9, 16); sglyph(g, '◄', 1, base - 14, '#000'); }
+          if (b.off + VW < b.L.w) { g.fillStyle = '#fff'; g.fillRect(GW - 10, base - 14, 10, 16); sglyph(g, '►', GW - 9, base - 14, '#000'); }
+        }
         if (b.rule) { g.fillStyle = '#000'; const ry = y + b.h - 4; for (let dx = 1; dx < GW - 2; dx += 5) g.fillRect(dx, ry, 2, 2); }
       }
       y += b.h;
@@ -3026,7 +3071,7 @@ const K = {};
 function press(id) {
   S.blink = true;
   highlight(id);
-  if (S.off) { if (id === 'on') { S.off = false; paint(); } return; }
+  if (S.off) { if (id === 'on') { S.off = false; resetAll(); paint(); } return; }
   if (id === 'second') { S.second = !S.second; return paint(); }
   if (id === 'alpha') {
     if (S.second) { S.second = false; S.alock = true; S.alpha = true; }
@@ -3056,8 +3101,9 @@ function dispatch(act) {
   const menuOpen = name => { leaveCur(); menu.open(name); };
   if (act === '@graph' && cur.f5) cur.f5();                               // soft key above GRAPH (OK / SOLVE)
   else if (act.startsWith('@pop:')) { if (!CL()) popScr.open(+act.slice(5)); }
+  else if ((act === '@bright+' || act === '@bright-') && CL()) S.contrast = Math.max(0, Math.min(9, S.contrast + (act === '@bright+' ? 1 : -1)));   // 84 Plus: 2nd ▲ darkens, 2nd ▼ lightens
   else if (act === '@bright+' || act === '@bright-') {
-    S.bright = Math.max(.35, Math.min(1.25, S.bright + (act === '@bright+' ? .1 : -.1)));
+    S.bright = Math.max(.35, Math.min(1, S.bright + (act === '@bright+' ? .1 : -.1)));   // 1 is the maximum (the default)
     $('lcd').style.filter = `brightness(${S.bright})`;
   }
   else if (act === '@quit') go(home);
@@ -3133,7 +3179,8 @@ function mono() {
 const CL = () => MODEL === '84';
 const LW = 96, LH = 64, B84 = new Uint8Array(LW * LH);
 
-/* ---- 5×7 font (rows of 5 pixels, 8 rows per cell) ---- */
+/* ---- 5×7 font (rows of 5 pixels, 8 rows per cell). Glyph shapes follow the TI-83 Plus Large font as recreated by Myname5749
+   (FontStruct, CC BY-ND 3.0); a few symbols the TI OS draws (x̄, p̂, ⁻¹, cursors…) are drawn by hand. ---- */
 const G84_SRC = {
   ' ':'...../...../...../...../...../...../.....',
   '0':'.###./#...#/#..##/#.#.#/##..#/#...#/.###.', '1':'..#../.##../..#../..#../..#../..#../.###.', '2':'.###./#...#/....#/...#./..#../.#.../#####',
@@ -3147,43 +3194,43 @@ const G84_SRC = {
   'M':'#...#/##.##/#.#.#/#.#.#/#...#/#...#/#...#', 'N':'#...#/#...#/##..#/#.#.#/#..##/#...#/#...#', 'O':'.###./#...#/#...#/#...#/#...#/#...#/.###.',
   'P':'####./#...#/#...#/####./#..../#..../#....', 'Q':'.###./#...#/#...#/#...#/#.#.#/#..#./.##.#', 'R':'####./#...#/#...#/####./#.#../#..#./#...#',
   'S':'.####/#..../#..../.###./....#/....#/####.', 'T':'#####/..#../..#../..#../..#../..#../..#..', 'U':'#...#/#...#/#...#/#...#/#...#/#...#/.###.',
-  'V':'#...#/#...#/#...#/#...#/#...#/.#.#./..#..', 'W':'#...#/#...#/#...#/#.#.#/#.#.#/##.##/#...#', 'X':'#...#/#...#/.#.#./..#../.#.#./#...#/#...#',
-  'Y':'#...#/#...#/.#.#./..#../..#../..#../..#..', 'Z':'#####/....#/...#./..#../.#.../#..../#####',
-  'a':'...../...../.###./....#/.####/#...#/.####', 'b':'#..../#..../####./#...#/#...#/#...#/####.', 'c':'...../...../.###./#...#/#..../#...#/.###.',
-  'd':'....#/....#/.####/#...#/#...#/#...#/.####', 'e':'...../...../.###./#...#/#####/#..../.###.', 'f':'..##./.#..#/.#.../###../.#.../.#.../.#...',
-  'g':'...../...../.####/#...#/#...#/.####/....#/.###.', 'h':'#..../#..../#.##./##..#/#...#/#...#/#...#', 'i':'..#../...../.##../..#../..#../..#../.###.',
-  'j':'...#./...../..##./...#./...#./...#./#..#./.##..', 'k':'#..../#..../#..#./#.#../##.../#.#../#..#.', 'l':'.##../..#../..#../..#../..#../..#../.###.',
-  'm':'...../...../##.#./#.#.#/#.#.#/#.#.#/#.#.#', 'n':'...../...../#.##./##..#/#...#/#...#/#...#', 'o':'...../...../.###./#...#/#...#/#...#/.###.',
-  'p':'...../...../####./#...#/#...#/####./#..../#....', 'q':'...../...../.####/#...#/#...#/.####/....#/....#', 'r':'...../...../#.##./##..#/#..../#..../#....',
-  's':'...../...../.####/#..../.###./....#/####.', 't':'.#.../.#.../###../.#.../.#.../.#..#/..##.', 'u':'...../...../#...#/#...#/#...#/#..##/.##.#',
+  'V':'#...#/#...#/#...#/#...#/.#.#./.#.#./..#..', 'W':'#...#/#...#/#...#/#.#.#/#.#.#/#.#.#/.#.#.', 'X':'#...#/#...#/.#.#./..#../.#.#./#...#/#...#',
+  'Y':'#...#/#...#/#...#/.#.#./..#../..#../..#..', 'Z':'#####/....#/...#./..#../.#.../#..../#####',
+  'a':'...../...../.###./....#/.####/#...#/.####', 'b':'#..../#..../#.##./##..#/#...#/#...#/####.', 'c':'...../...../.###./#..../#..../#...#/.###.',
+  'd':'....#/....#/.##.#/#..##/#...#/#...#/.####', 'e':'...../...../.###./#...#/#####/#..../.###.', 'f':'..##./.#..#/.#.../###../.#.../.#.../.#...',
+  'g':'...../.####/#...#/#...#/.####/....#/.###.', 'h':'#..../#..../#.##./##..#/#...#/#...#/#...#', 'i':'..#../...../.##../..#../..#../..#../.###.',
+  'j':'...#./...../..##./...#./...#./#..#./.##..', 'k':'.#.../.#.../.#..#/.#.#./.##../.#.#./.#..#', 'l':'.##../..#../..#../..#../..#../..#../.###.',
+  'm':'...../...../##.#./#.#.#/#.#.#/#...#/#...#', 'n':'...../...../#.##./##..#/#...#/#...#/#...#', 'o':'...../...../.###./#...#/#...#/#...#/.###.',
+  'p':'...../...../####./#...#/####./#..../#....', 'q':'...../...../.##.#/#..##/.####/....#/....#', 'r':'...../...../#.##./##..#/#..../#..../#....',
+  's':'...../...../.###./#..../.###./....#/####.', 't':'.#.../.#.../###../.#.../.#.../.#..#/..##.', 'u':'...../...../#...#/#...#/#...#/#..##/.##.#',
   'v':'...../...../#...#/#...#/#...#/.#.#./..#..', 'w':'...../...../#...#/#...#/#.#.#/#.#.#/.#.#.', 'x':'...../...../#...#/.#.#./..#../.#.#./#...#',
-  'y':'...../...../#...#/#...#/#...#/.####/....#/.###.', 'z':'...../...../#####/...#./..#../.#.../#####',
-  '!':'..#../..#../..#../..#../..#../...../..#..', '"':'.#.#./.#.#./...../...../...../...../.....', '#':'.#.#./.#.#./#####/.#.#./#####/.#.#./.#.#.',
-  '$':'..#../.####/#.#../.###./..#.#/####./..#..', '%':'##..#/##..#/...#./..#../.#.../#..##/#..##', '&':'.##../#..#./#.#../.#.../#.#.#/#..#./.##.#',
+  'y':'...../...../#...#/#...#/.####/....#/.###.', 'z':'...../...../#####/...#./..#../.#.../#####',
+  '!':'..#../..#../..#../..#../...../..#../..#..', '"':'.#.#./.#.#./.#.#.', '#':'.#.#./.#.#./#####/.#.#./#####/.#.#./.#.#.',
+  '$':'..#../.####/#.#../.###./..#.#/####./..#..', '%':'##.../##..#/...#./..#../.#.../#..##/...##', '&':'.#.../#.#../#.#../.#.../#.#.#/#..#./.##.#',
   "'":'..#../..#../.#.../...../...../...../.....', '(':'...#./..#../.#.../.#.../.#.../..#../...#.', ')':'.#.../..#../...#./...#./...#./..#../.#...',
-  '*':'...../#.#.#/.###./#####/.###./#.#.#/.....', '+':'...../..#../..#../#####/..#../..#../.....', ',':'...../...../...../...../..##./...#./..#..',
-  '-':'...../...../...../.###./...../...../.....', '.':'...../...../...../...../...../..##./..##.', '/':'....#/....#/...#./..#../.#.../#..../#....',
-  ':':'...../..##./..##./...../..##./..##./.....', ';':'...../..##./..##./...../..##./...#./..#..', '<':'...#./..#../.#.../..#../...#./...../.....',
-  '=':'...../...../#####/...../#####/...../.....', '>':'.#.../..#../...#./..#../.#.../...../.....', '?':'.###./#...#/....#/...#./..#../...../..#..',
-  '@':'.###./#...#/#.###/#.#.#/#.###/#..../.###.', '[':'.###./.#.../.#.../.#.../.#.../.#.../.###.', '\\':'#..../#..../.#.../..#../...#./....#/....#',
-  ']':'.###./...#./...#./...#./...#./...#./.###.', '^':'..#../.#.#./#...#/...../...../...../.....', '_':'...../...../...../...../...../...../#####',
-  '`':'.#.../..#../...../...../...../...../.....', '{':'..##./..#../..#../.#.../..#../..#../..##.', '|':'..#../..#../..#../..#../..#../..#../..#..',
-  '}':'.##../..#../..#../...#./..#../..#../.##..', '~':'...../...../.#..#/#.##./...../...../.....',
-  '−':'...../...../...../#####/...../...../.....', '‐':'...../...../...../.###./...../...../.....',
-  'θ':'.###./#...#/#...#/#####/#...#/#...#/.###.', 'π':'...../#####/.#.#./.#.#./.#.#./.#.#./.#..#', '√':'....#/....#/...#./#..#./.#.#./..##./..#..',
-  '²':'##.../..#../.#.../###../...../...../.....', '³':'##.../..#../.##../..#../##.../...../.....', '°':'.##../#..#./.##../...../...../...../.....',
-  'ʳ':'#.#../##.../#..../...../...../...../.....', 'ˣ':'#.#../.#.../#.#../...../...../...../.....',
-  '≠':'....#/...#./#####/..#../#####/.#.../#....', '≥':'.#.../..#../...#./..#../.#.../...../#####', '≤':'...#./..#../.#.../..#../...#./...../#####',
+  '*':'...../..#../#.#.#/.###./#.#.#/..#..', '+':'...../..#../..#../#####/..#../..#..', ',':'...../...../...../...../.##../..#../.#...',
+  '-':'...../...../...../.###.', '.':'...../...../...../...../...../.##../.##..', '/':'...../....#/...#./..#../.#.../#....',
+  ':':'...../.##../.##../...../.##../.##..', ';':'...../.##../.##../...../.##../..#../.#...', '<':'...#./..#../.#.../#..../.#.../..#../...#.',
+  '=':'...../...../#####/...../#####', '>':'.#.../..#../...#./....#/...#./..#../.#...', '?':'.###./#...#/....#/...#./..#../...../..#..',
+  '@':'.###./#...#/#.#.#/#.###/#.#../#..../.####', '[':'..##./..#../..#../..#../..#../..#../..##.', '\\':'...../#..../.#.../..#../...#./....#',
+  ']':'.##../..#../..#../..#../..#../..#../.##..', '^':'..#../.#.#./#...#', '_':'...../...../...../...../...../...../#####',
+  '`':'#..../.#.../..#..', '{':'...##/..#../..#../.#.../..#../..#../...##', '|':'..#../..#../..#../..#../..#../..#../..#..',
+  '}':'##.../..#../..#../...#./..#../..#../##...', '~':'...../.#.../#.#.#/...#.',
+  '−':'...../...../...../#####', '‐':'...../...../...../.###.',
+  'θ':'.###./#...#/#...#/#####/#...#/#...#/.###.', 'π':'...../...../#####/.#.#./.#.#./.#.#./#..##', '√':'..###/..#../..#../..#../#.#../.##../..#..',
+  '²':'.##../...#./..#../.#.../.###.', '³':'.##../...#./..#../...#./.##..', '°':'.##../#..#./#..#./.##..',
+  'ʳ':'#.##./##.../#..../#....', 'ˣ':'',
+  '≠':'...#./...#./#####/..#../#####/.#.../.#...', '≥':'#..../.##../...##/.##../#..../...../#####', '≤':'....#/..##./##.../..##./....#/...../#####',
   '↑':'..#../.###./#.#.#/..#../..#../..#../..#..', '↓':'..#../..#../..#../..#../#.#.#/.###./..#..', '…':'...../...../...../...../...../...../#.#.#',
-  '■':'...../.###./.###./.###./.###./.###./.....', '▪':'...../...../.##../.##../...../...../.....',
-  'Σ':'#####/#..../.#.../..#../.#.../#..../#####', 'χ':'...../...../#...#/.#.#./..#../.#.#./#...#', '∫':'..###/..#../..#../..#../..#../..#../##...',
-  'ᴇ':'...../...../####./#..../###../#..../####.', '→':'...../..#../...#./#####/...#./..#../.....', '␣':'...../...../...../...../...../#...#/#####',
-  'μ':'...../...../#...#/#...#/#...#/#..##/####./#....', 'σ':'...../...../.####/#..#./#..#./#..#./.##../.....', 'ρ':'...../...../.###./#...#/#...#/#...#/####./#....',
-  'β':'.##../#..#./#.##./#..#./#..#./#.##./#....', 'Δ':'..#../..#../.#.#./.#.#./#...#/#...#/#####', '∠':'...../...#./..#../.#.../#..../#####/.....',
-  'ʟ':'#..../#..../#..../#..../#..../#..../#####', 'ℯ':'...../...../.###./#...#/#####/#..../.###.',
-  'ȳ':'.###./...../#...#/#...#/#...#/.####/....#/.###.', '\uE020':'.###./...../#...#/.#.#./..#../.#.#./#...#',
+  '■':'...../...../###../###../###..', '▪':'...../...../.##../.##../...../...../.....',
+  'Σ':'#####/.#.../..#../...#./..#../.#.../#####', 'χ':'#..../.#..#/.#.#./..#../.#.#./#..#./....#', '∫':'...#./..#.#/..#../..#../..#../#.#../.#...',
+  'ᴇ':'...../...../.####/.#.../.###./.#.../.####', '→':'...../..#../...#./#####/...#./..#..', '␣':'...../...../...../...../#...#/#...#/#####',
+  'μ':'...../...../#..#./#..#./#..#./###.#/#....', 'σ':'...../...../.####/#..#./#..#./#..#./.##..', 'ρ':'...../..##./.#..#/.#..#/.###./.#.../#....',
+  'β':'..##./.#..#/.#..#/.###./.#..#/.#..#/#.##.', 'Δ':'...../...../...../..#../.#.#./#...#/#####', '∠':'...../...../....#/...#./..#../.#.../#####',
+  'ʟ':'#..../#..../#..../#..../#..../#..../#####', 'ℯ':'...../...../.###./#...#/####./#..../.##..',
+  'ȳ':'#####/...../#...#/#...#/.####/....#/.###.', '\uE020':'.###./...../#...#/.#.#./..#../.#.#./#...#',
   '\uE021':'..#../.#.#./####./#...#/#...#/####./#..../#....', '\uE001':'...#./..##./##.#./...#./...#./...../.....', '\uE030':'...../...../#...#/.#.#./..#../.#.#./#...#',
-  '►':'#..../##.../###../####./###../##.../#....', '◄':'....#/...##/..###/.####/..###/...##/....#', 'ᵀ':'###../.#.../.#.../...../...../...../.....',
+  '►':'#..../##.../###../####./###../##.../#....', '◄':'....#/...##/..###/.####/..###/...##/....#', 'ᵀ':'.###./..#../..#../..#../..#..',
 };
 const G84 = {};
 for (const k in G84_SRC) {
@@ -3224,13 +3271,16 @@ function cursor84(x, y, under) {
 function flush84() {
   const x = g, S6 = 6;
   x.setTransform(1, 0, 0, 1, 0, 0);
-  x.fillStyle = S.off ? '#8d9683' : '#a7b09a'; x.fillRect(0, 0, LW * S6, LH * S6);
+  const t = S.contrast / 9, mixc = (p, q, k) => p.map((v, i) => Math.round(v + (q[i] - v) * k)), base = [0xa7, 0xb0, 0x9a], T0 = 4 / 9;
+  const paper = t < T0 ? mixc(base, [0xc6, 0xcc, 0xb9], (T0 - t) / T0) : mixc(base, [0x6f, 0x79, 0x62], (t - T0) / (1 - T0));
+  x.fillStyle = S.off ? '#8d9683' : `rgb(${paper})`; x.fillRect(0, 0, LW * S6, LH * S6);
   if (S.off) return;
   x.fillStyle = 'rgba(80,92,66,.08)';
   for (let i = 1; i < LW; i++) x.fillRect(i * S6 - 1, 0, 1, LH * S6);
   for (let j = 1; j < LH; j++) x.fillRect(0, j * S6 - 1, LW * S6, 1);
-  x.fillStyle = '#1a1e14';
+  x.fillStyle = '#1a1e14'; x.globalAlpha = Math.min(1, 0.12 + t * 2);            // low contrast: the pixels fade towards the background
   for (let j = 0; j < LH; j++) for (let i = 0; i < LW; i++) if (B84[j * LW + i]) x.fillRect(i * S6, j * S6, i + 1 < LW && B84[j * LW + i + 1] ? S6 : S6 - 1, j + 1 < LH && B84[(j + 1) * LW + i] ? S6 : S6 - 1);
+  x.globalAlpha = 1;
 }
 /* a character grid (menus, settings, wizards): buf[row][col] = {c, inv, cur} — same structure the CE grid screens build */
 function paintGrid84({ buf, cursor }) {
@@ -3367,11 +3417,11 @@ graphScr.paint84 = function () {
   const ox = X(0), oy = Yp(0);
   if (oy >= 0 && oy <= PH) {
     const py = Math.round(oy); for (let x = 0; x <= PW; x++) bset(x, py);
-    if (xscl > 0 && (xmax - xmin) / xscl < 300) for (let k = Math.ceil(xmin / xscl); k <= xmax / xscl; k++) { const px = Math.round(X(k * xscl)); bset(px, py - 1); bset(px, py + 1); }
+    if (xscl > 0 && (xmax - xmin) / xscl < 300) for (let k = Math.ceil(xmin / xscl); k <= xmax / xscl; k++) { const px = Math.round(X(k * xscl)); bset(px, py - 1); }
   }
   if (ox >= 0 && ox <= PW) {
     const px = Math.round(ox); for (let y = 0; y <= PH; y++) bset(px, y);
-    if (yscl > 0 && (ymax - ymin) / yscl < 300) for (let k = Math.ceil(ymin / yscl); k <= ymax / yscl; k++) { const py = Math.round(Yp(k * yscl)); bset(px - 1, py); bset(px + 1, py); }
+    if (yscl > 0 && (ymax - ymin) / yscl < 300) for (let k = Math.ceil(ymin / yscl); k <= ymax / yscl; k++) { const py = Math.round(Yp(k * yscl)); bset(px + 1, py); }
   }
   if (this.shade) {                                              // ∫f(x)dx: hatched area between the curve and the x-axis
     const f = this.fn(this.shade.fi), y0 = Math.max(0, Math.min(PH, Yp(0)));
@@ -3492,6 +3542,27 @@ function paint84() {
   flush84();
 }
 function bclr() { B84.fill(0); }
+/* Turning either calculator OFF and ON again restarts it completely — the same state as reloading the page */
+function resetAll() {
+  home.hist = []; home.entries = []; home.eIdx = -1; home.ed = newEd(); home.sel = null; home.cOff = 0; ANS = 0;
+  Object.keys(V).forEach(k => delete V[k]);
+  LNAMES.forEach(n => { LISTS[n] = []; }); Object.keys(MATS).forEach(k => delete MATS[k]);
+  Y.forEach((r, i) => { r.length = 0; YE[i].path = []; YE[i].i = 0; });
+  setWin(-10, 10, 1, -10, 10, 1); WIN.xres = 1; Object.assign(TBL, { start:0, step:1, indpnt:'Auto', depend:'Auto' });
+  Object.assign(SET, { note:'NORMAL', fix:-1, angle:'RADIAN' }); SET.mp = !CL(); SETMP_CE = true;
+  Object.keys(STATV).forEach(k => delete STATV[k]); Object.keys(WIZVAL).forEach(k => delete WIZVAL[k]); Object.keys(SWVAL).forEach(k => delete SWVAL[k]);
+  [SOLV.e1, SOLV.e2].forEach(e => { e.root.length = 0; e.path = []; e.i = 0; }); SOLV.bt = [...'(-1ᴇ99,1ᴇ99)']; SOLV.b = [-1e99, 1e99];
+  Object.assign(solverScr, { state:'eq', sel:0, c:0, fresh:false, vars:[], solved:null, resid:null, newBox:[true, true], last:0 });
+  graphScr.reset(); Object.assign(graphScr, { fi:0, tx:0 });
+  Object.assign(tableScr, { r:0, c:0, coff:0, base:0, xs:[], inp:null }); tableScr.shown.clear();
+  Object.assign(listEd, { c:0, r:0, top:0, coff:0, inp:null }); Object.assign(matEd, { name:'[A]', zone:'grid', dc:0, r:0, c:0, top:0, coff:0, inp:null });
+  Object.assign(menu, { def:null, tab:0, sel:0, top:0, prev:null }); Object.assign(modeScr, { r:0, i:0 });
+  Object.assign(winScr, { sel:0, c:0, fresh:true }); Object.assign(tblsetScr, { sel:0, c:0, fresh:true, opt:0 }); yeqScr.sel = 0; yeqScr.top84 = 0;
+  Object.assign(statWiz, { name:'', def:null, st:null, sel:0, c:0, fresh:true, top:0, opt:0 }); Object.assign(wizScr, { fn:'', fields:[], sel:0, c:0, fresh:true, prev:null }); resultScr.res = null; resultScr.top = 0;
+  Object.assign(popScr, { tab:0, sel:0, prev:null });
+  S.second = S.alpha = S.alock = S.ins = false; S.bright = 1; S.contrast = 4; $('lcd').style.filter = '';
+  setScreen(home);
+}
 /* entering / leaving classic mode: flatten any MathPrint templates so the linear editors can take over */
 function flatten84() {
   const flat = r => lin(r);
@@ -3530,7 +3601,16 @@ function bindPress(e, id) {
 }
 
 const hw84 = el('div'); hw84.id = 'hw84'; body.prepend(hw84);
-const ttl = el('div', 'title', '<span class="tt" title="Click to switch calculator"><span class="tx"></span><svg viewBox="0 0 12 12"><path d="M1.5 4h9M8 1.5 10.5 4 8 6.5M10.5 8h-9M4 5.5 1.5 8 4 10.5"/></svg></span>');
+const ttl = el('div', 'title', '<span class="ttwrap"><span class="tt" title="Click to switch calculator"><span class="tx"></span><svg viewBox="0 0 12 12"><path d="M1.5 4h9M8 1.5 10.5 4 8 6.5M10.5 8h-9M4 5.5 1.5 8 4 10.5"/></svg></span></span>');
+ttl.querySelector('.ttwrap').append($('shots'));
+/* left of the name: exercises from your tutoring (placeholder for now) */
+const exBtn = document.createElement('button'); exBtn.id = 'exBtn'; exBtn.title = 'Load an exercise'; exBtn.setAttribute('aria-label', 'Load an exercise');
+exBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3.5 18.5V6.2A1.2 1.2 0 0 1 4.7 5h4.3l2 2.3h6.6a1.2 1.2 0 0 1 1.2 1.2V10"/><path d="M3.5 18.5l2.4-7.2a1.2 1.2 0 0 1 1.1-.8h13.4a1 1 0 0 1 1 1.3l-2.1 6.3a1.2 1.2 0 0 1-1.1.8H3.5z"/></svg>';
+const exPanel = document.createElement('div'); exPanel.id = 'exPanel';
+exPanel.innerHTML = '<b>Exercises</b><span>Placeholder: your tutoring exercises will load here.</span>';
+ttl.querySelector('.ttwrap').append(exBtn, exPanel);
+exBtn.addEventListener('click', e => { e.stopPropagation(); exPanel.classList.toggle('on'); });
+document.addEventListener('click', e => { if (!exPanel.contains(e.target)) exPanel.classList.remove('on'); });
 place(el('div', 'bezel'), 457, 259, 286, 209);
 ttl.style.top = (P(259 - OY) / 2 - 17) + 'px'; ttl._ce = { t: ttl.style.top };   // centred in the top frame, above the screen bezel
 const lcd = el('canvas'); lcd.id = 'lcd'; lcd.width = 640; lcd.height = 480; place(lcd, 481, 272);
@@ -3691,7 +3771,6 @@ function applyModel(m) {
   else { pad.style.left = pad._ce.l; pad.style.top = pad._ce.t; }
   lcd.style.left = lcdfx.style.left = (is84 ? LCD84.l + 'px' : lcd._ce.l);
   lcd.style.top = lcdfx.style.top = (is84 ? LCD84.t + 'px' : lcd._ce.t);
-  const sh = $('shots'); sh.style.left = is84 ? r1(cx84(160)) + 'px' : ''; sh.style.top = is84 ? r1(cy84(1880)) + 'px' : '';
   try { localStorage.setItem('ti-model', m); } catch (e) {}
 }
 let swapping = false, SETMP_CE = true;
@@ -3703,7 +3782,7 @@ function switchModel() {
     requestAnimationFrame(() => requestAnimationFrame(() => { st.classList.remove('swap'); setTimeout(() => { swapping = false; }, 150); }));
   }, 140);
 }
-ttl.firstChild.addEventListener('click', switchModel);
+ttl.querySelector('.tt').addEventListener('click', switchModel);
 let saved = 'ce'; try { saved = localStorage.getItem('ti-model') || 'ce'; } catch (e) {}
 applyModel(saved === '84' ? '84' : 'ce');
 
@@ -3711,24 +3790,11 @@ applyModel(saved === '84' ? '84' : 'ce');
 const KB = { '+':'add','-':'sub','*':'mul','/':'div','^':'pow','(':'lp',')':'rp',',':'comma','.':'dot',
   Enter:'enter',Delete:'del',Escape:'clear',ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right' };
 function flash(id) { const k = $('k-' + id); if (k) { k.classList.add('down'); setTimeout(() => k.classList.remove('down'), 110); } }
-/* Backspace deletes while there is something to delete, otherwise it acts as CLEAR (clears the screen / leaves a menu) */
-function backspaceId() {
-  const edEmpty = ed => !ed.root.length;
-  if (cur === home) return edEmpty(home.ed) ? 'clear' : 'del';
-  if (cur === yeqScr) return edEmpty(YE[yeqScr.sel]) ? 'clear' : 'del';
-  if (cur === solverScr && solverScr.state === 'eq') return 'del';
-  if (cur === graphScr) return graphScr.inp !== null && graphScr.inp.length ? 'del' : 'clear';
-  if (cur === tableScr) return tableScr.inp !== null && tableScr.inp.length ? 'del' : 'clear';
-  if (cur === matEd) return matEd.inp !== null && matEd.inp.length ? 'del' : 'clear';
-  if (cur === listEd) return listEd.inp !== null && !listEd.inp.length ? 'clear' : 'del';
-  if (cur === winScr || cur === tblsetScr || cur === solverScr || cur === wizScr || cur === statWiz) return 'del';
-  return 'clear';
-}
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey) return;
   if (e.key === '`') { e.preventDefault(); copyShot(); return; }
   let id = /^[0-9]$/.test(e.key) ? e.key : KB[e.key];
-  if (e.key === 'Backspace') id = backspaceId();
+  if (e.key === 'Backspace') id = 'del';
   if (e.key === '~' || e.key === '_') id = 'neg';
   if (id) { e.preventDefault(); flash(id); press(id); return; }
   if (/^[a-zA-Z]$/.test(e.key)) { e.preventDefault(); S.second = false; if (!S.alock) S.alpha = false; dispatch(e.key.toUpperCase()); }
@@ -3754,8 +3820,10 @@ function toast(msg) {
 /* the whole 320×240 screen (status bar included, cursor visible) scaled 3× with hard pixel edges */
 function shotCanvas() {
   const keep = S.blink; S.blink = true; paint();
-  const c = document.createElement('canvas'); c.width = lcd.width * 1.5; c.height = lcd.height * 1.5;
-  const x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(lcd, 0, 0, c.width, c.height);
+  const k = 1.5, w = lcd.width * k, h = lcd.height * k, pad = Math.round(w * 0.05);        // a margin around the screen so pasted screenshots don't run edge to edge
+  const c = document.createElement('canvas'); c.width = w + 2 * pad; c.height = h + 2 * pad;
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+  x.fillStyle = CL() ? '#a7b09a' : '#ffffff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(lcd, pad, pad, w, h);
   S.blink = keep; paint();
   return c;
 }
@@ -3769,9 +3837,9 @@ async function copyShot() {
   try {
     if (!navigator.clipboard || !window.ClipboardItem) throw new Error('no clipboard');
     await navigator.clipboard.write([new ClipboardItem({ 'image/png': shotBlob() })]);   // promise form keeps Safari's user-gesture rule happy
-    toast('Screenshot copied — paste it anywhere');
+    toast('Screenshot copied. Paste it anywhere.');
   } catch (e) {
-    try { downloadBlob(await shotBlob(), shotName()); toast('Clipboard not available — saved as an image instead'); } catch (e2) { toast('Could not take screenshot'); }
+    try { downloadBlob(await shotBlob(), shotName()); toast('Clipboard not available, so it was saved as an image instead.'); } catch (e2) { toast('Could not take screenshot'); }
   }
 }
 $('shotCopy').onclick = copyShot;
