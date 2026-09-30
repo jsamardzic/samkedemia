@@ -527,7 +527,8 @@ const YVARS = ['Y₁','Y₂','Y₃','Y₄','Y₅','Y₆','Y₇','Y₈','Y₉'];
 /* VARS ▸ Window… / Table… system variables */
 const SYSVARS = {
   Xmin:() => WIN.xmin, Xmax:() => WIN.xmax, Xscl:() => WIN.xscl, Ymin:() => WIN.ymin, Ymax:() => WIN.ymax, Yscl:() => WIN.yscl,
-  Xres:() => WIN.xres, 'ΔX':() => (WIN.xmax - WIN.xmin) / 264, 'ΔY':() => (WIN.ymax - WIN.ymin) / 164,
+  Xres:() => WIN.xres, 'ΔX':() => (WIN.xmax - WIN.xmin) / (MODEL === '84' ? 94 : 264), 'ΔY':() => (WIN.ymax - WIN.ymin) / (MODEL === '84' ? 62 : 164),
+  TraceStep:() => WIN.tstep > 0 ? WIN.tstep : (MODEL === '84' ? 1 : 2) * (WIN.xmax - WIN.xmin) / (MODEL === '84' ? 94 : 264),
   TblStart:() => TBL.start, 'ΔTbl':() => TBL.step,
   LEFT:() => 1, CENTER:() => 2, RIGHT:() => 3,          // invNorm tail options
 };
@@ -1595,7 +1596,7 @@ function layNode(n, lvl) {
     case 'int': {
       const f = lay(n.f, lvl, true), v = lay(n.v, lvl, true), lo = lay(n.lo, sl, true), hi = lay(n.hi, sl, true);
       const H = Math.max(f.asc, 15) + 12, Dn = Math.max(f.desc, 1) + 12, lw = Math.max(lo.w, hi.w), dw = tokW('d', lvl);
-      return { w:10 + lw + 4 + f.w + 2 + dw + v.w, asc:H, desc:Dn + 2, draw(g, x, base, ctx) {
+      return { w:10 + lw + 4 + pw + f.w + pw + 2 + dw + v.w, asc:H, desc:Dn + 2, draw(g, x, base, ctx) {
         g.fillStyle = col(ctx);
         const top = base - H, bot = base + Dn;
         g.fillRect(x + 4, top + 3, 2, bot - top - 6);
@@ -1603,8 +1604,9 @@ function layNode(n, lvl) {
         g.fillRect(x + 2, bot - 3, 2, 2); g.fillRect(x, bot - 2, 2, 2); g.fillRect(x, bot - 3, 1, 1);
         hi.draw(g, x + 11, top + 12, ctx);
         lo.draw(g, x + 11, bot + 1, ctx);
-        const fx = x + 10 + lw + 4; f.draw(g, fx, base, ctx);
-        drawTok(g, 'd', fx + f.w + 2, base, lvl, col(ctx)); v.draw(g, fx + f.w + 2 + dw, base, ctx);
+        const fx = x + 10 + lw + 4;                                        // the integrand sits in brackets, then d and the variable
+        drawTok(g, '(', fx, base, lvl, col(ctx)); f.draw(g, fx + pw, base, ctx); drawTok(g, ')', fx + pw + f.w, base, lvl, col(ctx));
+        const dx = fx + pw + f.w + pw + 2; drawTok(g, 'd', dx, base, lvl, col(ctx)); v.draw(g, dx + dw, base, ctx);
       } };
     }
     case 'sum': {
@@ -1714,6 +1716,20 @@ function fmtOut(r) {
   if (!SET.mp || !s.includes('/')) return s;
   const [nn, dd] = s.split('/'), neg = nn[0] === '-';
   return [...(neg ? ['-'] : []), { t:'frac', n:[...(neg ? nn.slice(1) : nn)], d:[...dd] }];
+}
+/* Trace shows the function written on one line: a fraction template becomes 1/6 (or (x+1)/(x-1)) so the label stays one line high */
+function flatFracs(row) {
+  const out = [], simple = a => a.every(t => typeof t === 'string' && /^[0-9.A-Zθ]$/.test(t));
+  for (const el of row) {
+    if (typeof el === 'string') { out.push(el); continue; }
+    if (el.t === 'frac') {
+      const n = flatFracs(el.n), d = flatFracs(el.d);
+      out.push(...(simple(n) ? n : ['(', ...n, ')']), '÷', ...(simple(d) ? d : ['(', ...d, ')']));
+      continue;
+    }
+    const c = { ...el }; for (const k of BOXES[el.t]) c[k] = flatFracs(el[k]); out.push(c);
+  }
+  return out;
 }
 /* a long single-line editor scrolls sideways: the offset that keeps its cursor in view */
 function followCursor(ed, L, viewW, off) {
@@ -1930,7 +1946,7 @@ Object.assign(MENUS, {
       ['Statistics...', notAvail('STATISTICS')],['Table...', subMenu('VTBL')],['String...', notAvail('STRING')]] },
     { name:'Y−VARS', items:[['Function...', subMenu('VFUNC')],['Parametric...', notAvail('PARAMETRIC')],['Polar...', notAvail('POLAR')],['On/Off...', notAvail('ON/OFF')]] },
   ],
-  VWIN:  [{ name:'X/Y', items:['Xmin','Xmax','Xscl','Ymin','Ymax','Yscl','Xres','ΔX','ΔY'].map(t => it(t)) }],
+  VWIN:  [{ name:'X/Y', items:['Xmin','Xmax','Xscl','Ymin','Ymax','Yscl','Xres','ΔX','ΔY','TraceStep'].map(t => it(t)) }],
   VZOOM: [{ name:'ZX/ZY', items:['Xmin','Xmax','Xscl','Ymin','Ymax','Yscl'].map(t => it('Z' + t, t)) }],
   VTBL:  [{ name:'TABLE', items:[it('TblStart'),it('ΔTbl')] }],
   VFUNC: [{ name:'FUNCTION', items:YVARS.map(y => it(y)) }],
@@ -2137,24 +2153,38 @@ const yeqScr = {
 };
 
 /* ---- WINDOW ---- */
-const WFIELDS = [['Xmin','xmin'],['Xmax','xmax'],['Xscl','xscl'],['Ymin','ymin'],['Ymax','ymax'],['Yscl','yscl'],['Xres','xres']];
+const WFIELDS = [['Xmin','xmin'],['Xmax','xmax'],['Xscl','xscl'],['Ymin','ymin'],['Ymax','ymax'],['Yscl','yscl'],['Xres','xres'],['ΔX','dx'],['TraceStep','tstep']];
+const dxDiv = () => (MODEL === '84' ? 94 : 264);                        // ΔX = (Xmax − Xmin) / (pixel columns − 1)
+const dxOf = () => (WIN.xmax - WIN.xmin) / dxDiv();
+const tsMul = () => (MODEL === '84' ? 1 : 2);                            // default TraceStep: 2 × ΔX on the CE
+const winVal = k => k === 'dx' ? dxOf() : k === 'tstep' ? (WIN.tstep > 0 ? WIN.tstep : tsMul() * dxOf()) : WIN[k];   // until you change it
 const winScr = {
-  sel:0, c:0, fresh:true, toks:WFIELDS.map(() => []),
-  enter() { this.toks.forEach((t, i) => t.splice(0, t.length, ...[...fmt(WIN[WFIELDS[i][1]])])); this.c = this.toks[this.sel].length; this.fresh = true; },
+  sel:0, c:0, fresh:true, top:0, toks:WFIELDS.map(() => []),
+  orig:[],                                                    // the text each field showed, to tell whether you actually edited it (the shown 10 digits are rounded)
+  refresh() { this.toks.forEach((t, i) => { const s = fmt(winVal(WFIELDS[i][1])); t.splice(0, t.length, ...[...s]); this.orig[i] = s; }); },
+  enter() { this.refresh(); this.c = this.toks[this.sel].length; this.fresh = true; },
   leave() {
     const k = WFIELDS[this.sel][1], t = this.toks[this.sel];
+    if (t.join('') === this.orig[this.sel]) return;              // untouched: keep the exact stored value
     try {
       const v = evaluate(t).v;
       if (k === 'xres' && (!isInt(v) || v < 1 || v > 8)) err('DOMAIN');
-      const w = Object.assign({}, WIN, { [k]:v });
-      if (w.xmin >= w.xmax || w.ymin >= w.ymax) err('WINDOW RANGE');
-      WIN[k] = v;
+      if (k === 'dx' || k === 'tstep') {
+        if (!(v > 0)) err('DOMAIN');
+        if (Math.abs(v - winVal(k)) > 1e-12 * Math.max(1, Math.abs(v))) { if (k === 'dx') WIN.xmax = WIN.xmin + v * dxDiv(); else WIN.tstep = v; }   // changing ΔX moves Xmax
+      } else {
+        const w = Object.assign({}, WIN, { [k]:v });
+        if (w.xmin >= w.xmax || w.ymin >= w.ymax) err('WINDOW RANGE');
+        WIN[k] = v;
+      }
     } catch (e) { isCalcErr(e); }
-    t.splice(0, t.length, ...[...fmt(WIN[k])]);
+    this.refresh();
   },
   key(a) {
     if (a === '@up' || a === '@down' || a === '@enter') {
       this.leave(); this.sel = Math.max(0, Math.min(WFIELDS.length - 1, this.sel + (a === '@up' ? -1 : 1)));
+      if (this.sel < this.top) this.top = this.sel;
+      if (this.sel > this.top + R - 2) this.top = this.sel - (R - 2);
       this.c = this.toks[this.sel].length; this.fresh = true; return;
     }
     freshEdit(this, this.toks[this.sel], a);
@@ -2163,7 +2193,10 @@ const winScr = {
     const b = blank(); let cursor;
     put(b, 0, 0, 'WINDOW');
     const c0 = CL() ? 0 : 1;
-    WFIELDS.forEach(([lab], i) => { put(b, i + 1, c0, lab + '='); const cc = putField(b, i + 1, c0 + lab.length + 1, this.toks[i], i === this.sel, this.fresh ? 0 : this.c); if (i === this.sel) cursor = cc; });
+    for (let r = 0; r < R - 1 && this.top + r < WFIELDS.length; r++) {
+      const i = this.top + r, lab = WFIELDS[i][0];
+      put(b, r + 1, c0, lab + '='); const cc = putField(b, r + 1, c0 + lab.length + 1, this.toks[i], i === this.sel, this.fresh ? 0 : this.c); if (i === this.sel) cursor = cc;
+    }
     return { buf:b, cursor };
   }
 };
@@ -2543,6 +2576,18 @@ function evalAt(row, x) {
   try { return evaluate(lin(row)).v; } catch (e) { return NaN; } finally { V.X = save; }
 }
 const PX = 25, PY = 16; let PW = 265, PH = 165;      // graph window inside the grey border (CE layout)
+/* The CE's trace cursor: a chunky ✕ that alternates between solid black (with a small white centre) and a white ✕ with a black outline and a black crosshair */
+const CURS_SIL = ['###...###', '####.####', '.#######.', '..#####..', '.#######.', '####.####', '###...###'].map(r => [...r].map(c => c === '#'));   // the ✕ shape, 9 × 7
+const CURS_A = CURS_SIL.map((r, y) => r.map((on, x) => !on ? '.' : (y === 3 && x >= 3 && x <= 5) ? 'o' : '#'));   // solid black, small white plus in the middle
+const CURS_B = CURS_SIL.map((r, y) => r.map((on, x) => {                                                                                          // white, black outline and crosshair
+  if (!on) return '.';
+  const edge = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => !(CURS_SIL[y + dy] && CURS_SIL[y + dy][x + dx]));
+  return edge || (y === 3 && x >= 2 && x <= 6) || (x === 4 && y >= 1 && y <= 5) ? '#' : 'o';
+}));
+function traceCursor(g, px, py, phase) {
+  const P = phase ? CURS_A : CURS_B;
+  P.forEach((row, y) => row.forEach((c, x) => { if (c === '.') return; g.fillStyle = c === '#' ? '#000' : '#fff'; g.fillRect(px - 4 + x, py - 3 + y, 1, 1); }));
+}
 const PROMPTS = { zero:['Left Bound?','Right Bound?','Guess?'], minimum:['Left Bound?','Right Bound?','Guess?'], maximum:['Left Bound?','Right Bound?','Guess?'],
   intersect:['First curve?','Second curve?','Guess?'], integral:['Lower Limit?','Upper Limit?'], dydx:[''], value:[''] };
 const graphScr = {
@@ -2581,7 +2626,8 @@ const graphScr = {
     if (this.trace) {
       const fns = activeFns();
       if (a === '@left' || a === '@right') {
-        this.tx = Math.max(WIN.xmin, Math.min(WIN.xmax, this.snap(this.tx) + (a === '@left' ? -1 : 1) * this.dx));
+        const custom = WIN.tstep > 0, step = custom ? WIN.tstep : tsMul() * this.dx;            // TraceStep: how far ◀ ▶ move the trace cursor
+        this.tx = Math.max(WIN.xmin, Math.min(WIN.xmax, (custom ? this.tx : this.snap(this.tx)) + (a === '@left' ? -1 : 1) * step));
         this.result = null; return;
       }
       if ((a === '@up' || a === '@down') && fns.length) {
@@ -2680,14 +2726,11 @@ const graphScr = {
     if (this.trace) {
       y = this.fn()(this.tx);
       const px = Math.round(X(this.tx)), py = Math.round(Yp(y));
-      if (Number.isFinite(y) && py >= -6 && py <= PH + 6 && S.blink) {   // blinking ✕ cursor
-        g.fillStyle = '#000';
-        for (let d = -3; d <= 3; d++) { g.fillRect(px + d, py + d, 2, 2); g.fillRect(px + d, py - d, 2, 2); }
-      }
+      if (Number.isFinite(y) && py >= -8 && py <= PH + 8) traceCursor(g, px, py, S.blink);
     }
     g.restore();
     if (!this.trace) return;
-    lay(['Y' + String.fromCharCode(0x2081 + this.fi) + '=', ...clone(Y[this.fi])], 1, false).draw(g, PX, 14, { color:COLORS[this.fi], row:null });
+    lay(['Y' + String.fromCharCode(0x2081 + this.fi) + '=', ...flatFracs(clone(Y[this.fi]))], 1, false).draw(g, PX, 14, { color:COLORS[this.fi], row:null });
     const prompt = this.calc ? PROMPTS[this.calc.type][this.calc.step] : '';
     const label = prompt || (this.result && this.result.label) || '';
     const r1 = PY + PH, r2 = r1 + 13;
@@ -3613,7 +3656,7 @@ function resetAll() {
   Object.keys(V).forEach(k => delete V[k]);
   LNAMES.forEach(n => { LISTS[n] = []; }); Object.keys(MATS).forEach(k => delete MATS[k]);
   Y.forEach((r, i) => { r.length = 0; YE[i].path = []; YE[i].i = 0; });
-  setWin(-10, 10, 1, -10, 10, 1); WIN.xres = 1; Object.assign(TBL, { start:0, step:1, indpnt:'Auto', depend:'Auto' });
+  setWin(-10, 10, 1, -10, 10, 1); WIN.xres = 1; delete WIN.tstep; Object.assign(TBL, { start:0, step:1, indpnt:'Auto', depend:'Auto' });
   Object.assign(SET, { note:'NORMAL', fix:-1, angle:'RADIAN' }); SET.mp = !CL(); SETMP_CE = true;
   Object.keys(STATV).forEach(k => delete STATV[k]); Object.keys(WIZVAL).forEach(k => delete WIZVAL[k]); Object.keys(SWVAL).forEach(k => delete SWVAL[k]);
   [SOLV.e1, SOLV.e2].forEach(e => { e.root.length = 0; e.path = []; e.i = 0; }); SOLV.bt = [...'(-1ᴇ99,1ᴇ99)']; SOLV.b = [-1e99, 1e99];
@@ -3852,7 +3895,31 @@ let saved = 'ce'; try { saved = localStorage.getItem('ti-model') || 'ce'; } catc
 applyModel(saved === '84' ? '84' : 'ce');
 
 /* ================= Physical keyboard ================= */
-const KB = { '+':'add','-':'sub','*':'mul','/':'div','^':'pow','(':'lp',')':'rp',',':'comma','.':'dot',
+/* The keyboard's "-" key: a negative sign (−) after an operator, an opening bracket, a comma, "=" or at the start of an entry,
+   a subtraction (−) after a number, variable or closing bracket. */
+function prevTokAtCursor() {
+  const tk = (arr, c) => Array.isArray(arr) && arr.length ? arr[(c === undefined ? arr.length : c) - 1] : undefined;
+  const edPrev = ed => rowOf(ed)[ed.i - 1];
+  if (cur === home) return home.sel !== null ? undefined : edPrev(home.ed);
+  if (cur === yeqScr) return edPrev(YE[yeqScr.sel]);
+  if (cur === solverScr) {
+    if (solverScr.state === 'eq') return edPrev(CL() ? SOLV.e1 : solverScr.eds()[Math.min(solverScr.sel, 1)]);
+    const v = solverScr.vars[solverScr.sel]; return solverScr.fresh || !v ? undefined : tk(v.t, solverScr.c);
+  }
+  if (cur === wizScr) { const f = wizScr.fields[wizScr.sel]; return f && !wizScr.fresh ? tk(f.t, wizScr.c) : undefined; }
+  if (cur === winScr) return winScr.fresh ? undefined : tk(winScr.toks[winScr.sel], winScr.c);
+  if (cur === tblsetScr) return tblsetScr.sel > 1 || tblsetScr.fresh ? undefined : tk(tblsetScr.f[tblsetScr.sel].t, tblsetScr.c);
+  if (cur === statWiz) { const row = statWiz.rows()[statWiz.sel], v = row && statWiz.st.v[row[1]]; return statWiz.fresh || !Array.isArray(v) ? undefined : tk(v, statWiz.c); }
+  for (const s of [tableScr, listEd, matEd, graphScr]) if (cur === s) return s.inp ? s.inp[s.inp.length - 1] : undefined;
+  return undefined;
+}
+function minusIsNegative() {
+  const t = prevTokAtCursor();
+  if (t === undefined || t === null) return true;
+  if (typeof t === 'object') return false;                           // a template (fraction, root…) ends a value
+  return /^[+\-−×÷^(,=≠><≥≤{\[→ᴇ]$/.test(t) || /\($/.test(t) || /^ (and|or|xor|nPr|nCr) $/.test(t) || t === 'ˣ√';
+}
+const KB = { '+':'add','*':'mul','/':'div','^':'pow','(':'lp',')':'rp',',':'comma','.':'dot',
   Enter:'enter',Delete:'del',Escape:'clear',ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right' };
 function flash(id) { const k = $('k-' + id); if (k) { k.classList.add('down'); setTimeout(() => k.classList.remove('down'), 110); } }
 document.addEventListener('keydown', e => {
@@ -3861,10 +3928,27 @@ document.addEventListener('keydown', e => {
   let id = /^[0-9]$/.test(e.key) ? e.key : KB[e.key];
   if (e.key === 'Backspace') id = 'del';
   if (e.key === '~' || e.key === '_') id = 'neg';
+  if (e.key === '-') id = minusIsNegative() ? 'neg' : 'sub';
   if (id) { e.preventDefault(); flash(id); press(id); return; }
+  if (/^[eE]$/.test(e.key)) {                                     // "e" straight after a number is the EE key: 2e3 → 2ᴇ3
+    const t = prevTokAtCursor();
+    if (typeof t === 'string' && /^[0-9.]$/.test(t)) { e.preventDefault(); highlight('comma'); S.second = false; if (!S.alock) S.alpha = false; dispatch('ᴇ'); return; }
+  }
   if (/^[a-zA-Z]$/.test(e.key)) { e.preventDefault(); S.second = false; if (!S.alock) S.alpha = false; dispatch(e.key.toUpperCase()); }
   else if (e.key === '!') { e.preventDefault(); dispatch('!'); }
 });
+
+/* Tap Shift = 2nd, tap Control = ALPHA (a quick press and release with no other key, like the calculator's own latching keys).
+   Holding them is left for typing symbols (Shift+9 is "(") and for the browser's Ctrl shortcuts. */
+const tapKey = { Shift:false, Control:false };
+document.addEventListener('keydown', e => {
+  if (e.key === 'Shift' || e.key === 'Control') { if (!e.repeat) tapKey[e.key] = true; }
+  else tapKey.Shift = tapKey.Control = false;
+});
+document.addEventListener('keyup', e => {
+  if ((e.key === 'Shift' || e.key === 'Control') && tapKey[e.key]) { tapKey[e.key] = false; press(e.key === 'Shift' ? 'second' : 'alpha'); }
+});
+document.addEventListener('pointerdown', () => { tapKey.Shift = tapKey.Control = false; });
 
 /* ================= Key highlight (visible on screen share) ================= */
 function highlight(id) {
@@ -3937,7 +4021,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) pain
 addEventListener('pageshow', () => paint());
 setScreen(home);
 fit(); paint();
-setInterval(() => { S.blink = !S.blink; if (!S.off) paint(); }, 500);
+setInterval(() => { S.blink = !S.blink; if (!S.off) paint(); }, 350);
 </script>
 </body>
 </html>
