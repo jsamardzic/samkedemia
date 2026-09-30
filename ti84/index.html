@@ -85,15 +85,37 @@ body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z
   border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:inherit;transition:background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
 #exBtn:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.34)} #exBtn:active{transform:scale(.95)}
 #exBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.75} #exBtn:hover svg{opacity:1}
-#exPanel{position:absolute;left:-52px;top:calc(100% + 10px);width:230px;padding:12px 14px;border-radius:12px;background:rgba(24,26,31,.97);border:1px solid #3a3e46;color:#eef0f3;
-  font:600 13px/1.45 "Helvetica Neue",Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .15s,transform .15s;z-index:30;white-space:normal;text-align:left}
-#exPanel b{display:block;margin-bottom:4px;font-size:14px} #exPanel span{opacity:.75;font-weight:500}
-#exPanel.on{opacity:1;transform:none;pointer-events:auto}
 #calc.m84 #exBtn{border-color:rgba(70,85,122,.30);background:rgba(70,85,122,.06)}
 #calc.m84 #exBtn:hover{background:rgba(70,85,122,.16);border-color:rgba(70,85,122,.55)}
-#calc.m84 #exPanel{background:rgba(238,240,243,.98);border-color:#9aa3b5;color:#33415f;box-shadow:0 10px 30px rgba(20,30,50,.35)}
 #calc.m84 #shots button{border-color:rgba(70,85,122,.30);background:rgba(70,85,122,.06)}
 #calc.m84 #shots button:hover{background:rgba(70,85,122,.16);border-color:rgba(70,85,122,.55)}
+#exBtn svg{stroke-width:2.1}
+#help{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(6,8,12,.42);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .18s}
+#help.on{opacity:1;pointer-events:auto}
+#help .card{position:relative;width:min(340px,100%);max-height:100%;overflow:auto;padding:22px 22px 20px;border-radius:18px;color:#eef0f3;font:500 13px/1.5 "Helvetica Neue",Arial,sans-serif;
+  background:linear-gradient(160deg,rgba(38,42,52,.62),rgba(14,16,22,.62));border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);
+  box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18);transform:translateY(8px) scale(.96);transition:transform .18s}
+#help.on .card{transform:none}
+#help h2{margin:0 0 6px;font-size:16px;font-weight:700;letter-spacing:.2px}
+#help p{margin:0 0 14px;opacity:.7;font-size:12.5px}
+#help .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.09)}
+#help .lab{display:flex;align-items:center;gap:9px;font-style:normal;white-space:nowrap} #help .lab svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.65}
+#help .keys .lab{height:22px}
+#help .row>span:last-child{opacity:.6;font-size:12px;text-align:right}
+#help .keys{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0 16px;border-top:1px solid rgba(255,255,255,.09)}
+#help .keys .g4{display:grid;grid-template-columns:auto auto auto;align-items:center;gap:9px 10px;justify-items:start}
+#help .keys .g4 i{font-style:normal;opacity:.45;font-size:12px}
+#help kbd.b{color:var(--blue)} #help kbd.g{color:var(--green)}
+#help kbd{font:600 11px/1 ui-monospace,Menlo,monospace;padding:3px 6px;border-radius:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16)}
+#help .fol{margin-top:2px}
+#help .legal{margin:12px 0 0;font-size:9px;line-height:1.45;opacity:.42;text-align:center;white-space:nowrap}
+#help .x{all:unset;position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6}
+#help .x:hover{opacity:1;background:rgba(255,255,255,.12)}
+#help .x svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+#help .fol{display:flex;align-items:center;justify-content:center;gap:8px;height:40px;border-radius:12px;color:#fff;text-decoration:none;font-weight:700;font-size:14px;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);transition:background .15s,transform .1s}
+#help .fol:hover{background:rgba(255,255,255,.26)} #help .fol:active{transform:scale(.97)}
+#help .fol svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);z-index:6;padding:10px 16px;border-radius:10px;background:rgba(20,22,26,.96);
   border:1px solid #3a3e46;color:#eef0f3;font:600 13px/1 "Helvetica Neue",Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 #toast.on{opacity:1;transform:translate(-50%,0)}
@@ -125,8 +147,10 @@ body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z
 #calc.m84 #lcdfx{height:213px}
 #calc.m84 .lb .g{margin-left:0}
 #calc.m84 .lb[data-k=xt] .g{display:none}
-#calc.m84 .lb{font:italic 700 10.5px/14px "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif}
+#calc.m84 .lb{font:700 10.5px/14px "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif}
 #calc.m84 .lb .up{text-transform:uppercase}
+#calc.m84 i{font-style:normal}
+#calc.m84 .lb[data-k="enter"]{margin-left:9px}
 #calc.m84 .key{border-radius:20% 20% 46% 46% / 26% 26% 62% 62%;font:800 12.5px/1 "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif;letter-spacing:.3px;
   background:linear-gradient(#3b4658,#161c28 32%,#080b11);
   box-shadow:inset 0 1.5px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(255,255,255,.05),0 0 0 1.5px #05070b,0 3px 4px rgba(0,0,0,.55)}
@@ -141,7 +165,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z
 #calc.m84 .key.light.fn{border-radius:42% 42% 50% 50% / 45% 45% 60% 60%;font-size:11.5px;letter-spacing:.1px;text-shadow:0 1px 1px rgba(0,0,0,.35)}
 #calc.m84 .key.light.op{font-size:24px;font-weight:700}
 #calc.m84 .key.light.sm{align-items:flex-start;padding-top:13px;font-size:12.5px}
-#calc.m84 .key.light.num{color:#141414;font:italic 800 24px/1 "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif;
+#calc.m84 .key.light.num{color:#141414;font:800 24px/1 "Trebuchet MS","Gill Sans","Avenir Next",Verdana,sans-serif;
   background:radial-gradient(ellipse 80% 65% at 50% 30%,#fff,#efefef 52%,#c2c2c2);
   box-shadow:inset 0 -2px 3px rgba(0,0,0,.16),0 0 0 2px #232b39,0 0 0 3.5px #3a465a,0 3px 5px rgba(0,0,0,.5)}
 #calc.m84 .key.light.num.neg{font-size:18px}
@@ -2726,7 +2750,7 @@ const graphScr = {
     if (this.trace) {
       y = this.fn()(this.tx);
       const px = Math.round(X(this.tx)), py = Math.round(Yp(y));
-      if (Number.isFinite(y) && py >= -8 && py <= PH + 8) traceCursor(g, px, py, S.blink);
+      if (Number.isFinite(y) && py >= -8 && py <= PH + 8) traceCursor(g, px, py, S.blink || S.shot);
     }
     g.restore();
     if (!this.trace) return;
@@ -3384,12 +3408,14 @@ function flush84() {
   const paper = t < T0 ? mixc(base, [0xc6, 0xcc, 0xb9], (T0 - t) / T0) : mixc(base, [0x6f, 0x79, 0x62], (t - T0) / (1 - T0));
   x.fillStyle = S.off ? '#8d9683' : `rgb(${paper})`; x.fillRect(0, 0, LW * S6, LH * S6);
   if (S.off) return;
+  const K = 0.92, mx = LW * S6 * (1 - K) / 2, my = LH * S6 * (1 - K) / 2;   // the real screen leaves a blank rim that is never drawn on
+  x.setTransform(K, 0, 0, K, mx, my);
   x.fillStyle = 'rgba(80,92,66,.08)';
   for (let i = 1; i < LW; i++) x.fillRect(i * S6 - 1, 0, 1, LH * S6);
   for (let j = 1; j < LH; j++) x.fillRect(0, j * S6 - 1, LW * S6, 1);
   x.fillStyle = '#1a1e14'; x.globalAlpha = Math.min(1, 0.12 + t * 2);            // low contrast: the pixels fade towards the background
   for (let j = 0; j < LH; j++) for (let i = 0; i < LW; i++) if (B84[j * LW + i]) x.fillRect(i * S6, j * S6, i + 1 < LW && B84[j * LW + i + 1] ? S6 : S6 - 1, j + 1 < LH && B84[(j + 1) * LW + i] ? S6 : S6 - 1);
-  x.globalAlpha = 1;
+  x.globalAlpha = 1; x.setTransform(1, 0, 0, 1, 0, 0);
 }
 /* a character grid (menus, settings, wizards): buf[row][col] = {c, inv, cur} — same structure the CE grid screens build */
 function paintGrid84({ buf, cursor }) {
@@ -3695,7 +3721,7 @@ const body = $('body');
 function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; body.append(e); return e; }
 const plainLen = s => String(s).replace(/<[^>]*>/g, '').length;
 function label(cx, top, blue, green, kw = 0, id = '') {
-  const sp = (c, s) => s ? `<span class="${c}${plainLen(s) > 2 ? ' up' : ''}">${s}</span>` : '';   // 'up': the 84 Plus prints long labels in capitals
+  const sp = (c, s) => s ? `<span class="${c}${plainLen(s) > 2 || /^f[1-5]$/.test(s) ? ' up' : ''}">${s}</span>` : '';   // 'up': the 84 Plus prints long labels in capitals
   const e = el('div', 'lb', sp('b', blue) + sp('g', green));
   e.style.left = P(cx - OX) + 'px'; e.style.minWidth = P(kw) + 'px'; e.style.top = (P(top - OY) - 16) + 'px';
   e._ce = { l: e.style.left, t: e.style.top, w: e.style.minWidth };
@@ -3711,14 +3737,32 @@ function bindPress(e, id) {
 const hw84 = el('div'); hw84.id = 'hw84'; body.prepend(hw84);
 const ttl = el('div', 'title', '<span class="ttwrap"><span class="tt" title="Click to switch calculator"><span class="tx"></span><svg viewBox="0 0 12 12"><path d="M1.5 4h9M8 1.5 10.5 4 8 6.5M10.5 8h-9M4 5.5 1.5 8 4 10.5"/></svg></span></span>');
 ttl.querySelector('.ttwrap').append($('shots'));
-/* left of the name: exercises from your tutoring (placeholder for now) */
-const exBtn = document.createElement('button'); exBtn.id = 'exBtn'; exBtn.title = 'Load an exercise'; exBtn.setAttribute('aria-label', 'Load an exercise');
-exBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3.5 18.5V6.2A1.2 1.2 0 0 1 4.7 5h4.3l2 2.3h6.6a1.2 1.2 0 0 1 1.2 1.2V10"/><path d="M3.5 18.5l2.4-7.2a1.2 1.2 0 0 1 1.1-.8h13.4a1 1 0 0 1 1 1.3l-2.1 6.3a1.2 1.2 0 0 1-1.1.8H3.5z"/></svg>';
-const exPanel = document.createElement('div'); exPanel.id = 'exPanel';
-exPanel.innerHTML = '<b>Exercises</b><span>Placeholder: your tutoring exercises will load here.</span>';
-ttl.querySelector('.ttwrap').append(exBtn, exPanel);
-exBtn.addEventListener('click', e => { e.stopPropagation(); exPanel.classList.toggle('on'); });
-document.addEventListener('click', e => { if (!exPanel.contains(e.target)) exPanel.classList.remove('on'); });
+/* left of the name: help / info popup (also shown once on the first visit) */
+const exBtn = document.createElement('button'); exBtn.id = 'exBtn'; exBtn.title = 'How to use'; exBtn.setAttribute('aria-label', 'How to use');
+exBtn.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".6"/></svg>';
+ttl.querySelector('.ttwrap').append(exBtn);
+const IG = '<svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.1" cy="6.9" r=".6"/></svg>';
+const help = el('div'); help.id = 'help';
+help.innerHTML = '<div class="card"><button class="x" aria-label="Close"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2 2 12"/></svg></button><h2>How to use</h2>' +
+  '<p>This is TI-84 Emulator. Click keys or just type.</p>' +
+  '<div class="row"><span class="lab"><svg viewBox="0 0 12 12" style="stroke-width:.9;width:14px;height:14px;margin:0 1px"><path d="M1.5 4h9M8 1.5 10.5 4 8 6.5M10.5 8h-9M4 5.5 1.5 8 4 10.5"/></svg>Switch calculator</span><span>Click the name</span></div>' +
+  '<div class="row"><span class="lab"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.2" r="3.6"/></svg>Screenshot</span><span>Copies to clipboard</span></div>' +
+  '<div class="keys"><span class="lab"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M7.5 14h9"/></svg>Shortcuts</span><div class="g4"><kbd>Shift</kbd><i>&rarr;</i><kbd class="b">2nd</kbd><kbd>Control</kbd><i>&rarr;</i><kbd class="g">ALPHA</kbd></div></div>' +
+  '<a class="fol" href="https://instagram.com/samkedemia" target="_blank" rel="noopener noreferrer">' + IG + 'Follow @samkedemia</a><div class="legal">Not affiliated with or endorsed by Texas Instruments.<br>TI-84 is a trademark of Texas Instruments.</div></div>';
+document.body.append(help);
+const helpOpen = () => help.classList.contains('on');
+function setHelp(on) {
+  help.classList.toggle('on', on);
+  if (!on) { try { localStorage.setItem('ti84-help-seen', '1'); } catch (_) {} }
+}
+exBtn.addEventListener('click', e => { e.stopPropagation(); setHelp(!helpOpen()); });
+help.addEventListener('click', e => { if (e.target === help || e.target.closest('.x')) setHelp(false); });
+['keydown', 'keyup'].forEach(t => addEventListener(t, e => {
+  if (!helpOpen()) return;
+  if (t === 'keydown' && e.key === 'Escape') setHelp(false);
+  if (!(e.metaKey || e.ctrlKey) || t === 'keyup') { e.preventDefault(); e.stopImmediatePropagation(); }
+}, true));
+try { if (!localStorage.getItem('ti84-help-seen')) setTimeout(() => setHelp(true), 400); } catch (_) {}
 place(el('div', 'bezel'), 457, 259, 286, 209);
 ttl.style.top = (P(259 - OY) / 2 - 17) + 'px'; ttl._ce = { t: ttl.style.top };   // centred in the top frame, above the screen bezel
 const lcd = el('canvas'); lcd.id = 'lcd'; lcd.width = 640; lcd.height = 480; place(lcd, 481, 272);
@@ -3737,7 +3781,7 @@ for (const [id, face, cls, [x, y, w, h], ma, s, sa, a, aa] of KEYDEFS) {
 /* D-pad: four light petals split by two thin straight diagonal gaps, a large black hub and small dark arrow marks,
    */
 (() => {
-  const size = 100, c = size / 2, ro = 47.5, ri = 22, gap = 3.2;
+  const size = 100, c = size / 2, ro = 47.5, ri = 22, gap = 9;
   const pol = (r, a) => [c + r * Math.cos(a * Math.PI / 180), c + r * Math.sin(a * Math.PI / 180)];
   const sector = mid => {
     const a0 = mid - 45, a1 = mid + 45, [x0, y0] = pol(ro, a0), [x1, y1] = pol(ro, a1), [x2, y2] = pol(ri, a1), [x3, y3] = pol(ri, a0);
@@ -3934,6 +3978,7 @@ document.addEventListener('keydown', e => {
     const t = prevTokAtCursor();
     if (typeof t === 'string' && /^[0-9.]$/.test(t)) { e.preventDefault(); highlight('comma'); S.second = false; if (!S.alock) S.alpha = false; dispatch('ᴇ'); return; }
   }
+  if (e.key === ' ') { e.preventDefault(); S.second = false; if (!S.alock) S.alpha = false; dispatch(' '); return; }   // Space = ALPHA 0
   if (/^[a-zA-Z]$/.test(e.key)) { e.preventDefault(); S.second = false; if (!S.alock) S.alpha = false; dispatch(e.key.toUpperCase()); }
   else if (e.key === '!') { e.preventDefault(); dispatch('!'); }
 });
@@ -3945,6 +3990,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Shift' || e.key === 'Control') { if (!e.repeat) tapKey[e.key] = true; }
   else tapKey.Shift = tapKey.Control = false;
 });
+addEventListener('pointerdown', () => { tapKey.Shift = tapKey.Control = false; }, true);   // Ctrl/Shift+click is not a tap
 document.addEventListener('keyup', e => {
   if ((e.key === 'Shift' || e.key === 'Control') && tapKey[e.key]) { tapKey[e.key] = false; press(e.key === 'Shift' ? 'second' : 'alpha'); }
 });
@@ -3968,12 +4014,12 @@ function toast(msg) {
 }
 /* the whole 320×240 screen (status bar included, cursor visible) scaled 3× with hard pixel edges */
 function shotCanvas() {
-  const keep = S.blink; S.blink = true; paint();
-  const k = 1.5, w = lcd.width * k, h = lcd.height * k, pad = CL() ? Math.round(w * 0.05) : 0;        // the 84 Plus screenshot gets a margin (its text runs to the edge); the CE one is the bare screen
+  const keep = S.blink; S.blink = false; S.shot = true; paint();          // the typing cursor is hidden in screenshots (the trace cursor stays, in its solid state)
+  const k = 1.5, w = lcd.width * k, h = lcd.height * k, pad = 0;        // the 84 Plus screenshot gets a margin (its text runs to the edge); the CE one is the bare screen
   const c = document.createElement('canvas'); c.width = w + 2 * pad; c.height = h + 2 * pad;
   const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
   x.fillStyle = CL() ? '#a7b09a' : '#ffffff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(lcd, pad, pad, w, h);
-  S.blink = keep; paint();
+  S.blink = keep; S.shot = false; paint();
   return c;
 }
 const shotBlob = () => new Promise(res => shotCanvas().toBlob(res, 'image/png'));
@@ -4022,6 +4068,9 @@ addEventListener('pageshow', () => paint());
 setScreen(home);
 fit(); paint();
 setInterval(() => { S.blink = !S.blink; if (!S.off) paint(); }, 350);
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
