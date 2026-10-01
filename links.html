@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0C3840">
+<meta name="theme-color" content="#F8F8F2">
 <title>Samkedemia | Links</title>
 <meta name="description" content="Math A initial assessment tutoring session sign-up (free), a free online TI-84 calculator and the Samkedemia website.">
 <meta property="og:title" content="Samkedemia | Links">
@@ -25,6 +25,7 @@
         --teal: #0C3840;
         --teal-light: #134650;
         --cream: #F8F8F2;
+        --cream-dark: #EBE7E2;
         --orange: #FF6000;
         --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         --font-title: 'Vidaloka', Georgia, serif;
@@ -40,12 +41,21 @@
         align-items: center;
         padding: max(28px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
         font-family: var(--font-body);
-        color: var(--cream);
-        background-color: var(--teal);
+        color: var(--teal);
+        /* Grainy mesh gradient: big soft colour glows plus fine film grain
+           blended over them. Pure CSS/SVG, so it is sharp at any resolution
+           (4K included) and weighs about 1 KB. */
+        background-color: #FBF7EE;
         background-image:
-            radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 255, 255, .10), transparent 60%),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-attachment: fixed;
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' values='2.2 0 0 0 -.6 2.2 0 0 0 -.6 2.2 0 0 0 -.6 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+            radial-gradient(62% 46% at 88% 6%, rgba(255, 150, 80, .30) 0%, rgba(255, 150, 80, 0) 70%),
+            radial-gradient(70% 50% at 4% 98%, rgba(255, 96, 0, .20) 0%, rgba(255, 96, 0, 0) 72%),
+            radial-gradient(60% 44% at 10% 8%, rgba(131, 172, 178, .34) 0%, rgba(131, 172, 178, 0) 72%),
+            radial-gradient(55% 40% at 60% 55%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, 0) 75%),
+            linear-gradient(165deg, #FFFFFF 0%, #FBF7EE 48%, #F4EADA 100%);
+        background-size: 260px 260px, auto, auto, auto, auto, auto;
+        background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+        background-blend-mode: soft-light, normal, normal, normal, normal, normal;
     }
     main { width: 100%; max-width: 440px; text-align: center; }
     .avatar {
@@ -54,7 +64,7 @@
         margin: 0 auto 48px;
         border-radius: 50%;
         background: var(--teal);
-        box-shadow: 0 0 0 3px var(--teal), 0 0 0 8px var(--orange);
+        box-shadow: 0 0 0 3px var(--cream), 0 0 0 8px var(--orange);
     }
     .avatar img { display: block; width: 82%; height: auto; }
     .links { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
@@ -68,20 +78,20 @@
         border-radius: 20px;
         text-align: left;
         text-decoration: none;
-        color: var(--cream);
-        background: rgba(248, 248, 242, .08);
-        border: 1px solid rgba(248, 248, 242, .22);
+        color: var(--teal);
+        background: #fff;
+        border: 1px solid var(--cream-dark);
         -webkit-tap-highlight-color: transparent;
         transition: transform .12s ease, background-color .12s ease, border-color .12s ease;
     }
-    .link.primary { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .link.primary { background: var(--teal); border-color: var(--teal); color: var(--cream); }
     .link.whatsapp { background: #25D366; border-color: #25D366; color: var(--teal); }
     .icon.fill { fill: currentColor; stroke: none; }
     .link:active { transform: scale(.98); }
-    .link:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
+    .link:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     @media (hover: hover) {
-        .link:hover { background: rgba(248, 248, 242, .16); border-color: rgba(248, 248, 242, .5); }
-        .link.primary:hover { background: #ff7424; border-color: #ff7424; }
+        .link:hover { background: #fff; border-color: var(--teal); }
+        .link.primary:hover { background: var(--teal-light); border-color: var(--teal-light); }
         .link.whatsapp:hover { background: #3be07b; border-color: #3be07b; }
     }
     .icon { flex: 0 0 auto; width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
@@ -92,7 +102,7 @@
     .badge {
         position: absolute; top: -10px; right: 16px;
         padding: 3px 12px; border-radius: 999px;
-        background: var(--cream); color: var(--teal);
+        background: var(--orange); color: #fff;
         font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
     }
     @media (max-width: 360px) {
