@@ -1,6 +1,6 @@
 #!/bin/bash
-# Regenerates samkedemia-excel-cheatsheet.pdf from index.html's print stylesheet.
-# Run this any time index.html changes: ./generate-pdf.sh
+# Regenerates samkedemia-excel-cheatsheet.pdf from excel.html's print stylesheet.
+# Run this any time excel.html changes: ./generate-excel-pdf.sh
 
 cd "$(dirname "$0")"
 
@@ -9,6 +9,6 @@ cd "$(dirname "$0")"
   --print-to-pdf="samkedemia-excel-cheatsheet.pdf" \
   --no-pdf-header-footer \
   --virtual-time-budget=5000 \
-  "file://$(pwd)/index.html"
+  "file://$(pwd)/excel.html"
 
 echo "Done: samkedemia-excel-cheatsheet.pdf regenerated."

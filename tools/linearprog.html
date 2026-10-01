@@ -9,7 +9,7 @@
   <meta property="og:title" content="Samkedemia: Linear Programming Solver">
   <meta property="og:description" content="Free interactive linear programming solver for university courses: set up constraints, visualize the feasible region, and walk through the step-by-step solution, by Samkedemia.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.samkedemia.com/linearprog/">
+  <meta property="og:url" content="https://www.samkedemia.com/tools/linearprog">
   <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -2771,7 +2771,7 @@ input:focus {
 
     async function loadExercise(id) {
       try {
-        const response = await fetch('exercises.json');
+        const response = await fetch('linearprog-exercises.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2802,11 +2802,11 @@ input:focus {
           renderConstraints();
 
         } else {
-          alert(`Exercise ${id} not found in exercises.json`);
+          alert(`Exercise ${id} not found in linearprog-exercises.json`);
         }
       } catch (error) {
         console.error("Could not load exercises:", error);
-        alert("Failed to load exercises.json. Please check the file and the console for errors.");
+        alert("Failed to load linearprog-exercises.json. Please check the file and the console for errors.");
       }
       step2Div.classList.add('collapsed'); // Start collapsed
       syncStep2Icon();
