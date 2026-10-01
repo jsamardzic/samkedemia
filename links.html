@@ -48,7 +48,15 @@
         background-attachment: fixed;
     }
     main { width: 100%; max-width: 440px; text-align: center; }
-    .logo { display: block; width: min(78%, 280px); height: auto; margin: 0 auto 40px; }
+    .avatar {
+        display: flex; align-items: center; justify-content: center;
+        width: min(36vw, 132px); aspect-ratio: 1;
+        margin: 0 auto 48px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 3px var(--teal), 0 0 0 8px var(--orange);
+    }
+    .avatar img { display: block; width: 82%; height: auto; }
     .links { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
     .link {
         position: relative;
@@ -96,7 +104,7 @@
 </head>
 <body>
 <main>
-    <img class="logo" src="images/logo-cream-orange.svg" alt="Samkedemia" width="280" height="62">
+    <div class="avatar"><img src="images/logo-cream.svg" alt="Samkedemia" width="108" height="24"></div>
 
     <ul class="links">
         <li>
