@@ -14,12 +14,12 @@
     :root {
         --teal: #0C3840;
         --cream: #F8F8F2;
-        --orange: #FF6000;
+        --orange: #FF5500;
         --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         --font-title: 'Vidaloka', Georgia, serif;
     }
     * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: #0C3840; }
     body {
         margin: 0;
         min-height: 100vh;
@@ -31,11 +31,22 @@
         font-family: var(--font-body);
         color: var(--cream);
         text-align: center;
-        background-color: var(--teal);
-        background-image:
-            radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 255, 255, .10), transparent 60%),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-attachment: fixed;
+        /* Brand background (teal theme), three layers: the spotlight
+           (body::before), the icon pattern (body::after) and this fine grain
+           on top. All CSS/SVG, so it stays sharp at any resolution. */
+        background-color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .5 0 0 0 -.21'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 220px 220px;
+    }
+    body::before, body::after { content: ""; position: fixed; pointer-events: none; }
+    body::before {
+        inset: 0; z-index: -2;
+        background: radial-gradient(ellipse 85% 55% at 50% 55%, #1A606C 0%, #0C3840 52%, #051619 100%);
+    }
+    body::after {
+        left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120vmax 0 0 -120vmax; z-index: -1;
+        background: url("/images/pattern-teal.svg") 0 0 / clamp(300px, 52vw, 560px) auto;
+        transform: rotate(-15deg); opacity: .055;
     }
     main { width: 100%; max-width: 440px; }
     .logo { display: block; width: min(60%, 220px); height: auto; margin: 0 auto 44px; }
@@ -80,7 +91,7 @@
 	.st1{fill:#F7F7F1;}
 	.st2{fill:#FFFFFF;}
 	.st3{fill:#F8F8F2;}
-	.st4{fill:#FF6000;}
+	.st4{fill:#FF5500;}
 </style>
 
 
