@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Samkedemia: Tangent Lines</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free interactive tool: drag a point along a curve and see that the slope of the tangent line is the derivative, by Samkedemia.">
+  <meta property="og:title" content="Samkedemia: Tangent Lines">
+  <meta property="og:description" content="Drag a point along a curve and see that the slope of the tangent line is the derivative, by Samkedemia.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.samkedemia.com/tools/tangent">
+  <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
+  <link rel="icon" type="image/png" href="../../images/icon.png?v=2">
+  <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <style>
+:root {
+    --bg-off-white: #F4F9FA;
+    --taupe-dark: #0c3840;
+    --taupe-mid: #2f6a73;
+    --taupe-light: #83acb2;
+    --accent: #ff5500;
+    --border: #ebe7e2;
+    --font-title: 'Outfit', sans-serif;
+    --font-body: 'Atkinson Hyperlegible', sans-serif;
+}
+* { box-sizing: border-box; }
+body { font-family: var(--font-body); background: var(--bg-off-white); margin: 0; color: var(--taupe-dark); -webkit-font-smoothing: antialiased; }
+
+.brand-header {
+    width: 90%; max-width: 800px; height: 68px; margin: 20px auto; padding: 15px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,0,0,0.05); border-radius: 100px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    position: sticky; top: 20px; z-index: 100;
+}
+.brand-logo { font-weight: 800; text-decoration: none; display: flex; align-items: center; }
+.brand-logo-img { height: 28px; width: auto; display: block; object-fit: contain; object-position: left center; }
+.logo-separator { display: inline-block; width: 1px; height: 38px; background: rgba(12,56,64,0.2); margin: 0 18px; }
+.logo-page-title { font-size: 1.05rem; font-weight: 600; color: var(--taupe-mid); }
+.header-socials { display: flex; gap: 10px; }
+.social-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--taupe-dark); transition: all .3s; }
+.social-icon:hover { transform: translateY(-2px); background: var(--accent); border-color: var(--accent); color: #fff; }
+.social-icon i { font-size: 18px; line-height: 1; }
+@media (max-width: 650px) { .header-socials a:nth-child(n+2) { display: none; } }
+@media (max-width: 520px) { .logo-page-title, .logo-separator { display: none; } }
+
+.wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
+.main { width: 100%; max-width: 1240px; display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: stretch; }
+@media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+
+.paper { background: #fff; padding: 24px 26px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
+h2 { font-family: var(--font-title); font-weight: 900; font-size: 20px; margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--taupe-light); }
+h3 { font-family: var(--font-title); font-weight: 700; font-size: 14px; margin: 20px 0 10px; }
+
+.segmented-control { display: flex; background: var(--bg-off-white); border-radius: 8px; padding: 3px; border: 1px solid var(--taupe-light); }
+.segmented-btn { flex: 1; background: transparent; border: none; color: var(--taupe-mid); font-family: var(--font-title); font-size: 13px; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-weight: 700; transition: background-color .2s, color .2s; }
+.segmented-btn.active { background: var(--taupe-dark); color: #fff; }
+
+.row-label { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.val { font-family: "Courier New", monospace; font-weight: 700; background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 6px; padding: 1px 9px; color: var(--accent); font-size: 13px; }
+.slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: transparent; outline: none; margin: 4px 0 0; }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; cursor: pointer; margin-top: -7px; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.slider::-moz-range-thumb { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; cursor: pointer; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.slider::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--progress, 50%), var(--border) var(--progress, 50%)); }
+.slider::-moz-range-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--progress, 50%), var(--border) var(--progress, 50%)); }
+.ends { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--taupe-mid); opacity: .75; margin-top: 4px; }
+
+.stat { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; margin-bottom: 10px; }
+.stat .k { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--taupe-mid); }
+.stat .v { font-family: var(--font-title); font-weight: 900; font-size: 30px; line-height: 1.2; }
+.stat .s { font-size: 13px; color: var(--taupe-mid); }
+.stat.up .v { color: var(--taupe-mid); }
+.stat.down .v { color: var(--accent); }
+.line-box { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; text-align: center; font-size: 20px; }
+.line-box .k { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 2px; }
+
+.plot { width: 100%; height: auto; max-height: calc(100vh - 205px); max-height: calc(100dvh - 205px); display: block; user-select: none; }
+  .math, .plot text.n { font-family: KaTeX_Main, 'Times New Roman', serif; }
+.segmented-btn .katex { font-size: 1.15em; }
+.val .katex { font-size: 1.05em; }
+.stat .v { font-family: var(--font-title); font-weight: 900; font-size: 34px; }
+  .side { min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
+.side h3 { margin: 0 0 12px; font-size: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.stat { margin: 0; text-align: center; padding: 14px 16px; }
+.stat .v { line-height: 1.1; }
+.line-box { padding: 16px; }
+.row-label { margin-bottom: 14px; }
+.paper .plot { margin: 0 auto; }
+  .side h3.hrow { display: flex; justify-content: space-between; align-items: center; }
+.vals { display: flex; gap: 8px; }
+.vals .val { padding: 3px 10px; font-weight: 400; }
+  </style>
+</head>
+<body>
+  <header class="brand-header">
+    <a href="https://samkedemia.com" target="_blank" class="brand-logo">
+      <img src="../../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
+      <span class="logo-separator"></span>
+      <span class="logo-page-title">Tangent Lines</span>
+    </a>
+    <div class="header-socials">
+      <a href="https://wa.me/32490100821" target="_blank" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+      <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon"><i class="bi bi-envelope"></i></a>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="main">
+      <div class="paper side">
+        <div class="sec">
+          <h3>Function</h3>
+          <div class="segmented-control" id="fnPicker"></div>
+        </div>
+        <div class="sec">
+          <h3 class="hrow"><span>Point</span><span class="vals"><span class="val math" id="xv"></span><span class="val math" id="yv"></span></span></h3>
+          <input type="range" id="x" class="slider">
+        </div>
+        <div class="sec">
+          <h3>Slope of the tangent</h3>
+          <div class="stat" id="stat"><div class="v" id="sv"></div></div>
+        </div>
+        <div class="sec">
+          <h3>Tangent line</h3>
+          <div class="line-box"><div id="eq"></div></div>
+        </div>
+      </div>
+
+      <div class="paper">
+        <svg class="plot" id="plot" viewBox="0 0 640 460"></svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const P = x => x < 0 ? '(' + fmt(x) + ')' : fmt(x);
+    function fmt(v) { const r = Math.round(v * 100) / 100; return String(Object.is(r, -0) ? 0 : r); }
+    const FN = {
+        sq: { label: 'x²', tex: 'x^2',      f: x => x * x,        df: x => 2 * x,        dtex: '2x',      ev: x => '2 \\cdot ' + P(x),
+              x: [-3, 3],     y: [-1, 9.5], start: 1 },
+        cu: { label: 'x³ − 3x', tex: 'x^3-3x', f: x => x*x*x - 3*x,  df: x => 3*x*x - 3,    dtex: '3x^2-3',  ev: x => '3 \\cdot ' + P(x) + '^2 - 3',
+              x: [-2.5, 2.5], y: [-4.5, 4.5],    start: 1.5 },
+        ex: { label: 'eˣ', tex: 'e^x',      f: x => Math.exp(x),  df: x => Math.exp(x),  dtex: 'e^x',     ev: x => 'e^{' + fmt(x) + '}',
+              x: [-2, 2.5],   y: [-1, 13],     start: 1 },
+        ln: { label: 'ln x', tex: '\\ln x',    f: x => Math.log(x),  df: x => 1 / x,        dtex: '\\dfrac{1}{x}', ev: x => '\\dfrac{1}{' + fmt(x) + '}',
+              x: [0.2, 5],    y: [-2, 2.2],  start: 1 }
+    };
+    let cur = 'sq', x0 = 1;
+    const STEP = 0.05, W = 640, M = { l: 44, r: 14, t: 14, b: 26 };
+    const TEAL = '#0c3840', ORANGE = '#ff5500', MID = '#2f6a73', GREY = '#9db8bd';
+
+    // one plot = a box of height H whose top sits at oy
+    function mk(H, oy, xr, yr) {
+        const iw = W - M.l - M.r, ih = H - M.t - M.b;
+        return { H, oy, xr, yr, iw,
+            X: x => M.l + (x - xr[0]) / (xr[1] - xr[0]) * iw,
+            Y: y => oy + M.t + (yr[1] - y) / (yr[1] - yr[0]) * ih,
+            inv: px => xr[0] + (px - M.l) / iw * (xr[1] - xr[0]) };
+    }
+    function grid(g) {
+        let s = '';
+        const [xa, xb] = g.xr, [ya, yb] = g.yr, top = g.oy + M.t, bot = g.oy + g.H - M.b;
+        const ystep = (yb - ya) > 14 ? 5 : ((yb - ya) > 8 ? 2 : 1);
+        for (let x = Math.ceil(xa); x <= xb; x++) {
+            s += `<line x1="${g.X(x)}" x2="${g.X(x)}" y1="${top}" y2="${bot}" stroke="${x === 0 ? GREY : '#ebe7e2'}"/>`;
+            s += `<text x="${g.X(x)}" y="${bot + 16}" font-size="13" fill="${MID}" text-anchor="middle" class="n">${x}</text>`;
+        }
+        for (let y = Math.ceil(ya / ystep) * ystep; y <= yb; y += ystep) {
+            s += `<line x1="${M.l}" x2="${W - M.r}" y1="${g.Y(y)}" y2="${g.Y(y)}" stroke="${y === 0 ? GREY : '#ebe7e2'}"/>`;
+            s += `<text x="${M.l - 8}" y="${g.Y(y) + 4}" font-size="13" fill="${MID}" text-anchor="end" class="n">${y}</text>`;
+        }
+        return s;
+    }
+    function curve(g, fn, color) {
+        let d = '', on = false;
+        for (let i = 0; i <= 240; i++) {
+            const x = g.xr[0] + (g.xr[1] - g.xr[0]) * i / 240, y = fn(x);
+            if (!isFinite(y)) { on = false; continue; }
+            d += (on ? 'L' : 'M') + g.X(x).toFixed(1) + ',' + g.Y(y).toFixed(1); on = true;
+        }
+        return `<path d="${d}" fill="none" stroke="${color}" stroke-width="3" stroke-linejoin="round"/>`;
+    }
+    function line(g, xp, yp, m, color, w, dash) {
+        const a = g.xr[0], b = g.xr[1];
+        return `<line x1="${g.X(a)}" y1="${g.Y(yp + m * (a - xp))}" x2="${g.X(b)}" y2="${g.Y(yp + m * (b - xp))}" stroke="${color}" stroke-width="${w}" ${dash ? `stroke-dasharray="${dash}"` : ''} stroke-linecap="round"/>`;
+    }
+    const dot = (g, x, y, c) => `<circle cx="${g.X(x)}" cy="${g.Y(y)}" r="7" fill="${c}" stroke="#fff" stroke-width="2.5"/>`;
+    const clip = (g, id, inner) => `<clipPath id="${id}"><rect x="${M.l}" y="${g.oy + M.t}" width="${g.iw}" height="${g.H - M.t - M.b}"/></clipPath><g clip-path="url(#${id})">${inner}</g>`;
+
+    const slopeClass = m => Math.abs(m) < 0.0005 ? '' : (m > 0 ? 'up' : 'down');
+    
+    const gTop = () => mk(460, 0, FN[cur].x, FN[cur].y);
+
+    function draw() {
+        const F = FN[cur], y0 = F.f(x0), m = F.df(x0), g = gTop();
+        const top = curve(g, F.f, TEAL) + line(g, x0, y0, m, ORANGE, 3) + dot(g, x0, y0, ORANGE);
+        document.getElementById('plot').innerHTML = grid(g) + clip(g, 'ct', top);
+
+        katex.render('x_0 = ' + fmt(x0), document.getElementById('xv'), { throwOnError: false });
+        katex.render('y_0 = ' + fmt(y0), document.getElementById('yv'), { throwOnError: false });
+        document.getElementById('sv').textContent = fmt(m);
+        document.getElementById('stat').className = 'stat ' + slopeClass(m);
+
+        const b = y0 - m * x0, ap = v => Math.abs(v - Math.round(v * 100) / 100) > 1e-9;
+        const mc = Math.abs(m - 1) < 0.005 ? '' : (Math.abs(m + 1) < 0.005 ? '-' : fmt(m));
+        const bs = Math.abs(b) < 0.005 ? '' : (b < 0 ? ' - ' : ' + ') + fmt(Math.abs(b));
+        katex.render('y ' + '=' + ' ' + mc + 'x' + bs, document.getElementById('eq'), { throwOnError: false });
+    }
+
+    function fill(el) { el.style.setProperty('--progress', (Number(el.value) - Number(el.min)) / (Number(el.max) - Number(el.min)) * 100 + '%'); }
+    const xEl = document.getElementById('x');
+    function setFn(id) {
+        cur = id; const F = FN[id]; x0 = F.start;
+        xEl.min = F.x[0]; xEl.max = F.x[1]; xEl.step = STEP; xEl.value = x0; fill(xEl);
+        document.querySelectorAll('#fnPicker .segmented-btn').forEach(b => b.classList.toggle('active', b.dataset.fn === id));
+        draw();
+    }
+    Object.keys(FN).forEach(id => {
+        const b = document.createElement('button');
+        b.className = 'segmented-btn'; b.dataset.fn = id; katex.render(FN[id].tex, b, { throwOnError: false });
+        b.addEventListener('click', () => setFn(id));
+        document.getElementById('fnPicker').appendChild(b);
+    });
+    xEl.addEventListener('input', () => { x0 = Number(xEl.value); fill(xEl); draw(); });
+    setFn('sq');
+  </script>
+</body>
+</html>
