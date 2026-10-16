@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Samkedemia: Derivatives</title>
+<title>Samkedemia: Derivative Lab</title>
 <meta name="description" content="Free derivative trainer: endless exercises that adapt to you, Desmos-style maths input, instant feedback on your mistakes and step-by-step solutions, by Samkedemia.">
-<meta property="og:title" content="Samkedemia: Derivatives">
+<meta property="og:title" content="Samkedemia: Derivative Lab">
 <meta property="og:description" content="Endless derivative exercises that adapt to you, with feedback on your mistakes and step-by-step solutions, by Samkedemia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.samkedemia.com/tools/derivatives">
@@ -110,22 +110,31 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .info-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* how-to-type popup, same pattern as the TI-84 tool */
-#help { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5, 22, 25, .5); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); opacity: 0; pointer-events: none; transition: opacity .2s; }
-#help.on { opacity: 1; pointer-events: auto; }
-#help .card { position: relative; width: min(360px, 100%); max-height: 100%; overflow: auto; padding: 24px 22px 20px; border-radius: 24px; color: var(--cream); background: linear-gradient(160deg, rgba(26, 96, 108, .72), rgba(5, 22, 25, .82)); border: 1.5px solid var(--glass-border); -webkit-backdrop-filter: blur(22px) saturate(1.3); backdrop-filter: blur(22px) saturate(1.3); box-shadow: 0 30px 70px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .16); transform: translateY(10px) scale(.96); transition: transform .25s cubic-bezier(.16, 1, .3, 1.06); }
-#help.on .card { transform: none; }
-#help h2 { margin: 0 0 6px; font: 400 1.5rem/1.1 var(--font-display); }
-#help p { margin: 0 0 14px; font-size: .9rem; color: var(--body); }
-#help .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--glass-border); font-size: .92rem; }
-#help .row span:last-child { color: var(--quiet); text-align: right; }
-#help kbd { display: inline-block; min-width: 2em; text-align: center; font: 700 .82rem/1 var(--font-mono); color: var(--cream); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); border-bottom-width: 3px; border-radius: 7px; padding: 5px 7px 4px; }
-#help kbd.sym { font: 700 1rem/.85 var(--font-body); }
-#help .x { all: unset; position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); }
-#help .x:hover { color: var(--cream); background: rgba(255, 255, 255, .12); }
-#help .x svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
-#help .fol { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; margin-top: 14px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem; background: var(--orange); box-shadow: 0 0 36px rgba(255, 85, 0, .35); transition: transform .15s; }
-#help .fol:active { transform: scale(.97); }
-#help .fol svg { width: 18px; height: 18px; }
+#help, #goat { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5, 22, 25, .5); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); opacity: 0; pointer-events: none; transition: opacity .2s; }
+#help.on, #goat.on { opacity: 1; pointer-events: auto; }
+#help .card, #goat .card { position: relative; width: min(360px, 100%); max-height: 100%; overflow: auto; padding: 24px 22px 20px; border-radius: 24px; color: var(--cream); background: linear-gradient(160deg, rgba(26, 96, 108, .72), rgba(5, 22, 25, .82)); border: 1.5px solid var(--glass-border); -webkit-backdrop-filter: blur(22px) saturate(1.3); backdrop-filter: blur(22px) saturate(1.3); box-shadow: 0 30px 70px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .16); transform: translateY(10px) scale(.96); transition: transform .25s cubic-bezier(.16, 1, .3, 1.06); }
+#help.on .card, #goat.on .card { transform: none; }
+#help h2, #goat h2 { margin: 0 0 6px; font: 400 1.5rem/1.1 var(--font-display); }
+#help p, #goat p { margin: 0 0 14px; font-size: .9rem; color: var(--body); }
+#help .row, #goat .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--glass-border); font-size: .92rem; }
+#help .row span:last-child, #goat .row span:last-child { color: var(--quiet); text-align: right; }
+#help kbd, #goat kbd { display: inline-block; min-width: 2em; text-align: center; font: 700 .82rem/1 var(--font-mono); color: var(--cream); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); border-bottom-width: 3px; border-radius: 7px; padding: 5px 7px 4px; }
+#help kbd.sym, #goat kbd.sym { font: 700 1rem/.85 var(--font-body); }
+#help .x, #goat .x { all: unset; position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); }
+#help .x:hover, #goat .x:hover { color: var(--cream); background: rgba(255, 255, 255, .12); }
+#help .x svg, #goat .x svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+#help .fol, #goat .fol { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; margin-top: 14px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem; background: var(--orange); box-shadow: 0 0 36px rgba(255, 85, 0, .35); transition: transform .15s; }
+#help .fol:active, #goat .fol:active { transform: scale(.97); }
+#goat .card { text-align: center; padding-top: 30px; }
+#goat p { margin-bottom: 18px; }
+#goat .card-form { margin-top: 0; }
+.goat-badge { width: 112px; height: 136px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; background: linear-gradient(135deg, #c43d00, #ff8a3d 55%, #c43d00); box-shadow: 0 0 60px rgba(255, 85, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .4); position: relative; overflow: hidden; }
+.goat-badge b { font: 900 3.4rem/1 var(--font-num); }
+.goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
+.goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
+@keyframes goatShine { 0% { transform: translateX(-120%); } 45%, 100% { transform: translateX(120%); } }
+#confetti { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+#help .fol svg, #goat .fol svg { width: 18px; height: 18px; }
 .preview.err { color: var(--bad); }
 
 .verdict { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 4px 16px; align-items: center; margin-top: 22px; }
@@ -176,9 +185,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-title { font: 700 .9rem/1.2 var(--font-body); opacity: .85; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
 .skills-head { margin-top: 18px !important; }
-.card-btn { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 12px; padding: 11px 14px; border-radius: 999px; cursor: pointer; font: 700 .9rem/1 var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .07); border: 1px solid var(--glass-border); transition: background-color .2s, border-color .2s, transform .2s; }
-.card-btn svg { width: 17px; height: 17px; flex: none; color: var(--orange-light); }
-.card-btn:hover { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .32); transform: translateY(-1px); }
+.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 2px 0 auto; padding: 4px 0; cursor: pointer; font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--quiet); transition: color .2s; }
+.card-btn svg { width: 13px; height: 13px; flex: none; }
+.card-btn:hover { color: var(--cream); }
 .card-btn[aria-expanded="true"] { display: none; }
 .card-form { display: flex; gap: 8px; margin-top: 10px; }
 .card-form input { flex: 1; min-width: 0; font: 400 .95rem var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .06); border: 1px solid var(--glass-border); border-radius: 999px; padding: 10px 14px; }
@@ -219,7 +228,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <a class="brand-logo" href="https://samkedemia.com" target="_blank" rel="noopener">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB3aWR0aD0iMzEwLjc5cHQiIGhlaWdodD0iNjguOTJwdCIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iNTYuMDUgNTUuOTUgMzEwLjc5IDY4LjkyIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KCgoKCgo8ZyBpZD0iTGF5ZXJfMV8xXyI+CiYjeDk7PGc+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZjhmOGYyIiBkPSJNMzY0LjUsOTIuM2MwLjIsMC0wLjIsMC43LTAuNCwxYy0xLjIsMS4zLTIuOCwyLjEtNC41LDIuM2MtMC4yLDAtMC4zLDAtMC41LDBzLTAuMywwLTAuNSwwICAgIGMtMS42LDAuMS0yLjgtMC4yLTMuNS0wLjVjLTAuMi0wLjEtMC4zLTAuMi0wLjUtMC4yYy0wLjEsMC0wLjItMC4xLTAuMy0wLjJoLTAuMWMtMC40LTAuMi0wLjctMC41LTEtMC44ICAgIGMtMS4xLTEuMS0xLjctMi43LTEuNy00LjZ2LTcuOWMtMC4yLDAuMi0wLjUsMC40LTEsMC44Yy0yLjcsMi00LDQuMS00LDYuMmMwLDIsMC44LDMuMiwyLjMsMy43YzAsMCwwLjEsMCwwLjIsMHMwLjIsMCwwLjMsMCAgICBjMC4yLDAsMC41LDAsMS0wLjJoMC4yYzAuMiwwLDAuNCwwLDAuNCwwLjJjMC4yLDAuMiwwLjIsMC4zLDAuMSwwLjVjLTAuNCwwLjktMS4yLDEuNy0yLjUsMi4zYy0xLjMsMC42LTIuNSwwLjktMy42LDAuOSAgICBjLTIuMS0wLjEtNC0wLjgtNS41LTJzLTIuMi0yLjktMi4xLTVjMC4xLTEuOCwwLjgtMy4zLDItNC40czMuMi0yLjIsNi0zLjRjMC4yLTAuMSwwLjYtMC4yLDEuMS0wLjRjMy4zLTEuMyw1LTIuOSw1LjItNC42ICAgIGMwLjEtMC45LTAuMS0xLjYtMC42LTIuMWMtMC40LTAuNC0xLjEtMC43LTEuOS0wLjdjLTAuOSwwLTEuNSwwLjMtMiwwLjljLTAuNCwwLjQtMC42LDAuOS0wLjYsMS40YzAuMSwwLjksMC41LDEuNSwxLjMsMS42ICAgIGMwLjEsMCwwLjIsMC4xLDAuMiwwLjNjLTAuMiwwLjctMC42LDEuMy0xLjQsMS44Yy0wLjgsMC42LTEuNywwLjktMi45LDAuOWMtMS42LDAtMi44LTAuNS0zLjYtMS40Yy0wLjctMC43LTEtMS42LTAuOS0yLjYgICAgYzAuMS0xLjQsMC43LTIuNiwxLjktMy42YzEuMi0xLDIuNC0xLjYsMy44LTJzMi44LTAuNSw0LjMtMC41YzMuOSwwLDYuOSwxLDguOSwzLjFjMS42LDEuNiwyLjMsMy45LDIuMiw2LjcgICAgYzAsMC4zLTAuMSwwLjktMC4xLDEuNnMwLDEuMy0wLjEsMS42Yy0wLjIsNC4yLTAuMSw3LDAuMyw4LjZjMCwwLDAsMCwwLDAuMWMwLDAsMCwwLjEsMC4xLDAuMmMwLDAsMCwwLDAsMC4xICAgIGMwLjIsMC40LDAuNSwwLjksMS4yLDAuOWMwLjEsMCwwLjIsMCwwLjMsMGMwLjEsMCwwLjIsMCwwLjMtMC4xQzM2My4yLDkyLjgsMzY0LjQsOTIuMywzNjQuNSw5Mi4zeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTg1LjIsODQuOWMwLDEuNi0wLjIsMy4xLTAuNyw0LjRzLTEuMywyLjQtMi4yLDMuMmMtMC45LDAuOC0xLjksMS41LTMuMSwyLjFzLTIuNCwxLTMuNSwxLjIgICAgcy0yLjMsMC4zLTMuNCwwLjNjLTEuNCwwLTMuMS0wLjMtNS0wLjdjLTItMC41LTMuMy0xLjItMy45LTJ2MC4xYzAsMC4yLDAsMC40LTAuMSwwLjZzLTAuMywwLjMtMC42LDAuM2wtMi4yLTAuMSAgICBjLTAuMywwLTAuNC0wLjEtMC40LTAuNEw1OS4zLDgwYzAtMC41LDAuMi0wLjgsMC43LTAuOGgwLjhjMC40LDAsMC42LDAuMiwwLjcsMC43YzAuMiwyLDAuNywzLjgsMS4yLDUuNGMwLjYsMS42LDEuNiwzLjEsMyw0LjQgICAgYzEuNCwxLjMsMy4xLDIsNSwyYzEuNiwwLDMtMC40LDMuOS0xLjNjMS0wLjgsMS40LTEuOSwxLjQtMy4zYy0wLjEtMS40LTEuMS0yLjgtMy4yLTQuMmMtMy43LTIuMi02LjctNC4xLTguOS01LjUgICAgYy0zLjctMi40LTUuNi01LjItNS42LTguMmMwLTMuMywxLjItNS43LDMuOS03LjNjMi42LTEuNiw1LjYtMi40LDguNy0yLjRjMS41LDAsMy4yLDAuMyw1LjIsMC45YzEuOSwwLjYsMy4zLDEuMyw0LDIuM3YtMC4xICAgIGMwLTAuNSwwLjMtMC44LDAuOC0wLjhsMi4xLDAuMWMwLjMsMCwwLjQsMC4xLDAuNCwwLjRMODQsNzRjMCwwLjUtMC4zLDAuOC0wLjgsMC44aC0wLjhjLTAuNCwwLTAuNy0wLjItMC43LTAuNyAgICBjLTAuMS0wLjktMC40LTEuOS0wLjYtMi44Yy0wLjMtMC45LTAuNy0xLjktMS4zLTMuMWMtMC42LTEuMi0xLjUtMi4yLTIuNy0zcy0yLjYtMS4yLTQuMy0xLjNjLTMuNywwLTUuNywxLjItNS45LDMuNiAgICBjMCwwLjIsMCwwLjUsMCwwLjdzMC4xLDAuNCwwLjIsMC42czAuMiwwLjQsMC4zLDAuNWMwLjEsMC4xLDAuMywwLjMsMC41LDAuNXMwLjQsMC4zLDAuNSwwLjRzMC4zLDAuMiwwLjYsMC40ICAgIGMwLjMsMC4yLDAuNCwwLjMsMC41LDAuM2MwLjEsMC4xLDAuMywwLjIsMC42LDAuNGwwLjQsMC4yYzAuNCwwLjIsMS43LDEsNCwyLjFjMi4yLDEuMiwzLjgsMiw0LjYsMi41ICAgIEM4My4xLDc4LjgsODUuMSw4MS42LDg1LjIsODQuOXoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0xMTMsOTMuMmMwLjEsMCwwLjEsMC4xLDAuMSwwLjNjLTAuMSwwLjUtMC42LDEtMS41LDEuNGMtMC44LDAuNC0xLjgsMC42LTIuOCwwLjZjLTEuNSwwLTIuOS0wLjUtNC0xLjYgICAgcy0xLjctMi42LTEuNy00LjZ2LTcuOWMtMC4xLDAuMS0wLjUsMC40LTEsMC44Yy0yLjcsMi00LDQuMS00LDYuMmMwLDIsMC44LDMuMiwyLjMsMy43YzAsMCwwLjEsMCwwLjIsMHMwLjIsMCwwLjMsMCAgICBjMC4yLDAsMC41LDAsMS0wLjFoMC4xYzAuMiwwLDAuMywwLjEsMC40LDAuMWMwLjEsMC4xLDAuMiwwLjMsMC4xLDAuNWMtMC40LDAuOS0xLjIsMS43LTIuNSwyLjNzLTIuNSwwLjktMy42LDAuOSAgICBjLTIuMS0wLjEtNC0wLjgtNS41LTJzLTIuMi0yLjktMi4xLTVjMC4xLTEuOCwwLjgtMy4zLDItNC40czMuMi0yLjIsNi0zLjRjMC4yLTAuMSwwLjUtMC4yLDEtMC40YzMuMy0xLjMsNS0yLjksNS4yLTQuNiAgICBjMC4xLTAuOC0wLjEtMS41LTAuNi0yLjFjLTAuNC0wLjQtMS4xLTAuNy0xLjktMC43cy0xLjUsMC4zLTEuOSwwLjlDOTguMiw3NC41LDk4LDc1LDk4LDc1LjVjMC4xLDAuOSwwLjUsMS41LDEuMywxLjYgICAgYzAuMSwwLDAuMiwwLjEsMC4yLDAuM2MtMC4xLDAuNi0wLjYsMS4zLTEuNCwxLjhjLTAuOCwwLjYtMS43LDAuOS0yLjksMC45Yy0xLjYsMC0yLjgtMC41LTMuNi0xLjRjLTAuNy0wLjctMS0xLjYtMC45LTIuNiAgICBjMC4xLTEuNCwwLjctMi42LDEuOS0zLjZjMS4yLTEsMi41LTEuNiwzLjktMmMxLjQtMC4zLDIuOC0wLjUsNC4zLTAuNWMzLjksMCw2LjksMSw4LjksMy4xYzEuNSwxLjYsMi4zLDMuOSwyLjIsNi43ICAgIGMtMC4xLDAuMy0wLjEsMC45LTAuMSwxLjZzMCwxLjMtMC4xLDEuNkMxMTEuNiw4OS41LDExMiw5Mi44LDExMyw5My4yeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTExNi41LDc0LjJjLTAuMiwwLTAuMy0wLjEtMC4zLTAuM3YtMC44YzAtMC4zLDAuMS0wLjUsMC40LTAuNWMxLjMsMCwyLjUtMC4yLDMuNy0wLjZzMi4zLTAuOSwzLjMtMS41ICAgIHMxLjctMC45LDIuMS0xYzAuMSwwLDAuMy0wLjEsMC42LTAuMWMwLjEsMCwwLjMsMCwwLjQsMC4xczAuMiwwLjEsMC4zLDAuM2MwLjEsMC4xLDAuMSwwLjMsMC4yLDAuNGMwLDAuMSwwLjEsMC4zLDAuMSwwLjUgICAgczAsMC40LDAsMC41czAsMC4zLDAsMC41czAsMC40LDAsMC40VjczYzEuNS0xLjcsMy43LTIuNiw2LjYtMi43YzIuNiwwLDQuNywwLjgsNi4yLDIuM2MwLjUsMC40LDEsMS4xLDEuNCwxLjkgICAgYzEuNC0yLjcsMy45LTQuMiw3LjYtNC4zYzIuNiwwLDQuNywwLjgsNi4yLDIuM2MxLjcsMS42LDIuNiwzLjgsMi41LDYuNWwwLjEsMTAuOGMwLDEuMSwwLjEsMiwwLjMsMi43czAuNSwxLjIsMC44LDEuNCAgICBjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjZjMC4yLDAuMSwwLjMsMC4zLDAuMywwLjRWOTVjMCwwLjItMC4xLDAuMy0wLjIsMC4zaC0xM2MtMC4xLDAtMC4yLTAuMS0wLjItMC4ydi0wLjQgICAgYzAtMC4xLDAuMi0wLjIsMC42LTAuNGMwLjQtMC4yLDAuOC0wLjYsMS4yLTEuM2MwLjQtMC43LDAuNi0xLjYsMC42LTIuOXYtOS45YzAtMi4yLTAuNC0zLjctMS4yLTQuNGMtMC40LTAuNS0xLjEtMC43LTEuOS0wLjcgICAgYy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjcsMC43LTEuMiwxLjktMS4zLDMuNWwwLjEsMTAuMmMwLDEuMSwwLjEsMiwwLjQsMi43YzAuMiwwLjcsMC41LDEuMiwwLjgsMS40YzAuMywwLjIsMC41LDAuNCwwLjgsMC42ICAgIGMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNIMTMyYy0wLjEsMC0wLjItMC4xLTAuMi0wLjJ2LTAuNGMwLTAuMSwwLjEtMC4yLDAuMy0wLjQgICAgYzAuMi0wLjEsMC41LTAuMywwLjgtMC41czAuNi0wLjYsMC44LTEuM2MwLjItMC42LDAuNC0xLjQsMC40LTIuNHYtOS45YzAtMi4yLTAuNC0zLjctMS4yLTQuNGMtMC40LTAuNS0xLjEtMC43LTEuOS0wLjcgICAgYy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjcsMC43LTEuMSwxLjgtMS4zLDMuMnYxMC41YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRzMC42LDAuNCwwLjgsMC42ICAgIGMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNoLTEyLjljLTAuMSwwLTAuMi0wLjEtMC4yLTAuMmwtMC4xLTAuNGMwLTAuMSwwLjItMC4yLDAuNi0wLjQgICAgYzAuNC0wLjIsMC44LTAuNiwxLjItMS4zYzAuNC0wLjcsMC42LTEuNiwwLjYtMi45Vjc2LjRjMC0wLjctMC4yLTEuMy0wLjYtMS43QzExNy41LDc0LjQsMTE3LDc0LjIsMTE2LjUsNzQuMnoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0xNjMuMyw5NS4xbC0wLjEtMC40YzAtMC4xLDAuMi0wLjIsMC42LTAuNGMwLjQtMC4yLDAuOC0wLjYsMS4yLTEuM2MwLjQtMC43LDAuNi0xLjYsMC42LTIuOVY2NS42ICAgIGMwLTAuNy0wLjItMS4yLTAuNi0xLjZjLTAuNC0wLjQtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjN2LTAuOGMwLTAuMywwLjEtMC41LDAuNC0wLjVjMSwwLDItMC4xLDMtMC4zICAgIHMxLjgtMC4zLDIuNC0wLjVjMC42LTAuMSwxLjMtMC40LDIuMi0wLjdzMS40LTAuNSwxLjUtMC42YzAuMy0wLjEsMC41LTAuMSwwLjctMC4xYzAuMSwwLDAuMywwLDAuNCwwLjFjMC4xLDAuMSwwLjIsMC4xLDAuMywwLjMgICAgYzAsMC4xLDAuMSwwLjIsMC4xLDAuNGMwLDAuMSwwLjEsMC4zLDAuMSwwLjVzMCwwLjQsMCwwLjVzMCwwLjMsMCwwLjVzMCwwLjMsMCwwLjR2MTYuM2w1LjItNGMxLjctMS40LDIuNi0yLjIsMi43LTIuNCAgICBjMC0wLjIsMC0wLjMtMC4xLTAuNHMtMC4zLTAuMS0wLjYtMC4xaC0wLjRjLTAuMiwwLTAuMywwLTAuMy0wLjFsLTAuMS0wLjZjMC0wLjIsMC4xLTAuMywwLjMtMC4zaDkuNmMwLjEsMCwwLjIsMC4xLDAuMiwwLjJ2MC44ICAgIGMwLDAuMS0wLjEsMC4xLTAuNCwwLjFjLTAuMywwLTAuNywwLjEtMS4xLDAuMXMtMC44LDAuMi0xLjEsMC40Yy0wLjEsMC4xLTEuOCwxLjQtNC45LDMuOGwtMy43LDNjMi4yLDAuMiwzLjcsMS4zLDQuNiwzLjMgICAgYzAsMC4xLDAuMywwLjcsMC43LDEuOGMwLjQsMS4xLDAuOCwxLjksMS4xLDIuNHMwLjcsMS4yLDEuMywyczEuMywxLjQsMiwxLjhzMS42LDAuNiwyLjUsMC42YzAsMCwwLjIsMCwwLjMsMGMwLjIsMCwwLjMsMCwwLjQsMCAgICBjMC4xLDAsMC4yLDAuMSwwLjIsMC4xYzAuMiwwLjYtMC40LDEuNi0xLjksMi44Yy0xLjUsMS4yLTMsMS44LTQuNywxLjhoLTAuNGMtMy0wLjItNS4zLTEuOC02LjgtNC44bC00LjMtNy44bC0wLjcsMC41djYuMiAgICBjMCwxLjEsMC4xLDIsMC40LDIuN2MwLjIsMC43LDAuNSwxLjIsMC44LDEuNGMwLjMsMC4yLDAuNiwwLjQsMC44LDAuNmMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNoLTEyLjkgICAgQzE2My4zLDk1LjMsMTYzLjMsOTUuMywxNjMuMyw5NS4xeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTE5Ni4xLDczLjhjMi4zLTIuNCw1LjMtMy43LDguOS0zLjdjMy42LDAsNi42LDEuMSw4LjgsMy40czMuMyw1LjMsMy4zLDguOWMwLDAuMy0wLjIsMC40LTAuNywwLjRoLTAuMyAgICBMMjAyLjUsODN2MC4xYzAuMiwyLjIsMC44LDQsMS45LDUuMmMxLjEsMS4yLDIuNCwxLjgsMy45LDEuOGMyLjQtMC4xLDQtMS4zLDQuNy0zLjVjMC4zLTEsMC45LTEuNSwxLjktMS41YzAuMiwwLDAuNCwwLDAuNSwwLjEgICAgYzEsMC4yLDEuNCwwLjksMS4zLDJjLTAuMywyLjUtMS41LDQuNi0zLjcsNi4ycy00LjYsMi40LTcuMywyLjRjLTMuOSwwLTcuMS0xLjItOS41LTMuNXMtMy42LTUuNC0zLjYtOS40ICAgIEMxOTIuNiw3OS4zLDE5My44LDc2LjMsMTk2LjEsNzMuOHogTTIwNS40LDczLjNjLTAuNywwLTEuNCwwLjYtMiwxLjlzLTAuOSwyLjktMSw0LjdoNmMwLTItMC4yLTMuNi0wLjgtNC44ICAgIEMyMDcsNzMuOSwyMDYuMyw3My4zLDIwNS40LDczLjN6Ij48L3BhdGg+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZjhmOGYyIiBkPSJNMjQ2LjQsOTNjMC4yLDAuMSwwLjIsMC4yLDAuMSwwLjNjLTAuMSwwLjUtMC43LDEtMS42LDEuNGMtMC45LDAuNC0xLjgsMC42LTIuOCwwLjZjLTIuMywwLTQtMS01LTIuOSAgICBjLTEuOCwyLjEtMy42LDMuMi01LjUsMy40aC0wLjljLTMuNCwwLTYtMS4zLTcuOS0zLjljLTEuOC0yLjYtMi43LTUuNy0yLjctOS4zYzAuMS0xLjgsMC40LTMuNywxLTUuNGMwLjYtMS44LDEuOC0zLjQsMy42LTQuOCAgICBjMS43LTEuNCwzLjktMi4yLDYuNS0yLjJjMC4xLDAsMC4zLDAsMC41LDBzMC40LDAsMC42LDBjMS4yLDAuMSwyLjYsMC41LDQsMS40di01LjljMC0wLjctMC4yLTEuMy0wLjYtMS44ICAgIGMtMC40LTAuNC0wLjktMC42LTEuNS0wLjZjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMnYtMC45YzAtMC4zLDAuMS0wLjQsMC40LTAuNGMxLDAsMi0wLjEsMy0wLjNzMS44LTAuMywyLjQtMC41ICAgIGMwLjYtMC4yLDEuMy0wLjQsMi4xLTAuN3MxLjMtMC41LDEuNS0wLjZjMC4xLDAsMC4zLTAuMSwwLjYtMC4xYzAuMiwwLDAuNCwwLDAuNSwwLjFzMC4yLDAuMSwwLjMsMC4zYzAuMSwwLjEsMC4xLDAuMywwLjIsMC40ICAgIGMwLDAuMSwwLjEsMC4zLDAuMSwwLjVzMCwwLjQsMCwwLjVzMCwwLjMsMCwwLjVzMCwwLjQsMCwwLjRjMCwwLjQsMCwxLjUsMCwzLjNjMCwxLjcsMCwzLjcsMCw1LjhjMCwyLjEsMCw0LjMsMCw2LjMgICAgYzAsMi4xLTAuMSwzLjgtMC4xLDUuMnYyLjJjMCwyLjksMC4xLDUsMC4zLDYuMkMyNDUuNCw5Mi4zLDI0NS44LDkyLjksMjQ2LjQsOTN6IE0yMzMuMiw5Mi4xYzAuOSwwLjEsMS42LTAuNywyLjEtMi4yICAgIHMwLjgtMy41LDAuOS02LjFWODBjLTAuMS00LjEtMS02LjItMi41LTYuMmMtMSwwLTEuOSwwLjgtMi42LDIuNWMtMC43LDEuNy0xLjEsMy44LTEuMiw2LjRjLTAuMSwyLjYsMC4yLDQuOCwwLjgsNi41ICAgIEMyMzEuNCw5MS4yLDIzMi4zLDkyLjEsMjMzLjIsOTIuMXoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0yNjAuOCw5NS43Yy0zLjUsMC02LjQtMS4yLTguNy0zLjZjLTIuMi0yLjQtMy40LTUuNC0zLjQtOWMwLTEuOSwwLjQtMy44LDEuMS01LjZjMC43LTEuOCwxLjgtMy4zLDMuMi00LjMgICAgYzIuMi0xLjksNS0yLjksOC4yLTIuOWMzLjYsMCw2LjYsMS4xLDguNywzLjRjMi4yLDIuMywzLjMsNS4zLDMuMyw4LjljMCwwLjMtMC4zLDAuNS0xLDAuNWMtNi43LDAtMTEuMSwwLTEzLDAuMSAgICBjLTAuNSwwLTAuNywwLjItMC42LDAuN2MwLjUsNC4zLDIuMiw2LjUsNSw2LjVjMi43LTAuMSw2LjYtMi45LDExLjgtOC4yYzAuMi0wLjIsMC42LTAuNSwxLTAuOXMwLjctMC43LDEtMC45bDAuMS0zLjQgICAgYzAtMC43LTAuMi0xLjItMC42LTEuNnMtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjJ2LTAuOWMwLTAuMywwLjEtMC41LDAuNC0wLjVjMS4zLDAsMi41LTAuMiwzLjctMC42ICAgIHMyLjMtMC45LDMuMy0xLjVzMS43LTAuOSwyLjEtMWMwLjMtMC4xLDAuNS0wLjEsMC43LTAuMWMwLjYsMCwxLDAuOCwxLDIuM3YwLjFjMS45LTEuMywzLjctMiw1LjMtMi4yYzEuMiwwLDIuMiwwLDIuOCwwLjEgICAgYzAuNiwwLjEsMS40LDAuMywyLjIsMC42YzAuOCwwLjMsMS42LDAuOSwyLjQsMS42YzAuNSwwLjQsMSwxLjEsMS40LDEuOWMxLjQtMi44LDMuOS00LjIsNy42LTQuM2MyLjYsMCw0LjcsMC44LDYuMiwyLjMgICAgYzEuNywxLjYsMi42LDMuOCwyLjUsNi41bDAuMSwxMC44YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjUsMC40LDAuOCwwLjZjMC4yLDAuMSwwLjQsMC4zLDAuNCwwLjQgICAgbC0wLjEsMC4zYzAsMC4yLTAuMSwwLjMtMC4yLDAuM2gtMTNjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMnYtMC40YzAtMC4xLDAuMS0wLjIsMC40LTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNXMwLjUtMC42LDAuOC0xLjMgICAgYzAuMi0wLjYsMC40LTEuNCwwLjQtMi40di02LjloMC4xYzAtMC4zLDAtMC42LDAtMC45czAtMC42LDAtMC45YzAtMC4yLDAtMC41LDAtMC42YzAtMC4yLDAtMC4zLDAtMC41di0wLjFjMC0zLjQtMS01LjItMy4xLTUuMiAgICBIMzA1Yy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjgsMC43LTEuMiwxLjktMS4zLDMuNmwwLjEsMTAuMmMwLDEuMSwwLjEsMiwwLjMsMi43YzAuMiwwLjcsMC41LDEuMiwwLjgsMS40ICAgIGMwLjMsMC4yLDAuNiwwLjQsMC44LDAuNmMwLjIsMC4xLDAuMywwLjMsMC4zLDAuNHYwLjNjMCwwLjItMC4xLDAuMy0wLjIsMC4zaC0xM2MtMC4xLDAtMC4yLTAuMS0wLjItMC4ydi0wLjQgICAgYzAtMC4xLDAuMS0wLjIsMC4zLTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNXMwLjYtMC42LDAuOC0xLjNjMC4yLTAuNiwwLjQtMS40LDAuNC0yLjR2LTkuOWMwLTMuNS0xLTUuMi0zLjEtNS4yICAgIGMtMC4yLDAtMC41LDAuMS0wLjksMC4xYy0wLjgsMC4yLTEuOCwwLjgtMywxLjljLTEuMiwxLTIuOCwyLjYtNC44LDQuN3MtMy43LDMuOC01LjEsNS4xYy0wLjMsMC4zLTEsMC45LTEuOCwxLjcgICAgYy0wLjksMC44LTEuNSwxLjQtMS45LDEuN2MtMC40LDAuMy0wLjksMC44LTEuNywxLjVjLTAuOCwwLjYtMS40LDEuMS0xLjksMS40cy0xLjEsMC42LTEuOSwxYy0wLjcsMC40LTEuNSwwLjctMi4yLDAuOSAgICBjLTAuNywwLjItMS41LDAuMy0yLjMsMC40QzI2Miw5NS43LDI2MS41LDk1LjcsMjYwLjgsOTUuN3ogTTI2MS42LDczLjRjLTAuNywwLTEuNCwwLjYtMiwxLjlzLTAuOSwyLjktMSw0LjdoNiAgICBjMC0yLTAuMi0zLjYtMC44LTQuOEMyNjMuMiw3NCwyNjIuNCw3My40LDI2MS42LDczLjR6IE0yNzUuMyw5NC44YzAtMC4xLDAuMS0wLjIsMC4zLTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNSAgICBzMC42LTAuNiwwLjgtMS4zYzAuMi0wLjYsMC40LTEuNCwwLjQtMi40YzAtMS41LDAuNS0yLjgsMS42LTMuOGMwLjMtMC4zLDEtMC45LDEuOC0xLjljMC45LTAuOSwxLjUtMS42LDEuOS0xLjkgICAgYzAuNS0wLjQsMS0wLjcsMS42LTAuN2MxLjIsMCwxLjgsMC43LDEuOCwyLjF2NS42YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjYgICAgYzAuMiwwLjEsMC40LDAuMywwLjQsMC40Vjk1YzAsMC4yLTAuMSwwLjMtMC4yLDAuM2gtMTNjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMkwyNzUuMyw5NC44TDI3NS4zLDk0Ljh6Ij48L3BhdGg+CiYjeDk7JiN4OTs8Zz4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTEzNi40LDEwOC41aDEwLjJ2MS41SDEzOHY0LjdoNy4zdjEuNEgxMzh2NC44aDguN3YxLjVoLTEwLjNWMTA4LjV6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0xNTIuNywxMDguNWg0LjhjNC41LDAsNy4yLDIuNiw3LjIsN2MwLDQuMy0yLjYsNi44LTcuMiw2LjhoLTQuOFYxMDguNXogTTE1Ny42LDEyMC45ICAgICBjMy42LDAsNS42LTEuOSw1LjYtNS40cy0yLTUuNS01LjYtNS41aC0zLjN2MTAuOUgxNTcuNnoiPjwvcGF0aD4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTE3MS4xLDExNi4ydi03LjdoMS42djcuNmMwLDMuMSwxLjUsNC44LDQsNC44YzIuNiwwLDQtMS43LDQtNC44di03LjZoMS42djcuN2MwLDQtMi4xLDYuNC01LjYsNi40ICAgICBDMTczLjIsMTIyLjUsMTcxLjEsMTIwLjEsMTcxLjEsMTE2LjJ6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0xODguNSwxMTUuNGMwLTQuNCwyLjktNyw2LjktN2MyLjQsMCw0LjMsMSw1LjQsMi44bC0xLjQsMC44Yy0wLjgtMS4zLTItMi4xLTQtMi4xYy0zLDAtNS4xLDItNS4xLDUuNSAgICAgczIuMyw1LjUsNS4yLDUuNWMxLjcsMCwzLTAuNywzLjgtMS45bDEuMywwLjljLTEuMSwxLjYtMi44LDIuNS01LjEsMi41QzE5MS40LDEyMi41LDE4OC41LDExOS44LDE4OC41LDExNS40eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjExLjcsMTA4LjRoMS4ybDUuOSwxMy45SDIxN2wtMS41LTMuN2gtNi43bC0xLjYsMy43aC0xLjhMMjExLjcsMTA4LjR6IE0yMTQuOSwxMTcuMmwtMi42LTYuNmwtMi44LDYuNiAgICAgSDIxNC45eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjI2LjQsMTEwaC00Ljh2LTEuNWgxMS4zdjEuNUgyMjh2MTIuNGgtMS42VjExMHoiPjwvcGF0aD4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTIzOC45LDEwOC41aDEuNnYxMy44aC0xLjZWMTA4LjV6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0yNDcuMiwxMTUuNWMwLTQuNCwyLjktNy4xLDcuMS03LjFjNC4xLDAsNy4xLDIuNyw3LjEsNy4xcy0yLjksNy4xLTcuMSw3LjEgICAgIEMyNTAuMiwxMjIuNiwyNDcuMiwxMTkuOCwyNDcuMiwxMTUuNXogTTI1OS43LDExNS41YzAtMy42LTIuMS01LjUtNS40LTUuNWMtMy4yLDAtNS40LDEuOS01LjQsNS41czIuMSw1LjUsNS40LDUuNSAgICAgUzI1OS43LDExOS4xLDI1OS43LDExNS41eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjY4LjEsMTA4LjVoMS41bDguOSwxMS4zdi0xMS4zaDEuNnYxMy44aC0xLjVsLTguOS0xMS4zdjExLjNoLTEuNlYxMDguNXoiPjwvcGF0aD4KJiN4OTsmI3g5OzwvZz4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0zMjEuMSw2NS45bDAuOCwzLjdjMCwwLjEsMC4xLDAuMSwwLjEsMC4xYzIuMy0wLjEsNC40LDAuMiw2LjMsMC42YzAuMiwwLDAuMywwLDAuNS0wLjEgICAgYzEuNi0xLjIsMy40LTIuMyw1LjUtMy4ybDAuMS0wLjFsLTAuOC0zLjdjMC0wLjEtMC4xLTAuMS0wLjItMC4xbC01LjUsM2MtMC4xLDAuMS0wLjMsMC4xLTAuNSwwLjFMMzIxLjEsNjUuOSAgICBDMzIxLjIsNjUuOCwzMjEuMSw2NS44LDMyMS4xLDY1Ljl6Ij48L3BhdGg+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMzE1LDY0LjdsNC42LDAuM2MwLDAsMC4xLDAsMC4xLTAuMWMwLjEtMC4xLDAuMi0wLjMsMC40LTAuM2w2LjUtMy4xYzAuMS0wLjEsMC4zLDAsMC40LDAuMXMwLDAuMy0wLjEsMC40ICAgIGwtNi40LDNoMC40bDYuNCwwLjRjMC4yLDAsMC4zLDAsMC41LTAuMWw1LjYtMy4xbDUuMi0yLjljMC4xLTAuMSwwLjEtMC4yLDAtMC4ybC0xMi4xLTAuOGMtMC4zLDAtMC42LDAtMC45LDAuMkwzMTUsNjQuMyAgICBDMzE0LjgsNjQuNiwzMTQuOSw2NC43LDMxNSw2NC43eiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTMxOS4xLDcxLjNjMCwwLjUtMC4xLDAuNy0wLjMsMS4yYzEuMS0wLjksMS4yLTIuMywxLjItMi45YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42YzAtMC4xLTAuMS0wLjItMC4xLTAuMiAgICBjMC40LTEsMC4zLTIuOSwwLjItMy42YzAsMCwwLTAuMS0wLjEtMC4xaC0wLjRjMCwwLTAuMSwwLTAuMSwwLjFjMCwwLjgsMC4xLDIuNi0wLjIsMy40Yy0wLjMsMC4xLTAuNSwwLjQtMC40LDAuNyAgICBjMCwwLjEsMCwwLjEsMC4xLDAuMmMtMC4yLDAuNS0wLjgsMS43LTIsMi41YzAuNi0wLjIsMS4xLTAuNSwxLjUtMC45YzAsMC40LTAuNCwxLTAuNywxLjNDMzE4LjIsNzIuMywzMTksNzEuOCwzMTkuMSw3MS4zeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTMzNi4zLDk0LjdWOTVjMCwwLjItMC4xLDAuMy0wLjMsMC4zaC0xM2MtMC4yLDAtMC4yLTAuMS0wLjItMC4ybC0wLjEtMC40YzAtMC4xLDAuMi0wLjIsMC42LTAuNCAgICBjMC40LTAuMiwwLjgtMC42LDEuMi0xLjNjMC40LTAuNywwLjYtMS42LDAuNi0yLjlWNzYuNGMwLTAuNy0wLjItMS4zLTAuNi0xLjdjLTAuNC0wLjQtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjMgICAgVjczYzAtMC40LDAuMi0wLjUsMC41LTAuNWgwLjFjMS44LDAsMy41LDAuMiw1LDAuNWMwLjYsMC4xLDEuMSwwLDEuNi0wLjNjMC44LTAuNiwxLjctMS4xLDIuNi0xLjdjMC4xLDAsMC4xLTAuMSwwLjItMC4xICAgIHMwLjItMC4xLDAuMy0wLjFjMC40LDAsMC44LDAuMywwLjksMC43djE4LjFjMCwxLjEsMC4xLDIsMC40LDIuN3MwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjYgICAgQzMzNi4xLDk0LjUsMzM2LjMsOTQuNiwzMzYuMyw5NC43eiI+PC9wYXRoPgomI3g5OzwvZz4KJiN4OTsKJiN4OTsKJiN4OTsKPC9nPgo8L3N2Zz4=" alt="Samkedemia">
       <span class="logo-separator"></span>
-      <span class="logo-page-title">Derivatives</span>
+      <span class="logo-page-title">Derivative Lab</span>
     </a>
     <div class="header-socials">
       <a class="social-icon" href="https://wa.me/32490100821" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -291,7 +300,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span class="pc-title" id="ptitle">Rookie</span>
         </div>
       </div>
-      <button class="card-btn" id="cardBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Get my card</span></button>
+      <button class="card-btn" id="cardBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Save card</span></button>
       <form class="card-form" id="cardForm" hidden>
         <input id="cardName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
         <button class="btn primary" type="submit" id="cardSave">Save</button>
@@ -310,6 +319,19 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
       </div>
     </aside>
   </main>
+</div>
+
+<div id="goat" role="dialog" aria-modal="true" aria-labelledby="goatTitle">
+  <div class="card">
+    <button class="x" id="goatClose" aria-label="Close"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
+    <div class="goat-badge"><b>99</b><span>GOAT</span></div>
+    <h2 id="goatTitle">You're the GOAT</h2>
+    <p>99 overall. Every derivative rule, mastered. Save your card and show it off.</p>
+    <form class="card-form" id="goatForm">
+      <input id="goatName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
+      <button class="btn primary" type="submit" id="goatSave">Save card</button>
+    </form>
+  </div>
 </div>
 
 <div id="help" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
@@ -1241,7 +1263,8 @@ function resolve(r) {
   save(); renderCoach(prev);
   const up = used.find(s => level(st.R[s]) > level(prev[s]));
   const newTier = tierOf(overall(st.R));
-  if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 650);
+  if (overall(st.R) >= 99 && overall(prev) < 99) setTimeout(showGoat, 1000);
+  else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 650);
   else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
   else if (r === 1 && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
   if (r === 1) anim($('streak'), [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
@@ -1375,8 +1398,11 @@ async function drawCard(name) {
   const bg = g.createRadialGradient(W / 2, H * .45, 40, W / 2, H * .5, H * .75);
   bg.addColorStop(0, '#1a606c'); bg.addColorStop(.52, '#0c3840'); bg.addColorStop(1, '#051619');
   g.fillStyle = bg; g.fillRect(0, 0, W, H);
-  // the card
-  const cx = 150, cy = 120, cw = 780, ch = 1000;
+  // heading
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillStyle = '#fdf6ec'; g.font = '400 76px Vidaloka, Georgia, serif'; g.fillText('Derivative Lab', W / 2, 150);
+  // the card, drawn at full size and scaled down under the heading
+  const cx = 150, cy = 120, cw = 780, ch = 1000, k = .86;
+  g.save(); g.translate(W / 2, 215); g.scale(k, k); g.translate(-(cx + cw / 2), -cy);
   g.save(); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 70; g.shadowOffsetY = 30;
   const grad = g.createLinearGradient(cx, cy, cx + cw, cy + ch); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
   roundRect(g, cx, cy, cw, ch, 56); g.fillStyle = grad; g.fill(); g.restore();
@@ -1396,7 +1422,7 @@ async function drawCard(name) {
   g.textAlign = 'left';
   g.fillRect(cx + 400, cy + 130, 4, 230);
   g.font = '900 64px Outfit, sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210); g.letterSpacing = '0px';
-  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 270); g.fillText('Derivatives', cx + 440, cy + 325); g.globalAlpha = 1;
+  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 290); g.globalAlpha = 1;
   // name
   g.textAlign = 'center';
   let size = 104; const label = (name || 'Student').toUpperCase();
@@ -1409,13 +1435,14 @@ async function drawCard(name) {
     g.textAlign = 'right'; g.font = '900 58px Outfit, sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
     g.textAlign = 'left'; g.font = '700 44px Outfit, sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
   });
+  g.restore();
   // brand footer
   const logo = document.querySelector('.brand-logo img');
   if (logo && logo.complete) { const lh = 72, lw = lh * (logo.naturalWidth / logo.naturalHeight || 4.5); g.drawImage(logo, (W - lw) / 2, H - 140, lw, lh); }
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
-async function saveCard() {
-  const name = $('cardName').value.trim();
+async function saveCard(name) {
+  name = name.trim(); $('cardName').value = $('goatName').value = name;
   try { localStorage.setItem(STORE + '-name', name); } catch (e) {}
   const blob = await drawCard(name), file = `samkedemia-derivatives-card${name ? '-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''}.png`;
   const f = new File([blob], file, { type: 'image/png' });
@@ -1425,7 +1452,43 @@ async function saveCard() {
 }
 if (TOUCH) $('cardSave').textContent = 'Share';
 $('cardBtn').addEventListener('click', () => { $('cardForm').hidden = false; $('cardBtn').setAttribute('aria-expanded', 'true'); anim($('cardForm'), [{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' }); $('cardName').focus(); });
-$('cardForm').addEventListener('submit', e => { e.preventDefault(); saveCard(); });
+$('cardForm').addEventListener('submit', e => { e.preventDefault(); saveCard($('cardName').value); });
+$('goatForm').addEventListener('submit', e => { e.preventDefault(); saveCard($('goatName').value); });
+if (TOUCH) $('goatSave').textContent = 'Share card';
+
+// ---------- GOAT: 99 overall gets a popup with confetti ----------
+const goat = $('goat');
+const setGoat = on => { goat.classList.toggle('on', on); if (on) setTimeout(() => $('goatName').focus({ preventScroll: true }), 300); };
+goat.addEventListener('click', e => { if (e.target === goat || e.target.closest('.x')) setGoat(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && goat.classList.contains('on')) setGoat(false); });
+function showGoat() {
+  $('goatName').value = $('cardName').value;
+  setGoat(true);
+  if (!reduce) confetti();
+  anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.3) rotate(-12deg)', opacity: 0 }, { transform: 'scale(1.12) rotate(3deg)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 900, easing: SPRING });
+}
+function confetti() {
+  const c = document.createElement('canvas'); c.id = 'confetti'; document.body.appendChild(c);
+  const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+  c.width = W * dpr; c.height = H * dpr; const g = c.getContext('2d'); g.scale(dpr, dpr);
+  const colors = ['#ff5500', '#ff8a3d', '#f8dc7f', '#fdf6ec', '#2fa3b3', '#b83a00'];
+  const bits = Array.from({ length: Math.min(260, Math.round(W / 4)) }, (_, i) => {
+    const left = i % 2 === 0;
+    return { x: left ? -10 : W + 10, y: H * (0.55 + Math.random() * 0.3), vx: (left ? 1 : -1) * (4 + Math.random() * 9), vy: -(10 + Math.random() * 9),
+      w: 6 + Math.random() * 6, h: 9 + Math.random() * 8, r: Math.random() * 6, vr: (Math.random() - .5) * .35, wob: Math.random() * 6, col: colors[i % colors.length], delay: Math.random() * 18 };
+  });
+  let f = 0;
+  const tick = () => {
+    g.clearRect(0, 0, W, H); f++;
+    bits.forEach(b => {
+      if (f < b.delay) return;
+      b.vy = Math.min(b.vy + 0.32, 4.5); b.vx *= 0.985; b.x += b.vx + Math.sin((f + b.wob * 10) / 12) * 0.8; b.y += b.vy; b.r += b.vr;
+      g.save(); g.translate(b.x, b.y); g.rotate(b.r); g.scale(1, Math.cos(f / 6 + b.wob)); g.fillStyle = b.col; g.fillRect(-b.w / 2, -b.h / 2, b.w, b.h); g.restore();
+    });
+    if (f < 330 && bits.some(b => b.y < H + 20)) requestAnimationFrame(tick); else c.remove();
+  };
+  requestAnimationFrame(tick);
+}
 try { $('cardName').value = localStorage.getItem(STORE + '-name') || ''; } catch (e) {}
 
 renderCoach();
