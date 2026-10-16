@@ -128,12 +128,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #goat .card { text-align: center; padding-top: 30px; }
 #goat p { margin-bottom: 18px; }
 #goat .card-form { margin-top: 0; }
-.goat-badge { width: 112px; height: 136px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #13202e; background: conic-gradient(from 200deg at 70% 30%, rgba(255, 182, 225, .5), rgba(170, 222, 255, .55), rgba(196, 255, 228, .45), rgba(255, 238, 180, .45), rgba(255, 182, 225, .5)), linear-gradient(135deg, #f8fbff, #c3d3e4 40%, #f1efff 60%, #aabed3); box-shadow: 0 0 60px rgba(186, 220, 255, .55), inset 0 1px 0 rgba(255, 255, 255, .9); position: relative; overflow: hidden; }
-.goat-badge b { font: 900 3.4rem/1 var(--font-num); }
+.goat-badge { width: 132px; height: 164px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #13202e; background: conic-gradient(from 200deg at 70% 30%, rgba(255, 182, 225, .5), rgba(170, 222, 255, .55), rgba(196, 255, 228, .45), rgba(255, 238, 180, .45), rgba(255, 182, 225, .5)), linear-gradient(135deg, #f8fbff, #c3d3e4 40%, #f1efff 60%, #aabed3); box-shadow: 0 0 60px rgba(186, 220, 255, .55), inset 0 1px 0 rgba(255, 255, 255, .9); position: relative; overflow: hidden; }
+.goat-badge b { font: 900 4rem/1 var(--font-num); }
+.goat-badge .emo { font-size: 2.6rem; line-height: 1; margin-top: 6px; letter-spacing: 0; padding: 0; display: inline-block; animation: goatBob 1.6s 1.2s ease-in-out infinite; }
+@keyframes goatBob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-4px) rotate(-8deg); } 75% { transform: translateY(-2px) rotate(6deg); } }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
 @keyframes goatShine { 0% { transform: translateX(-120%); } 45%, 100% { transform: translateX(120%); } }
-#confetti { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.confetti { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
 #help .fol svg, #goat .fol svg { width: 18px; height: 18px; }
 .preview.err { color: var(--bad); }
 
@@ -341,9 +343,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 <div id="goat" role="dialog" aria-modal="true" aria-labelledby="goatTitle">
   <div class="card">
     <button class="x" id="goatClose" aria-label="Close"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
-    <div class="goat-badge"><b>99</b><span>GOAT</span></div>
+    <div class="goat-badge"><b>99</b><span class="emo" aria-label="GOAT">🐐</span></div>
     <h2 id="goatTitle">You're the GOAT</h2>
-    <p>99 overall. Every derivative rule, mastered. Save your card and show it off.</p>
+    <p>99 overall. Every derivative rule, mastered.<br>Save your card and show it off.</p>
     <form class="card-form" id="goatForm">
       <input id="goatName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
       <button class="btn primary" type="submit" id="goatSave">Save card</button>
@@ -1648,13 +1650,12 @@ async function drawCard(name) {
     const mc = mark.getContext('2d'); mc.drawImage(logo, 0, 0, mark.width, mark.height);
     mc.globalCompositeOperation = 'source-in'; mc.fillStyle = ink; mc.fillRect(0, 0, mark.width, mark.height);
   }
-  g.font = '400 46px Vidaloka, Georgia, serif'; const tw = g.measureText('Derivative Lab').width, gap = 28;
-  const total = tw + (mark ? gap * 2 + 2 + lw : 0), hx = cx + (cw - total) / 2, hy = cy + 96;
-  g.textAlign = 'left'; g.fillText('Derivative Lab', hx, hy);
-  if (mark) {
-    g.globalAlpha = .4; g.fillRect(hx + tw + gap, hy - 40, 2, 52); g.globalAlpha = 1;
-    g.drawImage(mark, hx + tw + gap * 2 + 2, hy - 38, lw, lh);
-  }
+  // its divider sits on the same vertical line as the divider between the rating and the tier
+  g.font = '400 46px Vidaloka, Georgia, serif';
+  const sepX = cx + 402, gap = 30, hy = cy + 96;
+  g.textAlign = 'right'; g.fillText('Derivative Lab', sepX - gap, hy);
+  g.fillRect(sepX - 2, hy - 42, 4, 56);
+  if (mark) g.drawImage(mark, sepX + gap, hy - 38, lw, lh);
   g.globalAlpha = .25; g.fillRect(cx + 90, cy + 140, cw - 180, 2); g.globalAlpha = 1;
   // rating block
   const Y = 70;
@@ -1703,16 +1704,19 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && goat.classList.cont
 function showGoat() {
   $('goatName').value = $('cardName').value;
   setGoat(true);
-  if (!reduce) confetti();
-  anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.3) rotate(-12deg)', opacity: 0 }, { transform: 'scale(1.12) rotate(3deg)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 900, easing: SPRING });
+  if (!reduce) { confetti(); setTimeout(() => confetti(true), 650); setTimeout(() => confetti(true), 1500); }
+  anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.2) rotate(-25deg)', opacity: 0 }, { transform: 'scale(1.25) rotate(8deg)', opacity: 1, offset: .5 }, { transform: 'scale(.95) rotate(-3deg)', offset: .75 }, { transform: 'none', opacity: 1 }], { duration: 1100, easing: SPRING });
+  anim(goat.querySelector('.emo'), [{ transform: 'scale(0)' }, { transform: 'scale(1.6) rotate(-15deg)', offset: .6 }, { transform: 'none' }], { duration: 700, delay: 550, easing: SPRING });
 }
-function confetti() {
-  const c = document.createElement('canvas'); c.id = 'confetti'; document.body.appendChild(c);
+function confetti(rain = false) {
+  const c = document.createElement('canvas'); c.className = 'confetti'; document.body.appendChild(c);
   const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
   c.width = W * dpr; c.height = H * dpr; const g = c.getContext('2d'); g.scale(dpr, dpr);
   const colors = ['#ff5500', '#ff8a3d', '#f8dc7f', '#fdf6ec', '#2fa3b3', '#b83a00'];
-  const bits = Array.from({ length: Math.min(260, Math.round(W / 4)) }, (_, i) => {
+  const bits = Array.from({ length: Math.min(rain ? 220 : 320, Math.round(W / (rain ? 5 : 3.5))) }, (_, i) => {
     const left = i % 2 === 0;
+    if (rain) return { x: Math.random() * W, y: -20 - Math.random() * H * .5, vx: (Math.random() - .5) * 2, vy: 2 + Math.random() * 3,
+      w: 6 + Math.random() * 6, h: 9 + Math.random() * 8, r: Math.random() * 6, vr: (Math.random() - .5) * .3, wob: Math.random() * 6, col: colors[i % colors.length], delay: Math.random() * 30 };
     return { x: left ? -10 : W + 10, y: H * (0.55 + Math.random() * 0.3), vx: (left ? 1 : -1) * (4 + Math.random() * 9), vy: -(10 + Math.random() * 9),
       w: 6 + Math.random() * 6, h: 9 + Math.random() * 8, r: Math.random() * 6, vr: (Math.random() - .5) * .35, wob: Math.random() * 6, col: colors[i % colors.length], delay: Math.random() * 18 };
   });
@@ -1724,11 +1728,12 @@ function confetti() {
       b.vy = Math.min(b.vy + 0.32, 4.5); b.vx *= 0.985; b.x += b.vx + Math.sin((f + b.wob * 10) / 12) * 0.8; b.y += b.vy; b.r += b.vr;
       g.save(); g.translate(b.x, b.y); g.rotate(b.r); g.scale(1, Math.cos(f / 6 + b.wob)); g.fillStyle = b.col; g.fillRect(-b.w / 2, -b.h / 2, b.w, b.h); g.restore();
     });
-    if (f < 330 && bits.some(b => b.y < H + 20)) requestAnimationFrame(tick); else c.remove();
+    if (f < 480 && bits.some(b => b.y < H + 20)) requestAnimationFrame(tick); else c.remove();
   };
   requestAnimationFrame(tick);
 }
 try { $('cardName').value = localStorage.getItem(STORE + '-name') || ''; } catch (e) {}
+if (overall(st.R) >= 99) setTimeout(showGoat, 900);   // the GOAT moment shows again on every visit
 
 renderCoach();
 loadProblem();
