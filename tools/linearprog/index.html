@@ -934,16 +934,6 @@ input:focus {
     color: var(--taupe-mid);
 }
 .exercise-loading { margin: 0; color: var(--taupe-mid); font-size: 14px; }
-#exercise-note {
-    margin: -10px 0 18px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    background: var(--bg-off-white);
-    border: 1px solid var(--taupe-light);
-    color: var(--taupe-mid);
-    font-size: 13px;
-    line-height: 1.45;
-}
 
 .modal-header {
     display: flex;
@@ -1236,7 +1226,6 @@ input:focus {
             <h2>Problem Setup <span id="current-exercise-display"></span></h2>
             <button id="exercisesBtn" class="action-btn"><i class="bi bi-folder2-open"></i>Load Exercise</button>
           </div>
-          <p id="exercise-note" hidden></p>
           <h3>Variable Names</h3>
   
           <div class="variables">
@@ -1463,7 +1452,6 @@ input:focus {
           items.forEach(([id, ex]) => {
             const b = document.createElement('button'); b.className = 'exercise-item'; b.dataset.id = id;
             b.textContent = ex.label || `Exercise ${id}`;
-            if (ex.note) b.title = ex.note;
             list.appendChild(b);
           });
           section.appendChild(list); box.appendChild(section);
@@ -2830,9 +2818,6 @@ input:focus {
           // Clear current state
           constraintsList = [];
           document.getElementById('current-exercise-display').textContent = exercise.label || `Exercise ${id}`;
-          const noteEl = document.getElementById('exercise-note');
-          noteEl.textContent = exercise.note || '';
-          noteEl.hidden = !exercise.note;
 
           // Animate in the new settings
 

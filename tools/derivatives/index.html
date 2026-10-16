@@ -95,6 +95,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
   --caret-color: var(--orange); --selection-background-color: var(--orange-pale); --selection-color: var(--ink); --contains-highlight-background-color: rgba(12, 56, 64, .05); --smart-fence-color: var(--ink-mid); --placeholder-color: rgba(12, 56, 64, .4); }
 #ans:focus-within { border-bottom-color: var(--orange); box-shadow: 0 2px 0 var(--orange); }
 #ans.done { border-bottom-style: dashed; }
+#ans.ans-text { font: 1.1rem/1.3 var(--font-mono); padding: 8px 2px; -webkit-appearance: none; appearance: none; }
+#ans.ans-text::placeholder { color: rgba(12, 56, 64, .4); }
+.preview .katex-display { margin: 0; text-align: left; }
 #ans::part(virtual-keyboard-toggle) { display: none; }
 #ans::part(menu-toggle) { display: none; }
 .preview { min-height: 1.9em; font: 400 .88rem/1.4 var(--font-body); padding-top: 10px; color: var(--ink-mid); }
@@ -121,9 +124,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #help .fol { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; margin-top: 14px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem; background: var(--orange); box-shadow: 0 0 36px rgba(255, 85, 0, .35); transition: transform .15s; }
 #help .fol:active { transform: scale(.97); }
 #help .fol svg { width: 18px; height: 18px; }
-.keys { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.key { height: 42px; min-width: 46px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(12, 56, 64, .18); background: rgba(12, 56, 64, .05); color: var(--ink); font: 700 1rem/1 var(--font-body); cursor: pointer; touch-action: manipulation; }
-.key:active { background: rgba(255, 85, 0, .14); border-color: var(--orange); }
 .preview.err { color: var(--bad); }
 
 .verdict { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 4px 16px; align-items: center; margin-top: 22px; }
@@ -226,7 +226,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             <math-field id="ans" aria-label="Your derivative"></math-field>
             <button class="info-btn" id="infoBtn" type="button" title="How to type" aria-label="How to type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".6"/></svg></button>
           </div>
-          <div class="keys" id="keys" hidden></div>
           <div class="preview" id="preview"></div>
 
           <div class="verdict" id="verdict" hidden>
@@ -285,7 +284,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <div class="row"><kbd>^</kbd><span>power</span></div>
     <div class="row"><kbd>sqrt</kbd><span>square root</span></div>
     <div class="row"><kbd>ln</kbd><span>natural log</span></div>
-    <div class="row"><kbd class="sym">→</kbd><span>leave a power or fraction</span></div>
+    <div class="row" id="helpArrowRow"><kbd class="sym">→</kbd><span>leave a power or fraction</span></div>
     <div class="row"><kbd class="sym">↵</kbd><span>check your answer</span></div>
     <div class="row"><span>Stuck?</span><span>Hint shows the rule, step by step</span></div>
     <a class="fol" href="https://www.instagram.com/samkedemia/" target="_blank" rel="noopener"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -772,6 +771,16 @@ const cu = s => `\\textcolor{${U}}{${s}}`, cv = s => `\\textcolor{${V}}{${s}}`;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
 const K = (s, el, display = true) => katex.render(s, el, { throwOnError: false, displayMode: display });
+// phones and tablets: MathLive ignores the phone keyboard, so they get a plain text box (same id) with the maths shown underneath
+const TOUCH = matchMedia('(pointer: coarse)').matches;
+if (TOUCH) {
+  const box = document.createElement('input');
+  Object.assign(box, { id: 'ans', type: 'text', className: 'ans-text', placeholder: 'e.g. 6x^2 + e^(3x)', autocomplete: 'off', spellcheck: false });
+  box.setAttribute('autocapitalize', 'off'); box.setAttribute('autocorrect', 'off'); box.setAttribute('inputmode', 'text'); box.setAttribute('enterkeyhint', 'done'); box.setAttribute('aria-label', 'Your derivative');
+  $('ans').replaceWith(box);
+  $('helpIntro').textContent = 'Type your answer with your keyboard. It shows up as real maths right under the answer line.';
+  $('helpArrowRow').innerHTML = '<kbd>( )</kbd><span>group things: e^(2x), (x+1)/(x-1)</span>';
+}
 
 // ---------- building blocks ----------
 const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
@@ -1074,12 +1083,12 @@ function latexToInput(s) {
   }
   return run(undefined).trim();
 }
-const answerText = () => latexToInput($('ans').value || '');
+const answerText = () => TOUCH ? $('ans').value.trim() : latexToInput($('ans').value || '');
 
 function renderPreview() {
   const el = $('preview'), s = answerText();
   if (!s) { el.className = 'preview'; el.textContent = ''; return; }
-  try { parse(s); el.className = 'preview'; el.textContent = ''; }
+  try { const a = parse(s); el.className = 'preview'; if (TOUCH) K(`f'(x) = ${atex(a)}`, el); else el.textContent = ''; }
   catch (e) { el.className = 'preview err'; el.textContent = e.message === 'empty' ? '' : e.message; }
 }
 function inlineMath(s) { return s.split('$').map((p, i) => i % 2 ? katex.renderToString(p, { throwOnError: false }) : p.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])).join(''); }
@@ -1201,23 +1210,18 @@ const mf = $('ans');
 mf.smartSuperscript = false;
 mf.smartFence = true;
 mf.mathVirtualKeyboardPolicy = 'manual';
-// phones and tablets get a row of maths keys under the field; computers just type
-if (matchMedia('(pointer: coarse)').matches) {
-  [['\\frac{\\square}{\\square}', '\\frac{#0}{#?}'], ['\\square^{\\square}', '^{#?}'], ['\\sqrt{\\square}', '\\sqrt{#0}'], ['e^{\\square}', 'e^{#?}'], ['\\ln', '\\ln\\left(#?\\right)'], ['\\left(\\square\\right)', '\\left(#?\\right)'],
-   ['\\leftarrow', 'moveToPreviousChar'], ['\\rightarrow', 'moveToNextChar'], ['\\text{⌫}', 'deleteBackward']].forEach(([label, what]) => {
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'key';
-    b.innerHTML = katex.renderToString(label, { throwOnError: false });
-    b.addEventListener('pointerdown', e => e.preventDefault());
-    b.addEventListener('click', () => {
-      if (mf.readOnly) return;
-      if (/^(move|delete)/.test(what)) mf.executeCommand(what);
-      else mf.insert(what, { focus: true, selectionMode: 'placeholder', format: 'latex' });
-      mf.focus(); renderPreview();
-    });
-    $('keys').appendChild(b);
-  });
-  $('keys').hidden = false;
-}
+// MathLive marks its hidden typing element inputmode="none", which stops a phone from opening its keyboard; ask for the normal one
+const nativeKeyboard = () => {
+  const sink = mf.shadowRoot && mf.shadowRoot.querySelector('[part=keyboard-sink]');
+  if (!sink || sink.getAttribute('inputmode') === 'text') return;
+  sink.setAttribute('inputmode', 'text');
+  sink.setAttribute('autocapitalize', 'off');
+  sink.setAttribute('autocorrect', 'off');
+  sink.setAttribute('spellcheck', 'false');
+};
+nativeKeyboard();
+['mount', 'focusin', 'pointerdown', 'touchstart'].forEach(t => mf.addEventListener(t, nativeKeyboard, true));
+if (mf.shadowRoot) new MutationObserver(nativeKeyboard).observe(mf.shadowRoot, { subtree: true, attributes: true, attributeFilter: ['inputmode'] });
 mf.inlineShortcuts = { ...mf.inlineShortcuts, ln: '\\ln', sqrt: '\\sqrt{#0}', pi: '\\pi' };
 K("f'(x) =", $('flabel'), false);
 $('ans').addEventListener('input', renderPreview);
@@ -1241,7 +1245,6 @@ const setHelp = on => { help.classList.toggle('on', on); if (on) $('helpClose').
 $('infoBtn').addEventListener('click', e => { e.stopPropagation(); setHelp(!help.classList.contains('on')); });
 help.addEventListener('click', e => { if (e.target === help || e.target.closest('.x')) setHelp(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && help.classList.contains('on')) setHelp(false); });
-if (matchMedia('(pointer: coarse)').matches) $('helpIntro').textContent = 'Use the maths keys under the answer, or type it like on paper.';
 try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true), 900); } catch (e) {}
 
 renderCoach();
