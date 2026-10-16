@@ -1422,9 +1422,10 @@ async function tierMoment(apply, tier) {
   apply();
   card.classList.remove('reveal'); void card.offsetWidth; card.classList.add('reveal');
   sparkle(card, tier);
+  // the new tier and title start hidden and slide in as the card lands, so they appear exactly once
+  anim($('tier'), [{ opacity: 0, transform: 'translateX(-10px)', letterSpacing: '.4em' }, { opacity: 1, transform: 'none', letterSpacing: '.12em' }], { duration: 600, delay: 380, easing: SPRING });
+  anim($('ptitle'), [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: .85, transform: 'none' }], { duration: 500, delay: 520, easing: 'ease-out' });
   await anim(card, [{ transform: P3 + 'rotateY(-90deg) scale(.94)' }, { transform: P3 + 'rotateY(10deg) scale(1.06)', offset: .65 }, { transform: 'none' }], { duration: 760, easing: 'cubic-bezier(.2, .8, .2, 1)' });
-  anim($('tier'), [{ opacity: 0, transform: 'translateX(-10px)', letterSpacing: '.4em' }, { opacity: 1, transform: 'none', letterSpacing: '.12em' }], { duration: 600, easing: SPRING });
-  anim($('ptitle'), [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: .85, transform: 'none' }], { duration: 500, delay: 150, easing: 'ease-out' });
   setTimeout(() => card.classList.remove('reveal'), 1400);
 }
 // a new title in the same tier: it slides in under a shine
