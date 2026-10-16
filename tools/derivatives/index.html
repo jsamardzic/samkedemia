@@ -35,10 +35,10 @@
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: dark;
 }
-html, body { min-height: 100%; } html { overflow-x: hidden; }
+html, body { min-height: 100%; } html { overflow-x: hidden; overflow-x: clip; }   /* clip: nothing can make the page scroll sideways, not even on iOS */
 [hidden] { display: none !important; }
 body {
-  margin: 0; font-family: var(--font-body); color: var(--body); font-size: 16px; line-height: 1.45; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  margin: 0; font-family: var(--font-body); color: var(--body); font-size: 16px; line-height: 1.45; overflow-x: hidden; overflow-x: clip; -webkit-font-smoothing: antialiased;
   background-color: var(--ground);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .5 0 0 0 -.21'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 220px 220px;
@@ -70,6 +70,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 /* ---- the desk ---- */
 .desk { position: relative; padding: 18px 6px 0; min-width: 0; }
 .glow { position: absolute; inset: -10% -6%; background: radial-gradient(closest-side, rgba(255, 85, 0, .32), transparent); opacity: 0; pointer-events: none; }
+@media (max-width: 700px) { .glow { inset: -6% 0; } }
 .pile { position: relative; }
 .sheet-back { position: absolute; top: 12px; left: 12px; right: -4px; bottom: -6px; background: var(--paper-back); transform: rotate(2.2deg); box-shadow: 0 30px 60px rgba(0, 0, 0, .45); border-radius: 3px; }
 .stack { position: relative; will-change: transform; }
