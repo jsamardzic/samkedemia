@@ -128,7 +128,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #goat .card { text-align: center; padding-top: 30px; }
 #goat p { margin-bottom: 18px; }
 #goat .card-form { margin-top: 0; }
-.goat-badge { width: 112px; height: 136px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; background: linear-gradient(135deg, #c43d00, #ff8a3d 55%, #c43d00); box-shadow: 0 0 60px rgba(255, 85, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .4); position: relative; overflow: hidden; }
+.goat-badge { width: 112px; height: 136px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #13202e; background: conic-gradient(from 200deg at 70% 30%, rgba(255, 182, 225, .5), rgba(170, 222, 255, .55), rgba(196, 255, 228, .45), rgba(255, 238, 180, .45), rgba(255, 182, 225, .5)), linear-gradient(135deg, #f8fbff, #c3d3e4 40%, #f1efff 60%, #aabed3); box-shadow: 0 0 60px rgba(186, 220, 255, .55), inset 0 1px 0 rgba(255, 255, 255, .9); position: relative; overflow: hidden; }
 .goat-badge b { font: 900 3.4rem/1 var(--font-num); }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
@@ -176,7 +176,17 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pcard::after { content: ""; position: absolute; right: -30px; top: -30px; width: 140px; height: 140px; border-radius: 50%; border: 18px solid rgba(255, 255, 255, .12); pointer-events: none; }
 .pcard[data-tier="silver"] { --c1: #7d8b90; --c2: #e9eff1; --ink-card: #142227; }
 .pcard[data-tier="gold"] { --c1: #b8861f; --c2: #f8dc7f; --ink-card: #2a1d00; }
-.pcard[data-tier="elite"] { --c1: #c43d00; --c2: #ff8a3d; --ink-card: #fff; }
+.pcard[data-tier="elite"] { --c1: #a9bccf; --c2: #f6f9ff; --ink-card: #13202e;
+  background: conic-gradient(from 200deg at 72% 28%, rgba(255, 182, 225, .45), rgba(170, 222, 255, .5), rgba(196, 255, 228, .4), rgba(255, 238, 180, .4), rgba(255, 182, 225, .45)), linear-gradient(135deg, #f8fbff 0%, #c9d7e6 30%, #f1efff 50%, #b4c6d9 70%, #eef4fa 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .35), 0 0 34px rgba(186, 220, 255, .35), inset 0 1px 0 rgba(255, 255, 255, .8); }
+.pcard[data-tier="elite"]::before { animation: platShine 3.6s ease-in-out infinite; background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, .75) 46%, rgba(200, 235, 255, .5) 50%, transparent 58%); }
+@keyframes platShine { 0% { transform: translateX(-60%); } 55%, 100% { transform: translateX(60%); } }
+/* moments: shine sweep on a new card or title, ticks that light up */
+.pcard.reveal::before { animation: revealShine 1s .1s ease-out both; }
+@keyframes revealShine { from { transform: translateX(-70%); opacity: 1; } to { transform: translateX(70%); opacity: 1; } }
+.bar i.fresh { background: #b83a00; opacity: 1; animation: tickPop .8s .7s both; }
+@keyframes tickPop { 0% { background: var(--ground-edge); transform: none; } 35% { background: #fff; transform: scale(2.2, 2.6); box-shadow: 0 0 10px 2px rgba(255, 138, 61, .9); } 100% { background: #b83a00; transform: none; box-shadow: none; } }
+#sparkle { position: fixed; inset: 0; z-index: 25; pointer-events: none; }
 .pc-rating { position: relative; display: grid; justify-items: center; line-height: 1; }
 .ovr-num { font: 900 clamp(3.6rem, 7vw, 4.4rem)/.85 var(--font-num); font-variant-numeric: tabular-nums; letter-spacing: -.03em; display: inline-block; transform-origin: 50% 80%; }
 .pc-ovr { font: 900 .78rem/1 var(--font-num); letter-spacing: .28em; margin-top: 6px; padding-left: .28em; opacity: .8; }
@@ -199,7 +209,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .skill .nm i { font: 700 1.05rem/1 var(--font-hand); font-style: normal; color: var(--orange-light); }
 .skill .lv { font: 900 1rem/1.1 var(--font-num); color: var(--cream); font-variant-numeric: tabular-nums; }
-.bar { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.bar { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); }
 .bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
 .bar i { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ground-edge); opacity: .85; }
 .bar i.hit { background: #b83a00; opacity: 1; }
@@ -363,7 +373,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 // ---------- fractions ----------
     const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
     function Q(n, d = 1) { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d); return { n: n / g, d: d / g }; }
-    const toQ = v => typeof v === 'number' ? Q(v) : v;
+    const dq = v => { const d = 10 ** ((String(v).split('.')[1] || '').length); return Q(Math.round(v * d), d); };
+    const toQ = v => typeof v === 'number' ? (Number.isInteger(v) ? Q(v) : dq(v)) : v;
     const qadd = (a, b) => Q(a.n * b.d + b.n * a.d, a.d * b.d);
     const qmul = (a, b) => Q(a.n * b.n, a.d * b.d);
     const qneg = a => Q(-a.n, a.d);
@@ -372,9 +383,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     const qkey = a => a.n + '/' + a.d;
     const qis = (a, n, d = 1) => a.n === n && a.d === d;
     const qabs = a => Q(Math.abs(a.n), a.d);
-    const qtexPos = a => a.d === 1 ? String(a.n) : `\\frac{${a.n}}{${a.d}}`;
+    // exam-style problems show 0.5 and 0.05 instead of fractions, and group big numbers: 200 000
+    let DEC = false;
+    const fmtInt = n => Math.abs(n) >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') : String(n);
+    const terminates = d => { while (d % 2 === 0) d /= 2; while (d % 5 === 0) d /= 5; return d === 1; };
+    const qdec = a => String(+(a.n / a.d).toFixed(6));
+    const qtexPos = a => a.d === 1 ? fmtInt(a.n) : (DEC && terminates(a.d) ? qdec(a) : `\\frac{${a.n}}{${a.d}}`);
     const qtex = a => (a.n < 0 ? '-' : '') + qtexPos(qabs(a));
-    const qexp = a => a.d === 1 ? String(a.n) : a.n + '/' + a.d;
+    const qexp = a => a.d === 1 ? String(a.n) : (DEC && a.d % 5 === 0 && terminates(a.d) ? qdec(a) : a.n + '/' + a.d);
 
     // ---------- expression nodes ----------
     // poly: sum of c·x^e (e rational) | add | mul (c·Πf) | div | pow (non-monomial base) | exp | ln
@@ -402,6 +418,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             case 'pow': return 'W' + qkey(n.n) + '[' + key(n.a) + ']';
             case 'exp': return 'E[' + key(n.a) + ']';
             case 'ln': return 'L[' + key(n.a) + ']';
+            case 'aexp': return 'B' + qkey(n.b) + '[' + key(n.a) + ']';
+            case 'log': return 'G' + n.b + '[' + key(n.a) + ']';
+            case 'lnc': return 'K' + qkey(n.b);
         }
     }
 
@@ -411,6 +430,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     const RP = (a, n) => ({ t: 'pow', a, n: toQ(n) });
     const RE = a => ({ t: 'exp', a });
     const RL = a => ({ t: 'ln', a });
+    const RB = (b, a = X) => ({ t: 'aexp', b: toQ(b), a });   // b^u, like 1.08^t
+    const RG = (b, a = X) => ({ t: 'log', b, a });            // log_b(u)
+    const LNC = b => ({ t: 'lnc', b: toQ(b) });              // the constant ln b
+    const baseTex = b => String(+qnum(b).toFixed(6));
 
     // simplifying constructors: used for every derivative
     function add(...xs) { return factorExp(addCore(xs, true)); }
@@ -452,7 +475,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         const count = r => r.t === 'add' ? r.a.length : 1;
         return count(r2) < count(r1) || (count(r2) === count(r1) && tex(r2).length < tex(r1).length) ? r2 : r1;
     }
-    const RANK = { poly: 1, add: 1, pow: 2, exp: 3, ln: 4 };
+    const RANK = { poly: 1, add: 1, pow: 2, exp: 3, aexp: 3, ln: 4, log: 4, lnc: 7 };
     function mul(...xs) {
         let c = Q(1); const f = [];
         const push = x => {
@@ -532,6 +555,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             case 'pow': return mul(n.n, pow(n.a, qadd(n.n, Q(-1))), D(n.a));
             case 'exp': return mul(n, D(n.a));
             case 'ln': return div(D(n.a), n.a);
+            case 'aexp': return mul(n, LNC(n.b), D(n.a));
+            case 'log': return div(D(n.a), mul(n.a, LNC(n.b)));
+            case 'lnc': return C(0);
         }
     }
     function ev(n, x) {
@@ -543,6 +569,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             case 'pow': return Math.pow(ev(n.a, x), qnum(n.n));
             case 'exp': return Math.exp(ev(n.a, x));
             case 'ln': return Math.log(ev(n.a, x));
+            case 'aexp': return Math.pow(qnum(n.b), ev(n.a, x));
+            case 'log': return Math.log(ev(n.a, x)) / Math.log(n.b);
+            case 'lnc': return Math.log(qnum(n.b));
         }
     }
 
@@ -557,7 +586,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         const s = c.n < 0 ? '-' : '', a = qabs(c);
         if (e.n === 0) return s + qtexPos(a);
         if (e.n > 0) return s + (qis(a, 1) ? '' : qtexPos(a)) + xpow(e);
-        return s + `\\frac{${a.n}}{${a.d === 1 ? '' : a.d}${xpow(qneg(e))}}`;
+        if (DEC && a.d !== 1 && terminates(a.d)) return s + `\\frac{${qdec(a)}}{${xpow(qneg(e))}}`;
+        return s + `\\frac{${fmtInt(a.n)}}{${a.d === 1 ? '' : a.d}${xpow(qneg(e))}}`;
     }
     function texPowForm(c, e) {
         const s = c.n < 0 ? '-' : '', a = qabs(c);
@@ -565,7 +595,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         return s + (qis(a, 1) ? '' : qtexPos(a)) + (qis(e, 1) ? 'x' : 'x^{' + qexp(e) + '}');
     }
     const joinSigned = strs => strs.map((s, i) => i === 0 ? s : (s[0] === '-' ? ' - ' + s.slice(1) : ' + ' + s)).join('');
-    const texPoly = p => p.m.size ? joinSigned(terms(p).map(t => texMono(t.c, t.e))) : '0';
+    // a sum never starts with a minus when it can start with a plus: 10 - 0.5x, not -0.5x + 10
+    const texPoly = p => { if (!p.m.size) return '0'; const ts = terms(p), i = ts.findIndex(t => t.c.n > 0); if (ts[0].c.n < 0 && i > 0) ts.unshift(...ts.splice(i, 1)); return joinSigned(ts.map(t => texMono(t.c, t.e))); };
     const paren = s => '\\left(' + s + '\\right)';
     const isSum = n => n.t === 'add' || (n.t === 'poly' && n.m.size > 1);
     function tex(n) {
@@ -577,6 +608,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
                 return a[0] === '-' && !isSum(n.a) ? `-\\frac{${a.slice(1)}}{${b}}` : `\\frac{${a}}{${b}}`; }
             case 'exp': return 'e^{' + tex(n.a) + '}';
             case 'ln': return isX(n.a) ? '\\ln x' : '\\ln' + paren(tex(n.a));
+            case 'aexp': return baseTex(n.b) + '^{' + tex(n.a) + '}';
+            case 'log': return '\\log_{' + n.b + '}' + (isX(n.a) ? ' x' : paren(tex(n.a)));
+            case 'lnc': return '\\ln ' + baseTex(n.b);
         }
     }
     function texFactor(f, alone) {
@@ -602,7 +636,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         }).join('');
         const side = (fs, k) => {
             const alone = fs.length === 1 && k === 1;
-            return (k !== 1 || !fs.length ? String(k) : '') + joinFactors(fs, alone, k !== 1);
+            return (k !== 1 || !fs.length ? fmtInt(k) : '') + joinFactors(fs, alone, k !== 1);
         };
         if (!den.length) {
             const lead = qis(a, 1) && num.length ? '' : qtexPos(a);
@@ -620,7 +654,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             case 'mul': return n.f.length >= 2 ? 'product' : 'constant';
             case 'div': return 'quotient';
             case 'pow': return 'chain';
-            case 'exp': case 'ln': return isX(n.a) ? 'basic' : 'chain';
+            case 'exp': case 'ln': case 'aexp': case 'log': return isX(n.a) ? 'basic' : 'chain';
+            case 'lnc': return 'basic';
         }
     }
     const RULE_NAME = { power: 'power rule', sum: 'sum rule', product: 'product rule', quotient: 'quotient rule', chain: 'chain rule', constant: 'constant multiple', basic: 'standard derivative' };
@@ -629,17 +664,23 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         const v = rest.length === 1 ? rest[0] : { t: 'mul', c: Q(1), f: rest };
         return [qis(n.c, 1) ? u : mul(n.c, u), v];
     };
+    const isU = w => w === 'u' || /^\\textcolor\{[^}]*\}\{u\}$/.test(w);
+    const ub = w => isU(w) ? w : paren(w);
     function outerTex(n, w) {
         if (n.t === 'exp') return 'e^{' + w + '}';
-        if (n.t === 'ln') return '\\ln ' + (w === 'u' ? 'u' : paren(w));
+        if (n.t === 'ln') return '\\ln ' + ub(w);
+        if (n.t === 'aexp') return baseTex(n.b) + '^{' + w + '}';
+        if (n.t === 'log') return '\\log_{' + n.b + '} ' + ub(w);
         if (qis(n.n, 1, 2)) return '\\sqrt{' + w + '}';
-        if (n.n.n < 0) return `\\frac{1}{${w === 'u' ? 'u' : paren(w)}^{${qexp(qneg(n.n))}}}`;
-        return (w === 'u' ? 'u' : paren(w)) + '^{' + qexp(n.n) + '}';
+        if (n.n.n < 0) return `\\frac{1}{${ub(w)}^{${qexp(qneg(n.n))}}}`;
+        return ub(w) + '^{' + qexp(n.n) + '}';
     }
     function outerDerivTex(n, w) {
-        const b = w === 'u' ? 'u' : paren(w);
+        const b = ub(w);
         if (n.t === 'exp') return 'e^{' + w + '}';
         if (n.t === 'ln') return '\\frac{1}{' + w + '}';
+        if (n.t === 'aexp') return baseTex(n.b) + '^{' + w + '}\\ln ' + baseTex(n.b);
+        if (n.t === 'log') return '\\frac{1}{' + w + '\\,\\ln ' + n.b + '}';
         if (qis(n.n, 1, 2)) return '\\frac{1}{2\\sqrt{' + w + '}}';
         const m = qadd(n.n, Q(-1));
         if (m.n === 0) return qtex(n.n);
@@ -665,7 +706,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         return `${name}' = ${d}`;
     }
     function termLines(n) {
-        const items = n.t === 'poly' ? terms(n).map(t => P([[t.c, t.e]])) : n.a.flatMap(t => t.t === 'poly' ? terms(t).map(m => P([[m.c, m.e]])) : [t]);
+        const items = n.t === 'poly' ? terms(n).map(t => P([[t.c, t.e]])) : n.t !== 'add' ? [n] : n.a.flatMap(t => t.t === 'poly' ? terms(t).map(m => P([[m.c, m.e]])) : [t]);
         const lines = [];
         for (const t of items) {
             if (t.t === 'poly') {
@@ -686,12 +727,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         const steps = [], k = kind(f), d = D(f), dt = tex(d);
         if (k === 'power' || k === 'sum') {
             const used = [];
-            const scan = n => { if (n.t === 'poly') used.push('power'); if (n.t === 'exp' && isX(n.a)) used.push('exp'); if (n.t === 'ln' && isX(n.a)) used.push('ln'); (n.a && n.a.forEach) && n.a.forEach(scan); n.f && n.f.forEach(scan); };
+            const scan = n => { if (n.t === 'poly') used.push('power'); if (n.t === 'exp' && isX(n.a)) used.push('exp'); if (n.t === 'ln' && isX(n.a)) used.push('ln'); if (n.t === 'aexp' && isX(n.a)) used.push('aexp'); if (n.t === 'log' && isX(n.a)) used.push('log'); (n.a && n.a.forEach) && n.a.forEach(scan); n.f && n.f.forEach(scan); };
             scan(f);
             const rules = [];
             if (used.includes('power')) rules.push("\\left(x^{n}\\right)' = n\\,x^{n-1}");
             if (used.includes('exp')) rules.push("\\left(e^{x}\\right)' = e^{x}");
             if (used.includes('ln')) rules.push("\\left(\\ln x\\right)' = \\frac{1}{x}");
+            if (used.includes('aexp')) rules.push("\\left(a^{x}\\right)' = a^{x}\\ln a");
+            if (used.includes('log')) rules.push("\\left(\\log_{a} x\\right)' = \\frac{1}{x\\ln a}");
             steps.push({ t: 'Differentiate term by term', note: 'Sum rule: each term gets its own derivative. Write roots and fractions as powers of x first.', lines: [rules.join('\\qquad ')] });
             steps.push({ t: 'Each term', lines: termLines(f) });
         } else if (k === 'product') {
@@ -920,6 +963,83 @@ const TYPES = [
   { id: 'mixq5', s: ['quotient', 'chain', 'nested'], t: 5, b: () => pick([() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), linPos())), () => RL(RD(linPos(), posQuad())), () => RP(RD(linPos(), posQuad()), Q(1, 2))])() },
   { id: 'nest5', s: ['nested', 'chain'], t: 5, b: () => pick([() => RE(RP(posQuad(), Q(1, 2))), () => RL(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4)))), () => RP(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4))), ri(2, 3)), () => RP(RL(posQuad()), ri(2, 3)), () => RE(RD(C(1), linPos()))])() }
 ];
+// exam-level families: the shapes and kind of numbers the Math A and IMOR exams use (decimals, big constants, growth factors, logistic curves), drawn at random
+const EXAM = [
+  { id: 'xcost1', s: ['power'], t: 1, b: () => pick([
+      () => P([[1, 3], [-3 * ri(1, 4), 2], [ri(8, 48), 1], [ri(2, 60), 0]]),
+      () => P([[ri(2, 4), 3], [-ri(2, 30), 2], [-ri(10, 40), 1], [ri(2, 90), 0]]),
+      () => P([[pick([0.5, 0.25, 0.1, 0.02, 0.01]), 2], [ri(2, 25), 1], [ri(4, 500), 0]]),
+      () => P([[-pick([0.1, 0.2, 0.3]), 3], [-pick([0.5, 1.5, 2]), 2], [pick([10.4, 8.5, 12]), 1], [pick([7.2, 20, 4]), 0]])])() },
+  { id: 'xinv2', s: ['roots', 'power'], t: 2, b: () => pick([
+      () => P([[ri(5, 400) * 500, -1], [ri(4, 45), 1], ...(Math.random() < 0.5 ? [[ri(2, 60) * 50, 0]] : [])]),
+      () => P([[ri(3, 15), 2], [pick([ri(8, 60), ri(101, 999) / 100]), -1]]),
+      () => P([[pick([0.3, 0.8, 0.25]), 1], [-pick([0.2, 0.4, 0.6]), Q(1, 2)], [-pick([5, 12, 20]), 0]]),
+      () => P([[ri(2, 80) * 5, pick([Q(1, 3), Q(2, 3), Q(1, 4), Q(3, 4)])]]),
+      () => P([[pick([12, 5, 8]), pick([1.12, 1.2, 0.8, 1.5])]])])() },
+  { id: 'xch2', s: ['chain'], t: 2, b: () => pick([
+      () => RL(P([[pick([0.5, 0.2, 0.1, 2]), 1], [1, 0]])),
+      () => mul(pick([ri(2, 99) * 10, ri(11, 99) * 100, ri(2, 20)]), RE(mono(-pick([0.5, 0.05, 0.02, 0.08, 0.2, 0.15, 0.04]), 1))),
+      () => RP(P([[-pick([0.5, 0.2, 0.25, 0.1]), 1], [ri(4, 20), 0]]), 2),
+      () => RP(P([[ri(2, 9), 1], [ri(1, 30), 0]]), Q(1, 2)),
+      () => RP(P([[-ri(2, 5), 1], [ri(2, 12) * 50, 0]]), Q(1, 2)),
+      () => mul(pick([0.01, 0.02, 0.5]), RP(P([[0.5, 1], [-pick([10, 4, 6]), 0]]), 3)),
+      () => RE(P([[pick([0.02, 0.1, 0.5]), 2], [-1, 0]])),
+      () => { const [a, b] = pick([[0.03, 0.05], [0.02, 0.03], [0.1, 0.2]]); return add(RE(mono(-a, 1)), mul(-1, RE(mono(-b, 1)))); },
+      () => RP(P([[2, 1], [ri(1, 9), 0]]), 4),
+      () => RL(P([[1, 3], [ri(1, 9), 0]]))])() },
+  { id: 'xexp2', s: ['exp'], t: 2, b: () => pick([
+      () => mul(pick([ri(2, 9), ri(2, 90) * 10, ri(11, 95) * 100, 1.5]), RB(pick([1.08, 1.019, 1.025, 1.5, 1.18, 1.03, 1.12, 0.95, 0.8]))),
+      () => add(RB(pick([2, 3, 5])), RE(mono(ri(2, 4), 1))),
+      () => add(P([[ri(2, 9) * 5, 1], [ri(10, 40) * 100, 0]]), mul(-ri(2, 12), RB(pick([1.08, 1.05, 1.1])))),
+      () => add(RB(pick([2, 3, 10])), cmono(ri(2, 3))),
+      () => mul(pick([200, 100, 50]), RB(pick([1.08, 1.05]), mono(pick([2, 0.5]), 1)))])() },
+  { id: 'xlog2', s: ['ln'], t: 2, b: () => pick([
+      () => add(RG(2), cmono(ri(2, 3))),
+      () => add(mul(ri(2, 5), RG(10)), mono(nz(1, 9), 1)),
+      () => add(mul(5, RL(mono(2, 1))), mul(-1, RE(mono(3, 1)))),
+      () => RG(2, P([[1, 2], [ri(1, 9), 0]])),
+      () => add(mul(ri(2, 12) * 5, RL(P([[pick([0.5, 2, 0.2, 0.1, 3]), 1], [1, 0]]))), mono(-pick([0.25, 0.5, 2, 0.4, 1.5]), 1))])() },
+  { id: 'xprod3', s: ['product', 'exp'], t: 3, b: () => pick([
+      () => RM(P([[1, 1], [ri(2, 15), 0]]), RE(mono(-pick([0.5, 0.2, 0.1, 0.25, 0.4]), 1))),
+      () => RM(mono(1, 3), RE(mono(pick([0.2, 0.5, -0.1]), 1))),
+      () => add(RM(mono(2, 1), RL(P([[0.5, 1], [1, 0]]))), mono(-2, 1)),
+      () => RM(mono(ri(1, 3), 1), RP(LX, 2)),
+      () => RM(P([[pick([2, 3, 0.5]), 1], [ri(1, 9), 0]]), EX)])() },
+  { id: 'xnest3', s: ['nested', 'chain'], t: 3, b: () => pick([
+      () => RL(add(C(pick([25, 30, 40])), mul(-1, EX))),
+      () => RL(add(EX, C(ri(2, 9)))),
+      () => add(mono(ri(1, 3), 1), mul(-1, RL(add(C(ri(1, 5)), EX)))),
+      () => RE(mono(-0.5, 2))])() },
+  { id: 'xquot3', s: ['quotient'], t: 3, b: () => pick([
+      () => RD(P([[-pick([0.2, 0.5, 0.1, 0.3]), 1], [ri(8, 25), 0]]), P([[pick([0.4, 0.5, 2, 0.2, 1.5]), 1], [ri(1, 6), 0]])),
+      () => add(RD(mono(ri(2, 5), 2), P([[1, 1], [ri(1, 4), 0]])), C(ri(2, 9))),
+      () => RD(mono(ri(2, 5), 1), P([[1, 2], [ri(1, 4), 0]])),
+      () => RD(C(pick([6, 10, 4])), P([[1, 2], [pick([3, 1, 5]), 0]])),
+      () => RD(P([[ri(3, 9), 1], [ri(5, 40), 0]]), P([[1, 1], [ri(1, 8), 0]])),
+      () => RD(C(ri(2, 50) * 100), RP(P([[ri(1, 3), 1], [ri(2, 12), 0]]), 2)),
+      () => RD(mono(ri(2, 30) * 50, 3), P([[ri(1, 3), 3], [ri(10, 150), 0]])),
+      () => RD(P([[1, 2], [1, 0]]), P([[1, 2], [-1, 0]])),
+      () => RD(X, P([[1, 3], [1, 1], [1, 0]]))])() },
+  { id: 'xroot4', s: ['product', 'chain'], t: 4, b: () => pick([
+      () => RM(mono(ri(1, 3), 1), RP(P([[-1, 2], [ri(4, 12) ** 2, 0]]), Q(1, 2))),
+      () => RM(X, RP(P([[1, 2], [ri(1, 9), 0]]), Q(1, 2))),
+      () => mul(pick([0.1, 0.2, 0.5, 0.25]), RM(X, RP(P([[pick([0.5, 2, 1, 1.5]), 2], [ri(2, 9), 1]]), Q(1, 2)))),
+      () => RM(mono(1, 2), RP(P([[1, 3], [1, 0]]), Q(1, 2))),
+      () => mul(ri(2, 20) * 5, RM(mono(1, Q(1, 4)), RP(P([[-1, 1], [ri(2, 30) * 10, 0]]), Q(3, 4))))])() },
+  { id: 'xlogis4', s: ['quotient', 'exp'], t: 4, b: () => pick([
+      () => RD(C(pick([10, 100, 50])), add(C(1), mul(pick([3, 4, 9]), RE(mono(-1, 1))))),
+      () => RD(C(ri(1, 20) * 5000), add(C(ri(2, 9)), mul(ri(5, 40), RE(mono(-pick([0.05, 0.1, 0.02, 0.5]), 1))))),
+      () => { const a = ri(1, 2); return RD(add(C(1), RE(mono(a, 1))), add(C(1), mul(-1, RE(mono(a, 1))))); },
+      () => RD(mono(1, ri(2, 4)), EX),
+      () => RD(RL(mono(2, 1)), mono(1, 2)),
+      () => RD(LX, mono(1, pick([3, 5])))])() },
+  { id: 'xnest5', s: ['nested', 'quotient', 'chain'], t: 5, b: () => pick([
+      () => RL(RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
+      () => RG(2, RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
+      () => RL(RD(X, P([[1, 1], [ri(1, 9), 0]]))),
+      () => RG(2, P([[1, 2], [ri(1, 9), 1]]))])() }
+].map(t => ({ ...t, dec: true, exam: true }));
+TYPES.push(...EXAM);
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
 
 // which skills a finished problem really uses (credited after answering)
@@ -932,7 +1052,8 @@ function skillsOf(f, primary) {
       case 'mul': if (n.f.length >= 2) s.add('product'); n.f.forEach(c => walk(c, inside)); return;
       case 'div': s.add('quotient'); walk(n.a, inside); walk(n.b, inside); return;
       case 'pow': s.add('chain'); if (n.n.d !== 1 || n.n.n < 0) s.add('roots'); if (inside) s.add('nested'); walk(n.a, true); return;
-      case 'exp': case 'ln': s.add(n.t); if (inside) s.add('nested'); if (!isX(n.a)) { s.add('chain'); walk(n.a, true); } return;
+      case 'exp': case 'ln': case 'aexp': case 'log': s.add(n.t === 'aexp' ? 'exp' : n.t === 'log' ? 'ln' : n.t); if (inside) s.add('nested'); if (!isX(n.a)) { s.add('chain'); walk(n.a, true); } return;
+      case 'lnc': return;
     }
   };
   walk(f, false);
@@ -976,7 +1097,7 @@ function chooseType() {
     const seen = st.recent.indexOf(t.id);
     const fresh = seen < 0 ? 1 : [0.03, 0.15, 0.35, 0.6][seen] ?? 0.8;
     const variety = st.cur && st.cur.type.s[0] === t.s[0] ? 0.35 : 1;
-    return { t, score: fit * need * fresh * variety * (0.6 + Math.random() * 0.8) };
+    return { t, score: fit * need * fresh * variety * (t.exam ? 1.25 : 1) * (0.6 + Math.random() * 0.8) };
   }).sort((a, b) => b.score - a.score);
   const top = scored.slice(0, 4);
   let r = Math.random() * top.reduce((s, x) => s + x.score, 0);
@@ -984,6 +1105,7 @@ function chooseType() {
   return { type: chosen.t, why: 'coach' };
 }
 function buildFrom(type) {
+  DEC = !!type.dec;
   for (let i = 0; i < 60; i++) {
     const f = type.b(), d = D(f);
     if (i < 45 && st.shapes.includes(shapeOf(f))) continue;
@@ -999,6 +1121,7 @@ function coachNote(type, why) {
   if (st.total === 0) return 'Warm-up. I adjust after every answer.';
   if (st.R[weakest(type.s)] < 0.06) return 'Something new. Take your time.';
   if (st.streak >= 3) return `${st.streak} in a row. Here's a harder one.`;
+  if (type.exam && Math.random() < 0.6) return pick(['Exam level.', 'Exam-style numbers.', 'This is what the exam looks like.']);
   return pick(['Right at your level.', 'Keep the rhythm going.', 'One more.', 'You know this one.', 'Next one.']);
 }
 
@@ -1025,11 +1148,14 @@ function DB(n, bug) {
     case 'pow': return mul(n.n, pow(n.a, qadd(n.n, Q(-1))), bug === 'chain-inner' ? C(1) : DB(n.a, bug));
     case 'exp': return mul(n, bug === 'chain-inner' ? C(1) : DB(n.a, bug));
     case 'ln': return div(bug === 'chain-inner' ? C(1) : DB(n.a, bug), n.a);
+    case 'aexp': return mul(n, ...(bug === 'noln' ? [] : [LNC(n.b)]), bug === 'chain-inner' ? C(1) : DB(n.a, bug));
+    case 'log': return div(bug === 'chain-inner' ? C(1) : DB(n.a, bug), bug === 'noln' ? n.a : mul(n.a, LNC(n.b)));
+    case 'lnc': return C(0);
   }
 }
 function firstChain(n) {
   if (!n || !n.t) return null;
-  if ((n.t === 'pow' || n.t === 'exp' || n.t === 'ln') && !isX(n.a)) return n;
+  if (['pow', 'exp', 'ln', 'aexp', 'log'].includes(n.t) && !isX(n.a)) return n;
   for (const c of [...(n.f || []), ...(n.t === 'add' ? n.a : []), ...(n.t === 'div' ? [n.a, n.b] : [])]) { const r = firstChain(c); if (r) return r; }
   return null;
 }
@@ -1055,6 +1181,7 @@ function diagnose(a) {
     ['quot-sep', () => ["You can't differentiate the top and bottom separately.", "Use $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$."]],
     ['quot-order', () => ['Right pieces, wrong order on top.', "The numerator is $u'v - uv'$, with $u'v$ first."]],
     ['quot-nosq', () => ['Nearly. The bottom gets squared.', `Divide by $v^2 = ${paren(tex(f.b || C(1)))}^2$, not by $v$.`]],
+    ['noln', () => ['Almost. One factor is missing.', "$\\left(a^{x}\\right)' = a^{x}\\ln a$ and $\\left(\\log_a x\\right)' = \\frac{1}{x\\ln a}$: keep the $\\ln a$."]],
     ['power-keep', () => ['Lower each power by one.', "$\\left(x^n\\right)' = n\\,x^{n-1}$: the exponent drops."]]
   ];
   for (const [bug, msg] of BUGS) {
@@ -1081,7 +1208,25 @@ function coloredProblem(f) {
   if (k === 'chain') return outerTex(f, cu(tex(f.a)));
   return tex(f);
 }
+// the standard rules a sum of basic terms needs: (x^n)', (e^x)', (ln x)', (a^x)', (log_a x)'
+function basicRules(f) {
+  const used = new Set();
+  const scan = n => {
+    if (!n || !n.t) return;
+    if (n.t === 'poly') { if ([...n.m.values()].some(t => t.e.n !== 0)) used.add('power'); return; }
+    if (['exp', 'ln', 'aexp', 'log'].includes(n.t) && isX(n.a)) used.add(n.t);
+    (n.t === 'add' ? n.a : n.f || []).forEach(scan);
+  };
+  scan(f);
+  const R = { power: "\\left(x^{n}\\right)' = n\\,x^{n-1}", exp: "\\left(e^{x}\\right)' = e^{x}", ln: "\\left(\\ln x\\right)' = \\frac{1}{x}", aexp: "\\left(a^{x}\\right)' = a^{x}\\ln a", log: "\\left(\\log_{a} x\\right)' = \\frac{1}{x\\ln a}" };
+  const list = Object.keys(R).filter(k => used.has(k));
+  return (list.length ? list : ['power', 'exp', 'ln']).map(k => R[k]).join('\\qquad ');
+}
+// a constant in front of a chain (1000e^(-0.02t)): the constant stays, then work on what it multiplies
+const constOuter = f => kind(f) === 'constant' && f.f.length === 1 && kind(f.f[0]) !== 'power' && kind(f.f[0]) !== 'basic';
+const constLine = f => ({ tag: 'constant stays', t: `f'(x) = ${qtex(f.c)}\\cdot\\left(${tex(f.f[0])}\\right)'` });
 function hints(f, level) {
+  if (constOuter(f)) return [constLine(f), ...hints(f.f[0], level)];
   const k = kind(f), out = [];
   if (k === 'product') {
     const [u, v] = split2(f);
@@ -1095,12 +1240,16 @@ function hints(f, level) {
     out.push({ tag: 'inside', t: `${cu('u')} = ${tex(f.a)}` });
     if (level > 1) out.push({ tag: 'outside', t: `${cv('g')}(${cu('u')}) = ${outerTex(f, cu('u'))} \\;\\Rightarrow\\; ${cv("g'")}(${cu('u')}) = ${outerDerivTex(f, cu('u'))}` }, { tag: 'inside, differentiated', t: `${cu("u'")} = ${tex(D(f.a))}` });
   } else {
-    out.push({ tag: 'term by term', t: "\\left(x^{n}\\right)' = n\\,x^{n-1}\\qquad \\left(e^{x}\\right)' = e^{x}\\qquad \\left(\\ln x\\right)' = \\frac{1}{x}" });
+    out.push({ tag: 'term by term', t: basicRules(f) });
     if (level > 1) termLines(f).slice(0, 1).forEach(l => out.push({ tag: 'first term', t: stripWhy(l) }));
   }
   return out;
 }
 function solution(f) {
+  if (constOuter(f)) {
+    const g = f.f[0], inner = solution(g).slice(0, -1).map(l => ({ ...l, t: l.t.replace(/^f'\(x\) = /, `\\left(${tex(g)}\\right)' = `) }));
+    return [constLine(f), ...inner, { tag: 'simplify', t: `f'(x) = ${tex(D(f))}`, final: true }];
+  }
   const k = kind(f), dt = tex(D(f)), out = [];
   if (k === 'product') {
     const [u, v] = split2(f);
@@ -1205,14 +1354,18 @@ const rating = r => Math.round(50 + 49 * r);
 const barPct = v => (v - 50) / 49 * 100;
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
 const TITLES = [[99, 'GOAT'], [95, 'Legend'], [90, 'World class'], [85, 'Ace'], [80, 'Star'], [75, 'Standout'], [70, 'Rising star'], [65, 'Talent'], [60, 'Prospect'], [0, 'Rookie']];
-const cardTitle = () => { const o = overall(st.R); return TITLES.find(([min]) => o >= min)[1]; };
+const titleFor = o => TITLES.find(([min]) => o >= min)[1];
+const cardTitle = () => titleFor(overall(st.R));
 let PACE_K = 8, PACE_MIN = 0.2, LOSS = 0.25;
 const PACE = r => r < 0.3 ? 1.6 : Math.max(PACE_MIN, 1.6 * Math.exp(-(r - 0.3) * PACE_K));
 const tierOf = o => o >= 90 ? 'elite' : o >= 80 ? 'gold' : o >= 70 ? 'silver' : 'bronze';
 function renderOverall(prevR) {
-  const now = overall(st.R), was = prevR ? overall(prevR) : now, el = $('ovr'), tier = tierOf(now);
-  $('pcard').dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1);
-  $('ptitle').textContent = cardTitle();
+  const now = overall(st.R), was = prevR ? overall(prevR) : now, el = $('ovr'), tier = tierOf(now), card = $('pcard');
+  const oldTier = card.dataset.tier, title = cardTitle(), oldTitle = $('ptitle').textContent;
+  const apply = () => { card.dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1); $('ptitle').textContent = title; };
+  const moment = prevR && !reduce && now > was;
+  if (moment && oldTier !== tier) tierMoment(apply, tier);
+  else { apply(); if (moment && oldTitle !== title) titleMoment(); }
   if (reduce || now === was) { el.textContent = now; return; }
   const t0 = performance.now(), dur = 900;
   const step = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(was + (now - was) * e); if (p < 1) requestAnimationFrame(step); };
@@ -1224,6 +1377,49 @@ function renderOverall(prevR) {
     if (!reduce) $('pcard').animate([{ filter: 'brightness(1)' }, { filter: 'brightness(1.18)' }, { filter: 'brightness(1)' }], { duration: 900, easing: 'ease-out' });
   }
 }
+// a new tier: the card flips over and comes back in its new colour
+async function tierMoment(apply, tier) {
+  const card = $('pcard'), P3 = 'perspective(700px) ';
+  await anim(card, [{ transform: P3 + 'rotateY(0)' }, { transform: P3 + 'rotateY(90deg) scale(.94)' }], { duration: 340, delay: 250, easing: 'cubic-bezier(.5, 0, .9, .4)' });
+  apply();
+  card.classList.remove('reveal'); void card.offsetWidth; card.classList.add('reveal');
+  sparkle(card, tier);
+  await anim(card, [{ transform: P3 + 'rotateY(-90deg) scale(.94)' }, { transform: P3 + 'rotateY(10deg) scale(1.06)', offset: .65 }, { transform: 'none' }], { duration: 760, easing: 'cubic-bezier(.2, .8, .2, 1)' });
+  anim($('tier'), [{ opacity: 0, transform: 'translateX(-10px)', letterSpacing: '.4em' }, { opacity: 1, transform: 'none', letterSpacing: '.12em' }], { duration: 600, easing: SPRING });
+  anim($('ptitle'), [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: .85, transform: 'none' }], { duration: 500, delay: 150, easing: 'ease-out' });
+  setTimeout(() => card.classList.remove('reveal'), 1400);
+}
+// a new title in the same tier: it slides in under a shine
+function titleMoment() {
+  const card = $('pcard');
+  card.classList.remove('reveal'); void card.offsetWidth; card.classList.add('reveal');
+  anim($('ptitle'), [{ opacity: 0, transform: 'translateY(12px)', filter: 'blur(4px)' }, { opacity: .85, transform: 'none', filter: 'blur(0)' }], { duration: 620, delay: 200, easing: SPRING });
+  setTimeout(() => card.classList.remove('reveal'), 1400);
+}
+// little burst of sparks from the card, in the colours of the new tier
+function sparkle(el, tier) {
+  if (reduce) return;
+  const r = el.getBoundingClientRect(), c = document.createElement('canvas'); c.id = 'sparkle'; document.body.appendChild(c);
+  const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+  c.width = W * dpr; c.height = H * dpr; const g = c.getContext('2d'); g.scale(dpr, dpr);
+  const colors = { silver: ['#ffffff', '#e9eff1', '#b9c6cb'], gold: ['#fff1b8', '#f8dc7f', '#e0a930'], elite: ['#ffffff', '#cfe8ff', '#ffd1ec', '#d4ffe9'], bronze: ['#ffd9b3', '#d99a62'] }[tier] || ['#ffffff'];
+  const bits = Array.from({ length: 70 }, (_, i) => {
+    const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 6;
+    return { x: r.left + r.width / 2 + Math.cos(a) * r.width * .3, y: r.top + r.height / 2 + Math.sin(a) * r.height * .3, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, s: 2 + Math.random() * 3.5, col: colors[i % colors.length], star: i % 3 === 0 };
+  });
+  let f = 0;
+  const tick = () => {
+    g.clearRect(0, 0, W, H); f++;
+    bits.forEach(b => {
+      b.vy += 0.16; b.vx *= 0.97; b.x += b.vx; b.y += b.vy;
+      g.globalAlpha = Math.max(0, 1 - f / 75); g.fillStyle = b.col;
+      if (b.star) { g.save(); g.translate(b.x, b.y); g.rotate(f / 8); g.fillRect(-b.s * 1.6, -b.s / 4, b.s * 3.2, b.s / 2); g.fillRect(-b.s / 4, -b.s * 1.6, b.s / 2, b.s * 3.2); g.restore(); }
+      else { g.beginPath(); g.arc(b.x, b.y, b.s / 1.6, 0, Math.PI * 2); g.fill(); }
+    });
+    if (f < 75) requestAnimationFrame(tick); else c.remove();
+  };
+  requestAnimationFrame(tick);
+}
 function renderCoach(prevLevels) {
   const streak = $('streak');
   streak.textContent = st.streak; streak.classList.toggle('hot', st.streak >= 3);
@@ -1232,8 +1428,10 @@ function renderCoach(prevLevels) {
   $('skills').innerHTML = '';
   SKILLS.forEach(s => {
     const b = document.createElement('div'); b.className = 'skill';
-    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${rating(st.R[s.id])}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${rating(st.R[s.id]) >= c ? 'hit' : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
+    const now = rating(st.R[s.id]), was = prevLevels && prevLevels[s.id] !== undefined ? rating(prevLevels[s.id]) : now;
+    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${now}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
+    if (Math.floor(now / 10) > Math.floor(was / 10)) anim(b.querySelector('.lv'), [{ transform: 'scale(1)', color: 'var(--cream)' }, { transform: 'scale(1.45)', color: '#ff8a3d', offset: .35 }, { transform: 'scale(1)', color: 'var(--cream)' }], { duration: 800, delay: 700, easing: 'ease-out' });
     const fill = b.querySelector('.bar > span');
     fill.style.width = barPct(rating(prevLevels && prevLevels[s.id] !== undefined ? prevLevels[s.id] : st.R[s.id])) + '%';
     requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(barPct(rating(st.R[s.id])), 2) + '%'; }));
@@ -1264,7 +1462,8 @@ function resolve(r) {
   const up = used.find(s => level(st.R[s]) > level(prev[s]));
   const newTier = tierOf(overall(st.R));
   if (overall(st.R) >= 99 && overall(prev) < 99) setTimeout(showGoat, 1000);
-  else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 650);
+  else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 1300);
+  else if (titleFor(overall(st.R)) !== titleFor(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New title', titleFor(overall(st.R))), 900);
   else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
   else if (r === 1 && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
   if (r === 1) anim($('streak'), [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
@@ -1388,7 +1587,7 @@ try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true)
 
 // ---------- download your card as a PNG (1080x1350, Instagram size) ----------
 const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN', nested: 'NST' };
-const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#ff8a3d', '#c43d00', '#ffffff'] };
+const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#f6f9ff', '#a9bccf', '#13202e'] };
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 async function drawCard(name) {
   await document.fonts.ready;
@@ -1409,6 +1608,11 @@ async function drawCard(name) {
   g.save(); roundRect(g, cx, cy, cw, ch, 56); g.clip();
   const shine = g.createLinearGradient(cx, cy, cx + cw, cy + ch * .7);
   shine.addColorStop(.36, 'rgba(255,255,255,0)'); shine.addColorStop(.46, 'rgba(255,255,255,.38)'); shine.addColorStop(.56, 'rgba(255,255,255,0)');
+  if (tier === 'elite') {   // platinum: a soft rainbow sheen over the silver-blue
+    const iri = g.createLinearGradient(cx, cy + ch, cx + cw, cy);
+    ['rgba(255,182,225,.35)', 'rgba(170,222,255,.4)', 'rgba(196,255,228,.3)', 'rgba(255,238,180,.32)', 'rgba(255,182,225,.35)'].forEach((col, i, a) => iri.addColorStop(i / (a.length - 1), col));
+    g.fillStyle = iri; g.fillRect(cx, cy, cw, ch);
+  }
   g.fillStyle = shine; g.fillRect(cx, cy, cw, ch);
   g.strokeStyle = 'rgba(255,255,255,.14)'; g.lineWidth = 46; g.beginPath(); g.arc(cx + cw - 40, cy + 40, 190, 0, Math.PI * 2); g.stroke();
   g.restore();
