@@ -130,7 +130,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #goat .card-form { margin-top: 0; }
 .goat-badge { width: 140px; height: 140px; margin: 0 auto 16px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #13202e; background: conic-gradient(from 200deg at 70% 30%, rgba(255, 182, 225, .5), rgba(170, 222, 255, .55), rgba(196, 255, 228, .45), rgba(255, 238, 180, .45), rgba(255, 182, 225, .5)), linear-gradient(135deg, #f8fbff, #c3d3e4 40%, #f1efff 60%, #aabed3); box-shadow: 0 0 60px rgba(186, 220, 255, .55), inset 0 1px 0 rgba(255, 255, 255, .9); position: relative; overflow: hidden; }
 .goat-badge b { font: 900 4rem/1 var(--font-num); }
-.goat-badge .emo { font-size: 4.6rem; line-height: 1; margin-top: 0; letter-spacing: 0; padding: 0; display: inline-block; animation: goatBob 1.6s 1.2s ease-in-out infinite; }
+.goat-badge .emo { font-size: 4.6rem; line-height: 1; margin-top: 0; letter-spacing: 0; padding: 0; display: inline-block; opacity: 0; }
+.goat-badge .emo.shown { opacity: 1; }
+.goat-badge .emo.bob { animation: goatBob 1.6s ease-in-out infinite; }
 @keyframes goatBob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-4px) rotate(-8deg); } 75% { transform: translateY(-2px) rotate(6deg); } }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
@@ -1716,7 +1718,11 @@ function showGoat() {
   setGoat(true);
   if (!reduce) { confetti(); setTimeout(() => confetti(true), 650); setTimeout(() => confetti(true), 1500); }
   anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.2) rotate(-25deg)', opacity: 0 }, { transform: 'scale(1.25) rotate(8deg)', opacity: 1, offset: .5 }, { transform: 'scale(.95) rotate(-3deg)', offset: .75 }, { transform: 'none', opacity: 1 }], { duration: 1100, easing: SPRING });
-  anim(goat.querySelector('.emo'), [{ transform: 'scale(0)' }, { transform: 'scale(1.6) rotate(-15deg)', offset: .6 }, { transform: 'none' }], { duration: 700, delay: 550, easing: SPRING });
+  // the goat stays hidden until its entrance, grows in gently, and only then starts bobbing
+  const emo = goat.querySelector('.emo'); emo.classList.remove('shown', 'bob');
+  if (reduce) emo.classList.add('shown');
+  else anim(emo, [{ opacity: 0, transform: 'scale(.4) rotate(-10deg)' }, { opacity: 1, transform: 'scale(1.12) rotate(4deg)', offset: .6 }, { opacity: 1, transform: 'none' }], { duration: 650, delay: 280, easing: 'cubic-bezier(.2, .8, .2, 1)' })
+    .then(() => { emo.classList.add('shown', 'bob'); emo.getAnimations().forEach(a => { if (!(a instanceof CSSAnimation)) a.cancel(); }); });
 }
 function confetti(rain = false) {
   const c = document.createElement('canvas'); c.className = 'confetti'; document.body.appendChild(c);
