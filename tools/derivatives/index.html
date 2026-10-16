@@ -35,11 +35,11 @@
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: dark;
 }
-html, body { min-height: 100%; } html { overflow-x: hidden; }
+html, body { min-height: 100%; } body { min-height: 100vh; } html { overflow-x: hidden; background: var(--ground); }
 [hidden] { display: none !important; }
 body {
   margin: 0; font-family: var(--font-body); color: var(--body); font-size: 16px; line-height: 1.45; overflow-x: hidden; -webkit-font-smoothing: antialiased;
-  background-color: var(--ground);
+  background-color: transparent;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .5 0 0 0 -.21'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 220px 220px;
 }
@@ -213,8 +213,12 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill.locked .nm, .skill.locked .lv { opacity: .55; }
 .skill .lk { width: 13px; height: 13px; flex: none; align-self: center; }
 .lockhint { grid-column: 1 / -1; font-size: .74rem; color: var(--quiet); margin-top: -3px; }
-.skill.unlocking { animation: unlockRow 1.6s .5s both; border-radius: 10px; }
-@keyframes unlockRow { 0% { background: transparent; transform: translateX(0); } 18% { background: rgba(255, 138, 61, .22); transform: translateX(6px); } 40% { transform: translateX(0); } 100% { background: transparent; } }
+.skill.unlocking .nm { animation: unlockName 1.3s .5s both; }
+@keyframes unlockName { 0% { color: var(--quiet); } 35% { color: #ff8a3d; } 100% { color: var(--cream); } }
+.skill .lk.out { animation: lockOut .7s .35s both; }
+@keyframes lockOut { 0% { opacity: 1; transform: none; } 35% { opacity: 1; transform: translateY(-4px) rotate(-18deg) scale(1.25); } 100% { opacity: 0; transform: translateY(-10px) scale(.5); width: 0; margin-right: -8px; } }
+.skill .new { font: 800 .6rem/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--orange); border-radius: 999px; padding: 3px 7px 2px; align-self: center; animation: newPop .5s .9s both; }
+@keyframes newPop { from { opacity: 0; transform: scale(.4); } 70% { transform: scale(1.12); } to { opacity: 1; transform: none; } }
 .bar { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); }
 .bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
 .bar i { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ground-edge); opacity: .85; }
@@ -920,7 +924,7 @@ const SKILLS = [
   { id: 'power', name: 'Power rule' }, { id: 'roots', name: 'Roots & fractions' },
   { id: 'exp', name: 'Exponentials' }, { id: 'ln', name: 'Logarithms' },
   { id: 'product', name: 'Product rule' }, { id: 'quotient', name: 'Quotient rule' },
-  { id: 'chain', name: 'Chain rule' }, { id: 'nested', name: 'Nested functions' }
+  { id: 'chain', name: 'Chain rule' }
 ];
 const NAME = Object.fromEntries(SKILLS.map(s => [s.id, s.name]));
 
@@ -958,16 +962,16 @@ const TYPES = [
   { id: 'ch1', s: ['chain'], t: 1, b: () => pick([() => RP(lin(), ri(2, 5)), () => RE(mono(nz(2, 5), 1)), () => RP(P([[ri(2, 5), 1], [nz(1, 9), 0]]), ri(2, 4))])() },
   { id: 'ch2', s: ['chain'], t: 2, b: () => pick([() => RL(linPos()), () => RP(linPos(), pick([Q(1, 2), Q(1, 2), Q(1, 3), Q(2, 3), Q(3, 2)])), () => RE(lin()), () => RP(linPos(), -1), () => RP(P([[1, 2], [nz(1, 9), 0]]), ri(2, 3))])() },
   { id: 'ch3', s: ['chain'], t: 3, b: () => pick([chainHard, () => RP(P([[1, ri(3, 4)], [ri(1, 9), 0]]), ri(2, 4)), () => RE(P([[nz(1, 3), 3], [nz(1, 5), 0]])), () => RP(posQuad(), pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3)])), () => RL(P([[1, ri(3, 4)], [ri(1, 9), 0]]))])() },
-  { id: 'nest2', s: ['nested', 'chain'], t: 2, b: () => pick([() => RE(SQ), () => RP(add(SQ, C(ri(1, 5))), 2), () => RL(add(EX, C(ri(1, 6)))), () => RP(add(EX, C(ri(1, 4))), 2), () => RE(cx(ri(2, 3), SQ))])() },
-  { id: 'nest3', s: ['nested', 'chain'], t: 3, b: () => pick([() => RP(innerNested(), ri(2, 3)), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(add(SQ, X)), () => RP(add(LX, C(ri(1, 4))), 2)])() },
-  { id: 'nest4', s: ['nested', 'chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 4)), () => RE(SQ), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(cx(ri(2, 3), SQ))])() },
+  { id: 'nest2', s: ['chain'], t: 3, b: () => pick([() => RE(SQ), () => RP(add(SQ, C(ri(1, 5))), 2), () => RL(add(EX, C(ri(1, 6)))), () => RP(add(EX, C(ri(1, 4))), 2), () => RE(cx(ri(2, 3), SQ))])() },
+  { id: 'nest3', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 3)), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(add(SQ, X)), () => RP(add(LX, C(ri(1, 4))), 2)])() },
+  { id: 'nest4', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 4)), () => RE(SQ), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(cx(ri(2, 3), SQ))])() },
   { id: 'sumc3', s: ['chain', 'power'], t: 3, b: () => add(chainEasy(), pick([() => cmono(ri(1, 4)), rootTerm, expLnTerm])(), ...(Math.random() < 0.5 ? [chainEasy()] : [])) },
   { id: 'sumc4', s: ['chain', 'exp', 'ln'], t: 4, b: () => add(chainHard(), chainEasy(), pick([rootTerm, expLnTerm, () => cmono(ri(2, 4))])()) },
   { id: 'quot2b', s: ['quotient'], t: 2, b: () => pick([() => RD(anyPoly(), cmono(ri(1, 2))), () => RD(C(ri(1, 9)), posDen()), () => RD(P([[1, 2], [nz(1, 9), 0]]), P([[1, 2], [ri(1, 9), 0]]))])() },
   { id: 'prod3b', s: ['product', 'exp'], t: 3, b: () => RM(...order(pick([anyPoly, () => cmono(ri(1, 3))])(), pick([() => RE(mono(-1, 1)), () => RE(mono(nz(2, 3), 1)), () => LX])())) },
   { id: 'prod5x', s: ['product', 'chain'], t: 5, b: () => pick([() => RM(cmono(ri(1, 2)), EX, LX), () => RM(cmono(1), chainEasy(), LX), () => RM(SQ, EX, LX)])() },
-  { id: 'mixq5', s: ['quotient', 'chain', 'nested'], t: 5, b: () => pick([() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), linPos())), () => RL(RD(linPos(), posQuad())), () => RP(RD(linPos(), posQuad()), Q(1, 2))])() },
-  { id: 'nest5', s: ['nested', 'chain'], t: 5, b: () => pick([() => RE(RP(posQuad(), Q(1, 2))), () => RL(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4)))), () => RP(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4))), ri(2, 3)), () => RP(RL(posQuad()), ri(2, 3)), () => RE(RD(C(1), linPos()))])() }
+  { id: 'mixq5', s: ['quotient', 'chain'], t: 5, b: () => pick([() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), linPos())), () => RL(RD(linPos(), posQuad())), () => RP(RD(linPos(), posQuad()), Q(1, 2))])() },
+  { id: 'nest5', s: ['chain'], t: 5, b: () => pick([() => RE(RP(posQuad(), Q(1, 2))), () => RL(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4)))), () => RP(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4))), ri(2, 3)), () => RP(RL(posQuad()), ri(2, 3)), () => RE(RD(C(1), linPos()))])() }
 ];
 // exam-level families: the shapes and kind of numbers the Math A and IMOR exams use (decimals, big constants, growth factors, logistic curves), drawn at random
 const EXAM = [
@@ -1011,7 +1015,7 @@ const EXAM = [
       () => add(RM(mono(2, 1), RL(P([[0.5, 1], [1, 0]]))), mono(-2, 1)),
       () => RM(mono(ri(1, 3), 1), RP(LX, 2)),
       () => RM(P([[pick([2, 3, 0.5]), 1], [ri(1, 9), 0]]), EX)])() },
-  { id: 'xnest3', s: ['nested', 'chain'], t: 3, b: () => pick([
+  { id: 'xnest3', s: ['chain'], t: 4, b: () => pick([
       () => RL(add(C(pick([25, 30, 40])), mul(-1, EX))),
       () => RL(add(EX, C(ri(2, 9)))),
       () => add(mono(ri(1, 3), 1), mul(-1, RL(add(C(ri(1, 5)), EX)))),
@@ -1039,7 +1043,7 @@ const EXAM = [
       () => RD(mono(1, ri(2, 4)), EX),
       () => RD(RL(mono(2, 1)), mono(1, 2)),
       () => RD(LX, mono(1, pick([3, 5])))])() },
-  { id: 'xnest5', s: ['nested', 'quotient', 'chain'], t: 5, b: () => pick([
+  { id: 'xnest5', s: ['chain', 'quotient'], t: 5, b: () => pick([
       () => RL(RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
       () => RG(2, RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
       () => RL(RD(X, P([[1, 1], [ri(1, 9), 0]]))),
@@ -1053,12 +1057,12 @@ function skillsOf(f, primary) {
   const s = new Set();
   const walk = (n, inside) => {
     switch (n.t) {
-      case 'poly': for (const t of n.m.values()) { if (t.e.d !== 1 || t.e.n < 0) { s.add('roots'); if (inside) s.add('nested'); } else if (t.e.n >= 1) s.add('power'); } return;
+      case 'poly': for (const t of n.m.values()) { if (t.e.d !== 1 || t.e.n < 0) { s.add('roots'); } else if (t.e.n >= 1) s.add('power'); } return;
       case 'add': n.a.forEach(c => walk(c, inside)); return;
       case 'mul': if (n.f.length >= 2) s.add('product'); n.f.forEach(c => walk(c, inside)); return;
       case 'div': s.add('quotient'); walk(n.a, inside); walk(n.b, inside); return;
-      case 'pow': s.add('chain'); if (n.n.d !== 1 || n.n.n < 0) s.add('roots'); if (inside) s.add('nested'); walk(n.a, true); return;
-      case 'exp': case 'ln': case 'aexp': case 'log': s.add(n.t === 'aexp' ? 'exp' : n.t === 'log' ? 'ln' : n.t); if (inside) s.add('nested'); if (!isX(n.a)) { s.add('chain'); walk(n.a, true); } return;
+      case 'pow': s.add('chain'); if (n.n.d !== 1 || n.n.n < 0) s.add('roots'); walk(n.a, true); return;
+      case 'exp': case 'ln': case 'aexp': case 'log': s.add(n.t === 'aexp' ? 'exp' : n.t === 'log' ? 'ln' : n.t); if (!isX(n.a)) { s.add('chain'); walk(n.a, true); } return;
       case 'lnc': return;
     }
   };
@@ -1086,9 +1090,9 @@ const st = {
 };
 const STORE = 'samkedemia-derivative-lab';
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.R) Object.assign(st, { R: { ...st.R, ...s.R }, best: s.best || 0, firsts: s.firsts || 0, total: s.total || 0, n: s.n || 0 }); } catch (e) {}
-// skills open one after another: polynomials first, then exponentials and logs, then the product and quotient rule, then the chain rule, then nested functions
+// skills open one after another: polynomials first, then exponentials and logs, then the product and quotient rule, and the chain rule last
 // each needs: the skills before it at a rating, and that many problems using them solved first try
-const UNLOCK = { power: [], roots: [['power', 58, 2]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]], nested: [['chain', 66, 4]] };
+const UNLOCK = { power: [], roots: [['power', 58, 2]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]] };
 st.unlocked = ['power']; st.done = {};
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) { st.unlocked = s.unlocked || ['power', ...SKILLS.map(k => k.id).filter(id => st.R[id] > 0)]; st.done = s.done || {}; } } catch (e) {}
 const isOpen = id => st.unlocked.includes(id);
@@ -1462,9 +1466,10 @@ function renderCoach(prevLevels, opened = []) {
       b.innerHTML = `<span class="nm">${LOCK}${s.name}</span><span class="lv"></span><span class="lockhint">${hint}</span>`;
       $('skills').appendChild(b); return;
     }
-    if (opened.includes(s.id)) b.classList.add('unlocking');
+    const fresh = opened.includes(s.id) && !reduce;
+    if (fresh) b.classList.add('unlocking');
     const now = rating(st.R[s.id]), was = prevLevels && prevLevels[s.id] !== undefined ? rating(prevLevels[s.id]) : now;
-    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${now}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
+    b.innerHTML = `<span class="nm">${fresh ? LOCK.replace('class="lk"', 'class="lk out"') : ''}${s.name}${fresh ? '<b class="new">New</b>' : ''}</span><span class="lv">${now}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
     if (Math.floor(now / 10) > Math.floor(was / 10)) anim(b.querySelector('.lv'), [{ transform: 'scale(1)', color: 'var(--cream)' }, { transform: 'scale(1.45)', color: '#ff8a3d', offset: .35 }, { transform: 'scale(1)', color: 'var(--cream)' }], { duration: 800, delay: 700, easing: 'ease-out' });
     const fill = b.querySelector('.bar > span');
@@ -1632,17 +1637,38 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && help.classList.cont
 try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true), 900); } catch (e) {}
 
 // ---------- download your card as a PNG (1080x1350, Instagram size) ----------
-const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN', nested: 'NST' };
+const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN' };
 const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#f6f9ff', '#a9bccf', '#13202e'] };
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 async function drawCard(name) {
   await document.fonts.ready;
   const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
   const o = overall(st.R), tier = tierOf(o), [c1, c2, ink] = CARD_COLORS[tier];
-  // teal spotlight background
-  const bg = g.createRadialGradient(W / 2, H * .45, 40, W / 2, H * .5, H * .75);
+  // the website background: spotlight (ellipse 85% 55% at 50% 55%), logo pattern, grain
+  g.save(); g.translate(W / 2, H * .55); g.scale(.85 * W, .55 * H);
+  const bg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
   bg.addColorStop(0, '#1a606c'); bg.addColorStop(.52, '#0c3840'); bg.addColorStop(1, '#051619');
-  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  g.fillStyle = bg; g.fillRect(-2, -2, 4, 4); g.restore();
+  const loadImg = src => new Promise(res => { if (!src) return res(null); const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  const cssUrl = (el, pseudo) => (/url\("?(.*?)"?\)/.exec(getComputedStyle(el, pseudo).backgroundImage) || [])[1];
+  const [pat, noise] = await Promise.all([loadImg(cssUrl(document.body, '::after')), loadImg(cssUrl(document.body, null))]);
+  if (pat) {
+    g.save(); g.globalAlpha = .055; g.translate(W / 2, H / 2); g.rotate(-15 * Math.PI / 180);
+    const tw = 460, th = tw * (pat.naturalHeight / pat.naturalWidth || 0.93);
+    for (let x = -1500; x < 1500; x += tw) for (let y = -1500; y < 1500; y += th) g.drawImage(pat, x, y, tw, th);
+    g.restore();
+  }
+  // the site's own grain tile; if the browser won't let a canvas read it back, draw a look-alike instead
+  const grain = document.createElement('canvas'); grain.width = grain.height = 220;
+  const gc = grain.getContext('2d');
+  let ok = false;
+  if (noise) { gc.drawImage(noise, 0, 0, 220, 220); try { gc.getImageData(0, 0, 1, 1); ok = true; } catch (e) { gc.clearRect(0, 0, 220, 220); } }
+  if (!ok) {
+    const px = gc.createImageData(220, 220);
+    for (let i = 0; i < px.data.length; i += 4) { px.data[i] = px.data[i + 1] = px.data[i + 2] = 255; px.data[i + 3] = Math.max(0, Math.random() * .5 - .21) * 255; }
+    gc.putImageData(px, 0, 0);
+  }
+  g.fillStyle = g.createPattern(grain, 'repeat'); g.fillRect(0, 0, W, H);
   // heading
   g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillStyle = '#fdf6ec'; g.font = '400 76px Vidaloka, Georgia, serif'; g.fillText('Derivative Lab', W / 2, 150);
   // the card, drawn at full size and scaled down under the heading
@@ -1681,7 +1707,7 @@ async function drawCard(name) {
   g.globalAlpha = .35; g.fillRect(cx + 90, cy + 590, cw - 180, 3); g.globalAlpha = 1;
   // skill ratings, two columns like a player card
   SKILLS.forEach((s, i) => {
-    const col = i % 2, row = Math.floor(i / 2), x = cx + (col ? 470 : 150), y = cy + 690 + row * 82;
+    const col = i % 2, row = Math.floor(i / 2), alone = i === SKILLS.length - 1 && i % 2 === 0, x = alone ? cx + 310 : cx + (col ? 470 : 150), y = cy + 690 + row * 82;
     g.textAlign = 'right'; g.font = '900 58px Outfit, sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
     g.textAlign = 'left'; g.font = '700 44px Outfit, sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
   });
