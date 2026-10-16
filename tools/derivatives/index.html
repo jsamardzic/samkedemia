@@ -100,6 +100,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .preview .katex-display { margin: 0; text-align: left; }
 #ans::part(virtual-keyboard-toggle) { display: none; }
 #ans::part(menu-toggle) { display: none; }
+#ans::part(content) { overflow: visible; padding-block: 10px 6px; }
+#ans::part(container) { overflow: visible; }
 .preview { min-height: 1.9em; font: 400 .88rem/1.4 var(--font-body); padding-top: 10px; color: var(--ink-mid); }
 .info-btn { all: unset; box-sizing: border-box; flex: none; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink-mid); border: 1px solid rgba(12, 56, 64, .22); background: rgba(12, 56, 64, .04); transition: background-color .2s, border-color .2s, color .2s, transform .15s; }
 .info-btn:hover { background: rgba(12, 56, 64, .1); border-color: rgba(12, 56, 64, .45); color: var(--ink); }
@@ -173,8 +175,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .skill .nm i { font: 700 1.05rem/1 var(--font-hand); font-style: normal; color: var(--orange-light); }
 .skill .lv { font: 900 1rem/1.1 var(--font-num); color: var(--cream); font-variant-numeric: tabular-nums; }
-.bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
-.bar span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
+.bar { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
+.bar i { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ground-edge); opacity: .85; }
+.bar i.hit { background: var(--cream); opacity: .9; }
 .coach-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 12px; font-size: .78rem; color: var(--quiet); }
 .stats { display: flex; flex-wrap: wrap; gap: 4px 14px; letter-spacing: .04em; }
 .stats b { display: inline-block; font: 900 .9rem/1 var(--font-num); color: var(--cream); margin-left: 3px; font-variant-numeric: tabular-nums; }
@@ -189,7 +193,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .toast .label { display: block; margin-bottom: 6px; }
 .toast strong { font: 400 1.4rem/1.05 var(--font-display); color: var(--cream); }
 
-@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
 </style>
 </head>
 <body>
@@ -1119,6 +1123,7 @@ const answerText = () => TOUCH ? $('ans').value.trim() : latexToInput($('ans').v
 function renderPreview() {
   const el = $('preview'), s = answerText();
   if (!s) { el.className = 'preview'; el.textContent = ''; return; }
+  if (!TOUCH && /\{\}|\\placeholder/.test($('ans').value || '')) { el.className = 'preview'; el.textContent = ''; return; }   // still has empty boxes to fill
   try { const a = parse(s); el.className = 'preview'; if (TOUCH) K(`f'(x) = ${atex(a)}`, el); else el.textContent = ''; }
   catch (e) { el.className = 'preview err'; el.textContent = e.message === 'empty' ? '' : e.message; }
 }
@@ -1156,9 +1161,9 @@ function renderCoach(prevLevels) {
   $('skills').innerHTML = '';
   SKILLS.forEach(s => {
     const b = document.createElement('div'); b.className = 'skill';
-    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${rating(st.R[s.id])}</span><span class="bar"><span></span></span>`;
+    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${rating(st.R[s.id])}</span><span class="bar"><span></span>${[50, 60, 70, 80, 90].map(c => `<i class="${rating(st.R[s.id]) >= c ? 'hit' : ''}" style="left:${((c - 40) / 59 * 100).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
-    const fill = b.querySelector('.bar span');
+    const fill = b.querySelector('.bar > span');
     fill.style.width = (prevLevels && prevLevels[s.id] !== undefined ? prevLevels[s.id] : st.R[s.id]) * 100 + '%';
     requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(st.R[s.id] * 100, 2) + '%'; }));
   });
