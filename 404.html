@@ -80,7 +80,8 @@
     // Old tool addresses (/ti84, /tools/ti84.html etc.) now live at /tools/<name>/.
     var moved = { '/ti84': '/tools/ti84', '/excel': '/tools/excel', '/linearprog': '/tools/linearprog', '/statsanim': '/tools/statsanim',
         '/tools/ti84.html': '/tools/ti84', '/tools/excel.html': '/tools/excel', '/tools/linearprog.html': '/tools/linearprog', '/tools/statsanim.html': '/tools/statsanim',
-        '/tools/samkedemia-excel-cheatsheet.pdf': '/tools/excel/samkedemia-excel-cheatsheet.pdf' };
+        '/tools/samkedemia-excel-cheatsheet.pdf': '/tools/excel/samkedemia-excel-cheatsheet.pdf',
+        '/tools/tangent': '/tools/derivatives', '/tools/tangent/index.html': '/tools/derivatives' };
     var target = moved[location.pathname.replace(/\/+$/, '')];
     if (target) location.replace(target + location.search + location.hash);
 </script>
