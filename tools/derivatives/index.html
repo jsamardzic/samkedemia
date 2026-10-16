@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Samkedemia: Derivatives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free derivative practice: endless random exercises on the power, product, quotient and chain rule, with instant checking and step-by-step solutions, by Samkedemia.">
+  <meta property="og:title" content="Samkedemia: Derivatives">
+  <meta property="og:description" content="Endless derivative exercises with instant checking and step-by-step solutions, by Samkedemia.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.samkedemia.com/tools/derivatives">
+  <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
+  <link rel="icon" type="image/png" href="../../images/icon.png?v=2">
+  <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <style>
+:root {
+    --bg-off-white: #F4F9FA;
+    --taupe-dark: #0c3840;
+    --taupe-mid: #2f6a73;
+    --taupe-light: #83acb2;
+    --accent: #ff5500;
+    --border: #ebe7e2;
+    --font-title: 'Outfit', sans-serif;
+    --font-body: 'Atkinson Hyperlegible', sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { font-family: var(--font-body); background: var(--bg-off-white); margin: 0; color: var(--taupe-dark); -webkit-font-smoothing: antialiased; }
+
+.brand-header {
+    width: 90%; max-width: 800px; height: 68px; margin: 20px auto; padding: 15px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,0,0,0.05); border-radius: 100px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    position: sticky; top: 20px; z-index: 100;
+}
+.brand-logo { font-weight: 800; text-decoration: none; display: flex; align-items: center; }
+.brand-logo-img { height: 28px; width: auto; display: block; object-fit: contain; object-position: left center; }
+.logo-separator { display: inline-block; width: 1px; height: 38px; background: rgba(12,56,64,0.2); margin: 0 18px; }
+.logo-page-title { font-size: 1.05rem; font-weight: 600; color: var(--taupe-mid); }
+.header-socials { display: flex; gap: 10px; }
+.social-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--taupe-dark); transition: all .3s; }
+.social-icon:hover { transform: translateY(-2px); background: var(--accent); border-color: var(--accent); color: #fff; }
+.social-icon i { font-size: 18px; line-height: 1; }
+@media (max-width: 650px) { .header-socials a:nth-child(n+2) { display: none; } }
+@media (max-width: 520px) { .logo-page-title, .logo-separator { display: none; } }
+
+.wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
+.main { width: 100%; max-width: 1240px; display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } .work { order: -1; } }
+@media (max-width: 520px) { .wrapper { padding: 0 12px 16px; } .brand-header { width: calc(100% - 24px); padding: 15px 20px; } }
+
+.paper { background: #fff; padding: 24px 26px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.07); min-width: 0; }
+@media (max-width: 520px) { .paper { padding: 20px 18px; } }
+h3 { font-family: var(--font-title); font-weight: 700; margin: 0 0 12px; font-size: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+h3.hrow { display: flex; justify-content: space-between; align-items: center; }
+
+.side { display: flex; flex-direction: column; gap: 26px; }
+.segmented-control { display: flex; background: var(--bg-off-white); border-radius: 8px; padding: 3px; border: 1px solid var(--taupe-light); }
+.segmented-btn { flex: 1; background: transparent; border: none; color: var(--taupe-mid); font-family: var(--font-title); font-size: 13px; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-weight: 700; transition: background-color .2s, color .2s; }
+.segmented-btn.active { background: var(--taupe-dark); color: #fff; }
+
+.rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rule-btn { display: flex; align-items: center; gap: 7px; background: var(--bg-off-white); border: 1px solid var(--taupe-light); color: var(--taupe-mid); font-family: var(--font-title); font-size: 13px; font-weight: 700; padding: 8px 10px; border-radius: 8px; cursor: pointer; text-align: left; transition: background-color .2s, color .2s, border-color .2s; }
+.rule-btn i { font-size: 14px; }
+.rule-btn .bi-check-circle-fill { display: none; }
+.rule-btn.active { background: var(--taupe-dark); border-color: var(--taupe-dark); color: #fff; }
+.rule-btn.active .bi-circle { display: none; }
+.rule-btn.active .bi-check-circle-fill { display: inline; }
+.hint { font-size: 12px; color: var(--taupe-mid); opacity: .8; margin: 8px 0 0; }
+
+.stat { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; text-align: center; display: grid; grid-template-columns: 1fr 1fr; }
+.stat > div + div { border-left: 1px solid var(--border); }
+.stat .k { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--taupe-mid); }
+.stat .v { font-family: var(--font-title); font-weight: 900; font-size: 30px; line-height: 1.15; }
+.stat .v.hot { color: var(--accent); }
+.mini-btn { background: transparent; border: 1px solid var(--taupe-light); color: var(--taupe-mid); font-family: var(--font-title); font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 6px; cursor: pointer; }
+.mini-btn:hover { border-color: var(--taupe-mid); color: var(--taupe-dark); }
+
+.syntax { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; align-items: center; font-size: 13px; }
+.syntax code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--accent); justify-self: start; }
+.syntax .m { color: var(--taupe-mid); }
+
+.problem { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 22px 18px; text-align: center; font-size: 24px; min-height: 96px; display: flex; align-items: center; justify-content: center; overflow-x: auto; overflow-y: hidden; }
+.problem > span { max-width: 100%; }
+.tag { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--taupe-mid); background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px; }
+
+.answer-row { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+.answer-label { font-size: 20px; white-space: nowrap; }
+.answer { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 17px; padding: 12px 14px; border: 1px solid var(--taupe-light); border-radius: 10px; background: #fff; color: var(--taupe-dark); transition: border-color .2s, box-shadow .2s; }
+.answer:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,85,0,.14); }
+.answer.ok { border-color: var(--taupe-mid); background: #f0f7f8; }
+.preview { min-height: 46px; margin: 10px 0 0; padding: 8px 4px; font-size: 19px; overflow-x: auto; overflow-y: hidden; color: var(--taupe-dark); }
+.preview.empty, .preview.err { font-family: var(--font-body); font-size: 13px; color: var(--taupe-mid); opacity: .85; padding-top: 14px; }
+.preview.err { color: #b33c00; opacity: 1; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; font-family: var(--font-title); font-weight: 700; font-size: 14px; cursor: pointer; border: 1px solid var(--taupe-light); background: var(--bg-off-white); color: var(--taupe-dark); transition: transform .2s, background-color .2s, border-color .2s; }
+.btn:hover { border-color: var(--taupe-mid); transform: translateY(-1px); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: #e64d00; border-color: #e64d00; }
+.btn i { font-size: 15px; line-height: 1; }
+@media (max-width: 520px) { .actions .btn { flex: 1 1 auto; justify-content: center; } }
+
+.feedback { display: none; align-items: center; gap: 10px; margin-top: 16px; padding: 12px 16px; border-radius: 12px; font-size: 15px; }
+.feedback.show { display: flex; }
+.feedback i { font-size: 18px; }
+.feedback.ok { background: #e7f3f4; border: 1px solid var(--taupe-light); color: var(--taupe-dark); }
+.feedback.bad { background: #fff3ec; border: 1px solid #ffc9ab; color: #a63800; }
+
+.solution { display: none; margin-top: 24px; }
+.solution.show { display: block; }
+.step { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
+.step .n { width: 26px; height: 26px; border-radius: 50%; background: var(--taupe-dark); color: #fff; font-family: var(--font-title); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.step .t { font-family: var(--font-title); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.step .note { font-size: 13.5px; color: var(--taupe-mid); margin-bottom: 4px; }
+.step .ml { font-size: 17px; padding: 5px 0; overflow-x: auto; overflow-y: hidden; }
+.step .ml .why { font-family: var(--font-body); font-size: 12px; color: var(--taupe-mid); margin-left: 10px; white-space: nowrap; }
+.step.final .n { background: var(--accent); }
+.step.final .ml { background: #fff3ec; border: 1px solid #ffc9ab; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 19px; }
+.equiv { font-size: 12.5px; color: var(--taupe-mid); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header class="brand-header">
+    <a href="https://samkedemia.com" target="_blank" class="brand-logo">
+      <img src="../../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
+      <span class="logo-separator"></span>
+      <span class="logo-page-title">Derivatives</span>
+    </a>
+    <div class="header-socials">
+      <a href="https://wa.me/32490100821" target="_blank" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+      <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon"><i class="bi bi-envelope"></i></a>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="main">
+      <div class="paper side">
+        <div class="sec">
+          <h3>Rules</h3>
+          <div class="rule-grid" id="rules">
+            <button class="rule-btn" data-rule="basic"><i class="bi bi-circle"></i><i class="bi bi-check-circle-fill"></i>Power &amp; sum</button>
+            <button class="rule-btn" data-rule="product"><i class="bi bi-circle"></i><i class="bi bi-check-circle-fill"></i>Product</button>
+            <button class="rule-btn" data-rule="quotient"><i class="bi bi-circle"></i><i class="bi bi-check-circle-fill"></i>Quotient</button>
+            <button class="rule-btn" data-rule="chain"><i class="bi bi-circle"></i><i class="bi bi-check-circle-fill"></i>Chain</button>
+          </div>
+          <p class="hint">Problems are picked from the rules you switch on.</p>
+        </div>
+        <div class="sec">
+          <h3>Difficulty</h3>
+          <div class="segmented-control" id="level">
+            <button class="segmented-btn" data-level="1">Easy</button>
+            <button class="segmented-btn" data-level="2">Medium</button>
+            <button class="segmented-btn" data-level="3">Hard</button>
+          </div>
+        </div>
+        <div class="sec">
+          <h3 class="hrow"><span>Score</span><button class="mini-btn" id="reset">Reset</button></h3>
+          <div class="stat">
+            <div><div class="k">Streak</div><div class="v" id="streak">0</div></div>
+            <div><div class="k">Correct</div><div class="v" id="score">0/0</div></div>
+          </div>
+        </div>
+        <div class="sec">
+          <h3>How to type</h3>
+          <div class="syntax">
+            <code>3x^2</code><span class="m" data-tex="3x^2"></span>
+            <code>sqrt(x)</code><span class="m" data-tex="\sqrt{x}"></span>
+            <code>e^(2x)</code><span class="m" data-tex="e^{2x}"></span>
+            <code>ln(x)</code><span class="m" data-tex="\ln x"></span>
+            <code>(x+1)/(x-1)</code><span class="m" data-tex="\dfrac{x+1}{x-1}"></span>
+            <code>2x e^x</code><span class="m" data-tex="2x\cdot e^{x}"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="paper work">
+        <h3 class="hrow"><span>Find the derivative</span><span class="tag" id="ruleTag"></span></h3>
+        <div class="problem" id="problem"></div>
+
+        <div class="answer-row">
+          <span class="answer-label" id="flabel"></span>
+          <input class="answer" id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type your answer…">
+        </div>
+        <div class="preview empty" id="preview">Your answer appears here as you type.</div>
+
+        <div class="actions">
+          <button class="btn primary" id="check"><i class="bi bi-check2"></i>Check</button>
+          <button class="btn" id="show"><i class="bi bi-lightbulb"></i>Show solution</button>
+          <button class="btn" id="next"><i class="bi bi-arrow-repeat"></i>New problem</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+
+        <div class="solution" id="solution"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- fractions ----------
+    const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+    function Q(n, d = 1) { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d); return { n: n / g, d: d / g }; }
+    const toQ = v => typeof v === 'number' ? Q(v) : v;
+    const qadd = (a, b) => Q(a.n * b.d + b.n * a.d, a.d * b.d);
+    const qmul = (a, b) => Q(a.n * b.n, a.d * b.d);
+    const qneg = a => Q(-a.n, a.d);
+    const qinv = a => Q(a.d, a.n);
+    const qnum = a => a.n / a.d;
+    const qkey = a => a.n + '/' + a.d;
+    const qis = (a, n, d = 1) => a.n === n && a.d === d;
+    const qabs = a => Q(Math.abs(a.n), a.d);
+    const qtexPos = a => a.d === 1 ? String(a.n) : `\\frac{${a.n}}{${a.d}}`;
+    const qtex = a => (a.n < 0 ? '-' : '') + qtexPos(qabs(a));
+    const qexp = a => a.d === 1 ? String(a.n) : a.n + '/' + a.d;
+
+    // ---------- expression nodes ----------
+    // poly: sum of c·x^e (e rational) | add | mul (c·Πf) | div | pow (non-monomial base) | exp | ln
+    function addTerm(m, c, e) { const k = qkey(e), o = m.get(k), nc = o ? qadd(o.c, c) : c; if (nc.n === 0) m.delete(k); else m.set(k, { e, c: nc }); }
+    function P(list) { const m = new Map(); for (const [c, e] of list) addTerm(m, toQ(c), toQ(e)); return { t: 'poly', m }; }
+    const terms = p => [...p.m.values()].sort((a, b) => qnum(b.e) - qnum(a.e));
+    function padd(p, q) { const m = new Map(p.m); for (const t of q.m.values()) addTerm(m, t.c, t.e); return { t: 'poly', m }; }
+    function pmul(p, q) { const m = new Map(); for (const a of p.m.values()) for (const b of q.m.values()) addTerm(m, qmul(a.c, b.c), qadd(a.e, b.e)); return { t: 'poly', m }; }
+    const pscale = (p, c) => pmul(p, P([[c, 0]]));
+    const pderiv = p => P(terms(p).filter(t => t.e.n !== 0).map(t => [qmul(t.c, t.e), qadd(t.e, Q(-1))]));
+    const C = c => P([[c, 0]]);
+    const X = P([[1, 1]]);
+    const isZero = n => n.t === 'poly' && n.m.size === 0;
+    const constVal = n => n.t === 'poly' && [...n.m.values()].every(t => t.e.n === 0) ? (n.m.size ? [...n.m.values()][0].c : Q(0)) : null;
+    const isMono = n => n.t === 'poly' && n.m.size === 1;
+    const monoOf = n => [...n.m.values()][0];
+    const isX = n => isMono(n) && qis(monoOf(n).e, 1) && qis(monoOf(n).c, 1);
+
+    function key(n) {
+        switch (n.t) {
+            case 'poly': return 'P[' + terms(n).map(t => qkey(t.c) + 'x' + qkey(t.e)).join(',') + ']';
+            case 'add': return 'A[' + n.a.map(key).join(',') + ']';
+            case 'mul': return 'M' + qkey(n.c) + '[' + n.f.map(key).join(',') + ']';
+            case 'div': return 'D[' + key(n.a) + ',' + key(n.b) + ']';
+            case 'pow': return 'W' + qkey(n.n) + '[' + key(n.a) + ']';
+            case 'exp': return 'E[' + key(n.a) + ']';
+            case 'ln': return 'L[' + key(n.a) + ']';
+        }
+    }
+
+    // raw constructors: build problems exactly as written, no simplification
+    const RM = (...f) => ({ t: 'mul', c: Q(1), f });
+    const RD = (a, b) => ({ t: 'div', a, b });
+    const RP = (a, n) => ({ t: 'pow', a, n: toQ(n) });
+    const RE = a => ({ t: 'exp', a });
+    const RL = a => ({ t: 'ln', a });
+
+    // simplifying constructors: used for every derivative
+    function add(...xs) { return factorExp(addCore(xs, true)); }
+    // pull out an e^(…) that every term shares: 2xe^x + x^2e^x → (x^2 + 2x)e^x
+    function factorExp(r) {
+        if (r.t !== 'add') return r;
+        const parts = r.a.map(t => {
+            const fs = t.t === 'exp' ? [t] : (t.t === 'mul' ? t.f : []), e = fs.find(f => f.t === 'exp');
+            return e && { e, rest: t.t === 'exp' ? C(1) : mul(t.c, ...fs.filter(f => f !== e)) };
+        });
+        if (parts.some(p => !p) || parts.some(p => key(p.e) !== key(parts[0].e))) return r;
+        return mul(addCore(parts.map(p => p.rest), true), parts[0].e);
+    }
+    function addCore(xs, tryDistribute) {
+        const flat = [];
+        const push = x => x.t === 'add' ? x.a.forEach(push) : flat.push(x);
+        xs.forEach(push);
+        const out = []; let poly = null;
+        for (const t of flat) {
+            if (t.t === 'poly') { if (isZero(t)) continue; if (!poly) { poly = t; out.push(null); } else poly = padd(poly, t); continue; }
+            const c = t.t === 'mul' ? t.c : Q(1);
+            const b = t.t === 'mul' ? (t.f.length === 1 ? t.f[0] : { t: 'mul', c: Q(1), f: t.f }) : t;
+            const k = key(b), o = out.find(o => o && o.k === k);
+            if (o) o.c = qadd(o.c, c); else out.push({ k, c, b });
+        }
+        const res = out.map(o => o === null ? poly : (o.c.n === 0 ? C(0) : mul(o.c, o.b))).filter(t => !isZero(t));
+        const r1 = res.length === 0 ? C(0) : (res.length === 1 ? res[0] : { t: 'add', a: res });
+        if (!tryDistribute) return r1;
+        // multiplying out (x+1)e^x − e^x lets like terms cancel; keep it only when it gives fewer terms
+        const spread = flat.flatMap(t => {
+            if (t.t !== 'mul') return [t];
+            const i = t.f.findIndex(f => f.t === 'poly' && f.m.size > 1);
+            if (i < 0) return [t];
+            const rest = t.f.filter((_, j) => j !== i);
+            return terms(t.f[i]).map(m => mul(t.c, P([[m.c, m.e]]), ...rest));
+        });
+        if (spread.length === flat.length) return r1;
+        const r2 = addCore(spread, false);
+        const count = r => r.t === 'add' ? r.a.length : 1;
+        return count(r2) < count(r1) || (count(r2) === count(r1) && tex(r2).length < tex(r1).length) ? r2 : r1;
+    }
+    const RANK = { poly: 1, add: 1, pow: 2, exp: 3, ln: 4 };
+    function mul(...xs) {
+        let c = Q(1); const f = [];
+        const push = x => {
+            if (!x.t) { c = qmul(c, toQ(x)); return; }
+            if (x.t === 'mul') { c = qmul(c, x.c); x.f.forEach(push); return; }
+            const cv = constVal(x);
+            if (cv) { c = qmul(c, cv); return; }
+            f.push(x);
+        };
+        xs.forEach(push);
+        if (c.n === 0) return C(0);
+        const di = f.findIndex(x => x.t === 'div');
+        if (di >= 0) { const d = f[di]; return div(mul(c, ...f.filter((_, j) => j !== di), d.a), d.b); }
+        const polys = f.filter(x => x.t === 'poly'), others = f.filter(x => x.t !== 'poly');
+        if (!others.length) return pscale(polys.reduce(pmul, C(1)), c);
+        let mono = null; const multi = [];
+        for (const p of polys) { if (isMono(p)) mono = mono ? pmul(mono, p) : p; else multi.push(p); }
+        if (mono) { const t = monoOf(mono); c = qmul(c, t.c); mono = t.e.n === 0 ? null : P([[1, t.e]]); }
+        const groups = [], expArgs = [];
+        for (const x of [...multi, ...others]) {
+            if (x.t === 'exp') { expArgs.push(x.a); continue; }
+            const base = x.t === 'pow' ? x.a : x, n = x.t === 'pow' ? x.n : Q(1), k = key(base);
+            const g = groups.find(g => g.k === k);
+            if (g) g.n = qadd(g.n, n); else groups.push({ k, base, n });
+        }
+        const fs = groups.filter(g => g.n.n !== 0).map(g => qis(g.n, 1) ? g.base : { t: 'pow', a: g.base, n: g.n });
+        if (expArgs.length) {
+            const e = expArgs.length === 1 ? { t: 'exp', a: expArgs[0] } : exp(add(...expArgs));
+            const cv = constVal(e); if (cv) c = qmul(c, cv); else fs.push(e);
+        }
+        fs.sort((a, b) => (RANK[a.t] || 6) - (RANK[b.t] || 6));
+        if (mono) fs.unshift(mono);
+        if (!fs.length) return C(c);
+        if (qis(c, 1) && fs.length === 1) return fs[0];
+        return { t: 'mul', c, f: fs };
+    }
+    function div(a, b) {
+        if (b.t === 'div') return div(mul(a, b.b), b.a);
+        if (a.t === 'div') return div(a.a, mul(a.b, b));
+        if (isZero(a)) return C(0);
+        const cv = constVal(b);
+        if (cv) return mul(qinv(cv), a);
+        if (isMono(b) && a.t === 'poly') { const t = monoOf(b); return pmul(a, P([[qinv(t.c), qneg(t.e)]])); }
+        if (isMono(b) && a.t === 'mul') { const t = monoOf(b); return mul(a, P([[qinv(t.c), qneg(t.e)]])); }
+        if (isMono(b) && a.t === 'add') {
+            // cancel the power of x that every numerator term shares: (x − 2x ln x)/x⁴ → (1 − 2 ln x)/x³
+            const xe = t => t.t === 'poly' ? Math.min(...terms(t).map(m => qnum(m.e))) : (t.t === 'mul' && isMono(t.f[0]) ? qnum(monoOf(t.f[0]).e) : 0);
+            const g = Math.min(...a.a.map(xe), qnum(monoOf(b).e));
+            if (g >= 1 && Number.isInteger(g)) return div(add(...a.a.map(t => mul(t, P([[1, -g]])))), P([[monoOf(b).c, qadd(monoOf(b).e, Q(-g))]]));
+        }
+        return { t: 'div', a, b };
+    }
+    function pow(w, n) {
+        n = toQ(n);
+        if (n.n === 0) return C(1);
+        if (qis(n, 1)) return w;
+        if (isMono(w) && qis(monoOf(w).c, 1)) return P([[1, qmul(monoOf(w).e, n)]]);
+        if (w.t === 'pow') return pow(w.a, qmul(w.n, n));
+        if (w.t === 'exp') return exp(mul(n, w.a));
+        return { t: 'pow', a: w, n };
+    }
+    function exp(w) { if (isZero(w)) return C(1); if (w.t === 'ln') return w.a; return { t: 'exp', a: w }; }
+    function ln(w) { if (w.t === 'exp') return w.a; const cv = constVal(w); if (cv && qis(cv, 1)) return C(0); return { t: 'ln', a: w }; }
+
+    // ---------- differentiation ----------
+    function D(n) {
+        switch (n.t) {
+            case 'poly': return pderiv(n);
+            case 'add': return add(...n.a.map(D));
+            case 'mul': {
+                if (!n.f.length) return C(0);
+                if (n.f.length === 1) return mul(n.c, D(n.f[0]));
+                const u = n.f[0], v = n.f.length === 2 ? n.f[1] : { t: 'mul', c: Q(1), f: n.f.slice(1) };
+                return mul(n.c, add(mul(D(u), v), mul(u, D(v))));
+            }
+            case 'div': return div(add(mul(D(n.a), n.b), mul(-1, n.a, D(n.b))), pow(n.b, 2));
+            case 'pow': return mul(n.n, pow(n.a, qadd(n.n, Q(-1))), D(n.a));
+            case 'exp': return mul(n, D(n.a));
+            case 'ln': return div(D(n.a), n.a);
+        }
+    }
+    function ev(n, x) {
+        switch (n.t) {
+            case 'poly': { let s = 0; for (const t of n.m.values()) s += qnum(t.c) * Math.pow(x, qnum(t.e)); return s; }
+            case 'add': return n.a.reduce((s, t) => s + ev(t, x), 0);
+            case 'mul': return n.f.reduce((s, t) => s * ev(t, x), qnum(n.c));
+            case 'div': return ev(n.a, x) / ev(n.b, x);
+            case 'pow': return Math.pow(ev(n.a, x), qnum(n.n));
+            case 'exp': return Math.exp(ev(n.a, x));
+            case 'ln': return Math.log(ev(n.a, x));
+        }
+    }
+
+    // ---------- LaTeX ----------
+    function xpow(e) {
+        if (qis(e, 1)) return 'x';
+        if (qis(e, 1, 2)) return '\\sqrt{x}';
+        if (qis(e, 1, 3)) return '\\sqrt[3]{x}';
+        return 'x^{' + qexp(e) + '}';
+    }
+    function texMono(c, e) {
+        const s = c.n < 0 ? '-' : '', a = qabs(c);
+        if (e.n === 0) return s + qtexPos(a);
+        if (e.n > 0) return s + (qis(a, 1) ? '' : qtexPos(a)) + xpow(e);
+        return s + `\\frac{${a.n}}{${a.d === 1 ? '' : a.d}${xpow(qneg(e))}}`;
+    }
+    function texPowForm(c, e) {
+        const s = c.n < 0 ? '-' : '', a = qabs(c);
+        if (e.n === 0) return s + qtexPos(a);
+        return s + (qis(a, 1) ? '' : qtexPos(a)) + (qis(e, 1) ? 'x' : 'x^{' + qexp(e) + '}');
+    }
+    const joinSigned = strs => strs.map((s, i) => i === 0 ? s : (s[0] === '-' ? ' - ' + s.slice(1) : ' + ' + s)).join('');
+    const texPoly = p => p.m.size ? joinSigned(terms(p).map(t => texMono(t.c, t.e))) : '0';
+    const paren = s => '\\left(' + s + '\\right)';
+    const isSum = n => n.t === 'add' || (n.t === 'poly' && n.m.size > 1);
+    function tex(n) {
+        switch (n.t) {
+            case 'poly': return texPoly(n);
+            case 'add': return joinSigned(n.a.map(tex));
+            case 'mul': case 'pow': return texMul(n.t === 'mul' ? n : { c: Q(1), f: [n] });
+            case 'div': { const a = tex(n.a), b = tex(n.b);
+                return a[0] === '-' && !isSum(n.a) ? `-\\frac{${a.slice(1)}}{${b}}` : `\\frac{${a}}{${b}}`; }
+            case 'exp': return 'e^{' + tex(n.a) + '}';
+            case 'ln': return isX(n.a) ? '\\ln x' : '\\ln' + paren(tex(n.a));
+        }
+    }
+    function texFactor(f, alone) {
+        if (f.t === 'poly') return isMono(f) ? texMono(monoOf(f).c, monoOf(f).e) : (alone ? texPoly(f) : paren(texPoly(f)));
+        if (f.t === 'pow') {
+            if (qis(f.n, 1, 2)) return '\\sqrt{' + tex(f.a) + '}';
+            return paren(tex(f.a)) + '^{' + qexp(f.n) + '}';
+        }
+        if (f.t === 'add') return alone ? tex(f) : paren(tex(f));
+        return tex(f);
+    }
+    function texMul(m) {
+        const sign = m.c.n < 0 ? '-' : '', a = qabs(m.c), num = [], den = [];
+        for (const f of m.f) {
+            if (f.t === 'poly' && isMono(f) && monoOf(f).e.n < 0) den.push(P([[monoOf(f).c, qneg(monoOf(f).e)]]));
+            else if (f.t === 'pow' && f.n.n < 0) den.push(qis(f.n, -1) ? f.a : { t: 'pow', a: f.a, n: qneg(f.n) });
+            else num.push(f);
+        }
+        const side = (fs, k) => {
+            const alone = fs.length === 1 && k === 1;
+            return (k !== 1 || !fs.length ? String(k) : '') + fs.map(f => texFactor(f, alone)).join('');
+        };
+        if (!den.length) {
+            const lead = qis(a, 1) && num.length ? '' : qtexPos(a);
+            return sign + lead + num.map(f => texFactor(f, false)).join('');
+        }
+        return sign + `\\frac{${side(num, a.n)}}{${side(den, a.d)}}`;
+    }
+    const wrap = n => (isSum(n) || tex(n)[0] === '-') ? paren(tex(n)) : tex(n);
+
+    // ---------- step-by-step solution ----------
+    function kind(n) {
+        switch (n.t) {
+            case 'poly': return 'power';
+            case 'add': return 'sum';
+            case 'mul': return n.f.length >= 2 ? 'product' : 'constant';
+            case 'div': return 'quotient';
+            case 'pow': return 'chain';
+            case 'exp': case 'ln': return isX(n.a) ? 'basic' : 'chain';
+        }
+    }
+    const RULE_NAME = { power: 'power rule', sum: 'sum rule', product: 'product rule', quotient: 'quotient rule', chain: 'chain rule', constant: 'constant multiple', basic: 'standard derivative' };
+    const split2 = n => {
+        const u = n.f[0], rest = n.f.slice(1);
+        const v = rest.length === 1 ? rest[0] : { t: 'mul', c: Q(1), f: rest };
+        return [qis(n.c, 1) ? u : mul(n.c, u), v];
+    };
+    function outerTex(n, w) {
+        if (n.t === 'exp') return 'e^{' + w + '}';
+        if (n.t === 'ln') return '\\ln ' + (w === 'u' ? 'u' : paren(w));
+        if (qis(n.n, 1, 2)) return '\\sqrt{' + w + '}';
+        if (n.n.n < 0) return `\\frac{1}{${w === 'u' ? 'u' : paren(w)}^{${qexp(qneg(n.n))}}}`;
+        return (w === 'u' ? 'u' : paren(w)) + '^{' + qexp(n.n) + '}';
+    }
+    function outerDerivTex(n, w) {
+        const b = w === 'u' ? 'u' : paren(w);
+        if (n.t === 'exp') return 'e^{' + w + '}';
+        if (n.t === 'ln') return '\\frac{1}{' + w + '}';
+        if (qis(n.n, 1, 2)) return '\\frac{1}{2\\sqrt{' + w + '}}';
+        const m = qadd(n.n, Q(-1));
+        if (m.n === 0) return qtex(n.n);
+        const pw = qis(m, 1) ? b : (qis(m, 1, 2) ? '\\sqrt{' + w + '}' : b + '^{' + qexp(m) + '}');
+        if (m.n > 0) return qtex(n.n) + pw;
+        const pd = qis(m, -1) ? b : b + '^{' + qexp(qneg(m)) + '}';
+        return (n.n.n < 0 ? '-' : '') + `\\frac{${qtexPos(qabs(n.n))}}{${pd}}`;
+    }
+    // the derivative written out by its rule, before simplifying
+    function raw(n) {
+        const k = kind(n);
+        if (k === 'product') { const [u, v] = split2(n); return `${wrap(D(u))}\\cdot ${wrap(v)} + ${wrap(u)}\\cdot ${wrap(D(v))}`; }
+        if (k === 'quotient') return `\\frac{${wrap(D(n.a))}\\cdot ${wrap(n.b)} - ${wrap(n.a)}\\cdot ${wrap(D(n.b))}}{${isX(n.b) ? 'x' : paren(tex(n.b))}^{2}}`;
+        if (k === 'chain') return outerDerivTex(n, tex(n.a)) + '\\cdot ' + wrap(D(n.a));
+        if (k === 'constant' && kind(n.f[0]) !== 'basic' && kind(n.f[0]) !== 'power') return qtex(n.c) + '\\cdot ' + paren(raw(n.f[0]));
+        if (k === 'sum' && n.a.some(t => !['basic', 'power', 'constant'].includes(kind(t)))) return joinSigned(n.a.map(t => raw(t) || tex(D(t))));
+        return null;
+    }
+    const why = r => `<span class="why">(${r})</span>`;
+    function partLine(name, n) {
+        const d = tex(D(n)), r = raw(n), k = kind(n);
+        if (r && r !== d) return `${name}' = ${r} = ${d}` + why(RULE_NAME[k]);
+        return `${name}' = ${d}`;
+    }
+    function termLines(n) {
+        const items = n.t === 'poly' ? terms(n).map(t => P([[t.c, t.e]])) : n.a.flatMap(t => t.t === 'poly' ? terms(t).map(m => P([[m.c, m.e]])) : [t]);
+        const lines = [];
+        for (const t of items) {
+            if (t.t === 'poly') {
+                const { c, e } = monoOf(t), d = P([[qmul(c, e), qadd(e, Q(-1))]]);
+                if (e.n === 0) { lines.push(`\\left(${texMono(c, e)}\\right)' = 0` + why('constant')); continue; }
+                const natural = e.d === 1 && e.n > 0;
+                const mid = natural ? '' : ` = \\left(${texPowForm(c, e)}\\right)'`;
+                const dpf = texPowForm(qmul(c, e), qadd(e, Q(-1))), dt = tex(d);
+                lines.push(`\\left(${texMono(c, e)}\\right)'${mid} = ${dpf}${dpf !== dt ? ' = ' + dt : ''}`);
+            } else {
+                const r = raw(t), d = tex(D(t));
+                lines.push(`\\left(${tex(t)}\\right)' = ${r && r !== d ? r + ' = ' : ''}${d}` + why(RULE_NAME[kind(t)]));
+            }
+        }
+        return lines;
+    }
+    function solve(f) {
+        const steps = [], k = kind(f), d = D(f), dt = tex(d);
+        if (k === 'power' || k === 'sum') {
+            const used = [];
+            const scan = n => { if (n.t === 'poly') used.push('power'); if (n.t === 'exp' && isX(n.a)) used.push('exp'); if (n.t === 'ln' && isX(n.a)) used.push('ln'); (n.a && n.a.forEach) && n.a.forEach(scan); n.f && n.f.forEach(scan); };
+            scan(f);
+            const rules = [];
+            if (used.includes('power')) rules.push("\\left(x^{n}\\right)' = n\\,x^{n-1}");
+            if (used.includes('exp')) rules.push("\\left(e^{x}\\right)' = e^{x}");
+            if (used.includes('ln')) rules.push("\\left(\\ln x\\right)' = \\frac{1}{x}");
+            steps.push({ t: 'Differentiate term by term', note: 'Sum rule: each term gets its own derivative. Write roots and fractions as powers of x first.', lines: [rules.join('\\qquad ')] });
+            steps.push({ t: 'Each term', lines: termLines(f) });
+        } else if (k === 'product') {
+            const [u, v] = split2(f);
+            steps.push({ t: 'Product rule', note: 'f(x) is one function times another.', lines: ["\\left(u\\cdot v\\right)' = u'\\,v + u\\,v'"] });
+            steps.push({ t: 'Name the parts', lines: [`u = ${tex(u)}`, `v = ${tex(v)}`] });
+            steps.push({ t: 'Differentiate the parts', lines: [partLine('u', u), partLine('v', v)] });
+            steps.push({ t: 'Fill in', lines: [`f'(x) = ${raw(f)}`] });
+        } else if (k === 'quotient') {
+            steps.push({ t: 'Quotient rule', note: 'f(x) is one function divided by another.', lines: ["\\left(\\frac{u}{v}\\right)' = \\frac{u'\\,v - u\\,v'}{v^{2}}"] });
+            steps.push({ t: 'Name the parts', lines: [`u = ${tex(f.a)}`, `v = ${tex(f.b)}`] });
+            steps.push({ t: 'Differentiate the parts', lines: [partLine('u', f.a), partLine('v', f.b)] });
+            steps.push({ t: 'Fill in', lines: [`f'(x) = ${raw(f)}`] });
+        } else if (k === 'chain') {
+            steps.push({ t: 'Chain rule', note: 'f(x) is a function of another function: an outer function g with an inner function u inside.', lines: ["f(x) = g(u(x)) \\;\\Rightarrow\\; f'(x) = g'(u)\\cdot u'"] });
+            steps.push({ t: 'Inner and outer', lines: [`u = ${tex(f.a)}`, `g(u) = ${outerTex(f, 'u')}`] });
+            steps.push({ t: 'Differentiate both', lines: [`g'(u) = ${outerDerivTex(f, 'u')}`, partLine('u', f.a)] });
+            steps.push({ t: 'Fill in u', lines: [`f'(x) = ${raw(f)}`] });
+        } else if (k === 'constant') {
+            const g = f.f[0], r = raw(g), gd = tex(D(g));
+            steps.push({ t: 'Constant multiple', note: 'The constant in front just stays there.', lines: [`f'(x) = ${qtex(f.c)}\\cdot\\left(${tex(g)}\\right)'`] });
+            steps.push({ t: 'Differentiate', lines: [`\\left(${tex(g)}\\right)' = ${r && r !== gd ? r + ' = ' : ''}${gd}` + why(RULE_NAME[kind(g)])] });
+        } else {
+            steps.push({ t: 'Standard derivative', lines: [`f'(x) = ${dt}`] });
+        }
+        const title = (k === 'power' || k === 'sum') ? 'Add the terms up' : (k === 'basic' || raw(f).replace(/\\cdot /g, '').replace(/\s/g, '') === dt.replace(/\s/g, '') ? 'Answer' : 'Simplify');
+        steps.push({ t: title, lines: [`f'(x) = ${dt}`], final: true });
+        return steps;
+    }
+
+    // ---------- problem generator ----------
+    const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+    const nz = (a, b) => ri(a, b) * (Math.random() < 0.5 ? -1 : 1);
+    const mono = (c, e) => P([[c, e]]);
+    const coprime = (b) => { let a; do a = ri(1, 5); while (gcd(a, b) !== 1); return P([[a, 1], [b, 0]]); };
+    const lin = () => coprime(nz(1, 9));
+    const linPos = () => coprime(ri(1, 9));
+    const quad = () => P([[ri(1, 3), 2], [nz(1, 6), 1], [nz(1, 9), 0]]);
+    const posQuad = () => Math.random() < 0.5 ? P([[ri(1, 3), 2], [ri(1, 9), 0]]) : P([[1, 2], [ri(1, 6), 1], [ri(1, 9), 0]]);
+    function polyN(k, exps) {
+        const es = [...exps].sort(() => Math.random() - 0.5).slice(0, k).sort((a, b) => b - a);
+        return P(es.map((e, i) => [i === 0 ? ri(1, 9) : nz(1, 9), e]));
+    }
+    const SQ = mono(1, Q(1, 2)), EX = RE(X), LX = RL(X);
+    const cx = (c, n) => c === 1 ? n : mul(c, n);
+    const extraTerms = hard => [
+        () => mono(nz(1, 9), Q(1, 2)), () => mono(nz(1, 9), -1), () => mono(nz(1, 9), -2),
+        () => cx(nz(1, 9), EX), () => cx(nz(1, 9), LX),
+        ...(hard ? [() => mono(nz(1, 9), Q(-1, 2)), () => mono(nz(1, 6), Q(3, 2)), () => mono(nz(1, 9), Q(1, 3)), () => mono(nz(1, 5), -3)] : [])
+    ];
+    const GEN = {
+        basic(L) {
+            if (L === 1) return polyN(ri(2, 3), [0, 1, 2, 3, 4, 5]);
+            const ex = extraTerms(L === 3).sort(() => Math.random() - 0.5).slice(0, L === 2 ? 1 : 2).map(g => g());
+            return add(polyN(L === 2 ? 2 : ri(1, 2), [1, 2, 3, 4, 5]), ...ex);
+        },
+        product(L, on) {
+            const E = [() => RM(lin(), lin()), () => RM(mono(ri(1, 4), ri(2, 4)), EX), () => RM(mono(1, ri(1, 3)), LX), () => RM(lin(), EX), () => RM(mono(1, ri(1, 3)), lin())];
+            const M = [() => RM(quad(), EX), () => RM(lin(), LX), () => RM(SQ, EX), () => RM(EX, LX), () => RM(quad(), lin()), () => RM(mono(ri(1, 4), ri(2, 4)), LX), () => RM(SQ, LX)];
+            const H = [() => RM(polyN(3, [0, 1, 2, 3]), EX), () => RM(quad(), LX), () => RM(mono(1, Q(3, 2)), EX), () => RM(mono(1, ri(2, 3)), LX)];
+            if (on.chain) H.push(() => RM(mono(1, ri(1, 3)), RE(mono(nz(2, 5), 1))), () => RM(mono(1, ri(1, 2)), RL(posQuad())),
+                () => RM(mono(1, ri(1, 2)), RP(linPos(), ri(3, 4))), () => RM(SQ, RE(mono(nz(2, 4), 1))), () => RM(EX, RP(posQuad(), Q(1, 2))));
+            return pick([E, M, H][L - 1])();
+        },
+        quotient(L, on) {
+            const E = [() => RD(lin(), lin()), () => RD(mono(1, 2), linPos()), () => RD(mono(ri(1, 5), 1), posQuad()), () => RD(lin(), posQuad())];
+            const M = [() => RD(quad(), posQuad()), () => RD(EX, linPos()), () => RD(LX, X), () => RD(EX, X), () => RD(mono(1, ri(2, 3)), posQuad()), () => RD(lin(), mono(1, 2))];
+            const H = [() => RD(polyN(3, [0, 1, 2, 3]), posQuad()), () => RD(LX, mono(1, 2)), () => RD(EX, posQuad())];
+            if (on.chain) H.push(() => RD(RE(mono(nz(2, 4), 1)), posQuad()), () => RD(RL(posQuad()), X), () => RD(X, RP(posQuad(), Q(1, 2))), () => RD(RP(linPos(), 2), posQuad()));
+            if (on.product) H.push(() => RD(RM(X, EX), linPos()), () => RD(RM(mono(1, 2), LX), linPos()));
+            return pick([E, M, H][L - 1])();
+        },
+        chain(L, on) {
+            const E = [() => RP(lin(), ri(2, 5)), () => RE(mono(nz(2, 5), 1)), () => RL(linPos()), () => RP(linPos(), Q(1, 2))];
+            const M = [() => RP(quad(), ri(2, 4)), () => RE(P([[nz(1, 3), 2], [nz(1, 5), 1]])), () => RL(posQuad()), () => RP(posQuad(), Q(1, 2)), () => RP(LX, ri(2, 3)), () => RP(linPos(), -ri(1, 3))];
+            const H = [() => RE(SQ), () => RP(add(EX, mono(1, ri(1, 3))), ri(2, 3)), () => RP(add(EX, posQuad()), Q(1, 2)), () => RL(add(EX, posQuad())),
+                () => RP(add(SQ, C(ri(1, 4))), ri(3, 4)), () => RE(RP(posQuad(), Q(1, 2))), () => RP(posQuad(), -ri(1, 2)), () => RL(add(mono(1, 2), SQ, C(ri(1, 5))))];
+            if (on.product) H.push(() => RL(RM(X, EX)), () => RP(RM(X, EX), 2));
+            if (on.quotient) H.push(() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), X)));
+            return pick([E, M, H][L - 1])();
+        }
+    };
+    const SAMPLES = [0.37, 0.61, 0.83, 1.13, 1.47, 1.79, 2.21, 2.63, 3.07];
+    function generate() {
+        const on = {}; state.rules.forEach(r => on[r] = true);
+        for (let tries = 0; tries < 60; tries++) {
+            const rule = pick(state.rules), f = GEN[rule](state.level, on);
+            if (key(f) === state.lastKey && tries < 50) continue;
+            const d = D(f);
+            const ok = SAMPLES.filter(x => { const a = ev(f, x), b = ev(d, x); return isFinite(a) && isFinite(b) && Math.abs(b) < 1e6; }).length;
+            if (ok < 7) continue;
+            if (tex(d).length > 260 && tries < 50) continue;
+            state.lastKey = key(f);
+            return { f, d, rule };
+        }
+        return { f: P([[3, 2]]), d: P([[6, 1]]), rule: 'basic' };
+    }
+
+    // ---------- answer parser ----------
+    // grammar: expr = term (± term)* ; term = unary ((*|/|implicit) unary)* ; unary = -unary | power ; power = atom (^ unary)?
+    const WORDS = ['sqrt', 'exp', 'ln', 'log', 'pi', 'e', 'x'];
+    function tokenize(s) {
+        s = s.toLowerCase().replace(/\*\*/g, '^').replace(/[−–]/g, '-').replace(/[·×]/g, '*').replace(/÷/g, '/')
+             .replace(/²/g, '^2').replace(/³/g, '^3').replace(/ˣ/g, '^x').replace(/√/g, 'sqrt').replace(/π/g, 'pi').replace(/[\[{]/g, '(').replace(/[\]}]/g, ')').replace(/,/g, '.');
+        const out = []; let i = 0;
+        while (i < s.length) {
+            const ch = s[i];
+            if (/\s/.test(ch)) { i++; continue; }
+            const num = /^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));
+            if (num) { out.push({ k: 'num', v: num[1] }); i += num[1].length; continue; }
+            if ('+-*/^()'.includes(ch)) { out.push({ k: ch }); i++; continue; }
+            if (/[a-z]/.test(ch)) {
+                const w = WORDS.find(w => s.startsWith(w, i));
+                if (!w) throw new Error(`I don't know "${ch}". Use x, e, ln, sqrt.`);
+                out.push(['e', 'x', 'pi'].includes(w) ? { k: 'sym', v: w } : { k: 'fn', v: w === 'log' ? 'ln' : w });
+                i += w.length; continue;
+            }
+            throw new Error(`Unexpected "${ch}".`);
+        }
+        return out;
+    }
+    function parse(s) {
+        const T = tokenize(s); let i = 0;
+        if (!T.length) throw new Error('empty');
+        const peek = () => T[i], eat = k => { if (!T[i] || T[i].k !== k) throw new Error(k === ')' ? 'A bracket is not closed.' : 'Something is missing.'); return T[i++]; };
+        const starts = t => t && (t.k === 'num' || t.k === 'sym' || t.k === 'fn' || t.k === '(');
+        function expr() {
+            let a = term();
+            while (peek() && (peek().k === '+' || peek().k === '-')) { const op = T[i++].k; a = { k: 'bin', op, a, b: term() }; }
+            return a;
+        }
+        function term() {
+            let a = unary();
+            for (;;) {
+                const t = peek();
+                if (t && (t.k === '*' || t.k === '/')) { i++; a = { k: 'bin', op: t.k, a, b: unary() }; }
+                else if (starts(t)) a = { k: 'bin', op: '*', a, b: power(), imp: true };
+                else return a;
+            }
+        }
+        function unary() {
+            if (peek() && peek().k === '-') { i++; return { k: 'neg', a: unary() }; }
+            if (peek() && peek().k === '+') { i++; return unary(); }
+            return power();
+        }
+        function power() {
+            const a = atom();
+            if (peek() && peek().k === '^') { i++; return { k: 'bin', op: '^', a, b: unary() }; }
+            return a;
+        }
+        function atom() {
+            const t = T[i++];
+            if (!t) throw new Error('Something is missing at the end.');
+            if (t.k === 'num') return { k: 'num', v: parseFloat(t.v), s: t.v };
+            if (t.k === 'sym') return { k: t.v };
+            if (t.k === '(') { const a = expr(); eat(')'); return { k: 'par', a }; }
+            if (t.k === 'fn') {
+                if (peek() && peek().k === '(') { i++; const a = expr(); eat(')'); return { k: 'fn', f: t.v, a }; }
+                if (!starts(peek())) throw new Error(`${t.v} needs something after it, like ${t.v}(x).`);
+                return { k: 'fn', f: t.v, a: power() };
+            }
+            throw new Error(`Unexpected "${t.k}".`);
+        }
+        const r = expr();
+        if (i < T.length) throw new Error(T[i].k === ')' ? 'There is an extra closing bracket.' : `Unexpected "${T[i].k}".`);
+        return r;
+    }
+    function aev(n, x) {
+        switch (n.k) {
+            case 'num': return n.v;
+            case 'x': return x;
+            case 'e': return Math.E;
+            case 'pi': return Math.PI;
+            case 'par': return aev(n.a, x);
+            case 'neg': return -aev(n.a, x);
+            case 'fn': { const v = aev(n.a, x); return n.f === 'ln' ? Math.log(v) : n.f === 'sqrt' ? Math.sqrt(v) : Math.exp(v); }
+            case 'bin': { const a = aev(n.a, x), b = aev(n.b, x);
+                return n.op === '+' ? a + b : n.op === '-' ? a - b : n.op === '*' ? a * b : n.op === '/' ? a / b : Math.pow(a, b); }
+        }
+    }
+    const strip = n => n.k === 'par' ? strip(n.a) : n;
+    function atex(n) {
+        switch (n.k) {
+            case 'num': return n.s;
+            case 'x': return 'x';
+            case 'e': return 'e';
+            case 'pi': return '\\pi';
+            case 'par': return paren(atex(n.a));
+            case 'neg': return '-' + atex(n.a);
+            case 'fn': { const a = strip(n.a);
+                if (n.f === 'sqrt') return '\\sqrt{' + atex(a) + '}';
+                if (n.f === 'exp') return 'e^{' + atex(a) + '}';
+                return '\\ln' + (a.k === 'x' ? ' x' : paren(atex(a))); }
+            case 'bin': {
+                if (n.op === '/') return `\\frac{${atex(strip(n.a))}}{${atex(strip(n.b))}}`;
+                if (n.op === '^') { const b = n.a.k === 'fn' && n.a.f !== 'sqrt' ? paren(atex(n.a)) : atex(n.a); return b + '^{' + atex(strip(n.b)) + '}'; }
+                if (n.op === '*') { const r = atex(n.b); return atex(n.a) + (n.imp && !/^[0-9.]/.test(r) ? '' : '\\cdot ') + r; }
+                return atex(n.a) + ' ' + n.op + ' ' + atex(n.b);
+            }
+        }
+    }
+
+    // ---------- page ----------
+    const $ = id => document.getElementById(id);
+    const K = (s, el, display) => katex.render((display ? '\\displaystyle ' : '') + s, el, { throwOnError: false });
+    const state = { rules: ['basic', 'product', 'quotient', 'chain'], level: 1, lastKey: null, cur: null, solved: false, counted: false, streak: 0, right: 0, total: 0 };
+    try { const s = JSON.parse(localStorage.getItem('samkedemia-derivatives') || 'null'); if (s && s.rules && s.rules.length) { state.rules = s.rules.filter(r => GEN[r]); state.level = [1, 2, 3].includes(s.level) ? s.level : 1; } } catch (e) {}
+    if (!state.rules.length) state.rules = ['basic'];
+    const save = () => { try { localStorage.setItem('samkedemia-derivatives', JSON.stringify({ rules: state.rules, level: state.level })); } catch (e) {} };
+
+    const TAGS = { basic: 'Power & sum', product: 'Product rule', quotient: 'Quotient rule', chain: 'Chain rule' };
+    function newProblem() {
+        state.cur = generate(); state.solved = false; state.counted = false;
+        K('f(x) = ' + tex(state.cur.f), $('problem'), true);
+        $('ruleTag').textContent = TAGS[state.cur.rule];
+        $('answer').value = ''; $('answer').classList.remove('ok');
+        $('feedback').className = 'feedback'; $('solution').className = 'solution'; $('solution').innerHTML = '';
+        renderPreview();
+        if (matchMedia('(hover: hover)').matches) $('answer').focus();
+    }
+    function renderPreview() {
+        const el = $('preview'), s = $('answer').value.trim();
+        if (!s) { el.className = 'preview empty'; el.textContent = 'Your answer appears here as you type.'; return; }
+        try { const a = parse(s); el.className = 'preview'; K("f'(x) = " + atex(a), el, true); }
+        catch (e) { el.className = 'preview err'; el.textContent = e.message === 'empty' ? '' : e.message; }
+    }
+    function score() {
+        $('streak').textContent = state.streak; $('streak').classList.toggle('hot', state.streak >= 3);
+        $('score').textContent = state.right + '/' + state.total;
+    }
+    function feedback(type, icon, html) { const el = $('feedback'); el.className = 'feedback show ' + type; el.innerHTML = `<i class="bi ${icon}"></i><span>${html}</span>`; }
+    // equal to the true derivative at every test point where the true derivative exists
+    function sameFunction(a, n) {
+        let used = 0;
+        for (const x of SAMPLES) {
+            const want = ev(n, x); if (!isFinite(want)) continue;
+            const got = aev(a, x); if (!isFinite(got)) return false;
+            if (Math.abs(got - want) > 1e-6 * Math.max(1, Math.abs(want))) return false;
+            used++;
+        }
+        return used >= 4;
+    }
+    function check() {
+        if (state.solved) { newProblem(); return; }
+        const s = $('answer').value.trim();
+        if (!s) { $('answer').focus(); return; }
+        let a; try { a = parse(s); } catch (e) { feedback('bad', 'bi-exclamation-circle', "I can't read that yet: " + e.message); return; }
+        const firstTry = !state.counted;
+        if (sameFunction(a, state.cur.d)) {
+            state.solved = true; $('answer').classList.add('ok');
+            if (firstTry) { state.counted = true; state.total++; state.right++; state.streak++; }
+            feedback('ok', 'bi-check-circle-fill', '<b>Correct!</b> Press Enter or New problem for the next one.');
+            score(); return;
+        }
+        if (firstTry) { state.counted = true; state.total++; state.streak = 0; score(); }
+        const isF = sameFunction(a, state.cur.f);
+        feedback('bad', 'bi-x-circle-fill', isF ? "That's f(x) itself. You still have to differentiate it."
+            : 'Not quite. Check your work, or open the solution.');
+    }
+    function showSolution() {
+        if (!state.counted) { state.counted = true; state.total++; state.streak = 0; score(); }
+        const steps = solve(state.cur.f), el = $('solution');
+        el.innerHTML = '<h3>Solution</h3>' + steps.map((s, i) => `<div class="step${s.final ? ' final' : ''}"><div class="n">${s.final ? '<i class="bi bi-check2"></i>' : i + 1}</div><div>
+            <div class="t">${s.t}</div>${s.note ? `<div class="note">${s.note}</div>` : ''}${s.lines.map(l => `<div class="ml" data-l="${encodeURIComponent(l)}"></div>`).join('')}
+            ${s.final ? '<div class="equiv">Your answer may look different: any equivalent form counts as correct.</div>' : ''}</div></div>`).join('');
+        el.querySelectorAll('.ml').forEach(m => {
+            const l = decodeURIComponent(m.dataset.l), w = /<span class="why">.*<\/span>$/.exec(l);
+            const box = document.createElement('span'); K(w ? l.slice(0, w.index) : l, box, true); m.appendChild(box);
+            if (w) m.insertAdjacentHTML('beforeend', w[0]);
+        });
+        el.className = 'solution show';
+    }
+
+    // controls
+    function syncControls() {
+        document.querySelectorAll('.rule-btn').forEach(b => b.classList.toggle('active', state.rules.includes(b.dataset.rule)));
+        document.querySelectorAll('#level .segmented-btn').forEach(b => b.classList.toggle('active', Number(b.dataset.level) === state.level));
+    }
+    document.querySelectorAll('.rule-btn').forEach(b => b.addEventListener('click', () => {
+        const r = b.dataset.rule, on = state.rules.includes(r);
+        if (on && state.rules.length === 1) return;
+        state.rules = on ? state.rules.filter(x => x !== r) : [...state.rules, r];
+        syncControls(); save(); newProblem();
+    }));
+    document.querySelectorAll('#level .segmented-btn').forEach(b => b.addEventListener('click', () => {
+        state.level = Number(b.dataset.level); syncControls(); save(); newProblem();
+    }));
+    $('reset').addEventListener('click', () => { state.streak = state.right = state.total = 0; score(); });
+    $('answer').addEventListener('input', () => { renderPreview(); if (!state.solved) $('feedback').className = 'feedback'; });
+    $('answer').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
+    $('check').addEventListener('click', check);
+    $('show').addEventListener('click', showSolution);
+    $('next').addEventListener('click', newProblem);
+    document.querySelectorAll('.syntax [data-tex]').forEach(el => K(el.dataset.tex, el));
+    K("f'(x) =", $('flabel'));
+    syncControls(); score(); newProblem();
+  </script>
+</body>
+</html>

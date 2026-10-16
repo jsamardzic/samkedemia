@@ -77,8 +77,10 @@
     @media (prefers-reduced-motion: reduce) { .home { transition: none; } }
 </style>
 <script>
-    // Old tool addresses (/ti84/ etc.) now live under /tools/.
-    var moved = { '/ti84': '/tools/ti84', '/excel': '/tools/excel', '/linearprog': '/tools/linearprog', '/statsanim': '/tools/statsanim' };
+    // Old tool addresses (/ti84, /tools/ti84.html etc.) now live at /tools/<name>/.
+    var moved = { '/ti84': '/tools/ti84', '/excel': '/tools/excel', '/linearprog': '/tools/linearprog', '/statsanim': '/tools/statsanim',
+        '/tools/ti84.html': '/tools/ti84', '/tools/excel.html': '/tools/excel', '/tools/linearprog.html': '/tools/linearprog', '/tools/statsanim.html': '/tools/statsanim',
+        '/tools/samkedemia-excel-cheatsheet.pdf': '/tools/excel/samkedemia-excel-cheatsheet.pdf' };
     var target = moved[location.pathname.replace(/\/+$/, '')];
     if (target) location.replace(target + location.search + location.hash);
 </script>
