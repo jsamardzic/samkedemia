@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Samkedemia: Tangent Lines</title>
+  <title>Samkedemia: Derivative Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free interactive tool: drag a point along a curve and see that the slope of the tangent line is the derivative, by Samkedemia.">
-  <meta property="og:title" content="Samkedemia: Tangent Lines">
-  <meta property="og:description" content="Drag a point along a curve and see that the slope of the tangent line is the derivative, by Samkedemia.">
+  <meta name="description" content="Free interactive derivative explorer: zoom in until a curve turns straight, watch the secant become the tangent, trace f′ live and practise reading the graph of f′ like on the exam, by Samkedemia.">
+  <meta property="og:title" content="Samkedemia: Derivative Explorer">
+  <meta property="og:description" content="Zoom in until a curve turns straight, watch the secant become the tangent, trace f′ live and practise reading f′ graphs, by Samkedemia.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.samkedemia.com/tools/tangent">
   <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
@@ -14,87 +14,129 @@
   <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&family=Vidaloka&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <style>
 :root {
-    --bg-off-white: #F4F9FA;
-    --taupe-dark: #0c3840;
-    --taupe-mid: #2f6a73;
-    --taupe-light: #83acb2;
-    --accent: #ff5500;
-    --border: #ebe7e2;
-    --font-title: 'Outfit', sans-serif;
-    --font-body: 'Atkinson Hyperlegible', sans-serif;
+  --paper: #F4F9FA; --ink: #0c3840; --mid: #2f6a73; --soft: #83acb2; --line: #dfe9eb; --accent: #ff5500; --accent-soft: #ffe3d4;
+  --font-title: 'Outfit', sans-serif; --font-body: 'Atkinson Hyperlegible', sans-serif; --font-display: 'Vidaloka', Georgia, serif;
+  --spring: cubic-bezier(.16, 1, .3, 1.06);
 }
 * { box-sizing: border-box; }
-body { font-family: var(--font-body); background: var(--bg-off-white); margin: 0; color: var(--taupe-dark); -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--font-body); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+[hidden] { display: none !important; }
 
-.brand-header {
-    width: 90%; max-width: 800px; height: 68px; margin: 20px auto; padding: 15px 30px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
-    border: 1px solid rgba(0,0,0,0.05); border-radius: 100px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    position: sticky; top: 20px; z-index: 100;
-}
-.brand-logo { font-weight: 800; text-decoration: none; display: flex; align-items: center; }
-.brand-logo-img { height: 28px; width: auto; display: block; object-fit: contain; object-position: left center; }
-.logo-separator { display: inline-block; width: 1px; height: 38px; background: rgba(12,56,64,0.2); margin: 0 18px; }
-.logo-page-title { font-size: 1.05rem; font-weight: 600; color: var(--taupe-mid); }
+/* brand header pill, same as the other light tools */
+.brand-header { width: 90%; max-width: 800px; height: 68px; margin: 20px auto 8px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255, 255, 255, .7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(0, 0, 0, .05); border-radius: 100px; box-shadow: 0 5px 20px rgba(0, 0, 0, .05); position: relative; z-index: 20; }
+.brand-logo { text-decoration: none; display: flex; align-items: center; }
+.brand-logo-img { height: 28px; width: auto; display: block; }
+.logo-separator { display: inline-block; width: 1px; height: 38px; background: rgba(12, 56, 64, .2); margin: 0 18px; }
+.logo-page-title { font-size: 1.05rem; font-weight: 600; color: var(--mid); }
 .header-socials { display: flex; gap: 10px; }
-.social-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; color: var(--taupe-dark); transition: all .3s; }
+.social-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(0, 0, 0, .05); border: 1px solid rgba(0, 0, 0, .05); display: flex; align-items: center; justify-content: center; color: var(--ink); text-decoration: none; transition: transform .2s, background .2s, color .2s; }
 .social-icon:hover { transform: translateY(-2px); background: var(--accent); border-color: var(--accent); color: #fff; }
 .social-icon i { font-size: 18px; line-height: 1; }
 @media (max-width: 650px) { .header-socials a:nth-child(n+2) { display: none; } }
-@media (max-width: 520px) { .logo-page-title, .logo-separator { display: none; } }
+@media (max-width: 520px) { .logo-page-title, .logo-separator { display: none; } .brand-header { padding: 15px 18px 15px 24px; } }
 
-.wrapper { display: flex; justify-content: center; padding: 0 20px 20px; }
-.main { width: 100%; max-width: 1240px; display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: stretch; }
-@media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+/* the story: chapters scroll on the left, the stage stays pinned on the right */
+.story { max-width: 1320px; margin: 0 auto; padding: 0 28px 10vh; display: grid; grid-template-columns: minmax(300px, 400px) 1fr; gap: 44px; }
+.steps { position: relative; }
+.step { min-height: 92vh; display: flex; align-items: center; padding: 6vh 0; }
+.step:first-child { min-height: 80vh; align-items: flex-start; padding-top: 4vh; }
+.step:last-child { min-height: 100vh; }
+.card { position: relative; width: 100%; }
+.num { font: 400 5.4rem/1 var(--font-display); color: transparent; -webkit-text-stroke: 1.5px var(--soft); letter-spacing: -.02em; display: block; margin-bottom: -18px; user-select: none; }
+.step.on .num { -webkit-text-stroke-color: var(--accent); }
+.card h2 { position: relative; font: 400 2.1rem/1.08 var(--font-display); margin: 0 0 14px; color: var(--ink); }
+.card p { margin: 0 0 12px; font-size: 1.04rem; line-height: 1.6; color: var(--mid); }
+.card p b { color: var(--ink); }
+.card .formula { margin: 14px 0 16px; padding: 14px 16px; border-left: 3px solid var(--accent); background: #fff; border-radius: 0 12px 12px 0; overflow-x: auto; font-size: 1.05rem; }
+.hint { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font: 700 .74rem/1 var(--font-title); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+.hint i { animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
-.paper { background: #fff; padding: 24px 26px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
-h2 { font-family: var(--font-title); font-weight: 900; font-size: 20px; margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--taupe-light); }
-h3 { font-family: var(--font-title); font-weight: 700; font-size: 14px; margin: 20px 0 10px; }
+/* scroll-driven reveal where the browser supports it (no JavaScript involved) */
+@supports (animation-timeline: view()) {
+  .card { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 75%; }
+  .num { animation: drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  @keyframes rise { from { opacity: 0; transform: translateY(46px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes drift { from { transform: translateY(40px); } to { transform: translateY(-40px); } }
+}
 
-.segmented-control { display: flex; background: var(--bg-off-white); border-radius: 8px; padding: 3px; border: 1px solid var(--taupe-light); }
-.segmented-btn { flex: 1; background: transparent; border: none; color: var(--taupe-mid); font-family: var(--font-title); font-size: 13px; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-weight: 700; transition: background-color .2s, color .2s; }
-.segmented-btn.active { background: var(--taupe-dark); color: #fff; }
+/* function picker */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+.chip { border: 1.5px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 7px 13px; cursor: pointer; font-size: .92rem; transition: border-color .2s, background .2s, transform .2s var(--spring); }
+.chip:hover { border-color: var(--soft); transform: translateY(-2px); }
+.chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.own { display: flex; align-items: center; gap: 8px; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 6px 6px 6px 14px; transition: border-color .2s; }
+.own:focus-within { border-color: var(--accent); }
+.own label { font-size: .95rem; color: var(--mid); white-space: nowrap; }
+.own input { flex: 1; min-width: 0; border: 0; outline: 0; font: 400 1rem var(--font-body); color: var(--ink); background: transparent; padding: 6px 0; }
+.own button { border: 0; background: var(--ink); color: #fff; border-radius: 10px; padding: 8px 12px; font: 700 .85rem var(--font-title); cursor: pointer; }
+.own-msg { min-height: 1.4em; font-size: .85rem; color: var(--soft); margin-top: 6px; }
+.own-msg.err { color: var(--accent); }
 
-.row-label { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
-.val { font-family: "Courier New", monospace; font-weight: 700; background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 6px; padding: 1px 9px; color: var(--accent); font-size: 13px; }
-.slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: transparent; outline: none; margin: 4px 0 0; }
-.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; cursor: pointer; margin-top: -7px; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
-.slider::-moz-range-thumb { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; cursor: pointer; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
-.slider::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--progress, 50%), var(--border) var(--progress, 50%)); }
-.slider::-moz-range-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--progress, 50%), var(--border) var(--progress, 50%)); }
-.ends { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--taupe-mid); opacity: .75; margin-top: 4px; }
+/* the pinned stage */
+.stage-wrap { position: sticky; top: 16px; height: calc(100vh - 32px); max-height: 860px; }
+.stage { position: relative; height: 100%; border-radius: 28px; background: #fff; box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 30px 60px -20px rgba(12, 56, 64, .22), 0 0 0 1px rgba(12, 56, 64, .06); overflow: hidden; touch-action: pan-y; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; outline: none; }
+.stage.dragging canvas { cursor: grabbing; }
+.chapter-tag { position: absolute; left: 18px; top: 16px; display: flex; align-items: center; gap: 10px; padding: 7px 12px 7px 10px; background: rgba(244, 249, 250, .86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 999px; font: 700 .78rem/1 var(--font-title); letter-spacing: .1em; text-transform: uppercase; color: var(--mid); pointer-events: none; }
+.chapter-tag b { color: var(--accent); font-weight: 900; }
+.chapter-tag .meter { width: 54px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.chapter-tag .meter span { display: block; height: 100%; width: 0; background: var(--accent); }
+.readout { position: absolute; right: 16px; top: 14px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; }
+.ro { display: flex; align-items: baseline; gap: 8px; padding: 7px 12px; background: rgba(244, 249, 250, .86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 12px; font-size: .9rem; color: var(--mid); }
+.ro .k { font-size: .95rem; }
+.ro.hot { background: var(--ink); color: #cfe0e2; }
+.ro.hot .odo { color: #fff; }
+.fx-label { position: absolute; left: 18px; bottom: 14px; padding: 6px 12px; background: rgba(244, 249, 250, .86); border-radius: 10px; font-size: .95rem; pointer-events: none; transition: opacity .3s; }
+.drag-tip { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: var(--ink); color: #fff; font: 700 .78rem/1 var(--font-title); letter-spacing: .06em; pointer-events: none; transition: opacity .5s, transform .5s var(--spring); }
+.drag-tip.gone { opacity: 0; transform: translate(-50%, 10px); }
 
-.stat { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; margin-bottom: 10px; }
-.stat .k { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--taupe-mid); }
-.stat .v { font-family: var(--font-title); font-weight: 900; font-size: 30px; line-height: 1.2; }
-.stat .s { font-size: 13px; color: var(--taupe-mid); }
-.stat.up .v { color: var(--taupe-mid); }
-.stat.down .v { color: var(--accent); }
-.line-box { background: var(--bg-off-white); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; text-align: center; font-size: 20px; }
-.line-box .k { font-family: var(--font-title); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 2px; }
+/* rolling digits: every digit is a strip of 0-9 that slides */
+.odo { display: inline-flex; font: 900 1.15rem/1 var(--font-title); font-variant-numeric: tabular-nums; color: var(--ink); height: 1.15rem; overflow: hidden; }
+.odo .d { display: inline-block; height: 1.15rem; overflow: hidden; }
+.odo .d > span { display: flex; flex-direction: column; transition: transform .5s var(--spring); }
+.odo .d > span > i { font-style: normal; height: 1.15rem; line-height: 1.15rem; }
+.odo .c { display: inline-block; line-height: 1.15rem; }
 
-.plot { width: 100%; height: auto; max-height: calc(100vh - 205px); max-height: calc(100dvh - 205px); display: block; user-select: none; }
-  .math, .plot text.n { font-family: KaTeX_Main, 'Times New Roman', serif; }
-.segmented-btn .katex { font-size: 1.15em; }
-.val .katex { font-size: 1.05em; }
-.stat .v { font-family: var(--font-title); font-weight: 900; font-size: 34px; }
-  .side { min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
-.side h3 { margin: 0 0 12px; font-size: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.stat { margin: 0; text-align: center; padding: 14px 16px; }
-.stat .v { line-height: 1.1; }
-.line-box { padding: 16px; }
-.row-label { margin-bottom: 14px; }
-.paper .plot { margin: 0 auto; }
-  .side h3.hrow { display: flex; justify-content: space-between; align-items: center; }
-.vals { display: flex; gap: 8px; }
-.vals .val { padding: 3px 10px; font-weight: 400; }
+/* practice */
+.quiz { margin-top: 16px; padding: 18px; background: #fff; border-radius: 18px; box-shadow: 0 10px 30px -12px rgba(12, 56, 64, .2); }
+.quiz .q { font: 700 1.08rem/1.4 var(--font-body); color: var(--ink); margin: 0 0 6px; }
+.quiz .sub { font-size: .9rem; color: var(--soft); margin: 0 0 14px; }
+.quiz .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { border: 0; border-radius: 999px; padding: 11px 18px; font: 700 .92rem var(--font-title); cursor: pointer; transition: transform .2s var(--spring), box-shadow .2s, background .2s; }
+.btn:active { transform: scale(.96); }
+.btn.go { background: var(--accent); color: #fff; box-shadow: 0 8px 22px -8px rgba(255, 85, 0, .7); }
+.btn.go:hover { transform: translateY(-2px); }
+.btn.ghost { background: var(--paper); color: var(--mid); }
+.btn.ghost:hover { background: var(--line); }
+.verdict { margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: .95rem; line-height: 1.5; }
+.verdict.ok { background: #e3f1ee; color: #1d5a52; }
+.verdict.bad { background: var(--accent-soft); color: #8a2e00; }
+.score { display: flex; gap: 16px; margin-top: 12px; font: 700 .78rem/1 var(--font-title); letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+.score b { color: var(--ink); font-size: .95rem; margin-left: 4px; }
+
+/* phones: stage pinned on top, chapters scroll underneath */
+@media (max-width: 900px) {
+  .story { grid-template-columns: 1fr; padding: 0 14px 6vh; gap: 0; }
+  .stage-wrap { order: -1; top: 8px; height: 50vh; max-height: none; z-index: 5; }
+  .stage { border-radius: 22px; }
+  .step, .step:first-child { min-height: 78vh; align-items: flex-start; padding: 5vh 4px; }
+  .num { font-size: 4rem; margin-bottom: -12px; }
+  .card h2 { font-size: 1.7rem; }
+  .ro { padding: 5px 9px; font-size: .8rem; }
+  .odo, .odo .d, .odo .d > span > i, .odo .c { font-size: 1rem; height: 1rem; line-height: 1rem; }
+  .chapter-tag .meter { display: none; }
+  .fx-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .odo .d > span { transition: none; } .hint i { animation: none; } }
   </style>
 </head>
 <body>
@@ -102,133 +144,749 @@ h3 { font-family: var(--font-title); font-weight: 700; font-size: 14px; margin: 
     <a href="https://samkedemia.com" target="_blank" class="brand-logo">
       <img src="../../images/samkedemia-horizontal.svg" alt="Samkedemia" class="brand-logo-img">
       <span class="logo-separator"></span>
-      <span class="logo-page-title">Tangent Lines</span>
+      <span class="logo-page-title">Derivative Explorer</span>
     </a>
     <div class="header-socials">
-      <a href="https://wa.me/32490100821" target="_blank" class="social-icon"><i class="bi bi-whatsapp"></i></a>
-      <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
-      <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon"><i class="bi bi-envelope"></i></a>
+      <a href="https://wa.me/32490100821" target="_blank" class="social-icon" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.instagram.com/samkedemia/" target="_blank" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+      <a href="mailto:jovan@samkedemia.com" target="_blank" class="social-icon" aria-label="Email"><i class="bi bi-envelope"></i></a>
     </div>
   </header>
 
-  <div class="wrapper">
-    <div class="main">
-      <div class="paper side">
-        <div class="sec">
-          <h3>Function</h3>
-          <div class="segmented-control" id="fnPicker"></div>
+  <main class="story">
+    <div class="steps">
+      <section class="step" data-ch="0">
+        <div class="card">
+          <span class="num">01</span>
+          <h2>Grab the point</h2>
+          <p>Drag the orange point along the curve. The orange line only <b>touches</b> the curve there: that's the <b>tangent</b>. Its slope is the derivative <span class="m">f'(x)</span>.</p>
+          <div class="chips" id="chips"></div>
+          <div class="own">
+            <label for="own"><span class="m">f(x) =</span></label>
+            <input id="own" type="text" placeholder="type your own, like x^3 - 6x" autocomplete="off" spellcheck="false">
+            <button id="ownGo" type="button">Plot</button>
+          </div>
+          <div class="own-msg" id="ownMsg"></div>
+          <span class="hint"><i class="bi bi-arrow-down"></i> scroll to see why it works</span>
         </div>
-        <div class="sec">
-          <h3 class="hrow"><span>Point</span><span class="vals"><span class="val math" id="xv"></span><span class="val math" id="yv"></span></span></h3>
-          <input type="range" id="x" class="slider">
+      </section>
+      <section class="step" data-ch="1">
+        <div class="card">
+          <span class="num">02</span>
+          <h2>Zoom in until it's straight</h2>
+          <p>Keep scrolling and the loupe zooms in on the point. Somewhere around ×20, the curve stops looking curved: up close, <b>every smooth curve is a straight line</b>.</p>
+          <p>The derivative is simply the <b>slope of that line</b>.</p>
         </div>
-        <div class="sec">
-          <h3>Slope of the tangent</h3>
-          <div class="stat" id="stat"><div class="v" id="sv"></div></div>
+      </section>
+      <section class="step" data-ch="2">
+        <div class="card">
+          <span class="num">03</span>
+          <h2>Squeeze the secant</h2>
+          <p>Take a second point a distance <span class="m">h</span> further along. The line through both is a <b>secant</b>, and its slope is rise over run.</p>
+          <div class="formula"><span class="m">\dfrac{f(x+h)-f(x)}{h}</span></div>
+          <p>Scroll, and <span class="m">h</span> shrinks towards 0. The secant turns into the tangent, and its slope lands on the derivative:</p>
+          <div class="formula"><span class="m">f'(x)=\lim_{h\to 0}\dfrac{f(x+h)-f(x)}{h}</span></div>
         </div>
-        <div class="sec">
-          <h3>Tangent line</h3>
-          <div class="line-box"><div id="eq"></div></div>
+      </section>
+      <section class="step" data-ch="3">
+        <div class="card">
+          <span class="num">04</span>
+          <h2>Slope becomes a graph</h2>
+          <p>Now the point sweeps from left to right. At every <span class="m">x</span>, we take the slope of the tangent and plot it as a <b>height</b> underneath.</p>
+          <p>The orange curve the pen draws is a brand new function: <span class="m">f'</span>.</p>
         </div>
-      </div>
+      </section>
+      <section class="step" data-ch="4">
+        <div class="card">
+          <span class="num">05</span>
+          <h2>Read f from f′</h2>
+          <p>Where <span class="m">f'</span> is <b>above</b> the axis, <span class="m">f</span> goes up. Where it's <b>below</b>, <span class="m">f</span> goes down.</p>
+          <p>Where <span class="m">f'</span> crosses zero, <span class="m">f</span> has a top or a bottom. Where <span class="m">f'</span> turns around, <span class="m">f</span> changes its bend: an <b>inflection point</b>.</p>
+          <p>This is exactly what exam questions about the graph of <span class="m">f'</span> test.</p>
+        </div>
+      </section>
+      <section class="step" data-ch="5">
+        <div class="card">
+          <span class="num">06</span>
+          <h2>Your turn</h2>
+          <p>The stage now shows only the graph of <span class="m">f'</span>, like on the exam. Tap the axis where the answer is, then check.</p>
+          <div class="quiz">
+            <p class="q" id="quizQ">Tap every x where f has a local minimum.</p>
+            <p class="sub" id="quizSub">Tap the graph to drop a pin; tap a pin to remove it.</p>
+            <div class="row">
+              <button class="btn go" id="quizCheck" type="button">Check</button>
+              <button class="btn ghost" id="quizClear" type="button">Clear pins</button>
+              <button class="btn ghost" id="quizNext" type="button">New graph</button>
+            </div>
+            <div class="verdict" id="quizVerdict" hidden></div>
+            <div class="score">Correct<b id="quizOk">0</b> Tried<b id="quizN">0</b> Streak<b id="quizStreak">0</b></div>
+          </div>
+        </div>
+      </section>
+    </div>
 
-      <div class="paper">
-        <svg class="plot" id="plot" viewBox="0 0 640 460"></svg>
+    <div class="stage-wrap">
+      <div class="stage" id="stage">
+        <canvas id="cv" tabindex="0" aria-label="Graph of the function. Drag or use the arrow keys to move the point."></canvas>
+        <div class="chapter-tag"><b id="tagNum">01</b><span id="tagName">Grab the point</span><span class="meter"><span id="tagMeter"></span></span></div>
+        <div class="readout" id="readout"></div>
+        <div class="fx-label" id="fxLabel"></div>
+        <div class="drag-tip" id="dragTip">Drag the point</div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <script>
-    const P = x => x < 0 ? '(' + fmt(x) + ')' : fmt(x);
-    function fmt(v) { const r = Math.round(v * 100) / 100; return String(Object.is(r, -0) ? 0 : r); }
-    const FN = {
-        sq: { label: 'x²', tex: 'x^2',      f: x => x * x,        df: x => 2 * x,        dtex: '2x',      ev: x => '2 \\cdot ' + P(x),
-              x: [-3, 3],     y: [-1, 9.5], start: 1 },
-        cu: { label: 'x³ − 3x', tex: 'x^3-3x', f: x => x*x*x - 3*x,  df: x => 3*x*x - 3,    dtex: '3x^2-3',  ev: x => '3 \\cdot ' + P(x) + '^2 - 3',
-              x: [-2.5, 2.5], y: [-4.5, 4.5],    start: 1.5 },
-        ex: { label: 'eˣ', tex: 'e^x',      f: x => Math.exp(x),  df: x => Math.exp(x),  dtex: 'e^x',     ev: x => 'e^{' + fmt(x) + '}',
-              x: [-2, 2.5],   y: [-1, 13],     start: 1 },
-        ln: { label: 'ln x', tex: '\\ln x',    f: x => Math.log(x),  df: x => 1 / x,        dtex: '\\dfrac{1}{x}', ev: x => '\\dfrac{1}{' + fmt(x) + '}',
-              x: [0.2, 5],    y: [-2, 2.2],  start: 1 }
-    };
-    let cur = 'sq', x0 = 1;
-    const STEP = 0.05, W = 640, M = { l: 44, r: 14, t: 14, b: 26 };
-    const TEAL = '#0c3840', ORANGE = '#ff5500', MID = '#2f6a73', GREY = '#9db8bd';
+<script>
+// ---------- the answer parser from the Derivative Lab: text like "x^3 - 3x" or "ln(x)/x" ----------
+    const paren = s => '\\left(' + s + '\\right)';
+    const WORDS = ['sqrt', 'exp', 'ln', 'log', 'pi', 'e', 'x'];
+    function tokenize(s) {
+        s = s.toLowerCase().replace(/\*\*/g, '^').replace(/[−–]/g, '-').replace(/[·×]/g, '*').replace(/÷/g, '/')
+             .replace(/²/g, '^2').replace(/³/g, '^3').replace(/ˣ/g, '^x').replace(/√/g, 'sqrt').replace(/π/g, 'pi').replace(/[\[{]/g, '(').replace(/[\]}]/g, ')').replace(/,/g, '.');
+        const out = []; let i = 0;
+        while (i < s.length) {
+            const ch = s[i];
+            if (/\s/.test(ch)) { i++; continue; }
+            const num = /^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));
+            if (num) { out.push({ k: 'num', v: num[1] }); i += num[1].length; continue; }
+            if ('+-*/^()'.includes(ch)) { out.push({ k: ch }); i++; continue; }
+            if (/[a-z]/.test(ch)) {
+                const w = WORDS.find(w => s.startsWith(w, i));
+                if (!w) throw new Error(`I don't know "${ch}". Use x, e, ln, sqrt.`);
+                out.push(['e', 'x', 'pi'].includes(w) ? { k: 'sym', v: w } : { k: 'fn', v: w === 'log' ? 'ln' : w });
+                i += w.length; continue;
+            }
+            throw new Error(`Unexpected "${ch}".`);
+        }
+        return out;
+    }
+    function parse(s) {
+        const T = tokenize(s); let i = 0;
+        if (!T.length) throw new Error('empty');
+        const peek = () => T[i], eat = k => { if (!T[i] || T[i].k !== k) throw new Error(k === ')' ? 'A bracket is not closed.' : 'Something is missing.'); return T[i++]; };
+        const starts = t => t && (t.k === 'num' || t.k === 'sym' || t.k === 'fn' || t.k === '(');
+        function expr() {
+            let a = term();
+            while (peek() && (peek().k === '+' || peek().k === '-')) { const op = T[i++].k; a = { k: 'bin', op, a, b: term() }; }
+            return a;
+        }
+        function term() {
+            let a = unary();
+            for (;;) {
+                const t = peek();
+                if (t && (t.k === '*' || t.k === '/')) { i++; a = { k: 'bin', op: t.k, a, b: unary() }; }
+                else if (starts(t)) a = { k: 'bin', op: '*', a, b: power(), imp: true };
+                else return a;
+            }
+        }
+        function unary() {
+            if (peek() && peek().k === '-') { i++; return { k: 'neg', a: unary() }; }
+            if (peek() && peek().k === '+') { i++; return unary(); }
+            return power();
+        }
+        function power() {
+            const a = atom();
+            if (peek() && peek().k === '^') { i++; return { k: 'bin', op: '^', a, b: unary() }; }
+            return a;
+        }
+        function atom() {
+            const t = T[i++];
+            if (!t) throw new Error('Something is missing at the end.');
+            if (t.k === 'num') return { k: 'num', v: parseFloat(t.v), s: t.v };
+            if (t.k === 'sym') return { k: t.v };
+            if (t.k === '(') { const a = expr(); eat(')'); return { k: 'par', a }; }
+            if (t.k === 'fn') {
+                if (peek() && peek().k === '(') { i++; const a = expr(); eat(')'); return { k: 'fn', f: t.v, a }; }
+                if (!starts(peek())) throw new Error(`${t.v} needs something after it, like ${t.v}(x).`);
+                return { k: 'fn', f: t.v, a: power() };
+            }
+            throw new Error(`Unexpected "${t.k}".`);
+        }
+        const r = expr();
+        if (i < T.length) throw new Error(T[i].k === ')' ? 'There is an extra closing bracket.' : `Unexpected "${T[i].k}".`);
+        return r;
+    }
+    function aev(n, x) {
+        switch (n.k) {
+            case 'num': return n.v;
+            case 'x': return x;
+            case 'e': return Math.E;
+            case 'pi': return Math.PI;
+            case 'par': return aev(n.a, x);
+            case 'neg': return -aev(n.a, x);
+            case 'fn': { const v = aev(n.a, x); return n.f === 'ln' ? Math.log(v) : n.f === 'sqrt' ? Math.sqrt(v) : Math.exp(v); }
+            case 'bin': { const a = aev(n.a, x), b = aev(n.b, x);
+                return n.op === '+' ? a + b : n.op === '-' ? a - b : n.op === '*' ? a * b : n.op === '/' ? a / b : Math.pow(a, b); }
+        }
+    }
+    const strip = n => n.k === 'par' ? strip(n.a) : n;
+    function atex(n) {
+        switch (n.k) {
+            case 'num': return n.s;
+            case 'x': return 'x';
+            case 'e': return 'e';
+            case 'pi': return '\\pi';
+            case 'par': return paren(atex(n.a));
+            case 'neg': return '-' + atex(n.a);
+            case 'fn': { const a = strip(n.a);
+                if (n.f === 'sqrt') return '\\sqrt{' + atex(a) + '}';
+                if (n.f === 'exp') return 'e^{' + atex(a) + '}';
+                return '\\ln' + (a.k === 'x' ? ' x' : paren(atex(a))); }
+            case 'bin': {
+                if (n.op === '/') return `\\frac{${atex(strip(n.a))}}{${atex(strip(n.b))}}`;
+                if (n.op === '^') { const b = n.a.k === 'fn' && n.a.f !== 'sqrt' ? paren(atex(n.a)) : atex(n.a); return b + '^{' + atex(strip(n.b)) + '}'; }
+                if (n.op === '*') { const r = atex(n.b); return atex(n.a) + (n.imp && !/^[0-9.]/.test(r) ? '' : '\\cdot ') + r; }
+                return atex(n.a) + ' ' + n.op + ' ' + atex(n.b);
+            }
+        }
+    }
 
-    // one plot = a box of height H whose top sits at oy
-    function mk(H, oy, xr, yr) {
-        const iw = W - M.l - M.r, ih = H - M.t - M.b;
-        return { H, oy, xr, yr, iw,
-            X: x => M.l + (x - xr[0]) / (xr[1] - xr[0]) * iw,
-            Y: y => oy + M.t + (yr[1] - y) / (yr[1] - yr[0]) * ih,
-            inv: px => xr[0] + (px - M.l) / iw * (xr[1] - xr[0]) };
-    }
-    function grid(g) {
-        let s = '';
-        const [xa, xb] = g.xr, [ya, yb] = g.yr, top = g.oy + M.t, bot = g.oy + g.H - M.b;
-        const ystep = (yb - ya) > 14 ? 5 : ((yb - ya) > 8 ? 2 : 1);
-        for (let x = Math.ceil(xa); x <= xb; x++) {
-            s += `<line x1="${g.X(x)}" x2="${g.X(x)}" y1="${top}" y2="${bot}" stroke="${x === 0 ? GREY : '#ebe7e2'}"/>`;
-            s += `<text x="${g.X(x)}" y="${bot + 16}" font-size="13" fill="${MID}" text-anchor="middle" class="n">${x}</text>`;
-        }
-        for (let y = Math.ceil(ya / ystep) * ystep; y <= yb; y += ystep) {
-            s += `<line x1="${M.l}" x2="${W - M.r}" y1="${g.Y(y)}" y2="${g.Y(y)}" stroke="${y === 0 ? GREY : '#ebe7e2'}"/>`;
-            s += `<text x="${M.l - 8}" y="${g.Y(y) + 4}" font-size="13" fill="${MID}" text-anchor="end" class="n">${y}</text>`;
-        }
-        return s;
-    }
-    function curve(g, fn, color) {
-        let d = '', on = false;
-        for (let i = 0; i <= 240; i++) {
-            const x = g.xr[0] + (g.xr[1] - g.xr[0]) * i / 240, y = fn(x);
-            if (!isFinite(y)) { on = false; continue; }
-            d += (on ? 'L' : 'M') + g.X(x).toFixed(1) + ',' + g.Y(y).toFixed(1); on = true;
-        }
-        return `<path d="${d}" fill="none" stroke="${color}" stroke-width="3" stroke-linejoin="round"/>`;
-    }
-    function line(g, xp, yp, m, color, w, dash) {
-        const a = g.xr[0], b = g.xr[1];
-        return `<line x1="${g.X(a)}" y1="${g.Y(yp + m * (a - xp))}" x2="${g.X(b)}" y2="${g.Y(yp + m * (b - xp))}" stroke="${color}" stroke-width="${w}" ${dash ? `stroke-dasharray="${dash}"` : ''} stroke-linecap="round"/>`;
-    }
-    const dot = (g, x, y, c) => `<circle cx="${g.X(x)}" cy="${g.Y(y)}" r="7" fill="${c}" stroke="#fff" stroke-width="2.5"/>`;
-    const clip = (g, id, inner) => `<clipPath id="${id}"><rect x="${M.l}" y="${g.oy + M.t}" width="${g.iw}" height="${g.H - M.t - M.b}"/></clipPath><g clip-path="url(#${id})">${inner}</g>`;
-
-    const slopeClass = m => Math.abs(m) < 0.0005 ? '' : (m > 0 ? 'up' : 'down');
     
-    const gTop = () => mk(460, 0, FN[cur].x, FN[cur].y);
 
-    function draw() {
-        const F = FN[cur], y0 = F.f(x0), m = F.df(x0), g = gTop();
-        const top = curve(g, F.f, TEAL) + line(g, x0, y0, m, ORANGE, 3) + dot(g, x0, y0, ORANGE);
-        document.getElementById('plot').innerHTML = grid(g) + clip(g, 'ct', top);
 
-        katex.render('x_0 = ' + fmt(x0), document.getElementById('xv'), { throwOnError: false });
-        katex.render('y_0 = ' + fmt(y0), document.getElementById('yv'), { throwOnError: false });
-        document.getElementById('sv').textContent = fmt(m);
-        document.getElementById('stat').className = 'stat ' + slopeClass(m);
 
-        const b = y0 - m * x0, ap = v => Math.abs(v - Math.round(v * 100) / 100) > 1e-9;
-        const mc = Math.abs(m - 1) < 0.005 ? '' : (Math.abs(m + 1) < 0.005 ? '-' : fmt(m));
-        const bs = Math.abs(b) < 0.005 ? '' : (b < 0 ? ' - ' : ' + ') + fmt(Math.abs(b));
-        katex.render('y ' + '=' + ' ' + mc + 'x' + bs, document.getElementById('eq'), { throwOnError: false });
+// ================= Derivative Explorer =================
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const smooth = (a, b, t) => { const u = clamp((t - a) / (b - a), 0, 1); return u * u * (3 - 2 * u); };
+const C = { ink: '#0c3840', mid: '#2f6a73', soft: '#83acb2', line: '#dfe9eb', accent: '#ff5500', paper: '#F4F9FA' };
+const K = (s, el, display = false) => katex.render(s, el, { throwOnError: false, displayMode: display });
+document.querySelectorAll('.m').forEach(el => K(el.textContent, el));
+
+// ---------- functions ----------
+const PRESETS = [
+  { src: 'x^3 - 3x', tex: 'x^3-3x', x: [-2.6, 2.6] },
+  { src: 'x^4 - 2x^2', tex: 'x^4-2x^2', x: [-1.85, 1.85] },
+  { src: 'x e^(-x)', tex: 'x\\,e^{-x}', x: [-0.8, 6] },
+  { src: 'e^(-x^2/2)', tex: 'e^{-x^2/2}', x: [-3.6, 3.6] },
+  { src: 'ln(x)/x', tex: '\\frac{\\ln x}{x}', x: [0.35, 9] },
+  { src: '6/(x^2+3)', tex: '\\frac{6}{x^2+3}', x: [-6, 6] },
+  { src: 'sqrt(x)', tex: '\\sqrt{x}', x: [0, 6] }
+];
+function compile(src) { const ast = parse(src); return { f: x => aev(ast, x), tex: atex(ast) }; }
+const dif = (f, x) => { const h = 1e-4 * (1 + Math.abs(x)); return (f(x + h) - f(x - h)) / (2 * h); };
+const dif2 = (f, x) => { const h = 2e-3 * (1 + Math.abs(x)); return (f(x + h) - 2 * f(x) + f(x - h)) / (h * h); };
+// where a sampled function changes sign (skipping jumps over asymptotes)
+function roots(g, x0, x1, n = 700) {
+  const out = []; let px = x0, pv = g(x0);
+  for (let i = 1; i <= n; i++) {
+    const x = x0 + (x1 - x0) * i / n, v = g(x);
+    if (v === 0 && isFinite(pv) && pv !== 0) { out.push(x); px = x; pv = v; continue; }   // landed exactly on it
+    if (pv === 0 && i > 1) { px = x; pv = v; continue; }
+    if (isFinite(pv) && isFinite(v) && pv * v < 0) {
+      let a = px, b = x, fa = pv;
+      for (let k = 0; k < 50; k++) { const m = (a + b) / 2, fm = g(m); if (fa * fm <= 0) b = m; else { a = m; fa = fm; } }
+      const r = (a + b) / 2;
+      if (Math.abs(g(r)) < 1e-3 * (1 + Math.abs(pv) + Math.abs(v))) out.push(r);
     }
+    px = x; pv = v;
+  }
+  return out;
+}
+// a y-range that shows the curve without letting an asymptote flatten everything
+function yRange(g, x0, x1, padFrac = .14) {
+  const vs = [];
+  for (let i = 0; i <= 400; i++) { const v = g(x0 + (x1 - x0) * i / 400); if (isFinite(v)) vs.push(v); }
+  if (!vs.length) return [-1, 1];
+  vs.sort((a, b) => a - b);
+  let lo = vs[Math.floor(vs.length * .02)], hi = vs[Math.ceil(vs.length * .98) - 1];
+  if (hi - lo < 1e-6) { lo -= 1; hi += 1; }
+  const pad = (hi - lo) * padFrac;
+  return [lo - pad, hi + pad];
+}
+const niceStep = span => { const raw = span / 6, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; };
+const fmt = (v, d = 2) => (Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d);
 
-    function fill(el) { el.style.setProperty('--progress', (Number(el.value) - Number(el.min)) / (Number(el.max) - Number(el.min)) * 100 + '%'); }
-    const xEl = document.getElementById('x');
-    function setFn(id) {
-        cur = id; const F = FN[id]; x0 = F.start;
-        xEl.min = F.x[0]; xEl.max = F.x[1]; xEl.step = STEP; xEl.value = x0; fill(xEl);
-        document.querySelectorAll('#fnPicker .segmented-btn').forEach(b => b.classList.toggle('active', b.dataset.fn === id));
-        draw();
+// ---------- state ----------
+const S = {
+  fn: null, view: null, morph: null,
+  a: 1, va: 0, target: null, dragging: false,
+  ch: 0, p: 0, pShown: 0, split: 0,
+  trail: [], quiz: null
+};
+function setFunction(def, label) {
+  const old = S.fn ? { f: S.fn.f, view: S.view } : null;
+  S.fn = { f: def.f, tex: label || def.tex };
+  const [x0, x1] = def.x, [y0, y1] = yRange(def.f, x0, x1);
+  const g = x => dif(def.f, x), [d0, d1] = yRange(g, x0, x1, .2);
+  S.view = { x0, x1, y0, y1, d0: Math.min(d0, -Math.abs(d1) * .15), d1: Math.max(d1, Math.abs(d0) * .15) };
+  S.a = clamp(x0 + (x1 - x0) * .66, x0, x1); S.va = 0;
+  while (!isFinite(def.f(S.a)) && S.a > x0) S.a -= (x1 - x0) / 50;
+  S.morph = old && !reduce ? { from: old, t0: performance.now() } : null;
+  K(`f(x) = ${S.fn.tex}`, $('fxLabel'));
+}
+
+// ---------- canvas ----------
+const cv = $('cv'), g = cv.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+function resize() {
+  const r = cv.getBoundingClientRect(); DPR = Math.min(devicePixelRatio || 1, 2);
+  W = r.width; H = r.height; cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+}
+new ResizeObserver(resize).observe(cv);
+// panel rectangles: f on top, f' underneath once it exists
+function panels() {
+  const small = W < 600, pad = { l: small ? 34 : 50, r: small ? 14 : 22, t: small ? 54 : 64, b: small ? 28 : 34 };
+  const inner = H - pad.t - pad.b, gap = 30 * S.split, botH = (inner - gap) * .44 * S.split;
+  const top = { x: pad.l, y: pad.t, w: W - pad.l - pad.r, h: inner - botH - gap };
+  const bot = { x: pad.l, y: top.y + top.h + gap, w: top.w, h: botH };
+  return { top, bot };
+}
+const X = (r, v, x) => r.x + (x - v.x0) / (v.x1 - v.x0) * r.w;
+const Y = (r, lo, hi, y) => r.y + r.h - (y - lo) / (hi - lo) * r.h;
+const invX = (r, v, px) => v.x0 + (px - r.x) / r.w * (v.x1 - v.x0);
+
+function grid(r, v, lo, hi, alpha = 1) {
+  const sx = niceStep(v.x1 - v.x0), sy = niceStep(hi - lo);
+  g.save(); g.globalAlpha = alpha;
+  g.fillStyle = 'rgba(131, 172, 178, .55)';
+  for (let x = Math.ceil(v.x0 / sx) * sx; x <= v.x1 + 1e-9; x += sx)
+    for (let y = Math.ceil(lo / sy) * sy; y <= hi + 1e-9; y += sy) { g.beginPath(); g.arc(X(r, v, x), Y(r, lo, hi, y), 1.6, 0, 7); g.fill(); }
+  g.strokeStyle = 'rgba(12, 56, 64, .22)'; g.lineWidth = 1.2;
+  if (lo < 0 && hi > 0) { const y0 = Y(r, lo, hi, 0); g.beginPath(); g.moveTo(r.x, y0); g.lineTo(r.x + r.w, y0); g.stroke(); }
+  if (v.x0 < 0 && v.x1 > 0) { const x0 = X(r, v, 0); g.beginPath(); g.moveTo(x0, r.y); g.lineTo(x0, r.y + r.h); g.stroke(); }
+  g.fillStyle = C.soft; g.font = '500 11px Outfit, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top';
+  for (let x = Math.ceil(v.x0 / sx) * sx; x <= v.x1 + 1e-9; x += sx) if (Math.abs(x) > 1e-9) g.fillText(+x.toFixed(4), X(r, v, x), r.y + r.h + 8);
+  g.textAlign = 'right'; g.textBaseline = 'middle';
+  for (let y = Math.ceil(lo / sy) * sy; y <= hi + 1e-9; y += sy) if (Math.abs(y) > 1e-9) g.fillText(+y.toFixed(4), r.x - 8, Y(r, lo, hi, y));
+  g.restore();
+}
+// a curve as a path with breaks where it is undefined or jumps
+function curvePath(r, v, lo, hi, fn, xa = v.x0, xb = v.x1) {
+  const n = Math.max(40, Math.round((X(r, v, xb) - X(r, v, xa)) / 1.5));
+  g.beginPath(); let pen = false, prev = null;
+  for (let i = 0; i <= n; i++) {
+    const x = xa + (xb - xa) * i / n, y = fn(x);
+    if (!isFinite(y)) { pen = false; continue; }
+    const px = X(r, v, x), py = Y(r, lo, hi, y);
+    if (pen && prev !== null && Math.abs(py - prev) > r.h * 1.5) pen = false;
+    if (Math.abs(py - r.y - r.h / 2) > r.h * 4) { pen = false; prev = null; continue; }
+    pen ? g.lineTo(px, py) : g.moveTo(px, py); pen = true; prev = py;
+  }
+}
+function ink(color = C.ink, width = 3, glow = true) {
+  if (glow) { g.save(); g.strokeStyle = color; g.globalAlpha = .08; g.lineWidth = width + 7; g.lineCap = g.lineJoin = 'round'; g.stroke(); g.restore(); }
+  g.strokeStyle = color; g.lineWidth = width; g.lineCap = g.lineJoin = 'round'; g.stroke();
+}
+function dot(x, y, rad = 7, color = C.accent, halo = 0) {
+  if (halo) { g.beginPath(); g.arc(x, y, rad + halo, 0, 7); g.fillStyle = color; g.globalAlpha = .16; g.fill(); g.globalAlpha = 1; }
+  g.beginPath(); g.arc(x, y, rad + 3, 0, 7); g.fillStyle = '#fff'; g.fill();
+  g.beginPath(); g.arc(x, y, rad, 0, 7); g.fillStyle = color; g.fill();
+}
+function line(r, v, lo, hi, x0, y0, m, color, width = 2.2, dash = null, alpha = 1) {
+  g.save(); g.beginPath(); g.rect(r.x, r.y - 4, r.w, r.h + 8); g.clip();
+  g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = width; g.lineCap = 'round'; if (dash) g.setLineDash(dash);
+  g.beginPath(); g.moveTo(X(r, v, v.x0), Y(r, lo, hi, y0 + m * (v.x0 - x0))); g.lineTo(X(r, v, v.x1), Y(r, lo, hi, y0 + m * (v.x1 - x0))); g.stroke(); g.restore();
+}
+function pill(text, x, y, bg = C.ink, fg = '#fff', align = 'center') {
+  g.save(); g.font = '700 11.5px Outfit, sans-serif'; const w = g.measureText(text).width + 16, h = 22;
+  const lx = align === 'center' ? x - w / 2 : align === 'left' ? x : x - w;
+  g.fillStyle = bg; g.beginPath(); g.roundRect(lx, y - h / 2, w, h, 11); g.fill();
+  g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, lx + w / 2, y + .5); g.restore();
+}
+
+// ---------- rolling digits ----------
+function odometer() {
+  const el = document.createElement('span'); el.className = 'odo'; let last = '';
+  return {
+    el, set(v, d = 2) {
+      const s = isFinite(v) ? fmt(v, d).replace('-', '−') : '—';
+      if (s.length !== last.length || s.replace(/\d/g, '0') !== last.replace(/\d/g, '0')) {
+        el.innerHTML = [...s].map(ch => /\d/.test(ch) ? `<span class="d"><span>${'0123456789'.split('').map(n => `<i>${n}</i>`).join('')}</span></span>` : `<span class="c">${ch}</span>`).join('');
+      }
+      let k = 0; const strips = el.querySelectorAll('.d > span');
+      [...s].forEach(ch => { if (/\d/.test(ch)) strips[k++].style.transform = `translateY(${-+ch}em)`; });
+      el.style.setProperty('--h', '1em'); last = s;
     }
-    Object.keys(FN).forEach(id => {
-        const b = document.createElement('button');
-        b.className = 'segmented-btn'; b.dataset.fn = id; katex.render(FN[id].tex, b, { throwOnError: false });
-        b.addEventListener('click', () => setFn(id));
-        document.getElementById('fnPicker').appendChild(b);
+  };
+}
+// readout chips per chapter
+const RO = {};
+function readouts(spec) {
+  const key = spec.map(s => s.k).join('|'); const box = $('readout');
+  if (box.dataset.key !== key) {
+    box.innerHTML = ''; box.dataset.key = key;
+    spec.forEach(s => {
+      const row = document.createElement('div'); row.className = 'ro' + (s.hot ? ' hot' : '');
+      const k = document.createElement('span'); k.className = 'k'; K(s.k, k);
+      const o = odometer(); row.append(k, o.el); box.appendChild(row); RO[s.k] = o;
     });
-    xEl.addEventListener('input', () => { x0 = Number(xEl.value); fill(xEl); draw(); });
-    setFn('sq');
-  </script>
+  }
+  spec.forEach(s => RO[s.k].set(s.v, s.d ?? 2));
+}
+
+// ---------- chapters ----------
+const NAMES = ['Grab the point', 'Zoom in', 'Squeeze the secant', 'Slope becomes a graph', 'Read f from f′', 'Your turn'];
+const steps = [...document.querySelectorAll('.step')];
+function readScroll() {
+  const mid = innerHeight * (innerWidth <= 900 ? .72 : .5);
+  let ch = 0, p = 0;
+  steps.forEach((s, i) => { const r = s.getBoundingClientRect(); if (r.top <= mid) { ch = i; p = clamp((mid - r.top) / r.height, 0, 1); } });
+  if (ch !== S.ch) enterChapter(ch);
+  S.ch = ch; S.p = p;
+  steps.forEach((s, i) => s.classList.toggle('on', i === ch));
+}
+function enterChapter(ch) {
+  $('tagNum').textContent = String(ch + 1).padStart(2, '0'); $('tagName').textContent = NAMES[ch];
+  if (ch === 5 && !S.quiz) newQuiz();
+  if (S.ch === 3) S.a = clamp(S.a, S.view.x0, S.view.x1);
+}
+addEventListener('scroll', readScroll, { passive: true });
+addEventListener('resize', readScroll);
+
+// ---------- dragging with a spring ----------
+function pointerX(e) { const r = cv.getBoundingClientRect(); return e.clientX - r.left; }
+cv.addEventListener('pointerdown', e => {
+  if (S.ch === 5) { quizTap(pointerX(e), e.clientY - cv.getBoundingClientRect().top); return; }
+  if (S.ch === 3) return;
+  S.dragging = true; $('stage').classList.add('dragging'); cv.setPointerCapture(e.pointerId);
+  S.target = clamp(invX(panels().top, S.view, pointerX(e)), S.view.x0, S.view.x1);
+  $('dragTip').classList.add('gone');
+});
+// the finger's own speed, so a flick carries what the hand did and not the spring's catch-up
+let lastMove = null;
+cv.addEventListener('pointermove', e => {
+  if (!S.dragging) return;
+  const x = clamp(invX(panels().top, S.view, pointerX(e)), S.view.x0, S.view.x1), t = performance.now();
+  if (lastMove) { const dt = (t - lastMove.t) / 1000; if (dt > 0) S.fingerV = lerp(S.fingerV || 0, (x - lastMove.x) / dt, .4); }
+  lastMove = { x, t }; S.target = x;
+});
+const stopDrag = () => {
+  if (!S.dragging) return;
+  S.dragging = false; $('stage').classList.remove('dragging');
+  const still = !lastMove || performance.now() - lastMove.t > 90;
+  S.a = S.target ?? S.a; S.va = still ? 0 : clamp(S.fingerV || 0, -1, 1) * (S.view.x1 - S.view.x0) * .9;
+  S.target = null; S.fingerV = 0; lastMove = null;
+};
+cv.addEventListener('pointerup', stopDrag); cv.addEventListener('pointercancel', stopDrag);
+cv.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  e.preventDefault(); S.va += (e.key === 'ArrowRight' ? 1 : -1) * (S.view.x1 - S.view.x0) * .9;
+  $('dragTip').classList.add('gone');
+});
+function physics(dt) {
+  const { x0, x1 } = S.view;
+  if (S.target !== null) {
+    if (reduce) { S.a = S.target; S.va = 0; return; }
+    const k = 320, c = 30; S.va += (k * (S.target - S.a) - c * S.va) * dt;   // spring towards the finger, a touch of overshoot
+  } else S.va *= Math.pow(.02, dt);                                           // glide after a flick, then settle
+  S.a += S.va * dt;
+  if (S.a < x0 || S.a > x1) { S.a = clamp(S.a, x0, x1); S.va *= -.35; }       // soft bounce at the edges
+  if (!isFinite(S.fn.f(S.a))) { S.a -= S.va * dt; S.va = 0; }
+}
+
+// ---------- drawing each chapter ----------
+function drawF(r, v, alpha = 1) {
+  grid(r, v, v.y0, v.y1);
+  const m = S.morph;
+  if (m) {
+    // curves morph: each pixel column slides from the old curve to the new one
+    const t = ease(clamp((performance.now() - m.t0) / 750, 0, 1));
+    const ov = m.from.view, n = Math.round(r.w / 2);
+    g.beginPath(); let pen = false;
+    for (let i = 0; i <= n; i++) {
+      const px = r.x + r.w * i / n;
+      const yo = m.from.f(invX(r, ov, px)), yn = S.fn.f(invX(r, v, px));
+      const pyo = Y(r, ov.y0, ov.y1, yo), pyn = Y(r, v.y0, v.y1, yn);
+      const py = isFinite(pyo) && isFinite(pyn) ? lerp(pyo, pyn, t) : (t > .5 ? pyn : pyo);
+      if (!isFinite(py) || Math.abs(py - r.y - r.h / 2) > r.h * 3) { pen = false; continue; }
+      pen ? g.lineTo(px, py) : g.moveTo(px, py); pen = true;
+    }
+    g.globalAlpha = alpha; ink(); g.globalAlpha = 1;
+    if (t >= 1) S.morph = null;
+    return false;
+  }
+  curvePath(r, v, v.y0, v.y1, S.fn.f); g.globalAlpha = alpha; ink(); g.globalAlpha = 1;
+  return true;
+}
+function drawTangent(r, v, a, alpha = 1, label = true) {
+  const f = S.fn.f, fa = f(a), m = dif(f, a);
+  if (!isFinite(fa) || !isFinite(m)) return;
+  line(r, v, v.y0, v.y1, a, fa, m, C.accent, 2.6, null, alpha);
+  const px = X(r, v, a), py = Y(r, v.y0, v.y1, fa);
+  dot(px, py, 7, C.accent, S.dragging ? 12 : 6 + 3 * Math.sin(performance.now() / 380));
+  if (label && alpha > .5) pill(`slope ${fmt(m)}`, clamp(px, r.x + 50, r.x + r.w - 50), py < r.y + 60 ? py + 30 : py - 30, C.accent);
+}
+function loupe(r, v, a, Z) {
+  const f = S.fn.f, fa = f(a), m = dif(f, a); if (!isFinite(fa)) return;
+  const px = X(r, v, a), py = Y(r, v.y0, v.y1, fa);
+  const R = clamp(Math.min(W, H) * .17, 62, 118);
+  const cx = clamp(px + (px > r.x + r.w * .6 ? -1 : 1) * R * 1.55, r.x + R + 6, r.x + r.w - R - 6);
+  const cy = clamp(py + (py > r.y + r.h * .45 ? -1 : 1) * R * 1.25, r.y + R + 6, r.y + r.h - R - 6);
+  const sx = r.w / (v.x1 - v.x0), sy = r.h / (v.y1 - v.y0);
+  // the region being magnified, and a thread to the lens
+  const zr = Math.max(3.5, R / Z);
+  g.save(); g.strokeStyle = C.ink; g.globalAlpha = .45; g.lineWidth = 1.3; g.setLineDash([4, 4]);
+  g.beginPath(); g.moveTo(px, py); g.lineTo(cx, cy); g.stroke(); g.setLineDash([]);
+  g.beginPath(); g.arc(px, py, zr, 0, 7); g.stroke(); g.restore();
+  // the lens
+  g.save(); g.shadowColor = 'rgba(12, 56, 64, .28)'; g.shadowBlur = 30; g.shadowOffsetY = 12;
+  g.beginPath(); g.arc(cx, cy, R, 0, 7); g.fillStyle = '#fff'; g.fill(); g.restore();
+  g.save(); g.beginPath(); g.arc(cx, cy, R, 0, 7); g.clip();
+  const ux = x => cx + (x - a) * sx * Z, uy = y => cy - (y - fa) * sy * Z;
+  // fine dot grid inside the lens drifts as the zoom grows
+  g.fillStyle = 'rgba(131, 172, 178, .45)'; const step = 22, off = (Z * 7) % step;
+  for (let gx = cx - R - off; gx < cx + R; gx += step) for (let gy = cy - R - off; gy < cy + R; gy += step) { g.beginPath(); g.arc(gx, gy, 1.2, 0, 7); g.fill(); }
+  g.strokeStyle = C.accent; g.lineWidth = 2; g.setLineDash([6, 5]); g.beginPath(); g.moveTo(ux(a - R / (sx * Z)), uy(fa - m * R / (sx * Z))); g.lineTo(ux(a + R / (sx * Z)), uy(fa + m * R / (sx * Z))); g.stroke(); g.setLineDash([]);
+  g.beginPath(); for (let i = 0; i <= 120; i++) { const x = a + (i / 60 - 1) * R / (sx * Z); const y = f(x); i ? g.lineTo(ux(x), uy(y)) : g.moveTo(ux(x), uy(y)); }
+  ink(C.ink, 3.4, false);
+  dot(cx, cy, 5.5);
+  g.restore();
+  g.beginPath(); g.arc(cx, cy, R, 0, 7); g.lineWidth = 5; g.strokeStyle = C.ink; g.stroke();
+  g.beginPath(); g.arc(cx, cy, R - 5, 0, 7); g.lineWidth = 1; g.strokeStyle = 'rgba(255,255,255,.9)'; g.stroke();
+  pill(`×${Z < 10 ? Z.toFixed(1) : Math.round(Z)}`, cx, cy + R + 2, C.ink);
+}
+function secant(r, v, a, h, q) {
+  const f = S.fn.f, fa = f(a), fb = f(a + h), m = (fb - fa) / h;
+  if (!isFinite(fa) || !isFinite(fb)) return m;
+  const A = [X(r, v, a), Y(r, v.y0, v.y1, fa)], B = [X(r, v, a + h), Y(r, v.y0, v.y1, fb)];
+  line(r, v, v.y0, v.y1, a, fa, dif(f, a), C.accent, 2, [7, 6], smooth(.55, .95, q));
+  // rise-over-run triangle
+  g.save(); g.fillStyle = 'rgba(47, 106, 115, .08)'; g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], A[1]); g.lineTo(B[0], B[1]); g.closePath(); g.fill();
+  g.strokeStyle = 'rgba(47, 106, 115, .55)'; g.lineWidth = 1.4; g.setLineDash([3, 4]); g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], A[1]); g.lineTo(B[0], B[1]); g.stroke(); g.restore();
+  line(r, v, v.y0, v.y1, a, fa, m, C.mid, 2.6);
+  if (Math.abs(B[0] - A[0]) > 26) pill('h', (A[0] + B[0]) / 2, A[1] + (B[1] > A[1] ? -14 : 14), '#fff', C.mid);
+  g.beginPath(); g.arc(B[0], B[1], 7, 0, 7); g.fillStyle = '#fff'; g.fill(); g.lineWidth = 3; g.strokeStyle = C.mid; g.stroke();
+  dot(A[0], A[1], 7, C.accent, 5);
+  return m;
+}
+function drawDerivPanel(r, v, upto, alpha) {
+  if (r.h < 20) return;
+  const f = S.fn.f, d = x => dif(f, x);
+  g.save(); g.globalAlpha = alpha;
+  grid(r, v, v.d0, v.d1);
+  g.fillStyle = C.accent; g.font = '700 12px Outfit, sans-serif'; g.textAlign = 'left'; g.textBaseline = 'top';
+  g.fillText("f′(x)", r.x + 8, r.y + 4);
+  curvePath(r, v, v.d0, v.d1, d, v.x0, Math.max(v.x0, upto)); ink(C.accent, 3);
+  g.restore();
+}
+function shade(top, bot, v, q) {
+  const f = S.fn.f, d = x => dif(f, x), n = Math.round(top.w / 2), a1 = smooth(0, .35, q);
+  const sign = i => { const x = v.x0 + (v.x1 - v.x0) * (i + .5) / n, s = d(x); return !isFinite(s) || !isFinite(f(x)) ? 0 : s > 0 ? 1 : -1; };
+  for (let i = 0; i < n;) {
+    const sg = sign(i); let j = i + 1; while (j < n && sign(j) === sg) j++;
+    if (sg) {
+      const xa = top.x + top.w * i / n, xb = top.x + top.w * j / n;
+      g.fillStyle = sg > 0 ? `rgba(47, 106, 115, ${.10 * a1})` : `rgba(255, 85, 0, ${.09 * a1})`;
+      g.fillRect(xa, top.y, xb - xa, top.h);
+      if (bot.h > 20) {   // the area between f' and the axis
+        const y0 = Y(bot, v.d0, v.d1, 0); g.beginPath(); g.moveTo(xa, y0);
+        for (let k = i; k <= j; k++) { const x = v.x0 + (v.x1 - v.x0) * k / n; g.lineTo(top.x + top.w * k / n, Y(bot, v.d0, v.d1, d(x))); }
+        g.lineTo(xb, y0); g.closePath(); g.fillStyle = sg > 0 ? `rgba(47, 106, 115, ${.2 * a1})` : `rgba(255, 85, 0, ${.18 * a1})`; g.fill();
+      }
+    }
+    i = j;
+  }
+  const pulse = 1 + .15 * Math.sin(performance.now() / 300);
+  // tops and bottoms: where f' crosses zero
+  if (q > .15) for (const rt of roots(d, v.x0, v.x1)) {
+    const kind = d(rt - 1e-3 * (v.x1 - v.x0)) > 0 ? 'max' : 'min', px = X(top, v, rt), py = Y(top, v.y0, v.y1, f(rt));
+    g.globalAlpha = smooth(.15, .3, q);
+    g.beginPath(); g.arc(px, py, 9 * pulse, 0, 7); g.strokeStyle = C.ink; g.lineWidth = 2.5; g.stroke();
+    pill(kind === 'max' ? 'top' : 'bottom', px, kind === 'max' ? py - 24 : py + 24);
+    if (bot.h > 20) { const by = Y(bot, v.d0, v.d1, 0); g.beginPath(); g.arc(px, by, 5, 0, 7); g.fillStyle = C.ink; g.fill(); g.setLineDash([3, 4]); g.strokeStyle = 'rgba(12,56,64,.35)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(px, py); g.lineTo(px, by); g.stroke(); g.setLineDash([]); }
+    g.globalAlpha = 1;
+  }
+  // bends: where f' turns around
+  if (q > .5) for (const rt of roots(x => dif2(f, x), v.x0, v.x1)) {
+    const px = X(top, v, rt), py = Y(top, v.y0, v.y1, f(rt));
+    g.globalAlpha = smooth(.5, .65, q);
+    g.save(); g.translate(px, py); g.rotate(Math.PI / 4); g.fillStyle = '#fff'; g.fillRect(-7, -7, 14, 14); g.strokeStyle = C.accent; g.lineWidth = 2.5; g.strokeRect(-6 * pulse, -6 * pulse, 12 * pulse, 12 * pulse); g.restore();
+    pill('inflection', px, py + 26, C.accent);
+    if (bot.h > 20) { const by = Y(bot, v.d0, v.d1, d(rt)); g.save(); g.translate(px, by); g.rotate(Math.PI / 4); g.fillStyle = C.accent; g.fillRect(-5, -5, 10, 10); g.restore(); }
+    g.globalAlpha = 1;
+  }
+}
+
+// ---------- practice: read the graph of f' ----------
+const QUIZ = {
+  min: { q: 'Tap every x where f has a local minimum.', why: "f′ changes from negative to positive there, so f stops going down and starts going up." },
+  max: { q: 'Tap every x where f has a local maximum.', why: "f′ changes from positive to negative there, so f stops going up and starts going down." },
+  infl: { q: 'Tap every x where f has an inflection point.', why: "f′ has a top or a bottom there: f′ turns around, so f changes how it bends." }
+};
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function newQuiz() {
+  const kind = ['min', 'max', 'infl'][ri(0, 2)];
+  let d, answers, focus;
+  for (let tries = 0; tries < 50; tries++) {
+    if (kind === 'infl') {
+      // f' with turning points at whole numbers: one (a parabola) or two (a cubic)
+      // the up-down shift is sized to the curve's own wiggle, so the turning points stay easy to see
+      if (Math.random() < .4) { const r0 = ri(-3, 3), k = (Math.random() < .5 ? 1 : -1) * (.4 + Math.random() * .5), c = Math.abs(k) * 4 * (Math.random() * 1.6 - 1); d = x => k * (x - r0) ** 2 + c; answers = [r0]; focus = [r0 - 2, r0 + 2]; }
+      else {
+        const r1 = ri(-4, 3), r2 = ri(r1 + 2, 4), k = Math.random() < .5 ? 1 : -1, base = x => k * (x ** 3 / 3 - (r1 + r2) / 2 * x ** 2 + r1 * r2 * x);
+        const mid = (base(r1) + base(r2)) / 2, A = Math.abs(base(r1) - base(r2)), c = -mid + A * (Math.random() - .5) * 1.4;
+        d = x => base(x) + c; answers = [r1, r2]; focus = [r1, r2];
+      }
+    } else {
+      const n = ri(2, 3), rs = new Set(); while (rs.size < n) rs.add(ri(-4, 4));
+      const rr = [...rs].sort((a, b) => a - b), k = (Math.random() < .5 ? 1 : -1) * (n === 2 ? .45 : .14);
+      d = x => k * rr.reduce((t, r0) => t * (x - r0), 1);
+      focus = rr;
+      answers = rr.filter(r0 => { const l = d(r0 - .01), rgt = d(r0 + .01); return kind === 'min' ? l < 0 && rgt > 0 : l > 0 && rgt < 0; });
+    }
+    if (answers.length && !(S.quiz && S.quiz.kind === kind && JSON.stringify(S.quiz.answers) === JSON.stringify(answers))) break;
+  }
+  // frame it like an exam graph: around the interesting points, scaled to a comfortable height
+  let x0 = Math.min(...focus) - 1.6, x1 = Math.max(...focus) + 1.6;
+  if (x1 - x0 < 6) { const c = (x0 + x1) / 2; x0 = c - 3; x1 = c + 3; }
+  x0 = Math.max(-6, Math.round(x0 * 2) / 2); x1 = Math.min(6, Math.round(x1 * 2) / 2);
+  let peak = 0; for (let i = 0; i <= 200; i++) peak = Math.max(peak, Math.abs(d(x0 + (x1 - x0) * i / 200)));
+  const raw = d, scale = 5 / (peak || 1); d = x => raw(x) * scale;
+  const [lo, hi] = yRange(d, x0, x1, .12);
+  S.quiz = { kind, d, answers, pins: [], checked: false, view: { x0, x1, y0: Math.min(lo, -1), y1: Math.max(hi, 1) }, born: performance.now(), score: S.quiz ? S.quiz.score : { ok: 0, n: 0, streak: 0 } };
+  $('quizQ').textContent = QUIZ[kind].q; $('quizVerdict').hidden = true;
+  $('quizSub').textContent = 'Tap the graph to drop a pin; tap a pin to remove it.';
+}
+function quizTap(px) {
+  const qz = S.quiz; if (!qz || qz.checked) return;
+  const r = panels().top, x = invX(r, qz.view, px);
+  if (x < qz.view.x0 || x > qz.view.x1) return;
+  const near = qz.pins.findIndex(p => Math.abs(X(r, qz.view, p.x) - px) < 18);
+  if (near >= 0) qz.pins.splice(near, 1); else qz.pins.push({ x: Math.round(x * 4) / 4, t0: performance.now(), state: null });
+}
+function quizCheck() {
+  const qz = S.quiz; if (!qz || qz.checked) return;
+  if (!qz.pins.length) { $('quizSub').textContent = 'Drop at least one pin first.'; return; }
+  qz.checked = true; qz.tCheck = performance.now();
+  const used = new Set();
+  qz.pins.forEach(p => { const i = qz.answers.findIndex((a, j) => !used.has(j) && Math.abs(a - p.x) <= .35); if (i >= 0) { used.add(i); p.state = 'ok'; } else p.state = 'bad'; });
+  qz.missed = qz.answers.filter((_, j) => !used.has(j));
+  const right = qz.pins.every(p => p.state === 'ok') && !qz.missed.length;
+  const sc = qz.score; sc.n++; if (right) { sc.ok++; sc.streak++; } else sc.streak = 0;
+  $('quizOk').textContent = sc.ok; $('quizN').textContent = sc.n; $('quizStreak').textContent = sc.streak;
+  const v = $('quizVerdict'); v.hidden = false; v.className = 'verdict ' + (right ? 'ok' : 'bad');
+  const list = qz.answers.map(a => `x = ${a}`).join(' and ');
+  v.innerHTML = (right ? '<b>Exactly.</b> ' : `<b>Not quite.</b> The answer: ${list}. `) + QUIZ[qz.kind].why;
+  if (right) burst(qz);
+}
+function burst(qz) { qz.sparks = Array.from({ length: 36 }, (_, i) => ({ a: i / 36 * Math.PI * 2, v: 2 + Math.random() * 3, t0: performance.now() })); }
+$('quizCheck').addEventListener('click', quizCheck);
+$('quizClear').addEventListener('click', () => { if (S.quiz && !S.quiz.checked) S.quiz.pins = []; });
+$('quizNext').addEventListener('click', newQuiz);
+function drawQuiz(r) {
+  const qz = S.quiz, v = qz.view, now = performance.now();
+  // the graph inks itself in from left to right
+  const reveal = reduce ? 1 : ease(clamp((now - qz.born) / 900, 0, 1));
+  grid(r, v, v.y0, v.y1);
+  g.fillStyle = C.accent; g.font = '700 12px Outfit, sans-serif'; g.textAlign = 'left'; g.textBaseline = 'top'; g.fillText('graph of f′', r.x + 8, r.y + 4);
+  curvePath(r, v, v.y0, v.y1, qz.d, v.x0, lerp(v.x0, v.x1, reveal)); ink(C.accent, 3.2);
+  const axisY = Y(r, v.y0, v.y1, 0);
+  // pins drop in on a spring
+  qz.pins.forEach(p => {
+    const t = (now - p.t0) / 1000, drop = reduce ? 0 : Math.exp(-7 * t) * Math.cos(16 * t) * -60;
+    const px = X(r, v, p.x), py = axisY + Math.min(0, drop);
+    let shake = 0; if (p.state === 'bad' && !reduce) shake = Math.sin((now - qz.tCheck) / 30) * 5 * Math.exp(-(now - qz.tCheck) / 260);
+    const col = p.state === 'ok' ? '#1d8a6f' : p.state === 'bad' ? C.accent : C.ink;
+    g.save(); g.translate(px + shake, py);
+    g.strokeStyle = col; g.lineWidth = 2.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, -26); g.stroke();
+    g.beginPath(); g.arc(0, -32, 8, 0, 7); g.fillStyle = col; g.fill();
+    if (p.state) { g.fillStyle = '#fff'; g.font = '900 10px Outfit, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.state === 'ok' ? '✓' : '×', 0, -31.5); }
+    g.restore();
+    pill(`x = ${p.x}`, px, axisY + 18, '#fff', col);
+  });
+  if (qz.checked) (qz.missed || []).forEach(a => {
+    const px = X(r, v, a), al = smooth(0, .4, (now - qz.tCheck) / 1000);
+    g.save(); g.globalAlpha = al; g.setLineDash([4, 4]); g.strokeStyle = C.accent; g.lineWidth = 2; g.beginPath(); g.moveTo(px, axisY); g.lineTo(px, axisY - 26); g.stroke(); g.setLineDash([]);
+    g.beginPath(); g.arc(px, axisY - 32, 8, 0, 7); g.stroke(); g.restore();
+    pill(`x = ${a}`, px, axisY + 18, C.accent);
+  });
+  if (qz.sparks) qz.sparks.forEach(s => {
+    const t = (now - s.t0) / 1000; if (t > 1) return;
+    qz.pins.filter(p => p.state === 'ok').forEach(p => {
+      const px = X(r, v, p.x) + Math.cos(s.a) * s.v * 60 * t, py = axisY - 32 + Math.sin(s.a) * s.v * 60 * t + 80 * t * t;
+      g.globalAlpha = 1 - t; g.fillStyle = s.a % 2 > 1 ? C.accent : '#1d8a6f'; g.fillRect(px - 2, py - 2, 4, 4); g.globalAlpha = 1;
+    });
+  });
+}
+
+// ---------- the frame ----------
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (!W) { requestAnimationFrame(frame); return; }
+  S.pShown = reduce ? S.p : lerp(S.pShown, S.p, 1 - Math.pow(.0015, dt));   // smooth out the scroll
+  const q = S.pShown, ch = S.ch, v = S.view;
+  const wantSplit = ch === 3 || ch === 4 ? 1 : 0;
+  S.split = reduce ? wantSplit : lerp(S.split, wantSplit, 1 - Math.pow(.004, dt));
+  if (ch === 0 || ch === 1 || ch === 2 || ch === 4) physics(dt);
+  $('tagMeter').style.width = (q * 100).toFixed(1) + '%';
+  g.setTransform(DPR, 0, 0, DPR, 0, 0); g.clearRect(0, 0, W, H);
+  const { top, bot } = panels(), f = S.fn.f;
+  $('fxLabel').style.opacity = ch === 5 ? 0 : 1;
+  $('dragTip').style.display = ch === 0 ? '' : 'none';
+
+  if (ch === 5) {
+    drawQuiz({ x: top.x, y: top.y, w: top.w, h: H - top.y - (W < 600 ? 34 : 44) });
+    readouts([]);
+  } else {
+    const settled = drawF(top, v);
+    if (settled) {
+      if (ch === 0) {
+        drawTangent(top, v, S.a);
+        readouts([{ k: 'x', v: S.a }, { k: "f'(x)", v: dif(f, S.a), hot: true }]);
+      } else if (ch === 1) {
+        const Z = Math.pow(60, ease(q));
+        drawTangent(top, v, S.a, smooth(.75, 1, q), false);
+        loupe(top, v, S.a, Z);
+        readouts([{ k: '\\text{zoom}', v: Z, d: 1 }, { k: "f'(x)", v: dif(f, S.a), hot: true }]);
+      } else if (ch === 2) {
+        const span = v.x1 - v.x0, dir = S.a < (v.x0 + v.x1) / 2 ? 1 : -1;
+        const h = dir * (span * .38 * Math.pow(1 - q, 2.2) + span * 1e-4);
+        const m = secant(top, v, S.a, h, q);
+        readouts([{ k: 'h', v: h, d: 3 }, { k: '\\frac{f(x+h)-f(x)}{h}', v: m, d: 3 }, { k: "f'(x)", v: dif(f, S.a), d: 3, hot: true }]);
+      } else if (ch === 3) {
+        // the pen sweeps left to right and draws f' as it goes
+        const a = lerp(v.x0, v.x1, clamp(q * 1.15, 0, 1)); S.a = a;
+        drawDerivPanel(bot, v, a, smooth(.2, .9, S.split));
+        drawTangent(top, v, a, 1, false);
+        const fa = f(a), s = dif(f, a);
+        if (isFinite(fa) && isFinite(s) && bot.h > 20) {
+          const px = X(top, v, a), py = Y(top, v.y0, v.y1, fa), by = Y(bot, v.d0, v.d1, s);
+          g.save(); g.setLineDash([3, 5]); g.strokeStyle = 'rgba(255, 85, 0, .5)'; g.lineWidth = 1.4; g.beginPath(); g.moveTo(px, py + 10); g.lineTo(px, by); g.stroke(); g.restore();
+          dot(px, by, 6, C.accent, 9 + 3 * Math.sin(now / 160));
+        }
+        readouts([{ k: 'x', v: a }, { k: "f'(x)", v: s, hot: true }]);
+      } else if (ch === 4) {
+        drawDerivPanel(bot, v, v.x1, smooth(.2, .9, S.split));
+        shade(top, bot, v, q);
+        readouts([]);
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+// ---------- picker ----------
+PRESETS.forEach((p, i) => {
+  const b = document.createElement('button'); b.className = 'chip' + (i ? '' : ' on'); b.type = 'button'; K(p.tex, b);
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b));
+    setFunction({ ...compile(p.src), x: p.x }, p.tex); $('ownMsg').textContent = ''; $('ownMsg').className = 'own-msg';
+  });
+  $('chips').appendChild(b);
+});
+function plotOwn() {
+  const src = $('own').value.trim(), msg = $('ownMsg'); if (!src) return;
+  try {
+    const c = compile(src);
+    // find where it is defined between -6 and 6
+    let lo = null, hi = null;
+    for (let i = 0; i <= 600; i++) { const x = -6 + 12 * i / 600; if (isFinite(c.f(x))) { if (lo === null) lo = x; hi = x; } }
+    if (lo === null || hi - lo < .5) throw new Error('That function is not defined between −6 and 6.');
+    setFunction({ f: c.f, tex: c.tex, x: [Math.max(lo, -5), Math.min(hi, 5)] });
+    document.querySelectorAll('.chip').forEach(ch => ch.classList.remove('on'));
+    msg.className = 'own-msg'; msg.textContent = 'Plotted. Drag the point.';
+  } catch (e) { msg.className = 'own-msg err'; msg.textContent = e.message === 'empty' ? '' : e.message; }
+}
+$('ownGo').addEventListener('click', plotOwn);
+$('own').addEventListener('keydown', e => { if (e.key === 'Enter') plotOwn(); });
+
+setFunction({ ...compile(PRESETS[0].src), x: PRESETS[0].x }, PRESETS[0].tex);
+resize(); readScroll(); requestAnimationFrame(frame);
+</script>
 </body>
 </html>
