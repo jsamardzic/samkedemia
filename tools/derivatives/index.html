@@ -175,7 +175,13 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-tier { font: 900 1.25rem/1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; }
 .pc-title { font: 700 .9rem/1.2 var(--font-body); opacity: .85; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
-.skills-head { margin-top: 22px !important; }
+.skills-head { margin-top: 18px !important; }
+.card-btn { all: unset; box-sizing: border-box; display: block; width: 100%; margin-top: 10px; padding: 9px 12px; border-radius: 999px; text-align: center; cursor: pointer; font: 700 .82rem/1 var(--font-body); letter-spacing: .06em; color: var(--quiet); border: 1px dashed var(--glass-border); transition: color .2s, border-color .2s; }
+.card-btn:hover { color: var(--cream); border-color: rgba(255, 255, 255, .4); }
+.card-form { display: flex; gap: 8px; margin-top: 10px; }
+.card-form input { flex: 1; min-width: 0; font: 400 .95rem var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .06); border: 1px solid var(--glass-border); border-radius: 999px; padding: 10px 14px; }
+.card-form input:focus { outline: none; border-color: var(--orange); }
+.card-form .btn { padding: 10px 16px; font-size: .85rem; }
 .skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 6px; gap: 10px; }
 .skills-head .hand { font: 700 1.15rem/1 var(--font-hand); color: var(--orange-light); }
 .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 9px 0; color: var(--cream); }
@@ -274,7 +280,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <aside class="coach" aria-label="Your progress">
       <div class="pcard" id="pcard" data-tier="bronze">
         <div class="pc-rating">
-          <span class="ovr-num" id="ovr">40</span>
+          <span class="ovr-num" id="ovr">50</span>
           <span class="pc-ovr">OVR</span>
           <span class="ovr-gain" id="ovrGain" hidden></span>
         </div>
@@ -283,6 +289,11 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span class="pc-title" id="ptitle">Rookie</span>
         </div>
       </div>
+      <button class="card-btn" id="cardBtn" type="button">Download my card</button>
+      <form class="card-form" id="cardForm" hidden>
+        <input id="cardName" type="text" maxlength="24" placeholder="Your name" autocomplete="given-name" aria-label="Name on your card">
+        <button class="btn primary" type="submit">Save PNG</button>
+      </form>
       <div class="skills-head">
         <span class="label">Skills</span>
         <span class="hand">grows as you go</span>
@@ -827,7 +838,9 @@ function polyN(k, exps) {
 }
 const SQ = mono(1, Q(1, 2)), EX = RE(X), LX = RL(X);
 const cx = (c, n) => c === 1 ? n : mul(c, n);
-const ROOTISH = [() => mono(nz(1, 9), Q(1, 2)), () => mono(nz(1, 9), -1), () => mono(nz(1, 9), -2), () => mono(nz(1, 9), Q(-1, 2)), () => mono(nz(1, 6), Q(3, 2))];
+const FRAC = [Q(1, 2), Q(1, 3), Q(2, 3), Q(1, 4), Q(3, 4), Q(3, 2), Q(4, 3), Q(5, 3), Q(5, 2), Q(-1, 2), Q(-1, 3), Q(-2, 3), Q(-3, 2), Q(-1, 1), Q(-2, 1), Q(-3, 1)];
+const fracExp = () => pick(FRAC);
+const ROOTISH = [() => mono(nz(1, 9), fracExp()), () => mono(nz(1, 9), fracExp()), () => mono(nz(1, 9), pick([Q(1, 2), Q(-1, 1), Q(-2, 1)]))];
 
 // ---------- skills and problem families ----------
 const SKILLS = [
@@ -842,13 +855,13 @@ const NAME = Object.fromEntries(SKILLS.map(s => [s.id, s.name]));
 const k = () => ri(2, 9);
 const cmono = e => mono(Math.random() < 0.6 ? 1 : k(), e);                       // x^e, sometimes with a coefficient
 const smallPoly = () => pick([lin, linPos, () => cmono(ri(1, 4)), () => P([[1, 2], [nz(1, 9), 0]]), () => P([[ri(1, 3), 2], [nz(1, 6), 1]])])();
-const anyPoly = () => pick([lin, quad, () => polyN(2, [0, 1, 2, 3]), () => polyN(3, [0, 1, 2, 3]), () => cmono(ri(2, 4))])();
+const anyPoly = () => pick([lin, quad, () => polyN(2, [0, 1, 2, 3]), () => polyN(3, [0, 1, 2, 3]), () => cmono(ri(2, 4)), () => P([[nz(1, 4), ri(2, 4)], [nz(1, 9), 0]]), () => P([[1, 2], [-1, 0]])])();
 const posDen = () => pick([linPos, posQuad, () => P([[1, ri(2, 3)], [ri(1, 9), 0]])])();   // never zero for x > 0
 const simpleFn = () => pick([() => EX, () => LX, () => SQ, () => cx(k(), EX), () => cx(k(), LX)])();
 const rootTerm = () => pick(ROOTISH)();
 const expLnTerm = () => pick([() => cx(nz(1, 9), EX), () => cx(nz(1, 9), LX)])();
-const chainEasy = () => pick([() => RE(mono(nz(2, 4), 1)), () => RP(linPos(), ri(2, 4)), () => RL(linPos()), () => RP(linPos(), Q(1, 2)), () => RE(lin())])();
-const chainHard = () => pick([() => RE(P([[nz(1, 2), 2], [nz(1, 4), 1]])), () => RL(posQuad()), () => RP(posQuad(), Q(1, 2)), () => RP(quad(), ri(2, 3)), () => RP(linPos(), -ri(1, 2)), () => RP(LX, ri(2, 3))])();
+const chainEasy = () => pick([() => RE(mono(nz(2, 4), 1)), () => RE(mono(-1, 1)), () => RP(linPos(), ri(2, 4)), () => RL(linPos()), () => RP(linPos(), pick([Q(1, 2), Q(1, 2), Q(1, 3), Q(2, 3), Q(3, 2)])), () => RE(lin()), () => RP(lin(), 2), () => RL(P([[1, 2], [ri(1, 9), 0]]))])();
+const chainHard = () => pick([() => RE(P([[nz(1, 2), 2], [nz(1, 4), 1]])), () => RE(mono(-1, 2)), () => RL(posQuad()), () => RP(posQuad(), Q(1, 2)), () => RP(posQuad(), pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3)])), () => RP(quad(), ri(2, 3)), () => RP(linPos(), -ri(1, 2)), () => RP(posQuad(), pick([Q(-1, 2), Q(-1, 3), Q(-2, 3), Q(-3, 2)])), () => RP(LX, ri(2, 3)), () => RP(P([[1, ri(3, 4)], [ri(1, 9), 0]]), ri(2, 3))])();
 const order = (a, b) => { const xFirst = n => n.t === 'poly' && isMono(n); if (xFirst(a) !== xFirst(b)) return xFirst(a) ? [a, b] : [b, a]; return Math.random() < 0.5 ? [a, b] : [b, a]; };
 const innerNested = () => pick([() => add(EX, cmono(ri(1, 3))), () => add(SQ, C(ri(1, 5))), () => add(EX, C(ri(1, 6))), () => add(mono(1, 2), SQ, C(ri(1, 5))), () => add(cx(ri(1, 3), EX), posQuad())])();
 
@@ -861,7 +874,7 @@ const TYPES = [
   { id: 'mix4', s: ['roots', 'exp', 'ln'], t: 4, b: () => add(polyN(1, [2, 3, 4, 5]), expLnTerm(), rootTerm(), rootTerm()) },
   { id: 'prod1', s: ['product'], t: 1, b: () => { let a, b; do { a = smallPoly(); b = smallPoly(); } while (isMono(a) && isMono(b)); return RM(a, b); } },
   { id: 'prod2', s: ['product'], t: 2, b: () => RM(...order(pick([() => cmono(ri(1, 4)), lin])(), pick([() => EX, () => LX, () => SQ])())) },
-  { id: 'prod3', s: ['product', 'exp'], t: 3, b: () => pick([() => RM(anyPoly(), pick([EX, LX])), () => { const [a, b] = [EX, LX, SQ, mono(1, Q(3, 2))].sort(() => Math.random() - 0.5); return RM(a, b); }])() },
+  { id: 'prod3', s: ['product', 'exp'], t: 3, b: () => pick([() => RM(anyPoly(), pick([EX, LX])), () => { const [a, b] = [EX, LX, SQ, mono(1, pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3), Q(3, 4)]))].sort(() => Math.random() - 0.5); return RM(a, b); }])() },
   { id: 'prod4', s: ['product', 'chain'], t: 4, b: () => RM(...order(pick([() => cmono(ri(1, 3)), lin, () => SQ, () => EX, () => LX])(), chainEasy())) },
   { id: 'prod5', s: ['product', 'chain'], t: 5, b: () => RM(...order(pick([() => cmono(ri(1, 2)), () => EX, () => LX, chainEasy])(), chainHard())) },
   { id: 'quot1', s: ['quotient'], t: 1, b: () => RD(pick([lin, () => cmono(1)])(), linPos()) },
@@ -870,11 +883,17 @@ const TYPES = [
   { id: 'quot4', s: ['quotient'], t: 4, b: () => RD(pick([() => polyN(3, [0, 1, 2, 3]), () => add(EX, C(nz(1, 5))), () => RM(cmono(ri(1, 2)), EX), () => add(LX, cmono(1))])(), posDen()) },
   { id: 'quot5', s: ['quotient', 'chain'], t: 5, b: () => pick([() => RD(chainEasy(), posDen()), () => RD(pick([() => X, lin, () => EX])(), RP(posQuad(), Q(1, 2))), () => RD(RL(posQuad()), cmono(ri(1, 2))), () => RD(chainHard(), pick([() => X, linPos])())])() },
   { id: 'ch1', s: ['chain'], t: 1, b: () => pick([() => RP(lin(), ri(2, 5)), () => RE(mono(nz(2, 5), 1)), () => RP(P([[ri(2, 5), 1], [nz(1, 9), 0]]), ri(2, 4))])() },
-  { id: 'ch2', s: ['chain'], t: 2, b: () => pick([() => RL(linPos()), () => RP(linPos(), Q(1, 2)), () => RE(lin()), () => RP(linPos(), -1), () => RP(P([[1, 2], [nz(1, 9), 0]]), ri(2, 3))])() },
-  { id: 'ch3', s: ['chain'], t: 3, b: () => pick([chainHard, () => RP(P([[1, ri(3, 4)], [ri(1, 9), 0]]), ri(2, 4)), () => RE(P([[nz(1, 3), 3], [nz(1, 5), 0]])), () => RP(posQuad(), Q(3, 2)), () => RL(P([[1, ri(3, 4)], [ri(1, 9), 0]]))])() },
+  { id: 'ch2', s: ['chain'], t: 2, b: () => pick([() => RL(linPos()), () => RP(linPos(), pick([Q(1, 2), Q(1, 2), Q(1, 3), Q(2, 3), Q(3, 2)])), () => RE(lin()), () => RP(linPos(), -1), () => RP(P([[1, 2], [nz(1, 9), 0]]), ri(2, 3))])() },
+  { id: 'ch3', s: ['chain'], t: 3, b: () => pick([chainHard, () => RP(P([[1, ri(3, 4)], [ri(1, 9), 0]]), ri(2, 4)), () => RE(P([[nz(1, 3), 3], [nz(1, 5), 0]])), () => RP(posQuad(), pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3)])), () => RL(P([[1, ri(3, 4)], [ri(1, 9), 0]]))])() },
   { id: 'nest2', s: ['nested', 'chain'], t: 2, b: () => pick([() => RE(SQ), () => RP(add(SQ, C(ri(1, 5))), 2), () => RL(add(EX, C(ri(1, 6)))), () => RP(add(EX, C(ri(1, 4))), 2), () => RE(cx(ri(2, 3), SQ))])() },
   { id: 'nest3', s: ['nested', 'chain'], t: 3, b: () => pick([() => RP(innerNested(), ri(2, 3)), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(add(SQ, X)), () => RP(add(LX, C(ri(1, 4))), 2)])() },
   { id: 'nest4', s: ['nested', 'chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 4)), () => RE(SQ), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(cx(ri(2, 3), SQ))])() },
+  { id: 'sumc3', s: ['chain', 'power'], t: 3, b: () => add(chainEasy(), pick([() => cmono(ri(1, 4)), rootTerm, expLnTerm])(), ...(Math.random() < 0.5 ? [chainEasy()] : [])) },
+  { id: 'sumc4', s: ['chain', 'exp', 'ln'], t: 4, b: () => add(chainHard(), chainEasy(), pick([rootTerm, expLnTerm, () => cmono(ri(2, 4))])()) },
+  { id: 'quot2b', s: ['quotient'], t: 2, b: () => pick([() => RD(anyPoly(), cmono(ri(1, 2))), () => RD(C(ri(1, 9)), posDen()), () => RD(P([[1, 2], [nz(1, 9), 0]]), P([[1, 2], [ri(1, 9), 0]]))])() },
+  { id: 'prod3b', s: ['product', 'exp'], t: 3, b: () => RM(...order(pick([anyPoly, () => cmono(ri(1, 3))])(), pick([() => RE(mono(-1, 1)), () => RE(mono(nz(2, 3), 1)), () => LX])())) },
+  { id: 'prod5x', s: ['product', 'chain'], t: 5, b: () => pick([() => RM(cmono(ri(1, 2)), EX, LX), () => RM(cmono(1), chainEasy(), LX), () => RM(SQ, EX, LX)])() },
+  { id: 'mixq5', s: ['quotient', 'chain', 'nested'], t: 5, b: () => pick([() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), linPos())), () => RL(RD(linPos(), posQuad())), () => RP(RD(linPos(), posQuad()), Q(1, 2))])() },
   { id: 'nest5', s: ['nested', 'chain'], t: 5, b: () => pick([() => RE(RP(posQuad(), Q(1, 2))), () => RL(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4)))), () => RP(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4))), ri(2, 3)), () => RP(RL(posQuad()), ri(2, 3)), () => RE(RD(C(1), linPos()))])() }
 ];
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
@@ -1158,11 +1177,13 @@ function verdict(ok, title, detail) {
   anim($('vdetail'), [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: 260, easing: 'ease-out' });
 }
 // FIFA-style ratings: every skill 40-99, overall is their average
-const rating = r => Math.round(40 + 59 * r);
+const rating = r => Math.round(50 + 49 * r);
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
 const TITLES = { power: 'Power player', roots: 'Root master', exp: 'Exponential ace', ln: 'Log specialist', product: 'Product pro', quotient: 'Quotient pro', chain: 'Chain specialist', nested: 'Nesting master' };
 const cardTitle = () => { const best = SKILLS.map(s => s.id).reduce((a, b) => st.R[b] > st.R[a] ? b : a); return st.R[best] < 0.08 ? 'Rookie' : TITLES[best]; };
-const tierOf = o => o >= 90 ? 'elite' : o >= 75 ? 'gold' : o >= 60 ? 'silver' : 'bronze';
+let PACE_K = 8, PACE_MIN = 0.2, LOSS = 0.25;
+const PACE = r => r < 0.3 ? 1.6 : Math.max(PACE_MIN, 1.6 * Math.exp(-(r - 0.3) * PACE_K));
+const tierOf = o => o >= 90 ? 'elite' : o >= 80 ? 'gold' : o >= 70 ? 'silver' : 'bronze';
 function renderOverall(prevR) {
   const now = overall(st.R), was = prevR ? overall(prevR) : now, el = $('ovr'), tier = tierOf(now);
   $('pcard').dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1);
@@ -1207,7 +1228,8 @@ function resolve(r) {
   const prev = { ...st.R }, type = st.cur.type, d0 = diff(type), used = st.cur.skills;
   used.forEach((s, i) => {
     const E = 1 / (1 + Math.exp(-6 * (st.R[s] - d0 + 0.1)));
-    const w = i === 0 ? 0.32 : (type.s.includes(s) ? 0.22 : 0.1);
+    const pace = r - E > 0 ? PACE(st.R[s]) : LOSS;
+    const w = (i === 0 ? 0.32 : (type.s.includes(s) ? 0.22 : 0.1)) * pace;
     st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E)));
   });
   st.total++;
@@ -1337,6 +1359,71 @@ $('infoBtn').addEventListener('click', e => { e.stopPropagation(); setHelp(!help
 help.addEventListener('click', e => { if (e.target === help || e.target.closest('.x')) setHelp(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && help.classList.contains('on')) setHelp(false); });
 try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true), 900); } catch (e) {}
+
+// ---------- download your card as a PNG (1080x1350, Instagram size) ----------
+const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN', nested: 'NST' };
+const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#ff8a3d', '#c43d00', '#ffffff'] };
+function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+async function drawCard(name) {
+  await document.fonts.ready;
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  const o = overall(st.R), tier = tierOf(o), [c1, c2, ink] = CARD_COLORS[tier];
+  // teal spotlight background
+  const bg = g.createRadialGradient(W / 2, H * .45, 40, W / 2, H * .5, H * .75);
+  bg.addColorStop(0, '#1a606c'); bg.addColorStop(.52, '#0c3840'); bg.addColorStop(1, '#051619');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  // the card
+  const cx = 150, cy = 120, cw = 780, ch = 1000;
+  g.save(); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 70; g.shadowOffsetY = 30;
+  const grad = g.createLinearGradient(cx, cy, cx + cw, cy + ch); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
+  roundRect(g, cx, cy, cw, ch, 56); g.fillStyle = grad; g.fill(); g.restore();
+  g.save(); roundRect(g, cx, cy, cw, ch, 56); g.clip();
+  const shine = g.createLinearGradient(cx, cy, cx + cw, cy + ch * .7);
+  shine.addColorStop(.36, 'rgba(255,255,255,0)'); shine.addColorStop(.46, 'rgba(255,255,255,.38)'); shine.addColorStop(.56, 'rgba(255,255,255,0)');
+  g.fillStyle = shine; g.fillRect(cx, cy, cw, ch);
+  g.strokeStyle = 'rgba(255,255,255,.14)'; g.lineWidth = 46; g.beginPath(); g.arc(cx + cw - 40, cy + 40, 190, 0, Math.PI * 2); g.stroke();
+  g.restore();
+  roundRect(g, cx + 22, cy + 22, cw - 44, ch - 44, 40); g.strokeStyle = ink + '33'; g.lineWidth = 3; g.stroke();
+  g.fillStyle = ink; g.textBaseline = 'alphabetic';
+  // rating block
+  g.textAlign = 'center';
+  g.font = '900 230px Outfit, sans-serif'; g.fillText(String(o), cx + 215, cy + 300);
+  g.font = '900 44px Outfit, sans-serif'; g.letterSpacing = '14px'; g.fillText('OVR', cx + 222, cy + 362); g.letterSpacing = '0px';
+  // tier and title
+  g.textAlign = 'left';
+  g.fillRect(cx + 400, cy + 130, 4, 230);
+  g.font = '900 64px Outfit, sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210); g.letterSpacing = '0px';
+  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 270); g.fillText('Derivatives', cx + 440, cy + 325); g.globalAlpha = 1;
+  // name
+  g.textAlign = 'center';
+  let size = 104; const label = (name || 'Student').toUpperCase();
+  do { g.font = `900 ${size}px Outfit, sans-serif`; size -= 4; } while (g.measureText(label).width > cw - 120 && size > 40);
+  g.fillText(label, cx + cw / 2, cy + 540);
+  g.globalAlpha = .35; g.fillRect(cx + 90, cy + 590, cw - 180, 3); g.globalAlpha = 1;
+  // skill ratings, two columns like a player card
+  SKILLS.forEach((s, i) => {
+    const col = i % 2, row = Math.floor(i / 2), x = cx + (col ? 470 : 150), y = cy + 690 + row * 82;
+    g.textAlign = 'right'; g.font = '900 58px Outfit, sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
+    g.textAlign = 'left'; g.font = '700 44px Outfit, sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
+  });
+  // brand footer
+  const logo = document.querySelector('.brand-logo img');
+  if (logo && logo.complete) { const lh = 64, lw = lh * (logo.naturalWidth / logo.naturalHeight || 4.5); g.drawImage(logo, (W - lw) / 2, H - 175, lw, lh); }
+  g.textAlign = 'center'; g.fillStyle = '#a9c6ca'; g.font = '700 30px "Atkinson Hyperlegible", sans-serif'; g.fillText('samkedemia.com/tools/derivatives', W / 2, H - 70);
+  return new Promise(res => c.toBlob(res, 'image/png'));
+}
+async function saveCard() {
+  const name = $('cardName').value.trim();
+  try { localStorage.setItem(STORE + '-name', name); } catch (e) {}
+  const blob = await drawCard(name), file = `samkedemia-derivatives-card${name ? '-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''}.png`;
+  const f = new File([blob], file, { type: 'image/png' });
+  if (TOUCH && navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f], title: 'My derivatives card' }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+$('cardBtn').addEventListener('click', () => { const f = $('cardForm'); f.hidden = !f.hidden; if (!f.hidden) $('cardName').focus(); });
+$('cardForm').addEventListener('submit', e => { e.preventDefault(); saveCard(); });
+try { $('cardName').value = localStorage.getItem(STORE + '-name') || ''; } catch (e) {}
 
 renderCoach();
 loadProblem();
