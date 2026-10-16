@@ -641,7 +641,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         }
         const joinFactors = (fs, alone, lead) => fs.map((f, i) => {
             const t = texFactor(f, alone), prev = i ? texFactor(fs[i - 1], alone) : '';
-            const dot = (i > 0 || lead) && /^[0-9]/.test(t) || prev.startsWith('\\sqrt');
+            const dot = (i > 0 || lead) && /^[0-9]/.test(t) || prev.startsWith('\\sqrt') || /^\\(ln|log)/.test(prev);   // ln x · (4x+3)², never ln x(4x+3)²
             return (dot ? '\\cdot ' : '') + t;
         }).join('');
         const side = (fs, k) => {
