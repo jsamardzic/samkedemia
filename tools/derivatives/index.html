@@ -1655,74 +1655,72 @@ help.addEventListener('click', e => { if (e.target === help || e.target.closest(
 addEventListener('keydown', e => { if (e.key === 'Escape' && help.classList.contains('on')) setHelp(false); });
 try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true), 900); } catch (e) {}
 
-// ---------- download your card as a PNG (1080x1350, Instagram size) ----------
+// ---------- download your card as a PNG (just the card, transparent background) ----------
 const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN' };
 const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#f6f9ff', '#a9bccf', '#13202e'] };
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 async function drawCard(name) {
   await document.fonts.ready;
-  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  // just the card on a transparent background, with a "Derivative Lab | logo" header on the card itself
   const o = overall(st.R), tier = tierOf(o), [c1, c2, ink] = CARD_COLORS[tier];
-  // the same background as the page behind the tool: spotlight (ellipse 85% 55% at 50% 55%) and the faint logo pattern
-  g.save(); g.translate(W / 2, H * .55); g.scale(.85 * W, .55 * H);
-  const bg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
-  bg.addColorStop(0, '#1a606c'); bg.addColorStop(.52, '#0c3840'); bg.addColorStop(1, '#051619');
-  g.fillStyle = bg; g.fillRect(-2, -2, 4, 4); g.restore();
-  const loadImg = src => new Promise(res => { if (!src) return res(null); const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
-  const cssUrl = (el, pseudo) => (/url\("?(.*?)"?\)/.exec(getComputedStyle(el, pseudo).backgroundImage) || [])[1];
-  const pat = await loadImg(cssUrl(document.body, '::after'));
-  if (pat) {
-    g.save(); g.globalAlpha = .055; g.translate(W / 2, H / 2); g.rotate(-15 * Math.PI / 180);
-    const tw = 430, th = tw * (pat.naturalHeight / pat.naturalWidth || 0.93);
-    for (let x = -1500; x < 1500; x += tw) for (let y = -1500; y < 1500; y += th) g.drawImage(pat, x, y, tw, th);
-    g.restore();
-  }
-  // heading
-  g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillStyle = '#fdf6ec'; g.font = '400 76px Vidaloka, Georgia, serif'; g.fillText('Derivative Lab', W / 2, 150);
-  // the card, drawn at full size and scaled down under the heading
-  const cx = 150, cy = 120, cw = 780, ch = 1000, k = .86;
-  g.save(); g.translate(W / 2, 215); g.scale(k, k); g.translate(-(cx + cw / 2), -cy);
-  g.save(); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 70; g.shadowOffsetY = 30;
+  const PAD = 56, cw = 780, ch = 1080, SC = 1.25, cx = PAD, cy = PAD;
+  const c = document.createElement('canvas'); c.width = Math.round((cw + PAD * 2) * SC); c.height = Math.round((ch + PAD * 2 + 24) * SC);
+  const g = c.getContext('2d'); g.scale(SC, SC);
+  g.save(); g.shadowColor = 'rgba(0,0,0,.38)'; g.shadowBlur = 44; g.shadowOffsetY = 20;
   const grad = g.createLinearGradient(cx, cy, cx + cw, cy + ch); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
   roundRect(g, cx, cy, cw, ch, 56); g.fillStyle = grad; g.fill(); g.restore();
   g.save(); roundRect(g, cx, cy, cw, ch, 56); g.clip();
-  const shine = g.createLinearGradient(cx, cy, cx + cw, cy + ch * .7);
-  shine.addColorStop(.36, 'rgba(255,255,255,0)'); shine.addColorStop(.46, 'rgba(255,255,255,.38)'); shine.addColorStop(.56, 'rgba(255,255,255,0)');
   if (tier === 'elite') {   // platinum: a soft rainbow sheen over the silver-blue
     const iri = g.createLinearGradient(cx, cy + ch, cx + cw, cy);
     ['rgba(255,182,225,.35)', 'rgba(170,222,255,.4)', 'rgba(196,255,228,.3)', 'rgba(255,238,180,.32)', 'rgba(255,182,225,.35)'].forEach((col, i, a) => iri.addColorStop(i / (a.length - 1), col));
     g.fillStyle = iri; g.fillRect(cx, cy, cw, ch);
   }
+  const shine = g.createLinearGradient(cx, cy, cx + cw, cy + ch * .7);
+  shine.addColorStop(.36, 'rgba(255,255,255,0)'); shine.addColorStop(.46, 'rgba(255,255,255,.38)'); shine.addColorStop(.56, 'rgba(255,255,255,0)');
   g.fillStyle = shine; g.fillRect(cx, cy, cw, ch);
-  g.strokeStyle = 'rgba(255,255,255,.14)'; g.lineWidth = 46; g.beginPath(); g.arc(cx + cw - 40, cy + 40, 190, 0, Math.PI * 2); g.stroke();
+  g.strokeStyle = 'rgba(255,255,255,.14)'; g.lineWidth = 46; g.beginPath(); g.arc(cx + cw - 30, cy + ch - 30, 190, 0, Math.PI * 2); g.stroke();
   g.restore();
   roundRect(g, cx + 22, cy + 22, cw - 44, ch - 44, 40); g.strokeStyle = ink + '33'; g.lineWidth = 3; g.stroke();
   g.fillStyle = ink; g.textBaseline = 'alphabetic';
+  // header: Derivative Lab | logo (the logo recoloured in the card's ink)
+  const logo = document.querySelector('.brand-logo img');
+  let mark = null, lw = 0; const lh = 46;
+  if (logo && logo.complete && logo.naturalWidth) {
+    lw = lh * (logo.naturalWidth / logo.naturalHeight);
+    mark = document.createElement('canvas'); mark.width = Math.round(lw * 3); mark.height = lh * 3;
+    const mc = mark.getContext('2d'); mc.drawImage(logo, 0, 0, mark.width, mark.height);
+    mc.globalCompositeOperation = 'source-in'; mc.fillStyle = ink; mc.fillRect(0, 0, mark.width, mark.height);
+  }
+  g.font = '400 46px Vidaloka, Georgia, serif'; const tw = g.measureText('Derivative Lab').width, gap = 28;
+  const total = tw + (mark ? gap * 2 + 2 + lw : 0), hx = cx + (cw - total) / 2, hy = cy + 96;
+  g.textAlign = 'left'; g.fillText('Derivative Lab', hx, hy);
+  if (mark) {
+    g.globalAlpha = .4; g.fillRect(hx + tw + gap, hy - 40, 2, 52); g.globalAlpha = 1;
+    g.drawImage(mark, hx + tw + gap * 2 + 2, hy - 38, lw, lh);
+  }
+  g.globalAlpha = .25; g.fillRect(cx + 90, cy + 140, cw - 180, 2); g.globalAlpha = 1;
   // rating block
+  const Y = 70;
   g.textAlign = 'center';
-  g.font = '900 230px Outfit, sans-serif'; g.fillText(String(o), cx + 215, cy + 300);
-  g.font = '900 44px Outfit, sans-serif'; g.letterSpacing = '14px'; g.fillText('OVR', cx + 222, cy + 362); g.letterSpacing = '0px';
+  g.font = '900 230px Outfit, sans-serif'; g.fillText(String(o), cx + 215, cy + 300 + Y);
+  g.font = '900 44px Outfit, sans-serif'; g.letterSpacing = '14px'; g.fillText('OVR', cx + 222, cy + 362 + Y); g.letterSpacing = '0px';
   // tier and title
   g.textAlign = 'left';
-  g.fillRect(cx + 400, cy + 130, 4, 230);
-  g.font = '900 64px Outfit, sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210); g.letterSpacing = '0px';
-  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 290); g.globalAlpha = 1;
+  g.fillRect(cx + 400, cy + 130 + Y, 4, 230);
+  g.font = '900 64px Outfit, sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210 + Y); g.letterSpacing = '0px';
+  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 290 + Y); g.globalAlpha = 1;
   // name
   g.textAlign = 'center';
   let size = 104; const label = (name || 'Student').toUpperCase();
   do { g.font = `900 ${size}px Outfit, sans-serif`; size -= 4; } while (g.measureText(label).width > cw - 120 && size > 40);
-  g.fillText(label, cx + cw / 2, cy + 540);
-  g.globalAlpha = .35; g.fillRect(cx + 90, cy + 590, cw - 180, 3); g.globalAlpha = 1;
+  g.fillText(label, cx + cw / 2, cy + 540 + Y);
+  g.globalAlpha = .35; g.fillRect(cx + 90, cy + 590 + Y, cw - 180, 3); g.globalAlpha = 1;
   // skill ratings, two columns like a player card
   SKILLS.forEach((s, i) => {
-    const col = i % 2, row = Math.floor(i / 2), alone = i === SKILLS.length - 1 && i % 2 === 0, x = alone ? cx + 310 : cx + (col ? 470 : 150), y = cy + 690 + row * 82;
+    const col = i % 2, row = Math.floor(i / 2), alone = i === SKILLS.length - 1 && i % 2 === 0, x = alone ? cx + 310 : cx + (col ? 470 : 150), y = cy + 690 + Y + row * 82;
     g.textAlign = 'right'; g.font = '900 58px Outfit, sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
     g.textAlign = 'left'; g.font = '700 44px Outfit, sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
   });
-  g.restore();
-  // brand footer
-  const logo = document.querySelector('.brand-logo img');
-  if (logo && logo.complete) { const lh = 72, lw = lh * (logo.naturalWidth / logo.naturalHeight || 4.5); g.drawImage(logo, (W - lw) / 2, H - 140, lw, lh); }
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
 async function saveCard(name) {
