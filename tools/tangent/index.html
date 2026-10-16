@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <title>Samkedemia: Derivative Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free interactive derivative explorer: zoom in until a curve turns straight, watch the secant become the tangent, trace f′ live and practise reading the graph of f′ like on the exam, by Samkedemia.">
+  <meta name="description" content="Free interactive derivative explorer: drag the tangent line, compare average rate of change with the marginal, see the graph of f′ appear and practise reading f′ graphs like on the exam, by Samkedemia.">
   <meta property="og:title" content="Samkedemia: Derivative Explorer">
-  <meta property="og:description" content="Zoom in until a curve turns straight, watch the secant become the tangent, trace f′ live and practise reading f′ graphs, by Samkedemia.">
+  <meta property="og:description" content="Drag the tangent line, compare average and marginal rates of change, and practise reading f′ graphs, by Samkedemia.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.samkedemia.com/tools/tangent">
   <meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
@@ -159,7 +159,7 @@ body { margin: 0; font-family: var(--font-body); background: var(--paper); color
         <div class="card">
           <span class="num">01</span>
           <h2>Grab the point</h2>
-          <p>Drag the orange point along the curve. The orange line only <b>touches</b> the curve there: that's the <b>tangent</b>. Its slope is the derivative <span class="m">f'(x)</span>.</p>
+          <p>Drag the orange point along the curve. The orange line touches the curve at that point: the <b>tangent line</b>. Its slope is the derivative <span class="m">f'(x)</span>, the instantaneous rate of change.</p>
           <div class="chips" id="chips"></div>
           <div class="own">
             <label for="own"><span class="m">f(x) =</span></label>
@@ -167,49 +167,41 @@ body { margin: 0; font-family: var(--font-body); background: var(--paper); color
             <button id="ownGo" type="button">Plot</button>
           </div>
           <div class="own-msg" id="ownMsg"></div>
-          <span class="hint"><i class="bi bi-arrow-down"></i> scroll to see why it works</span>
+          <span class="hint"><i class="bi bi-arrow-down"></i> scroll to keep going</span>
         </div>
       </section>
       <section class="step" data-ch="1">
         <div class="card">
           <span class="num">02</span>
-          <h2>Zoom in until it's straight</h2>
-          <p>Keep scrolling and the loupe zooms in on the point. Somewhere around ×20, the curve stops looking curved: up close, <b>every smooth curve is a straight line</b>.</p>
-          <p>The derivative is simply the <b>slope of that line</b>.</p>
+          <h2>Average vs marginal</h2>
+          <p>Take two points on the curve. The straight line through them is a <b>secant</b>. Its slope is the <b>average rate of change</b> between <span class="m">x_1</span> and <span class="m">x_2</span>:</p>
+          <div class="formula"><span class="m">\dfrac{y_2-y_1}{x_2-x_1}</span></div>
+          <p>The tangent at <span class="m">x_1</span> uses only one point. Its slope is the <b>marginal</b>, the instantaneous rate of change <span class="m">f'(x_1)</span>.</p>
+          <p>Scroll and watch the two numbers. <b>Between</b> two values: secant. <b>At</b> one value: tangent.</p>
         </div>
       </section>
       <section class="step" data-ch="2">
         <div class="card">
           <span class="num">03</span>
-          <h2>Squeeze the secant</h2>
-          <p>Take a second point a distance <span class="m">h</span> further along. The line through both is a <b>secant</b>, and its slope is rise over run.</p>
-          <div class="formula"><span class="m">\dfrac{f(x+h)-f(x)}{h}</span></div>
-          <p>Scroll, and <span class="m">h</span> shrinks towards 0. The secant turns into the tangent, and its slope lands on the derivative:</p>
-          <div class="formula"><span class="m">f'(x)=\lim_{h\to 0}\dfrac{f(x+h)-f(x)}{h}</span></div>
+          <h2>Slope becomes a graph</h2>
+          <p>Now the point moves from left to right. At every <span class="m">x</span>, the slope of the tangent is plotted underneath.</p>
+          <p>The orange curve that appears is the graph of the derivative, <span class="m">f'</span>.</p>
         </div>
       </section>
       <section class="step" data-ch="3">
         <div class="card">
           <span class="num">04</span>
-          <h2>Slope becomes a graph</h2>
-          <p>Now the point sweeps from left to right. At every <span class="m">x</span>, we take the slope of the tangent and plot it as a <b>height</b> underneath.</p>
-          <p>The orange curve the pen draws is a brand new function: <span class="m">f'</span>.</p>
+          <h2>Read f from f′</h2>
+          <p><span class="m">f' > 0</span> (above the axis): <span class="m">f</span> is <b>increasing</b>. <span class="m">f' < 0</span> (below the axis): <span class="m">f</span> is <b>decreasing</b>.</p>
+          <p><span class="m">f'</span> changes <b>sign</b>: <span class="m">f</span> has a <b>local max or min</b>. From − to +: local min. From + to −: local max.</p>
+          <p><span class="m">f'</span> changes <b>direction</b> (a top or bottom of the <span class="m">f'</span> graph): <span class="m">f</span> has an <b>inflection point</b>.</p>
         </div>
       </section>
       <section class="step" data-ch="4">
         <div class="card">
           <span class="num">05</span>
-          <h2>Read f from f′</h2>
-          <p>Where <span class="m">f'</span> is <b>above</b> the axis, <span class="m">f</span> goes up. Where it's <b>below</b>, <span class="m">f</span> goes down.</p>
-          <p>Where <span class="m">f'</span> crosses zero, <span class="m">f</span> has a top or a bottom. Where <span class="m">f'</span> turns around, <span class="m">f</span> changes its bend: an <b>inflection point</b>.</p>
-          <p>This is exactly what exam questions about the graph of <span class="m">f'</span> test.</p>
-        </div>
-      </section>
-      <section class="step" data-ch="5">
-        <div class="card">
-          <span class="num">06</span>
           <h2>Your turn</h2>
-          <p>The stage now shows only the graph of <span class="m">f'</span>, like on the exam. Tap the axis where the answer is, then check.</p>
+          <p>Now you only get the graph of <span class="m">f'</span>, like on the exam. Tap where the answer is, then check.</p>
           <div class="quiz">
             <p class="q" id="quizQ">Tap every x where f has a local minimum.</p>
             <p class="sub" id="quizSub">Tap the graph to drop a pin; tap a pin to remove it.</p>
@@ -519,7 +511,7 @@ function readouts(spec) {
 }
 
 // ---------- chapters ----------
-const NAMES = ['Grab the point', 'Zoom in', 'Squeeze the secant', 'Slope becomes a graph', 'Read f from f′', 'Your turn'];
+const NAMES = ['Grab the point', 'Average vs marginal', 'Slope becomes a graph', 'Read f from f′', 'Your turn'];
 const steps = [...document.querySelectorAll('.step')];
 function readScroll() {
   const mid = innerHeight * (innerWidth <= 900 ? .72 : .5);
@@ -531,8 +523,8 @@ function readScroll() {
 }
 function enterChapter(ch) {
   $('tagNum').textContent = String(ch + 1).padStart(2, '0'); $('tagName').textContent = NAMES[ch];
-  if (ch === 5 && !S.quiz) newQuiz();
-  if (S.ch === 3) S.a = clamp(S.a, S.view.x0, S.view.x1);
+  if (ch === 4 && !S.quiz) newQuiz();
+  if (S.ch === 2) S.a = clamp(S.a, S.view.x0, S.view.x1);
 }
 addEventListener('scroll', readScroll, { passive: true });
 addEventListener('resize', readScroll);
@@ -540,8 +532,8 @@ addEventListener('resize', readScroll);
 // ---------- dragging with a spring ----------
 function pointerX(e) { const r = cv.getBoundingClientRect(); return e.clientX - r.left; }
 cv.addEventListener('pointerdown', e => {
-  if (S.ch === 5) { quizTap(pointerX(e), e.clientY - cv.getBoundingClientRect().top); return; }
-  if (S.ch === 3) return;
+  if (S.ch === 4) { quizTap(pointerX(e), e.clientY - cv.getBoundingClientRect().top); return; }
+  if (S.ch === 2) return;
   S.dragging = true; $('stage').classList.add('dragging'); cv.setPointerCapture(e.pointerId);
   S.target = clamp(invX(panels().top, S.view, pointerX(e)), S.view.x0, S.view.x1);
   $('dragTip').classList.add('gone');
@@ -610,47 +602,20 @@ function drawTangent(r, v, a, alpha = 1, label = true) {
   dot(px, py, 7, C.accent, S.dragging ? 12 : 6 + 3 * Math.sin(performance.now() / 380));
   if (label && alpha > .5) pill(`slope ${fmt(m)}`, clamp(px, r.x + 50, r.x + r.w - 50), py < r.y + 60 ? py + 30 : py - 30, C.accent);
 }
-function loupe(r, v, a, Z) {
-  const f = S.fn.f, fa = f(a), m = dif(f, a); if (!isFinite(fa)) return;
-  const px = X(r, v, a), py = Y(r, v.y0, v.y1, fa);
-  const R = clamp(Math.min(W, H) * .17, 62, 118);
-  const cx = clamp(px + (px > r.x + r.w * .6 ? -1 : 1) * R * 1.55, r.x + R + 6, r.x + r.w - R - 6);
-  const cy = clamp(py + (py > r.y + r.h * .45 ? -1 : 1) * R * 1.25, r.y + R + 6, r.y + r.h - R - 6);
-  const sx = r.w / (v.x1 - v.x0), sy = r.h / (v.y1 - v.y0);
-  // the region being magnified, and a thread to the lens
-  const zr = Math.max(3.5, R / Z);
-  g.save(); g.strokeStyle = C.ink; g.globalAlpha = .45; g.lineWidth = 1.3; g.setLineDash([4, 4]);
-  g.beginPath(); g.moveTo(px, py); g.lineTo(cx, cy); g.stroke(); g.setLineDash([]);
-  g.beginPath(); g.arc(px, py, zr, 0, 7); g.stroke(); g.restore();
-  // the lens
-  g.save(); g.shadowColor = 'rgba(12, 56, 64, .28)'; g.shadowBlur = 30; g.shadowOffsetY = 12;
-  g.beginPath(); g.arc(cx, cy, R, 0, 7); g.fillStyle = '#fff'; g.fill(); g.restore();
-  g.save(); g.beginPath(); g.arc(cx, cy, R, 0, 7); g.clip();
-  const ux = x => cx + (x - a) * sx * Z, uy = y => cy - (y - fa) * sy * Z;
-  // fine dot grid inside the lens drifts as the zoom grows
-  g.fillStyle = 'rgba(131, 172, 178, .45)'; const step = 22, off = (Z * 7) % step;
-  for (let gx = cx - R - off; gx < cx + R; gx += step) for (let gy = cy - R - off; gy < cy + R; gy += step) { g.beginPath(); g.arc(gx, gy, 1.2, 0, 7); g.fill(); }
-  g.strokeStyle = C.accent; g.lineWidth = 2; g.setLineDash([6, 5]); g.beginPath(); g.moveTo(ux(a - R / (sx * Z)), uy(fa - m * R / (sx * Z))); g.lineTo(ux(a + R / (sx * Z)), uy(fa + m * R / (sx * Z))); g.stroke(); g.setLineDash([]);
-  g.beginPath(); for (let i = 0; i <= 120; i++) { const x = a + (i / 60 - 1) * R / (sx * Z); const y = f(x); i ? g.lineTo(ux(x), uy(y)) : g.moveTo(ux(x), uy(y)); }
-  ink(C.ink, 3.4, false);
-  dot(cx, cy, 5.5);
-  g.restore();
-  g.beginPath(); g.arc(cx, cy, R, 0, 7); g.lineWidth = 5; g.strokeStyle = C.ink; g.stroke();
-  g.beginPath(); g.arc(cx, cy, R - 5, 0, 7); g.lineWidth = 1; g.strokeStyle = 'rgba(255,255,255,.9)'; g.stroke();
-  pill(`×${Z < 10 ? Z.toFixed(1) : Math.round(Z)}`, cx, cy + R + 2, C.ink);
-}
-function secant(r, v, a, h, q) {
+function secant(r, v, a, h) {
   const f = S.fn.f, fa = f(a), fb = f(a + h), m = (fb - fa) / h;
   if (!isFinite(fa) || !isFinite(fb)) return m;
   const A = [X(r, v, a), Y(r, v.y0, v.y1, fa)], B = [X(r, v, a + h), Y(r, v.y0, v.y1, fb)];
-  line(r, v, v.y0, v.y1, a, fa, dif(f, a), C.accent, 2, [7, 6], smooth(.55, .95, q));
+  line(r, v, v.y0, v.y1, a, fa, dif(f, a), C.accent, 2.2, [7, 6], .9);
   // rise-over-run triangle
   g.save(); g.fillStyle = 'rgba(47, 106, 115, .08)'; g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], A[1]); g.lineTo(B[0], B[1]); g.closePath(); g.fill();
   g.strokeStyle = 'rgba(47, 106, 115, .55)'; g.lineWidth = 1.4; g.setLineDash([3, 4]); g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], A[1]); g.lineTo(B[0], B[1]); g.stroke(); g.restore();
   line(r, v, v.y0, v.y1, a, fa, m, C.mid, 2.6);
-  if (Math.abs(B[0] - A[0]) > 26) pill('h', (A[0] + B[0]) / 2, A[1] + (B[1] > A[1] ? -14 : 14), '#fff', C.mid);
   g.beginPath(); g.arc(B[0], B[1], 7, 0, 7); g.fillStyle = '#fff'; g.fill(); g.lineWidth = 3; g.strokeStyle = C.mid; g.stroke();
   dot(A[0], A[1], 7, C.accent, 5);
+  const below = (P, Q) => P[1] > Q[1] ? 22 : -22;
+  pill('x₁', A[0], A[1] + below(A, B), C.accent); pill('x₂', B[0], B[1] + below(B, A), C.mid);
+  pill('secant', clamp((A[0] + B[0]) / 2, r.x + 40, r.x + r.w - 40), Math.min(A[1], B[1]) - 34, C.mid);
   return m;
 }
 function drawDerivPanel(r, v, upto, alpha) {
@@ -686,7 +651,7 @@ function shade(top, bot, v, q) {
     const kind = d(rt - 1e-3 * (v.x1 - v.x0)) > 0 ? 'max' : 'min', px = X(top, v, rt), py = Y(top, v.y0, v.y1, f(rt));
     g.globalAlpha = smooth(.15, .3, q);
     g.beginPath(); g.arc(px, py, 9 * pulse, 0, 7); g.strokeStyle = C.ink; g.lineWidth = 2.5; g.stroke();
-    pill(kind === 'max' ? 'top' : 'bottom', px, kind === 'max' ? py - 24 : py + 24);
+    pill(kind === 'max' ? 'local max' : 'local min', px, kind === 'max' ? py - 24 : py + 24);
     if (bot.h > 20) { const by = Y(bot, v.d0, v.d1, 0); g.beginPath(); g.arc(px, by, 5, 0, 7); g.fillStyle = C.ink; g.fill(); g.setLineDash([3, 4]); g.strokeStyle = 'rgba(12,56,64,.35)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(px, py); g.lineTo(px, by); g.stroke(); g.setLineDash([]); }
     g.globalAlpha = 1;
   }
@@ -703,9 +668,9 @@ function shade(top, bot, v, q) {
 
 // ---------- practice: read the graph of f' ----------
 const QUIZ = {
-  min: { q: 'Tap every x where f has a local minimum.', why: "f′ changes from negative to positive there, so f stops going down and starts going up." },
-  max: { q: 'Tap every x where f has a local maximum.', why: "f′ changes from positive to negative there, so f stops going up and starts going down." },
-  infl: { q: 'Tap every x where f has an inflection point.', why: "f′ has a top or a bottom there: f′ turns around, so f changes how it bends." }
+  min: { q: 'Tap every x where f has a local minimum.', why: "There f′ changes sign from − to +: f goes from decreasing to increasing." },
+  max: { q: 'Tap every x where f has a local maximum.', why: "There f′ changes sign from + to −: f goes from increasing to decreasing." },
+  infl: { q: 'Tap every x where f has an inflection point.', why: "There f′ changes direction (a top or bottom of the f′ graph). Where it crosses the axis does not matter for this." }
 };
 const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 function newQuiz() {
@@ -722,8 +687,10 @@ function newQuiz() {
         d = x => base(x) + c; answers = [r1, r2]; focus = [r1, r2];
       }
     } else {
-      const n = ri(2, 3), rs = new Set(); while (rs.size < n) rs.add(ri(-4, 4));
-      const rr = [...rs].sort((a, b) => a - b), k = (Math.random() < .5 ? 1 : -1) * (n === 2 ? .45 : .14);
+      // roots at least 2 apart, so the sign of f' between them is easy to read
+      const n = ri(2, 3); let rr;
+      do { const rs = new Set(); while (rs.size < n) rs.add(ri(-4, 4)); rr = [...rs].sort((a, b) => a - b); } while (rr.some((r0, i) => i && r0 - rr[i - 1] < 2));
+      const k = (Math.random() < .5 ? 1 : -1) * (n === 2 ? .45 : .14);
       d = x => k * rr.reduce((t, r0) => t * (x - r0), 1);
       focus = rr;
       answers = rr.filter(r0 => { const l = d(r0 - .01), rgt = d(r0 + .01); return kind === 'min' ? l < 0 && rgt > 0 : l > 0 && rgt < 0; });
@@ -731,8 +698,8 @@ function newQuiz() {
     if (answers.length && !(S.quiz && S.quiz.kind === kind && JSON.stringify(S.quiz.answers) === JSON.stringify(answers))) break;
   }
   // frame it like an exam graph: around the interesting points, scaled to a comfortable height
-  let x0 = Math.min(...focus) - 1.6, x1 = Math.max(...focus) + 1.6;
-  if (x1 - x0 < 6) { const c = (x0 + x1) / 2; x0 = c - 3; x1 = c + 3; }
+  let x0 = Math.min(...focus) - 1.4, x1 = Math.max(...focus) + 1.4;
+  if (x1 - x0 < 5) { const c = (x0 + x1) / 2; x0 = c - 2.5; x1 = c + 2.5; }
   x0 = Math.max(-6, Math.round(x0 * 2) / 2); x1 = Math.min(6, Math.round(x1 * 2) / 2);
   let peak = 0; for (let i = 0; i <= 200; i++) peak = Math.max(peak, Math.abs(d(x0 + (x1 - x0) * i / 200)));
   const raw = d, scale = 5 / (peak || 1); d = x => raw(x) * scale;
@@ -810,16 +777,16 @@ function frame(now) {
   if (!W) { requestAnimationFrame(frame); return; }
   S.pShown = reduce ? S.p : lerp(S.pShown, S.p, 1 - Math.pow(.0015, dt));   // smooth out the scroll
   const q = S.pShown, ch = S.ch, v = S.view;
-  const wantSplit = ch === 3 || ch === 4 ? 1 : 0;
+  const wantSplit = ch === 2 || ch === 3 ? 1 : 0;
   S.split = reduce ? wantSplit : lerp(S.split, wantSplit, 1 - Math.pow(.004, dt));
-  if (ch === 0 || ch === 1 || ch === 2 || ch === 4) physics(dt);
+  if (ch === 0 || ch === 1 || ch === 3) physics(dt);
   $('tagMeter').style.width = (q * 100).toFixed(1) + '%';
   g.setTransform(DPR, 0, 0, DPR, 0, 0); g.clearRect(0, 0, W, H);
   const { top, bot } = panels(), f = S.fn.f;
-  $('fxLabel').style.opacity = ch === 5 ? 0 : 1;
+  $('fxLabel').style.opacity = ch === 4 ? 0 : 1;
   $('dragTip').style.display = ch === 0 ? '' : 'none';
 
-  if (ch === 5) {
+  if (ch === 4) {
     drawQuiz({ x: top.x, y: top.y, w: top.w, h: H - top.y - (W < 600 ? 34 : 44) });
     readouts([]);
   } else {
@@ -829,16 +796,12 @@ function frame(now) {
         drawTangent(top, v, S.a);
         readouts([{ k: 'x', v: S.a }, { k: "f'(x)", v: dif(f, S.a), hot: true }]);
       } else if (ch === 1) {
-        const Z = Math.pow(60, ease(q));
-        drawTangent(top, v, S.a, smooth(.75, 1, q), false);
-        loupe(top, v, S.a, Z);
-        readouts([{ k: '\\text{zoom}', v: Z, d: 1 }, { k: "f'(x)", v: dif(f, S.a), hot: true }]);
-      } else if (ch === 2) {
+        // average rate of change between x1 and x2 next to the marginal at x1
         const span = v.x1 - v.x0, dir = S.a < (v.x0 + v.x1) / 2 ? 1 : -1;
-        const h = dir * (span * .38 * Math.pow(1 - q, 2.2) + span * 1e-4);
-        const m = secant(top, v, S.a, h, q);
-        readouts([{ k: 'h', v: h, d: 3 }, { k: '\\frac{f(x+h)-f(x)}{h}', v: m, d: 3 }, { k: "f'(x)", v: dif(f, S.a), d: 3, hot: true }]);
-      } else if (ch === 3) {
+        const h = dir * span * lerp(.42, .07, ease(q));
+        const m = secant(top, v, S.a, h);
+        readouts([{ k: '\\frac{y_2-y_1}{x_2-x_1}', v: m }, { k: "f'(x_1)", v: dif(f, S.a), hot: true }]);
+      } else if (ch === 2) {
         // the pen sweeps left to right and draws f' as it goes
         const a = lerp(v.x0, v.x1, clamp(q * 1.15, 0, 1)); S.a = a;
         drawDerivPanel(bot, v, a, smooth(.2, .9, S.split));
@@ -850,7 +813,7 @@ function frame(now) {
           dot(px, by, 6, C.accent, 9 + 3 * Math.sin(now / 160));
         }
         readouts([{ k: 'x', v: a }, { k: "f'(x)", v: s, hot: true }]);
-      } else if (ch === 4) {
+      } else if (ch === 3) {
         drawDerivPanel(bot, v, v.x1, smooth(.2, .9, S.split));
         shade(top, bot, v, q);
         readouts([]);
