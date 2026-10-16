@@ -271,7 +271,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         <article class="paper" id="paper">
           <div class="tape" id="tape"></div>
           <div class="p-top">
-            <span class="p-count" id="count">Problem 01</span>
+            <span class="p-count" id="count">Question 01</span>
           </div>
           <p class="note" id="note"></p>
           <div class="problem" id="problem" aria-live="polite"></div>
@@ -1511,7 +1511,7 @@ function loadProblem() {
   st.shapes = [shapeOf(built.f), ...st.shapes].slice(0, 10);
   st.seen = [key(built.f), ...st.seen].slice(0, 80);
   Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false });
-  $('count').textContent = 'Problem ' + String(st.n).padStart(2, '0');
+  $('count').textContent = 'Question ' + String(st.n).padStart(2, '0');
   $('note').textContent = note;
   renderProblem(false);
   $('ans').value = ''; $('ans').classList.remove('done'); $('ans').readOnly = false;
