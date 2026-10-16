@@ -1656,19 +1656,22 @@ async function drawCard(name) {
   g.fillStyle = ink; g.textBaseline = 'alphabetic';
   // header: Derivative Lab | logo (the logo recoloured in the card's ink)
   const logo = document.querySelector('.brand-logo img');
-  let mark = null, lw = 0; const lh = 46;
+  // the logo fills the space from the divider to the right end of the grey line under the header
+  const sepX = cx + 402, gap = 30, hy = cy + 96, lineR = cx + cw - 90;
+  let mark = null, lw = 0, lh = 0;
   if (logo && logo.complete && logo.naturalWidth) {
-    lw = lh * (logo.naturalWidth / logo.naturalHeight);
-    mark = document.createElement('canvas'); mark.width = Math.round(lw * 3); mark.height = lh * 3;
+    const ratio = logo.naturalWidth / logo.naturalHeight;
+    lw = lineR - (sepX + gap); lh = lw / ratio;
+    if (lh > 64) { lh = 64; lw = lh * ratio; }
+    mark = document.createElement('canvas'); mark.width = Math.round(lw * 3); mark.height = Math.round(lh * 3);
     const mc = mark.getContext('2d'); mc.drawImage(logo, 0, 0, mark.width, mark.height);
     mc.globalCompositeOperation = 'source-in'; mc.fillStyle = ink; mc.fillRect(0, 0, mark.width, mark.height);
   }
   // its divider sits on the same vertical line as the divider between the rating and the tier
   g.font = '400 46px Vidaloka, Georgia, serif';
-  const sepX = cx + 402, gap = 30, hy = cy + 96;
   g.textAlign = 'right'; g.fillText('Derivative Lab', sepX - gap, hy);
-  g.fillRect(sepX - 2, hy - 42, 4, 56);
-  if (mark) g.drawImage(mark, sepX + gap, hy - 38, lw, lh);
+  g.globalAlpha = .45; g.fillRect(sepX - 1, hy - 42, 2, 56); g.globalAlpha = 1;   // thin here; the one under it, between rating and tier, stays thick
+  if (mark) g.drawImage(mark, lineR - lw, hy - 14 - lh / 2, lw, lh);
   g.globalAlpha = .25; g.fillRect(cx + 90, cy + 140, cw - 180, 2); g.globalAlpha = 1;
   // rating block
   const Y = 70;
