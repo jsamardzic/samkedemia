@@ -227,12 +227,9 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .stats { display: flex; flex-wrap: wrap; gap: 4px 14px; letter-spacing: .04em; }
 .stats b { display: inline-block; font: 900 .9rem/1 var(--font-num); color: var(--cream); margin-left: 3px; font-variant-numeric: tabular-nums; }
 .stats b.hot { color: var(--orange); }
-.text-btn { background: none; border: 0; color: var(--quiet); font: 700 .78rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; padding: 6px 0; }
-.text-btn:hover { color: var(--cream); }
 .confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--cream); font-weight: 700; font-size: .95rem; }
 .btn.ghost { background: transparent; color: var(--quiet); }
 .btn.danger { background: transparent; border-color: var(--orange); color: var(--orange); }
-.text-btn.danger { color: var(--orange); }
 
 .toast { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 10; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; max-width: min(340px, calc(100vw - 40px)); padding: 14px 20px 14px 14px; border-radius: 20px; background: linear-gradient(var(--glass-top), var(--glass-bottom)), var(--ground-shade); border: 1.5px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0, 0, 0, .5), 0 0 60px rgba(255, 85, 0, .25); }
 .toast img { width: 64px; height: 64px; object-fit: contain; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .5)); }
@@ -710,11 +707,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         return null;
     }
     const why = r => `<span class="why">(${r})</span>`;
-    function partLine(name, n) {
-        const d = tex(D(n)), r = raw(n), k = kind(n);
-        if (r && r !== d) return `${name}' = ${r} = ${d}` + why(RULE_NAME[k]);
-        return `${name}' = ${d}`;
-    }
     function termLines(n) {
         const items = n.t === 'poly' ? terms(n).map(t => P([[t.c, t.e]])) : n.t !== 'add' ? [n] : n.a.flatMap(t => t.t === 'poly' ? terms(t).map(m => P([[m.c, m.e]])) : [t]);
         const lines = [];
@@ -732,47 +724,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             }
         }
         return lines;
-    }
-    function solve(f) {
-        const steps = [], k = kind(f), d = D(f), dt = tex(d);
-        if (k === 'power' || k === 'sum') {
-            const used = [];
-            const scan = n => { if (n.t === 'poly') used.push('power'); if (n.t === 'exp' && isX(n.a)) used.push('exp'); if (n.t === 'ln' && isX(n.a)) used.push('ln'); if (n.t === 'aexp' && isX(n.a)) used.push('aexp'); if (n.t === 'log' && isX(n.a)) used.push('log'); (n.a && n.a.forEach) && n.a.forEach(scan); n.f && n.f.forEach(scan); };
-            scan(f);
-            const rules = [];
-            if (used.includes('power')) rules.push("\\left(x^{n}\\right)' = n\\,x^{n-1}");
-            if (used.includes('exp')) rules.push("\\left(e^{x}\\right)' = e^{x}");
-            if (used.includes('ln')) rules.push("\\left(\\ln x\\right)' = \\frac{1}{x}");
-            if (used.includes('aexp')) rules.push("\\left(a^{x}\\right)' = a^{x}\\ln a");
-            if (used.includes('log')) rules.push("\\left(\\log_{a} x\\right)' = \\frac{1}{x\\ln a}");
-            steps.push({ t: 'Differentiate term by term', note: 'Sum rule: each term gets its own derivative. Write roots and fractions as powers of x first.', lines: [rules.join('\\qquad ')] });
-            steps.push({ t: 'Each term', lines: termLines(f) });
-        } else if (k === 'product') {
-            const [u, v] = split2(f);
-            steps.push({ t: 'Product rule', note: 'f(x) is one function times another.', lines: ["\\left(u\\cdot v\\right)' = u'\\,v + u\\,v'"] });
-            steps.push({ t: 'Name the parts', lines: [`u = ${tex(u)}`, `v = ${tex(v)}`] });
-            steps.push({ t: 'Differentiate the parts', lines: [partLine('u', u), partLine('v', v)] });
-            steps.push({ t: 'Fill in', lines: [`f'(x) = ${raw(f)}`] });
-        } else if (k === 'quotient') {
-            steps.push({ t: 'Quotient rule', note: 'f(x) is one function divided by another.', lines: ["\\left(\\frac{u}{v}\\right)' = \\frac{u'\\,v - u\\,v'}{v^{2}}"] });
-            steps.push({ t: 'Name the parts', lines: [`u = ${tex(f.a)}`, `v = ${tex(f.b)}`] });
-            steps.push({ t: 'Differentiate the parts', lines: [partLine('u', f.a), partLine('v', f.b)] });
-            steps.push({ t: 'Fill in', lines: [`f'(x) = ${raw(f)}`] });
-        } else if (k === 'chain') {
-            steps.push({ t: 'Chain rule', note: 'f(x) is a function of another function: an outer function g with an inner function u inside.', lines: ["f(x) = g(u(x)) \\;\\Rightarrow\\; f'(x) = g'(u)\\cdot u'"] });
-            steps.push({ t: 'Inner and outer', lines: [`u = ${tex(f.a)}`, `g(u) = ${outerTex(f, 'u')}`] });
-            steps.push({ t: 'Differentiate both', lines: [`g'(u) = ${outerDerivTex(f, 'u')}`, partLine('u', f.a)] });
-            steps.push({ t: 'Fill in u', lines: [`f'(x) = ${raw(f)}`] });
-        } else if (k === 'constant') {
-            const g = f.f[0], r = raw(g), gd = tex(D(g));
-            steps.push({ t: 'Constant multiple', note: 'The constant in front just stays there.', lines: [`f'(x) = ${qtex(f.c)}\\cdot\\left(${tex(g)}\\right)'`] });
-            steps.push({ t: 'Differentiate', lines: [`\\left(${tex(g)}\\right)' = ${r && r !== gd ? r + ' = ' : ''}${gd}` + why(RULE_NAME[kind(g)])] });
-        } else {
-            steps.push({ t: 'Standard derivative', lines: [`f'(x) = ${dt}`] });
-        }
-        const title = (k === 'power' || k === 'sum') ? 'Add the terms up' : (k === 'basic' || raw(f).replace(/\\cdot /g, '').replace(/\s/g, '') === dt.replace(/\s/g, '') ? 'Answer' : 'Simplify');
-        steps.push({ t: title, lines: [`f'(x) = ${dt}`], final: true });
-        return steps;
     }
 
     // ---------- answer parser ----------
@@ -936,6 +887,7 @@ const NAME = Object.fromEntries(SKILLS.map(s => [s.id, s.name]));
 // random pieces the families are built from
 const k = () => ri(2, 9);
 const dec = (lo, hi, d = 1) => { let v; do v = +(lo + Math.random() * (hi - lo)).toFixed(d); while (v === 0); return v; };   // a random decimal, never 0
+const growth = (decay = false) => decay && Math.random() < .3 ? dec(0.6, 0.97, 2) : dec(1.01, 1.3, Math.random() < .5 ? 2 : 3);   // a growth factor like 1.08 (or a decay factor like 0.85)
 const cmono = e => mono(Math.random() < 0.6 ? 1 : k(), e);                       // x^e, sometimes with a coefficient
 const smallPoly = () => pick([lin, linPos, () => cmono(ri(1, 4)), () => P([[1, 2], [nz(1, 9), 0]]), () => P([[ri(1, 3), 2], [nz(1, 6), 1]])])();
 const anyPoly = () => pick([lin, quad, () => polyN(2, [0, 1, 2, 3]), () => polyN(3, [0, 1, 2, 3]), () => cmono(ri(2, 4)), () => P([[nz(1, 4), ri(2, 4)], [nz(1, 9), 0]]), () => P([[1, 2], [-1, 0]])])();
@@ -974,14 +926,14 @@ const TYPES = [
   { id: 'ch1', s: ['chain'], t: 1, b: () => pick([() => RP(lin(), ri(2, 5)), () => RE(mono(nz(2, 5), 1)), () => RP(P([[ri(2, 5), 1], [nz(1, 9), 0]]), ri(2, 4))])() },
   { id: 'ch2', s: ['chain'], t: 2, b: () => pick([() => RL(linPos()), () => RP(linPos(), pick([Q(1, 2), Q(1, 2), Q(1, 3), Q(2, 3), Q(3, 2)])), () => RE(lin()), () => RP(linPos(), -1), () => RP(P([[1, 2], [nz(1, 9), 0]]), ri(2, 3))])() },
   { id: 'ch3', s: ['chain'], t: 3, b: () => pick([chainHard, () => RP(P([[1, ri(3, 4)], [ri(1, 9), 0]]), ri(2, 4)), () => RE(P([[nz(1, 3), 3], [nz(1, 5), 0]])), () => RP(posQuad(), pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3)])), () => RL(P([[1, ri(3, 4)], [ri(1, 9), 0]]))])() },
-  { id: 'nest2', s: ['chain'], t: 3, b: () => pick([() => RE(SQ), () => RP(add(SQ, C(ri(1, 5))), 2), () => RL(add(EX, C(ri(1, 6)))), () => RP(add(EX, C(ri(1, 4))), 2), () => RE(cx(ri(2, 3), SQ))])() },
-  { id: 'nest3', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 3)), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(add(SQ, X)), () => RP(add(LX, C(ri(1, 4))), 2)])() },
-  { id: 'nest4', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 4)), () => RE(SQ), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(cx(ri(2, 3), SQ))])() },
+  { id: 'nest2', s: ['chain'], t: 3, b: () => pick([() => RE(cx(ri(1, 6), SQ)), () => RP(add(cx(ri(1, 4), SQ), C(nz(1, 9))), ri(2, 4)), () => RL(add(cx(ri(1, 5), EX), C(ri(1, 15)))), () => RP(add(cx(ri(1, 3), EX), C(nz(1, 9))), ri(2, 3)), () => RP(add(EX, C(ri(1, 12))), Q(1, 2)), () => RL(add(cx(ri(1, 4), SQ), C(ri(1, 12))))])() },
+  { id: 'nest3', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 3)), () => RL(innerNested()), () => RP(innerNested(), Q(1, 2)), () => RE(add(cx(ri(1, 4), SQ), mono(nz(1, 5), 1))), () => RP(add(cx(ri(1, 4), LX), C(nz(1, 9))), ri(2, 3))])() },
+  { id: 'nest4', s: ['chain'], t: 4, b: () => pick([() => RP(innerNested(), ri(2, 4)), () => RE(add(cx(ri(1, 5), SQ), C(nz(1, 9)))), () => RL(innerNested()), () => RP(innerNested(), pick([Q(1, 2), Q(1, 3), Q(3, 2), Q(-1, 1)])), () => RE(mul(-1, cx(ri(1, 4), SQ)))])() },
   { id: 'sumc3', s: ['chain', 'power'], t: 3, b: () => add(chainEasy(), pick([() => cmono(ri(1, 4)), rootTerm, expLnTerm])(), ...(Math.random() < 0.5 ? [chainEasy()] : [])) },
   { id: 'sumc4', s: ['chain', 'exp', 'ln'], t: 4, b: () => add(chainHard(), chainEasy(), pick([rootTerm, expLnTerm, () => cmono(ri(2, 4))])()) },
   { id: 'quot2b', s: ['quotient'], t: 2, b: () => pick([() => RD(anyPoly(), cmono(ri(1, 2))), () => RD(C(ri(1, 9)), posDen()), () => RD(P([[1, 2], [nz(1, 9), 0]]), P([[1, 2], [ri(1, 9), 0]]))])() },
   { id: 'prod3b', s: ['product', 'exp'], t: 3, b: () => RM(...order(pick([anyPoly, () => cmono(ri(1, 3))])(), pick([() => RE(mono(-1, 1)), () => RE(mono(nz(2, 3), 1)), () => LX])())) },
-  { id: 'prod5x', s: ['product', 'chain'], t: 5, b: () => pick([() => RM(cmono(ri(1, 2)), EX, LX), () => RM(cmono(1), chainEasy(), LX), () => RM(SQ, EX, LX)])() },
+  { id: 'prod5x', s: ['product', 'chain'], t: 5, b: () => pick([() => RM(mono(ri(1, 9), ri(1, 4)), RE(mono(nz(1, 4), 1)), LX), () => RM(cmono(ri(1, 3)), chainEasy(), LX), () => RM(cx(ri(1, 6), SQ), RE(mono(nz(1, 3), 1)), LX), () => RM(mono(1, ri(1, 3)), EX, RL(linPos()))])() },
   { id: 'mixq5', s: ['quotient', 'chain'], t: 5, b: () => pick([() => RP(RD(X, linPos()), ri(2, 3)), () => RE(RD(C(1), linPos())), () => RL(RD(linPos(), posQuad())), () => RP(RD(linPos(), posQuad()), Q(1, 2))])() },
   { id: 'nest5', s: ['chain'], t: 5, b: () => pick([() => RE(RP(posQuad(), Q(1, 2))), () => RL(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4)))), () => RP(add(RE(mono(ri(1, 2), 1)), C(ri(1, 4))), ri(2, 3)), () => RP(RL(posQuad()), ri(2, 3)), () => RE(RD(C(1), linPos()))])() }
 ];
@@ -996,48 +948,50 @@ const EXAM = [
   { id: 'xinv2', s: ['roots', 'power'], t: 2, b: () => pick([
       () => P([[ri(5, 400) * 500, -1], [ri(4, 45), 1], ...(Math.random() < 0.5 ? [[ri(2, 60) * 50, 0]] : [])]),
       () => P([[ri(3, 15), 2], [pick([ri(8, 60), ri(101, 999) / 100]), -1]]),
-      () => P([[pick([0.3, 0.8, 0.25]), 1], [-pick([0.2, 0.4, 0.6]), Q(1, 2)], [-pick([5, 12, 20]), 0]]),
+      () => P([[dec(0.1, 0.9, 2), 1], [-dec(0.1, 0.9), Q(1, 2)], [-ri(2, 30), 0]]),
       () => P([[ri(2, 80) * 5, pick([Q(1, 3), Q(2, 3), Q(1, 4), Q(3, 4)])]]),
       () => { let e; do e = dec(0.15, 2.4, 2); while (Math.abs(e - 1) < .05 || Math.abs(e - .5) < .01); return P([[ri(2, 30), e], ...(Math.random() < .5 ? [[nz(1, 20), 1]] : [])]); }])() },
   { id: 'xch2', s: ['chain'], t: 2, b: () => pick([
-      () => RL(P([[pick([0.5, 0.2, 0.1, 2]), 1], [1, 0]])),
-      () => mul(pick([ri(2, 99) * 10, ri(11, 99) * 100, ri(2, 20)]), RE(mono(-pick([0.5, 0.05, 0.02, 0.08, 0.2, 0.15, 0.04]), 1))),
-      () => RP(P([[-pick([0.5, 0.2, 0.25, 0.1]), 1], [ri(4, 20), 0]]), 2),
+      () => RL(P([[dec(0.1, 3), 1], [1, 0]])),
+      () => mul(pick([ri(2, 99) * 10, ri(11, 99) * 100, ri(2, 20)]), RE(mono(-dec(0.01, 0.5, 2), 1))),
+      () => RP(P([[-dec(0.1, 0.8, 2), 1], [ri(4, 20), 0]]), 2),
       () => RP(P([[ri(2, 9), 1], [ri(1, 30), 0]]), Q(1, 2)),
       () => RP(P([[-ri(2, 5), 1], [ri(2, 12) * 50, 0]]), Q(1, 2)),
-      () => mul(pick([0.01, 0.02, 0.5]), RP(P([[0.5, 1], [-pick([10, 4, 6]), 0]]), 3)),
-      () => RE(P([[pick([0.02, 0.1, 0.5]), 2], [-1, 0]])),
-      () => { const [a, b] = pick([[0.03, 0.05], [0.02, 0.03], [0.1, 0.2]]); return add(RE(mono(-a, 1)), mul(-1, RE(mono(-b, 1)))); },
+      () => mul(dec(0.01, 0.5, 2), RP(P([[0.5, 1], [-ri(2, 15), 0]]), 3)),
+      () => RE(P([[dec(0.01, 0.5, 2), 2], [-1, 0]])),
+      () => { const a = dec(0.01, 0.2, 2), b = +(a + dec(0.01, 0.2, 2)).toFixed(2); return add(RE(mono(-a, 1)), mul(-1, RE(mono(-b, 1)))); },
       () => RP(P([[2, 1], [ri(1, 9), 0]]), 4),
       () => RL(P([[1, 3], [ri(1, 9), 0]]))])() },
   { id: 'xexp2', s: ['exp'], t: 2, b: () => pick([
-      () => mul(pick([ri(2, 9), ri(2, 90) * 10, ri(11, 95) * 100, 1.5]), RB(pick([1.08, 1.019, 1.025, 1.5, 1.18, 1.03, 1.12, 0.95, 0.8]))),
-      () => add(RB(pick([2, 3, 5])), RE(mono(ri(2, 4), 1))),
-      () => add(P([[ri(2, 9) * 5, 1], [ri(10, 40) * 100, 0]]), mul(-ri(2, 12), RB(pick([1.08, 1.05, 1.1])))),
-      () => add(RB(pick([2, 3, 10])), cmono(ri(2, 3))),
-      () => mul(pick([200, 100, 50]), RB(pick([1.08, 1.05]), mono(pick([2, 0.5]), 1)))])() },
+      () => mul(pick([ri(2, 9), ri(2, 90) * 10, ri(11, 95) * 100, 1.5]), RB(growth(true))),
+      () => add(RB(ri(2, 9)), RE(mono(ri(2, 4), 1))),
+      () => add(P([[ri(2, 9) * 5, 1], [ri(10, 40) * 100, 0]]), mul(-ri(2, 12), RB(growth()))),
+      () => add(RB(ri(2, 10)), cmono(ri(2, 3))),
+      () => mul(ri(2, 40) * 10, RB(growth(), mono(dec(0.2, 2.5), 1)))])() },
   { id: 'xlog2', s: ['ln'], t: 2, b: () => pick([
       () => add(RG(2), cmono(ri(2, 3))),
       () => add(mul(ri(2, 5), RG(10)), mono(nz(1, 9), 1)),
       () => add(mul(5, RL(mono(2, 1))), mul(-1, RE(mono(3, 1)))),
       () => RG(2, P([[1, 2], [ri(1, 9), 0]])),
-      () => add(mul(ri(2, 12) * 5, RL(P([[pick([0.5, 2, 0.2, 0.1, 3]), 1], [1, 0]]))), mono(-pick([0.25, 0.5, 2, 0.4, 1.5]), 1))])() },
+      () => add(mul(ri(2, 12) * 5, RL(P([[dec(0.1, 3), 1], [1, 0]]))), mono(-dec(0.1, 2.5, 2), 1))])() },
   { id: 'xprod3', s: ['product', 'exp'], t: 3, b: () => pick([
-      () => RM(P([[1, 1], [ri(2, 15), 0]]), RE(mono(-pick([0.5, 0.2, 0.1, 0.25, 0.4]), 1))),
-      () => RM(mono(1, 3), RE(mono(pick([0.2, 0.5, -0.1]), 1))),
+      () => RM(P([[1, 1], [ri(2, 15), 0]]), RE(mono(-dec(0.1, 0.6, 2), 1))),
+      () => RM(mono(1, 3), RE(mono(dec(-0.3, 0.6, 2), 1))),
       () => add(RM(mono(2, 1), RL(P([[0.5, 1], [1, 0]]))), mono(-2, 1)),
       () => RM(mono(ri(1, 3), 1), RP(LX, 2)),
-      () => RM(P([[pick([2, 3, 0.5]), 1], [ri(1, 9), 0]]), EX)])() },
+      () => RM(P([[dec(0.5, 4), 1], [ri(1, 9), 0]]), EX)])() },
   { id: 'xnest3', s: ['chain'], t: 4, b: () => pick([
-      () => RL(add(C(pick([25, 30, 40])), mul(-1, EX))),
+      () => RL(add(C(ri(23, 60)), mul(-1, EX))),
       () => RL(add(EX, C(ri(2, 9)))),
       () => add(mono(ri(1, 3), 1), mul(-1, RL(add(C(ri(1, 5)), EX)))),
-      () => RE(mono(-0.5, 2))])() },
+      () => RE(mono(-dec(0.1, 1.5), 2)),
+      () => RL(add(cx(ri(2, 9), EX), C(ri(1, 20)))),
+      () => add(mono(nz(1, 9), 1), mul(-ri(1, 6), RL(add(C(ri(1, 9)), RE(mono(ri(1, 3), 1))))))])() },
   { id: 'xquot3', s: ['quotient'], t: 3, b: () => pick([
-      () => RD(P([[-pick([0.2, 0.5, 0.1, 0.3]), 1], [ri(8, 25), 0]]), P([[pick([0.4, 0.5, 2, 0.2, 1.5]), 1], [ri(1, 6), 0]])),
+      () => RD(P([[-dec(0.1, 0.6), 1], [ri(8, 25), 0]]), P([[dec(0.2, 2.5), 1], [ri(1, 6), 0]])),
       () => add(RD(mono(ri(2, 5), 2), P([[1, 1], [ri(1, 4), 0]])), C(ri(2, 9))),
       () => RD(mono(ri(2, 5), 1), P([[1, 2], [ri(1, 4), 0]])),
-      () => RD(C(pick([6, 10, 4])), P([[1, 2], [pick([3, 1, 5]), 0]])),
+      () => RD(C(ri(2, 15)), P([[1, 2], [ri(1, 9), 0]])),
       () => RD(P([[ri(3, 9), 1], [ri(5, 40), 0]]), P([[1, 1], [ri(1, 8), 0]])),
       () => RD(C(ri(2, 50) * 100), RP(P([[ri(1, 3), 1], [ri(2, 12), 0]]), 2)),
       () => RD(mono(ri(2, 30) * 50, 3), P([[ri(1, 3), 3], [ri(10, 150), 0]])),
@@ -1046,21 +1000,22 @@ const EXAM = [
   { id: 'xroot4', s: ['product', 'chain'], t: 4, b: () => pick([
       () => RM(mono(ri(1, 3), 1), RP(P([[-1, 2], [ri(4, 12) ** 2, 0]]), Q(1, 2))),
       () => RM(X, RP(P([[1, 2], [ri(1, 9), 0]]), Q(1, 2))),
-      () => mul(pick([0.1, 0.2, 0.5, 0.25]), RM(X, RP(P([[pick([0.5, 2, 1, 1.5]), 2], [ri(2, 9), 1]]), Q(1, 2)))),
+      () => mul(dec(0.05, 0.5, 2), RM(X, RP(P([[dec(0.5, 3), 2], [ri(2, 9), 1]]), Q(1, 2)))),
       () => RM(mono(1, 2), RP(P([[1, 3], [1, 0]]), Q(1, 2))),
       () => mul(ri(2, 20) * 5, RM(mono(1, Q(1, 4)), RP(P([[-1, 1], [ri(2, 30) * 10, 0]]), Q(3, 4))))])() },
   { id: 'xlogis4', s: ['quotient', 'exp'], t: 4, b: () => pick([
-      () => RD(C(pick([10, 100, 50])), add(C(1), mul(pick([3, 4, 9]), RE(mono(-1, 1))))),
-      () => RD(C(ri(1, 20) * 5000), add(C(ri(2, 9)), mul(ri(5, 40), RE(mono(-pick([0.05, 0.1, 0.02, 0.5]), 1))))),
+      () => RD(C(ri(1, 20) * 10), add(C(1), mul(ri(2, 12), RE(mono(-1, 1))))),
+      () => RD(C(ri(1, 20) * 5000), add(C(ri(2, 9)), mul(ri(5, 40), RE(mono(-dec(0.01, 0.5, 2), 1))))),
       () => { const a = ri(1, 2); return RD(add(C(1), RE(mono(a, 1))), add(C(1), mul(-1, RE(mono(a, 1))))); },
-      () => RD(mono(1, ri(2, 4)), EX),
-      () => RD(RL(mono(2, 1)), mono(1, 2)),
-      () => RD(LX, mono(1, pick([3, 5])))])() },
+      () => RD(cmono(ri(2, 5)), RE(mono(ri(1, 3), 1))),
+      () => RD(RL(mono(ri(2, 9), 1)), mono(ri(1, 4), ri(2, 4))),
+      () => RD(add(LX, C(nz(1, 9))), mono(1, ri(2, 6)))])() },
   { id: 'xnest5', s: ['chain', 'quotient'], t: 5, b: () => pick([
-      () => RL(RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
-      () => RG(2, RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
-      () => RL(RD(X, P([[1, 1], [ri(1, 9), 0]]))),
-      () => RG(2, P([[1, 2], [ri(1, 9), 1]]))])() }
+      () => RL(RD(P([[ri(1, 4), 1], [ri(1, 12), 0]]), P([[1, 2], [ri(1, 9), 1]]))),
+      () => RG(pick([2, 10]), RD(P([[ri(1, 4), 1], [ri(1, 12), 0]]), P([[1, 2], [ri(1, 9), 1]]))),
+      () => RL(RD(mono(ri(1, 6), 1), P([[1, 1], [ri(1, 15), 0]]))),
+      () => RG(pick([2, 10]), P([[ri(1, 4), 2], [ri(1, 15), 1], [ri(0, 9), 0]])),
+      () => RL(RD(P([[1, 2], [ri(1, 15), 0]]), P([[ri(1, 5), 1], [ri(1, 9), 0]])))])() }
 ].map(t => ({ ovr: ['xexp2', 'xlog2'].includes(t.id) ? 70 : 65, ...t, dec: true, exam: true }));   // ovr: overall rating before it shows up (whole numbers first, then decimals, then other bases)
 TYPES.push(...EXAM);
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
@@ -1099,7 +1054,7 @@ const shapeOf = f => key(f).replace(/-?\d+\/\d+/g, '#');
 // ---------- learner model ----------
 const st = {
   R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0,
-  queue: [], recent: [], shapes: [], cur: null
+  queue: [], recent: [], shapes: [], seen: [], cur: null
 };
 const STORE = 'samkedemia-derivative-lab';
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.R) Object.assign(st, { R: { ...st.R, ...s.R }, best: s.best || 0, firsts: s.firsts || 0, total: s.total || 0, n: s.n || 0 }); } catch (e) {}
@@ -1152,6 +1107,7 @@ function buildFrom(type) {
     const f = type.b(), d = D(f);
     if (i < 45 && st.shapes.includes(shapeOf(f))) continue;
     if (st.cur && key(f) === key(st.cur.f)) continue;
+    if (i < 55 && st.seen.includes(key(f))) continue;   // the exact same problem never comes back soon
     if (fakeProduct(f)) continue;
     const ok = SAMPLES.filter(x => { const a = ev(f, x), b = ev(d, x); return isFinite(a) && isFinite(b) && Math.abs(b) < 1e6; }).length;
     if (ok >= 7 && tex(d).length < 240 && tex(f).length < 120) return { f, d };
@@ -1541,6 +1497,7 @@ function loadProblem() {
   st.cur = { type: pickd.type, f: built.f, d: built.d, twin: pickd.why === 'twin', skills: skillsOf(built.f, pickd.type.s[0]) };
   st.recent = [pickd.type.id, ...st.recent.filter(id => id !== pickd.type.id)].slice(0, 6);
   st.shapes = [shapeOf(built.f), ...st.shapes].slice(0, 10);
+  st.seen = [key(built.f), ...st.seen].slice(0, 80);
   Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false });
   $('count').textContent = 'Problem ' + String(st.n).padStart(2, '0');
   $('note').textContent = note;
@@ -1606,7 +1563,7 @@ MathfieldElement.fontsDirectory = null;
 MathfieldElement.soundsDirectory = null;
 const mf = $('ans');
 mf.smartSuperscript = false;
-mf.smartFence = true;
+mf.smartFence = false;   // brackets are plain characters: a linked pair can trap the cursor inside fractions
 mf.mathVirtualKeyboardPolicy = 'manual';
 // MathLive marks its hidden typing element inputmode="none", which stops a phone from opening its keyboard; ask for the normal one
 const nativeKeyboard = () => {
@@ -1644,7 +1601,7 @@ $('reset').addEventListener('click', () => { askReset(true); $('resetNo').focus(
 $('resetNo').addEventListener('click', () => askReset(false));
 $('resetYes').addEventListener('click', () => {
   askReset(false);
-  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [], unlocked: ['power'], done: {} });
+  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [], seen: [], unlocked: ['power'], done: {} });
   save(); renderCoach(); nextProblem();
 });
 
