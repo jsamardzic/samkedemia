@@ -915,7 +915,34 @@ input:focus {
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
+    max-width: 680px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 16px;
+}
+
+.modal-body { overflow-y: auto; padding-right: 4px; }
+.exercise-group + .exercise-group { margin-top: 22px; }
+.exercise-group h4 {
+    margin: 0 0 10px;
+    font-family: var(--font-title);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--taupe-mid);
+}
+.exercise-loading { margin: 0; color: var(--taupe-mid); font-size: 14px; }
+#exercise-note {
+    margin: -10px 0 18px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--bg-off-white);
+    border: 1px solid var(--taupe-light);
+    color: var(--taupe-mid);
+    font-size: 13px;
+    line-height: 1.45;
 }
 
 .modal-header {
@@ -948,8 +975,8 @@ input:focus {
 
 .exercise-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
 }
 
 .exercise-item {
@@ -1209,6 +1236,7 @@ input:focus {
             <h2>Problem Setup <span id="current-exercise-display"></span></h2>
             <button id="exercisesBtn" class="action-btn"><i class="bi bi-folder2-open"></i>Load Exercise</button>
           </div>
+          <p id="exercise-note" hidden></p>
           <h3>Variable Names</h3>
   
           <div class="variables">
@@ -1290,21 +1318,11 @@ input:focus {
       <div id="exercises-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-content">
           <div class="modal-header">
-            <h2>Select an Exercise</h2>
+            <h2>Load an Exercise</h2>
             <button id="close-modal-btn" class="close-btn"><i class="bi bi-x-lg"></i></button>
           </div>
           <div class="modal-body">
-            <div class="exercise-list">
-              <button class="exercise-item" data-id="33">Exercise 33</button>
-              <button class="exercise-item" data-id="34">Exercise 34</button>
-              <button class="exercise-item" data-id="35">Exercise 35</button>
-              <button class="exercise-item" data-id="36">Exercise 36</button>
-              <button class="exercise-item" data-id="37">Exercise 37</button>
-              <button class="exercise-item" data-id="38">Exercise 38</button>
-              <button class="exercise-item" data-id="39">Exercise 39</button>
-              <button class="exercise-item" data-id="40">Exercise 40</button>
-              <button class="exercise-item" data-id="41">Exercise 41</button>
-            </div>
+            <div id="exercise-groups"><p class="exercise-loading">Loading exercises…</p></div>
           </div>
         </div>
       </div>
@@ -1421,8 +1439,42 @@ input:focus {
     });
 
     // --- Modal Logic ---
+    // the picker is built from linearprog-exercises.json: one section per group, in file order
+    let exerciseData = null;
+    async function getExercises() {
+      if (!exerciseData) {
+        const response = await fetch('linearprog-exercises.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        exerciseData = await response.json();
+      }
+      return exerciseData;
+    }
+    async function buildExercisePicker() {
+      const box = document.getElementById('exercise-groups');
+      try {
+        const data = await getExercises();
+        const groups = {};
+        Object.entries(data).forEach(([id, ex]) => { (groups[ex.group || 'Exercises'] ||= []).push([id, ex]); });
+        box.innerHTML = '';
+        Object.entries(groups).forEach(([name, items]) => {
+          const section = document.createElement('div'); section.className = 'exercise-group';
+          const h = document.createElement('h4'); h.textContent = name; section.appendChild(h);
+          const list = document.createElement('div'); list.className = 'exercise-list';
+          items.forEach(([id, ex]) => {
+            const b = document.createElement('button'); b.className = 'exercise-item'; b.dataset.id = id;
+            b.textContent = ex.label || `Exercise ${id}`;
+            if (ex.note) b.title = ex.note;
+            list.appendChild(b);
+          });
+          section.appendChild(list); box.appendChild(section);
+        });
+      } catch (e) {
+        box.innerHTML = '<p class="exercise-loading">Could not load the exercises. Refresh the page and try again.</p>';
+      }
+    }
     exercisesBtn.addEventListener('click', () => {
       exercisesModal.style.display = 'flex';
+      if (!exerciseData) buildExercisePicker();
     });
 
     closeModalBtn.addEventListener('click', () => {
@@ -2771,17 +2823,16 @@ input:focus {
 
     async function loadExercise(id) {
       try {
-        const response = await fetch('linearprog-exercises.json');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const exercises = await response.json();
+        const exercises = await getExercises();
         const exercise = exercises[id];
 
         if (exercise) {
           // Clear current state
           constraintsList = [];
-          document.getElementById('current-exercise-display').textContent = `Exercise ${id}`;
+          document.getElementById('current-exercise-display').textContent = exercise.label || `Exercise ${id}`;
+          const noteEl = document.getElementById('exercise-note');
+          noteEl.textContent = exercise.note || '';
+          noteEl.hidden = !exercise.note;
 
           // Animate in the new settings
 

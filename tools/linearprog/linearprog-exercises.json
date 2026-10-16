@@ -1,425 +1,2310 @@
 {
-    "33": {
-        "variables": {
-            "var1": "q_A",
-            "var2": "q_B"
-        },
-        "target": {
-            "name": "P",
-            "a": 30,
-            "b": 40,
-            "c": 0,
-            "mode": "maximize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 500,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 800,
-                "sign": "ge"
-            },
-            {
-                "c1": 0.3,
-                "c2": 0.3,
-                "rhs": 1800,
-                "sign": "le"
-            },
-            {
-                "c1": 0.2,
-                "c2": 0.1,
-                "rhs": 860,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 4000,
-                "sign": "le"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 4000,
-                "sign": "le"
-            }
-        ]
-    },
-    "34": {
-        "variables": {
-            "var1": "q_A",
-            "var2": "q_B"
-        },
-        "target": {
-            "name": "P",
-            "a": 800,
-            "b": 400,
-            "c": 0,
-            "mode": "maximize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 20,
-                "c2": 50,
-                "rhs": 1000,
-                "sign": "le"
-            },
-            {
-                "c1": 3,
-                "c2": 2,
-                "rhs": 96,
-                "sign": "le"
-            },
-            {
-                "c1": 5,
-                "c2": 2,
-                "rhs": 155,
-                "sign": "le"
-            }
-        ]
-    },
-    "35": {
-        "variables": {
-            "var1": "q_1",
-            "var2": "q_2"
-        },
-        "target": {
-            "name": "P",
-            "a": 300,
-            "b": 450,
-            "c": 0,
-            "mode": "maximize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 400,
-                "c2": 200,
-                "rhs": 80000,
-                "sign": "le"
-            },
-            {
-                "c1": 0.75,
-                "c2": 1,
-                "rhs": 300,
-                "sign": "le"
-            },
-            {
-                "c1": 300,
-                "c2": 450,
-                "rhs": 45000,
-                "sign": "ge"
-            }
-        ]
-    },
-    "36": {
-        "variables": {
-            "var1": "f_1",
-            "var2": "f_2"
-        },
-        "target": {
-            "name": "C",
-            "a": 1.5,
-            "b": 1,
-            "c": 0,
-            "mode": "minimize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 50,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 60,
-                "c2": 40,
-                "rhs": 20000,
-                "sign": "ge"
-            },
-            {
-                "c1": 20,
-                "c2": 30,
-                "rhs": 12000,
-                "sign": "ge"
-            }
-        ]
-    },
-    "37": {
-        "variables": {
-            "var1": "c_A",
-            "var2": "c_B"
-        },
-        "target": {
-            "name": "C",
-            "a": -6,
-            "b": -6,
-            "c": 1050,
-            "mode": "minimize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 25,
-                "sign": "le"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 30,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 1,
-                "rhs": 45,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 1,
-                "rhs": 15,
-                "sign": "ge"
-            }
-        ]
-    },
-    "38": {
-        "variables": {
-            "var1": "P_1",
-            "var2": "Q_1"
-        },
-        "target": {
-            "name": "C",
-            "a": 400,
-            "b": 300,
-            "c": 380000,
-            "mode": "minimize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 500,
-                "sign": "le"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 600,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 1,
-                "rhs": 900,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 1,
-                "rhs": 500,
-                "sign": "ge"
-            }
-        ]
-    },
-    "39": {
-        "variables": {
-            "var1": "a",
-            "var2": "b"
-        },
-        "target": {
-            "name": "C",
-            "a": 1,
-            "b": 2,
-            "c": 0,
-            "mode": "minimize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 2,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 1,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 3,
-                "rhs": 9,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 2,
-                "rhs": 10,
-                "sign": "le"
-            }
-        ]
-    },
-    "40": {
-        "variables": {
-            "var1": "W",
-            "var2": "R"
-        },
-        "target": {
-            "name": "A",
-            "a": 1,
-            "b": 1,
-            "c": 0,
-            "mode": "maximize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 6,
-                "sign": "le"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 4,
-                "sign": "le"
-            },
-            {
-                "c1": 1,
-                "c2": 1,
-                "rhs": 7,
-                "sign": "ge"
-            },
-            {
-                "c1": 1,
-                "c2": 2,
-                "rhs": 12,
-                "sign": "le"
-            },
-            {
-                "c1": 20,
-                "c2": 10,
-                "rhs": 135,
-                "sign": "le"
-            }
-        ]
-    },
-    "41": {
-        "variables": {
-            "var1": "F_1",
-            "var2": "F_2"
-        },
-        "target": {
-            "name": "C",
-            "a": 0.7,
-            "b": 1,
-            "c": 0,
-            "mode": "minimize"
-        },
-        "constraints": [
-            {
-                "c1": 1,
-                "c2": 0,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0,
-                "c2": 1,
-                "rhs": 0,
-                "sign": "ge"
-            },
-            {
-                "c1": 0.03,
-                "c2": 0.04,
-                "rhs": 360,
-                "sign": "ge"
-            },
-            {
-                "c1": 0.05,
-                "c2": 0.02,
-                "rhs": 257,
-                "sign": "ge"
-            },
-            {
-                "c1": 0.01,
-                "c2": 0.04,
-                "rhs": 250,
-                "sign": "ge"
-            }
-        ]
-    }
+ "29": {
+  "label": "Exercise 29",
+  "group": "Chapter 2",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "C",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 300,
+    "c2": 400,
+    "rhs": 12000,
+    "sign": "le"
+   }
+  ],
+  "note": "Region only: the budget set."
+ },
+ "32": {
+  "label": "Exercise 32",
+  "group": "Chapter 2",
+  "variables": {
+   "var1": "Y",
+   "var2": "E"
+  },
+  "target": {
+   "name": "C",
+   "a": 60,
+   "b": 150,
+   "c": 0,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": -1,
+    "c2": 3,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": -9,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "le"
+   },
+   {
+    "c1": 60,
+    "c2": 150,
+    "rhs": 1500,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1.5,
+    "rhs": 15,
+    "sign": "ge"
+   }
+  ]
+ },
+ "33": {
+  "variables": {
+   "var1": "q_A",
+   "var2": "q_B"
+  },
+  "target": {
+   "name": "P",
+   "a": 30,
+   "b": 40,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 500,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 800,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.3,
+    "c2": 0.3,
+    "rhs": 1800,
+    "sign": "le"
+   },
+   {
+    "c1": 0.2,
+    "c2": 0.1,
+    "rhs": 860,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 4000,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 4000,
+    "sign": "le"
+   }
+  ],
+  "label": "Exercise 33",
+  "group": "Chapter 2"
+ },
+ "34": {
+  "variables": {
+   "var1": "q_A",
+   "var2": "q_B"
+  },
+  "target": {
+   "name": "P",
+   "a": 800,
+   "b": 400,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 20,
+    "c2": 50,
+    "rhs": 1000,
+    "sign": "le"
+   },
+   {
+    "c1": 3,
+    "c2": 2,
+    "rhs": 96,
+    "sign": "le"
+   },
+   {
+    "c1": 5,
+    "c2": 2,
+    "rhs": 155,
+    "sign": "le"
+   }
+  ],
+  "label": "Exercise 34",
+  "group": "Chapter 2"
+ },
+ "35": {
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "P",
+   "a": 300,
+   "b": 450,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 400,
+    "c2": 200,
+    "rhs": 80000,
+    "sign": "le"
+   },
+   {
+    "c1": 0.75,
+    "c2": 1,
+    "rhs": 300,
+    "sign": "le"
+   },
+   {
+    "c1": 300,
+    "c2": 450,
+    "rhs": 45000,
+    "sign": "ge"
+   }
+  ],
+  "label": "Exercise 35",
+  "group": "Chapter 2"
+ },
+ "36": {
+  "variables": {
+   "var1": "f_1",
+   "var2": "f_2"
+  },
+  "target": {
+   "name": "C",
+   "a": 1.5,
+   "b": 1,
+   "c": 0,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 50,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 60,
+    "c2": 40,
+    "rhs": 20000,
+    "sign": "ge"
+   },
+   {
+    "c1": 20,
+    "c2": 30,
+    "rhs": 12000,
+    "sign": "ge"
+   }
+  ],
+  "label": "Exercise 36",
+  "group": "Chapter 2"
+ },
+ "37": {
+  "variables": {
+   "var1": "c_A",
+   "var2": "c_B"
+  },
+  "target": {
+   "name": "C",
+   "a": -6,
+   "b": -6,
+   "c": 1050,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 25,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 30,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 45,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 15,
+    "sign": "ge"
+   }
+  ],
+  "label": "Exercise 37",
+  "group": "Chapter 2"
+ },
+ "38": {
+  "variables": {
+   "var1": "P_1",
+   "var2": "Q_1"
+  },
+  "target": {
+   "name": "C",
+   "a": 400,
+   "b": 300,
+   "c": 380000,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 500,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 600,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 900,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 500,
+    "sign": "ge"
+   }
+  ],
+  "label": "Exercise 38",
+  "group": "Chapter 2"
+ },
+ "39": {
+  "variables": {
+   "var1": "a",
+   "var2": "b"
+  },
+  "target": {
+   "name": "C",
+   "a": 1,
+   "b": 2,
+   "c": 0,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 2,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 1,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 3,
+    "rhs": 9,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 2,
+    "rhs": 10,
+    "sign": "le"
+   }
+  ],
+  "label": "Exercise 39",
+  "group": "Chapter 2"
+ },
+ "40": {
+  "variables": {
+   "var1": "W",
+   "var2": "R"
+  },
+  "target": {
+   "name": "A",
+   "a": 1,
+   "b": 1,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 6,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 4,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 7,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 2,
+    "rhs": 12,
+    "sign": "le"
+   },
+   {
+    "c1": 20,
+    "c2": 10,
+    "rhs": 135,
+    "sign": "le"
+   }
+  ],
+  "label": "Exercise 40",
+  "group": "Chapter 2"
+ },
+ "41": {
+  "variables": {
+   "var1": "F_1",
+   "var2": "F_2"
+  },
+  "target": {
+   "name": "C",
+   "a": 0.7,
+   "b": 1,
+   "c": 0,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.03,
+    "c2": 0.04,
+    "rhs": 360,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.05,
+    "c2": 0.02,
+    "rhs": 257,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.01,
+    "c2": 0.04,
+    "rhs": 250,
+    "sign": "ge"
+   }
+  ],
+  "label": "Exercise 41",
+  "group": "Chapter 2"
+ },
+ "R2-1": {
+  "label": "Review 2 · Q1",
+  "group": "Review 2",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "C",
+   "a": 0.6,
+   "b": 0.4,
+   "c": 2,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 5,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": -1.5,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 25,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -1,
+    "rhs": 5,
+    "sign": "ge"
+   }
+  ],
+  "note": "Part (k) asks for the minimum and the maximum cost: switch the mode to see both."
+ },
+ "R2-2": {
+  "label": "Review 2 · Q2",
+  "group": "Review 2",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 20,
+    "c2": 10,
+    "rhs": 2200,
+    "sign": "le"
+   },
+   {
+    "c1": 5,
+    "c2": 7.5,
+    "rhs": 750,
+    "sign": "le"
+   },
+   {
+    "c1": -1,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "le"
+   }
+  ],
+  "note": "Region only. Same question as exam 2021 Example Q2."
+ },
+ "R2-3": {
+  "label": "Review 2 · Q3",
+  "group": "Review 2",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "R",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.3,
+    "c2": 0.6,
+    "rhs": 15,
+    "sign": "le"
+   },
+   {
+    "c1": 0.7,
+    "c2": 0.4,
+    "rhs": 14,
+    "sign": "le"
+   },
+   {
+    "c1": -0.4,
+    "c2": 0.2,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Revenue comes from a contour plot in the original, so only the region is set up. Same question as exam 2022 Example Q2."
+ },
+ "R2-4": {
+  "label": "Review 2 · Q4",
+  "group": "Review 2",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 3,
+    "c2": 2,
+    "rhs": 120,
+    "sign": "le"
+   },
+   {
+    "c1": 4,
+    "c2": 6,
+    "rhs": 192,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -1.5,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 4,
+    "rhs": 52,
+    "sign": "le"
+   }
+  ],
+  "note": "Region only (part b). Same question as exam 2020 September On-Campus Q3."
+ },
+ "R2-5": {
+  "label": "Review 2 · Q5",
+  "group": "Review 2",
+  "variables": {
+   "var1": "s",
+   "var2": "S"
+  },
+  "target": {
+   "name": "E",
+   "a": 1,
+   "b": -3,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 200,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 10,
+    "c2": 50,
+    "rhs": 4500,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -10,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": -25,
+    "rhs": 0,
+    "sign": "le"
+   }
+  ],
+  "note": "Same question as exam 2021 June Q3."
+ },
+ "E2020S-1": {
+  "label": "2020 Sep (online) · Q1",
+  "group": "Past exams",
+  "variables": {
+   "var1": "p_1",
+   "var2": "p_2"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.3,
+    "c2": 0.4,
+    "rhs": 9.6,
+    "sign": "le"
+   },
+   {
+    "c1": -0.2,
+    "c2": 0.6,
+    "rhs": 33.6,
+    "sign": "le"
+   },
+   {
+    "c1": 7,
+    "c2": -12,
+    "rhs": -192,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": -1,
+    "rhs": 20,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only (part b). The 60% rule is multiplied by 15 to avoid 7/15."
+ },
+ "E2022E-5": {
+  "label": "2022 Example · Q5",
+  "group": "Past exams",
+  "variables": {
+   "var1": "c",
+   "var2": "s"
+  },
+  "target": {
+   "name": "E",
+   "a": -0.875,
+   "b": -3.4,
+   "c": 4375,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1.25,
+    "c2": 2,
+    "rhs": 1250,
+    "sign": "le"
+   },
+   {
+    "c1": 0.275,
+    "c2": 1,
+    "rhs": 220,
+    "sign": "ge"
+   }
+  ],
+  "note": "Energy in 1000 kCal after substituting r = 1250 − 1.25c − 2s."
+ },
+ "E2024J-2": {
+  "label": "2024 June · Q2",
+  "group": "Past exams",
+  "variables": {
+   "var1": "c",
+   "var2": "l"
+  },
+  "target": {
+   "name": "U",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 60,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 75,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 100,
+    "sign": "le"
+   },
+   {
+    "c1": -0.5,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Chocolate whiskey c and lemon curd l, butterscotch = 100 − c − l. Utility comes from a contour plot in the original, so only the region is set up."
+ },
+ "E2025E-8": {
+  "label": "2025 Example · Q8",
+  "group": "Past exams",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "R",
+   "a": 1,
+   "b": 1,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 2,
+    "rhs": 3000,
+    "sign": "le"
+   },
+   {
+    "c1": -1,
+    "c2": 3,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 2400,
+    "sign": "le"
+   }
+  ]
+ },
+ "E2025J-7": {
+  "label": "2025 June · Q7",
+  "group": "Past exams",
+  "variables": {
+   "var1": "H",
+   "var2": "L"
+  },
+  "target": {
+   "name": "R",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 4,
+    "rhs": 140,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only. Tulips = 100 − H − L."
+ },
+ "E2025A-7": {
+  "label": "2025 August · Q7",
+  "group": "Past exams",
+  "variables": {
+   "var1": "h",
+   "var2": "l"
+  },
+  "target": {
+   "name": "B",
+   "a": 4,
+   "b": 12,
+   "c": 1200,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 2,
+    "rhs": 100,
+    "sign": "le"
+   }
+  ],
+  "note": "Blooming days after substituting tulips = 100 − h − l."
+ },
+ "P2-1a": {
+  "label": "Practice 2.1a",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 4,
+    "c2": 2,
+    "rhs": 160,
+    "sign": "le"
+   },
+   {
+    "c1": 2,
+    "c2": 5,
+    "rhs": 200,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -1.25,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 2,
+    "c2": -3,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only (part b)."
+ },
+ "P2-2a": {
+  "label": "Practice 2.2a",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "R",
+   "a": 10,
+   "b": 12.5,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0.3,
+    "c2": 0.5,
+    "rhs": 15,
+    "sign": "le"
+   },
+   {
+    "c1": 0.7,
+    "c2": 0.5,
+    "rhs": 20,
+    "sign": "le"
+   },
+   {
+    "c1": 0.4,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Revenue read off the given contour lines (level 100 runs from (10, 0) to (0, 8))."
+ },
+ "P2-2b": {
+  "label": "Practice 2.2b",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "P",
+   "a": 20,
+   "b": 30,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 4,
+    "c2": 2,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 2,
+    "c2": 6,
+    "rhs": 120,
+    "sign": "le"
+   },
+   {
+    "c1": -2,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "le"
+   }
+  ],
+  "note": "Profit read off the given contour lines."
+ },
+ "P2-2c": {
+  "label": "Practice 2.2c",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "P",
+   "a": 50,
+   "b": 75,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 2,
+    "c2": 3,
+    "rhs": 48,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 4,
+    "rhs": 52,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 15,
+    "sign": "le"
+   }
+  ],
+  "note": "Profit read off the given contour lines."
+ },
+ "P2-3a": {
+  "label": "Practice 2.3a",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 80,
+    "c2": 30,
+    "rhs": 4000,
+    "sign": "le"
+   },
+   {
+    "c1": 20,
+    "c2": 70,
+    "rhs": 3500,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -3,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only."
+ },
+ "P2-3b": {
+  "label": "Practice 2.3b",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 400,
+    "c2": 200,
+    "rhs": 12000,
+    "sign": "le"
+   },
+   {
+    "c1": 100,
+    "c2": 300,
+    "rhs": 9000,
+    "sign": "le"
+   },
+   {
+    "c1": 2,
+    "c2": -3,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only."
+ },
+ "P2-3c": {
+  "label": "Practice 2.3c",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 400,
+    "c2": 200,
+    "rhs": 12000,
+    "sign": "le"
+   },
+   {
+    "c1": 100,
+    "c2": 300,
+    "rhs": 9000,
+    "sign": "le"
+   },
+   {
+    "c1": 3,
+    "c2": -7,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only."
+ },
+ "P2-4a": {
+  "label": "Practice 2.4a",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "S",
+   "a": 5,
+   "b": -20,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 800,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 2,
+    "c2": 15,
+    "rhs": 3000,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -50,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": -100,
+    "rhs": 0,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-4b": {
+  "label": "Practice 2.4b",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "V",
+   "a": 10,
+   "b": 50,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 600,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 4,
+    "c2": 20,
+    "rhs": 5000,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -40,
+    "rhs": 0,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": -15,
+    "rhs": 0,
+    "sign": "ge"
+   }
+  ]
+ },
+ "P2-5a": {
+  "label": "Practice 2.5a",
+  "group": "Practice",
+  "variables": {
+   "var1": "p",
+   "var2": "b"
+  },
+  "target": {
+   "name": "S",
+   "a": 10,
+   "b": 50,
+   "c": 60000,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": -0.5,
+    "rhs": 300,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 600,
+    "sign": "le"
+   }
+  ],
+  "note": "Apple a = 600 − p − b."
+ },
+ "P2-5b": {
+  "label": "Practice 2.5b",
+  "group": "Practice",
+  "variables": {
+   "var1": "s",
+   "var2": "n"
+  },
+  "target": {
+   "name": "D",
+   "a": 0.1,
+   "b": 0.4,
+   "c": 30,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 3,
+    "rhs": 150,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 100,
+    "sign": "le"
+   }
+  ],
+  "note": "White w = 100 − s − n; D in units of 100 g."
+ },
+ "P2-5c": {
+  "label": "Practice 2.5c",
+  "group": "Practice",
+  "variables": {
+   "var1": "s",
+   "var2": "r"
+  },
+  "target": {
+   "name": "P",
+   "a": -30,
+   "b": -70,
+   "c": 8500,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": -0.5,
+    "rhs": 5,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 50,
+    "sign": "le"
+   }
+  ],
+  "note": "Oat o = 50 − s − r; P in grams."
+ },
+ "P2-6a": {
+  "label": "Practice 2.6a",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "P",
+   "a": 50,
+   "b": 50,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 10,
+    "c2": 30,
+    "rhs": 1800,
+    "sign": "le"
+   },
+   {
+    "c1": -1,
+    "c2": 5,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 120,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-6b": {
+  "label": "Practice 2.6b",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "R",
+   "a": 20,
+   "b": 20,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 2,
+    "c2": 5,
+    "rhs": 2000,
+    "sign": "le"
+   },
+   {
+    "c1": -1,
+    "c2": 4,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 600,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-6c": {
+  "label": "Practice 2.6c",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "R",
+   "a": 60,
+   "b": 60,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 40,
+    "c2": 20,
+    "rhs": 1600,
+    "sign": "le"
+   },
+   {
+    "c1": 2,
+    "c2": -1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 30,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-7a": {
+  "label": "Practice 2.7a",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 10,
+    "c2": 30,
+    "rhs": 3000,
+    "sign": "le"
+   },
+   {
+    "c1": -1,
+    "c2": 3,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 180,
+    "sign": "le"
+   }
+  ],
+  "note": "Region only."
+ },
+ "P2-7b": {
+  "label": "Practice 2.7b",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 25,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 25,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 75,
+    "sign": "le"
+   },
+   {
+    "c1": 2,
+    "c2": 5,
+    "rhs": 220,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only. Fly ash = 100 − x − y."
+ },
+ "P2-7c": {
+  "label": "Practice 2.7c",
+  "group": "Practice",
+  "variables": {
+   "var1": "O",
+   "var2": "W"
+  },
+  "target": {
+   "name": "T",
+   "a": 0,
+   "b": 0,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 20,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 4,
+    "rhs": 140,
+    "sign": "ge"
+   }
+  ],
+  "note": "Region only. Grain = 100 − O − W."
+ },
+ "P2-8a": {
+  "label": "Practice 2.8a",
+  "group": "Practice",
+  "variables": {
+   "var1": "q",
+   "var2": "n"
+  },
+  "target": {
+   "name": "P",
+   "a": 20,
+   "b": -20,
+   "c": -800,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 600,
+    "sign": "le"
+   },
+   {
+    "c1": -0.25,
+    "c2": 1,
+    "rhs": 50,
+    "sign": "ge"
+   },
+   {
+    "c1": 5,
+    "c2": 20,
+    "rhs": 10000,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-8b": {
+  "label": "Practice 2.8b",
+  "group": "Practice",
+  "variables": {
+   "var1": "q",
+   "var2": "c"
+  },
+  "target": {
+   "name": "P",
+   "a": 350,
+   "b": -50,
+   "c": -5000,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 40,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": -5,
+    "c2": 1,
+    "rhs": -100,
+    "sign": "ge"
+   },
+   {
+    "c1": 100,
+    "c2": 50,
+    "rhs": 20000,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-8c": {
+  "label": "Practice 2.8c",
+  "group": "Practice",
+  "variables": {
+   "var1": "q",
+   "var2": "i"
+  },
+  "target": {
+   "name": "P",
+   "a": 480,
+   "b": -80,
+   "c": -10000,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 60,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 180,
+    "sign": "le"
+   },
+   {
+    "c1": -2,
+    "c2": 1,
+    "rhs": 40,
+    "sign": "ge"
+   },
+   {
+    "c1": -4,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-9a": {
+  "label": "Practice 2.9a",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_1",
+   "var2": "q_2"
+  },
+  "target": {
+   "name": "C",
+   "a": -5,
+   "b": 5,
+   "c": 2950,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 40,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 50,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 60,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 45,
+    "sign": "ge"
+   }
+  ],
+  "note": "q₁, q₂ = pallets from P₁ to S₁ and S₂; P₂ ships the rest."
+ },
+ "P2-9b": {
+  "label": "Practice 2.9b",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "C",
+   "a": -10,
+   "b": 30,
+   "c": 9300,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 100,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 110,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 90,
+    "sign": "ge"
+   }
+  ],
+  "note": "x, y = containers from F₁ to D₁ and D₂; F₂ ships the rest."
+ },
+ "P2-9c": {
+  "label": "Practice 2.9c",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "C",
+   "a": -2,
+   "b": 6,
+   "c": 1640,
+   "mode": "minimize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 60,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 80,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 90,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 65,
+    "sign": "ge"
+   }
+  ],
+  "note": "x, y = trays from K₁ to A and B; K₂ ships the rest."
+ },
+ "P2-10a": {
+  "label": "Practice 2.10a",
+  "group": "Practice",
+  "variables": {
+   "var1": "q_C",
+   "var2": "q_S"
+  },
+  "target": {
+   "name": "N",
+   "a": 1,
+   "b": 1,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 8,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 5,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1.5,
+    "rhs": 10,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 5,
+    "sign": "ge"
+   },
+   {
+    "c1": 12,
+    "c2": 18,
+    "rhs": 120,
+    "sign": "le"
+   }
+  ]
+ },
+ "P2-10c": {
+  "label": "Practice 2.10c",
+  "group": "Practice",
+  "variables": {
+   "var1": "x",
+   "var2": "y"
+  },
+  "target": {
+   "name": "N",
+   "a": 1,
+   "b": 1,
+   "c": 0,
+   "mode": "maximize"
+  },
+  "constraints": [
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 0,
+    "sign": "ge"
+   },
+   {
+    "c1": 1,
+    "c2": 0,
+    "rhs": 20,
+    "sign": "le"
+   },
+   {
+    "c1": 0,
+    "c2": 1,
+    "rhs": 15,
+    "sign": "le"
+   },
+   {
+    "c1": 3,
+    "c2": 4,
+    "rhs": 96,
+    "sign": "le"
+   },
+   {
+    "c1": 1,
+    "c2": 1,
+    "rhs": 25,
+    "sign": "ge"
+   },
+   {
+    "c1": 10,
+    "c2": 20,
+    "rhs": 400,
+    "sign": "le"
+   }
+  ],
+  "note": "Assembly time multiplied by 12 so 20 minutes is exact."
+ }
 }
