@@ -1126,7 +1126,12 @@ const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
 function chooseType() {
   const due = st.queue.findIndex(q => q.due <= st.n);
   if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen) && overall(st.R) >= (TYPE[q.id].ovr || 0)) return { type: TYPE[q.id], why: 'twin' }; }
-  const scored = TYPES.filter(t => t.s.every(isOpen) && overall(st.R) >= (t.ovr || 0)).map(t => {
+  // difficulty window from the overall rating: easy tiers drop out and hard ones come in as you climb
+  const o = overall(st.R), tMin = o < 68 ? 1 : o < 76 ? 2 : o < 84 ? 3 : 4, tMax = o < 58 ? 2 : o < 66 ? 3 : o < 74 ? 4 : 5;
+  const open = TYPES.filter(t => t.s.every(isOpen) && o >= (t.ovr || 0));
+  let pool = open.filter(t => t.t >= tMin && t.t <= tMax);
+  if (pool.length < 3) pool = open.filter(t => t.t >= Math.min(tMin, 3) - 1);   // never run dry
+  const scored = pool.map(t => {
     const rmin = Math.min(...t.s.map(s => st.R[s]));
     const target = Math.min(1, rmin + 0.06 + (st.streak >= 3 ? 0.08 : 0));
     const fit = Math.exp(-((diff(t) - target) ** 2) / (2 * 0.13 ** 2));
