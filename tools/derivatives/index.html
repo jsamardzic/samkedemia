@@ -160,15 +160,22 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 /* ---- coach ---- */
 .coach { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); border-radius: 28px; padding: 26px 24px; background: linear-gradient(var(--glass-top), var(--glass-bottom)); border: 1.5px solid var(--glass-border); box-shadow: 0 40px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 @media (max-width: 1000px) { .coach { position: relative; top: 0; } }
-.ovr { position: relative; display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border); }
-.ovr-num { font: 900 clamp(4rem, 8vw, 5.4rem)/.82 var(--font-num); color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: -.02em; display: inline-block; transform-origin: 30% 80%; }
-.ovr-side { display: grid; gap: 10px; justify-items: start; }
-.tier { font: 900 .78rem/1 var(--font-num); letter-spacing: .14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; color: var(--ground-edge); background: var(--tier, #c98a4b); box-shadow: 0 0 24px color-mix(in srgb, var(--tier, #c98a4b) 45%, transparent); }
-.tier[data-tier="bronze"] { --tier: #cf8f55; }
-.tier[data-tier="silver"] { --tier: #cfd9dc; }
-.tier[data-tier="gold"] { --tier: #f3c552; }
-.tier[data-tier="elite"] { --tier: #ff5500; color: #fff; }
-.ovr-gain { position: absolute; left: 4.6em; top: -.4em; font: 900 1.1rem/1 var(--font-num); color: var(--orange); pointer-events: none; }
+/* FIFA-style player card, coloured by tier */
+.pcard { --c1: #8a5530; --c2: #d99a62; --ink-card: #2b1606; position: relative; overflow: hidden; display: flex; align-items: center; gap: 18px; padding: 18px 20px; margin-bottom: 4px; border-radius: 18px; color: var(--ink-card);
+  background: linear-gradient(135deg, var(--c2) 0%, var(--c1) 100%); box-shadow: 0 14px 30px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .45); }
+.pcard::before { content: ""; position: absolute; inset: -40% -10%; background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, .45) 47%, transparent 56%); transform: translateX(-30%); pointer-events: none; }
+.pcard::after { content: ""; position: absolute; right: -30px; top: -30px; width: 140px; height: 140px; border-radius: 50%; border: 18px solid rgba(255, 255, 255, .12); pointer-events: none; }
+.pcard[data-tier="silver"] { --c1: #7d8b90; --c2: #e9eff1; --ink-card: #142227; }
+.pcard[data-tier="gold"] { --c1: #b8861f; --c2: #f8dc7f; --ink-card: #2a1d00; }
+.pcard[data-tier="elite"] { --c1: #c43d00; --c2: #ff8a3d; --ink-card: #fff; }
+.pc-rating { position: relative; display: grid; justify-items: center; line-height: 1; }
+.ovr-num { font: 900 clamp(3.6rem, 7vw, 4.4rem)/.85 var(--font-num); font-variant-numeric: tabular-nums; letter-spacing: -.03em; display: inline-block; transform-origin: 50% 80%; }
+.pc-ovr { font: 900 .78rem/1 var(--font-num); letter-spacing: .28em; margin-top: 6px; padding-left: .28em; opacity: .8; }
+.pc-side { position: relative; display: grid; gap: 6px; min-width: 0; padding-left: 18px; border-left: 2px solid color-mix(in srgb, var(--ink-card) 25%, transparent); }
+.pc-tier { font: 900 1.25rem/1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; }
+.pc-title { font: 700 .9rem/1.2 var(--font-body); opacity: .85; }
+.ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
+.skills-head { margin-top: 22px !important; }
 .skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 6px; gap: 10px; }
 .skills-head .hand { font: 700 1.15rem/1 var(--font-hand); color: var(--orange-light); }
 .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 9px 0; color: var(--cream); }
@@ -258,13 +265,16 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     </div>
 
     <aside class="coach" aria-label="Your progress">
-      <div class="ovr">
-        <span class="ovr-num" id="ovr">40</span>
-        <div class="ovr-side">
-          <span class="label">Overall</span>
-          <span class="tier" id="tier" data-tier="bronze">Bronze</span>
+      <div class="pcard" id="pcard" data-tier="bronze">
+        <div class="pc-rating">
+          <span class="ovr-num" id="ovr">40</span>
+          <span class="pc-ovr">OVR</span>
+          <span class="ovr-gain" id="ovrGain" hidden></span>
         </div>
-        <span class="ovr-gain" id="ovrGain" hidden></span>
+        <div class="pc-side">
+          <span class="pc-tier" id="tier">Bronze</span>
+          <span class="pc-title" id="ptitle">Rookie</span>
+        </div>
       </div>
       <div class="skills-head">
         <span class="label">Skills</span>
@@ -1139,10 +1149,13 @@ function verdict(ok, title, detail) {
 // FIFA-style ratings: every skill 40-99, overall is their average
 const rating = r => Math.round(40 + 59 * r);
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
+const TITLES = { power: 'Power player', roots: 'Root master', exp: 'Exponential ace', ln: 'Log specialist', product: 'Product pro', quotient: 'Quotient pro', chain: 'Chain specialist', nested: 'Nesting master' };
+const cardTitle = () => { const best = SKILLS.map(s => s.id).reduce((a, b) => st.R[b] > st.R[a] ? b : a); return st.R[best] < 0.08 ? 'Rookie' : TITLES[best]; };
 const tierOf = o => o >= 90 ? 'elite' : o >= 75 ? 'gold' : o >= 60 ? 'silver' : 'bronze';
 function renderOverall(prevR) {
   const now = overall(st.R), was = prevR ? overall(prevR) : now, el = $('ovr'), tier = tierOf(now);
-  $('tier').dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1);
+  $('pcard').dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1);
+  $('ptitle').textContent = cardTitle();
   if (reduce || now === was) { el.textContent = now; return; }
   const t0 = performance.now(), dur = 900;
   const step = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(was + (now - was) * e); if (p < 1) requestAnimationFrame(step); };
@@ -1151,6 +1164,7 @@ function renderOverall(prevR) {
     const g = $('ovrGain'); g.textContent = '+' + (now - was); g.hidden = false;
     anim(g, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(-4px)', offset: .25 }, { opacity: 0, transform: 'translateY(-22px)' }], { duration: 1500, easing: 'ease-out' }).then(() => { g.hidden = true; });
     anim(el, [{ transform: 'scale(1)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1)' }], { duration: 600, easing: SPRING });
+    if (!reduce) $('pcard').animate([{ filter: 'brightness(1)' }, { filter: 'brightness(1.18)' }, { filter: 'brightness(1)' }], { duration: 900, easing: 'ease-out' });
   }
 }
 function renderCoach(prevLevels) {
