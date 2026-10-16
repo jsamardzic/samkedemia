@@ -1088,6 +1088,15 @@ function chooseType() {
   const open = TYPES.filter(t => t.s.every(isOpen) && o >= (t.ovr || 0));
   let pool = open.filter(t => t.t >= tMin && t.t <= tMax);
   if (pool.length < 3) pool = open.filter(t => t.t >= Math.min(tMin, 3) - 1);   // never run dry
+  // close to the top: train the weakest skill that is not 99 yet, with hard problems that use it
+  let weak = null;
+  if (o >= 96) {
+    weak = SKILLS.map(s => s.id).filter(id => isOpen(id) && rating(st.R[id]) < 99).sort((a, b) => st.R[a] - st.R[b])[0] || null;
+    if (weak) {
+      const uses = pool.filter(t => t.s.includes(weak)), wider = open.filter(t => t.s.includes(weak) && t.t >= 3);
+      pool = uses.length >= 2 ? uses : wider.length ? wider : pool;
+    }
+  }
   const scored = pool.map(t => {
     const rmin = Math.min(...t.s.map(s => st.R[s]));
     const target = Math.min(1, rmin + 0.06 + (st.streak >= 3 ? 0.08 : 0));
@@ -1096,7 +1105,7 @@ function chooseType() {
     const seen = st.recent.indexOf(t.id);
     const fresh = seen < 0 ? 1 : [0.03, 0.15, 0.35, 0.6][seen] ?? 0.8;
     const variety = st.cur && st.cur.type.s[0] === t.s[0] ? 0.35 : 1;
-    return { t, score: fit * need * fresh * variety * (t.exam ? 1.25 : 1) * (0.6 + Math.random() * 0.8) };
+    return { t, score: fit * need * fresh * (weak ? 1 : variety) * (weak && t.s[0] === weak ? 2.5 : 1) * (t.exam ? 1.25 : 1) * (0.6 + Math.random() * 0.8) };
   }).sort((a, b) => b.score - a.score);
   const top = scored.slice(0, 4);
   let r = Math.random() * top.reduce((s, x) => s + x.score, 0);
@@ -1352,7 +1361,8 @@ function verdict(ok, title, detail) {
 // FIFA-style ratings: every skill 40-99, overall is their average
 const rating = r => Math.round(50 + 49 * r);
 const barPct = v => (v - 50) / 49 * 100;
-const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
+// 99 (GOAT) only when every skill is 99; until then the overall stops at 98
+const overall = R => { const o = Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length); return o >= 99 && SKILLS.some(s => rating(R[s.id]) < 99) ? 98 : o; };
 checkUnlocks();
 const TITLES = [[99, 'GOAT'], [95, 'Legend'], [90, 'World class'], [85, 'Ace'], [80, 'Star'], [75, 'Standout'], [70, 'Rising star'], [65, 'Talent'], [60, 'Prospect'], [0, 'Rookie']];
 const titleFor = o => TITLES.find(([min]) => o >= min)[1];
