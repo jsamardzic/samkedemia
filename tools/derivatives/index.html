@@ -1182,8 +1182,8 @@ function verdict(ok, title, detail) {
 const rating = r => Math.round(50 + 49 * r);
 const barPct = v => (v - 50) / 49 * 100;
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
-const TITLES = { power: 'Power player', roots: 'Root master', exp: 'Exponential ace', ln: 'Log specialist', product: 'Product pro', quotient: 'Quotient pro', chain: 'Chain specialist', nested: 'Nesting master' };
-const cardTitle = () => { const best = SKILLS.map(s => s.id).reduce((a, b) => st.R[b] > st.R[a] ? b : a); return st.R[best] < 0.08 ? 'Rookie' : TITLES[best]; };
+const TITLES = [[99, 'Untouchable'], [95, 'Legend'], [90, 'World class'], [85, 'Ace'], [80, 'Star'], [75, 'Standout'], [70, 'Rising star'], [65, 'Contender'], [60, 'Prospect'], [0, 'Rookie']];
+const cardTitle = () => { const o = overall(st.R); return TITLES.find(([min]) => o >= min)[1]; };
 let PACE_K = 8, PACE_MIN = 0.2, LOSS = 0.25;
 const PACE = r => r < 0.3 ? 1.6 : Math.max(PACE_MIN, 1.6 * Math.exp(-(r - 0.3) * PACE_K));
 const tierOf = o => o >= 90 ? 'elite' : o >= 80 ? 'gold' : o >= 70 ? 'silver' : 'bronze';
