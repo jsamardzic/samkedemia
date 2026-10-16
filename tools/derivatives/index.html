@@ -176,8 +176,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-title { font: 700 .9rem/1.2 var(--font-body); opacity: .85; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
 .skills-head { margin-top: 18px !important; }
-.card-btn { all: unset; box-sizing: border-box; display: block; width: 100%; margin-top: 10px; padding: 9px 12px; border-radius: 999px; text-align: center; cursor: pointer; font: 700 .82rem/1 var(--font-body); letter-spacing: .06em; color: var(--quiet); border: 1px dashed var(--glass-border); transition: color .2s, border-color .2s; }
-.card-btn:hover { color: var(--cream); border-color: rgba(255, 255, 255, .4); }
+.card-btn { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 12px; padding: 11px 14px; border-radius: 999px; cursor: pointer; font: 700 .9rem/1 var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .07); border: 1px solid var(--glass-border); transition: background-color .2s, border-color .2s, transform .2s; }
+.card-btn svg { width: 17px; height: 17px; flex: none; color: var(--orange-light); }
+.card-btn:hover { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .32); transform: translateY(-1px); }
+.card-btn[aria-expanded="true"] { display: none; }
 .card-form { display: flex; gap: 8px; margin-top: 10px; }
 .card-form input { flex: 1; min-width: 0; font: 400 .95rem var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .06); border: 1px solid var(--glass-border); border-radius: 999px; padding: 10px 14px; }
 .card-form input:focus { outline: none; border-color: var(--orange); }
@@ -289,10 +291,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span class="pc-title" id="ptitle">Rookie</span>
         </div>
       </div>
-      <button class="card-btn" id="cardBtn" type="button">Download my card</button>
+      <button class="card-btn" id="cardBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Get my card</span></button>
       <form class="card-form" id="cardForm" hidden>
-        <input id="cardName" type="text" maxlength="24" placeholder="Your name" autocomplete="given-name" aria-label="Name on your card">
-        <button class="btn primary" type="submit">Save PNG</button>
+        <input id="cardName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
+        <button class="btn primary" type="submit" id="cardSave">Save</button>
       </form>
       <div class="skills-head">
         <span class="label">Skills</span>
@@ -1178,6 +1180,7 @@ function verdict(ok, title, detail) {
 }
 // FIFA-style ratings: every skill 40-99, overall is their average
 const rating = r => Math.round(50 + 49 * r);
+const barPct = v => (v - 50) / 49 * 100;
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
 const TITLES = { power: 'Power player', roots: 'Root master', exp: 'Exponential ace', ln: 'Log specialist', product: 'Product pro', quotient: 'Quotient pro', chain: 'Chain specialist', nested: 'Nesting master' };
 const cardTitle = () => { const best = SKILLS.map(s => s.id).reduce((a, b) => st.R[b] > st.R[a] ? b : a); return st.R[best] < 0.08 ? 'Rookie' : TITLES[best]; };
@@ -1207,11 +1210,11 @@ function renderCoach(prevLevels) {
   $('skills').innerHTML = '';
   SKILLS.forEach(s => {
     const b = document.createElement('div'); b.className = 'skill';
-    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${rating(st.R[s.id])}</span><span class="bar"><span></span>${[50, 60, 70, 80, 90].map(c => `<i class="${rating(st.R[s.id]) >= c ? 'hit' : ''}" style="left:${((c - 40) / 59 * 100).toFixed(2)}%"></i>`).join('')}</span>`;
+    b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${rating(st.R[s.id])}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${rating(st.R[s.id]) >= c ? 'hit' : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
     const fill = b.querySelector('.bar > span');
-    fill.style.width = (prevLevels && prevLevels[s.id] !== undefined ? prevLevels[s.id] : st.R[s.id]) * 100 + '%';
-    requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(st.R[s.id] * 100, 2) + '%'; }));
+    fill.style.width = barPct(rating(prevLevels && prevLevels[s.id] !== undefined ? prevLevels[s.id] : st.R[s.id])) + '%';
+    requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(barPct(rating(st.R[s.id])), 2) + '%'; }));
   });
 }
 function toast(label, text) {
@@ -1408,8 +1411,7 @@ async function drawCard(name) {
   });
   // brand footer
   const logo = document.querySelector('.brand-logo img');
-  if (logo && logo.complete) { const lh = 64, lw = lh * (logo.naturalWidth / logo.naturalHeight || 4.5); g.drawImage(logo, (W - lw) / 2, H - 175, lw, lh); }
-  g.textAlign = 'center'; g.fillStyle = '#a9c6ca'; g.font = '700 30px "Atkinson Hyperlegible", sans-serif'; g.fillText('samkedemia.com/tools/derivatives', W / 2, H - 70);
+  if (logo && logo.complete) { const lh = 72, lw = lh * (logo.naturalWidth / logo.naturalHeight || 4.5); g.drawImage(logo, (W - lw) / 2, H - 140, lw, lh); }
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
 async function saveCard() {
@@ -1421,7 +1423,8 @@ async function saveCard() {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
-$('cardBtn').addEventListener('click', () => { const f = $('cardForm'); f.hidden = !f.hidden; if (!f.hidden) $('cardName').focus(); });
+if (TOUCH) $('cardSave').textContent = 'Share';
+$('cardBtn').addEventListener('click', () => { $('cardForm').hidden = false; $('cardBtn').setAttribute('aria-expanded', 'true'); anim($('cardForm'), [{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' }); $('cardName').focus(); });
 $('cardForm').addEventListener('submit', e => { e.preventDefault(); saveCard(); });
 try { $('cardName').value = localStorage.getItem(STORE + '-name') || ''; } catch (e) {}
 
