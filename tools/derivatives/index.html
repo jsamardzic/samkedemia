@@ -1306,7 +1306,7 @@ function writeLines(container) {
 }
 
 // ---------- rendering ----------
-const play = { attempts: 0, hints: 0, solved: false, shown: false, resolved: false };
+const play = { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false };
 function renderProblem(colored) {
   const f = st.cur.f;
   K(`f(x) = ${colored ? coloredProblem(f) : tex(f)}`, $('problem'));
@@ -1377,7 +1377,7 @@ checkUnlocks();
 const TITLES = [[99, 'GOAT'], [95, 'Legend'], [90, 'World class'], [85, 'Ace'], [80, 'Star'], [75, 'Standout'], [70, 'Rising star'], [65, 'Talent'], [60, 'Prospect'], [0, 'Rookie']];
 const titleFor = o => TITLES.find(([min]) => o >= min)[1];
 const cardTitle = () => titleFor(overall(st.R));
-let PACE_K = 5.5, PACE_MIN = 0.35, LOSS = 0.17;
+let PACE_K = 3.5, PACE_MIN = 0.65, LOSS = 0.08;
 const PACE = r => r < 0.3 ? 1.6 : Math.max(PACE_MIN, 1.6 * Math.exp(-(r - 0.3) * PACE_K));
 const tierOf = o => o >= 90 ? 'elite' : o >= 80 ? 'gold' : o >= 70 ? 'silver' : 'bronze';
 function renderOverall(prevR) {
@@ -1480,20 +1480,23 @@ function toast(label, text) {
 }
 
 // ---------- flow ----------
-function resolve(r) {
+// r: 1 clean first try, 0.45 solved after help, 0 wrong; grace: a slip fixed on the retry
+function resolve(r, grace = false) {
   if (play.resolved) return;
   play.resolved = true;
+  if (grace) r = 1;
   const prev = { ...st.R }, type = st.cur.type, d0 = diff(type), used = st.cur.skills.filter(isOpen);
   used.forEach((s, i) => {
     const E = 1 / (1 + Math.exp(-6 * (st.R[s] - d0 + 0.1)));
     const pace = r - E > 0 ? PACE(st.R[s]) : LOSS;
     const w = (i === 0 ? 0.32 : (type.s.includes(s) ? 0.22 : 0.1)) * pace;
-    st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E)));
+    st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E) * (grace ? 0.75 : 1)));
   });
   st.total++;
   if (r === 1) used.forEach(k => { st.done[k] = solved(k) + 1; });
-  if (r === 1) { st.firsts++; st.streak++; st.best = Math.max(st.best, st.streak); } else st.streak = 0;
-  if (r < 1 && !st.cur.twin && st.queue.length < 2 && !st.queue.some(q => q.id === type.id)) st.queue.push({ id: type.id, due: st.n + 4 });
+  if (grace) { /* streak survives, but doesn't grow; not a first try */ }
+  else if (r === 1) { st.firsts++; st.streak++; st.best = Math.max(st.best, st.streak); } else st.streak = 0;
+  if (r < 1 && !grace && !st.cur.twin && st.queue.length < 2 && !st.queue.some(q => q.id === type.id)) st.queue.push({ id: type.id, due: st.n + 4 });
   const opened = checkUnlocks();
   save(); renderCoach(prev, opened);
   const up = used.find(s => level(st.R[s]) > level(prev[s]));
@@ -1503,8 +1506,8 @@ function resolve(r) {
   else if (opened.length) setTimeout(() => toast('Unlocked', opened.map(id => NAME[id]).join(' & ')), 900);
   else if (titleFor(overall(st.R)) !== titleFor(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New title', titleFor(overall(st.R))), 900);
   else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
-  else if (r === 1 && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
-  if (r === 1) anim($('streak'), [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
+  else if (r === 1 && !grace && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
+  if (r === 1 && !grace) anim($('streak'), [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
 }
 function loadProblem() {
   st.n++;
@@ -1514,7 +1517,7 @@ function loadProblem() {
   st.cur = { type: pickd.type, f: built.f, d: built.d, twin: pickd.why === 'twin', skills: skillsOf(built.f, pickd.type.s[0]) };
   st.recent = [pickd.type.id, ...st.recent.filter(id => id !== pickd.type.id)].slice(0, 6);
   st.shapes = [shapeOf(built.f), ...st.shapes].slice(0, 10);
-  Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false });
+  Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false });
   $('count').textContent = 'Problem ' + String(st.n).padStart(2, '0');
   $('note').textContent = note;
   renderProblem(false);
@@ -1531,28 +1534,33 @@ async function nextProblem() {
   await anim(stack, [{ transform: 'translate(80px, 46px) rotate(6deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 620, easing: SPRING });
   if (matchMedia('(hover: hover)').matches) $('ans').focus({ preventScroll: true });
 }
-function check() {
+function check(typed) {
   if (play.solved) { nextProblem(); return; }
-  const s = answerText();
+  const s = typeof typed === 'string' ? typed : answerText();
   if (!s) { $('ans').focus(); anim($('ans'), [{ transform: 'translateX(0)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 200 }); return; }
   let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); return; }
   if (compare(a, st.cur.d)) {
     play.solved = true; $('ans').classList.add('done');
-    resolve(play.attempts === 0 && play.hints === 0 && !play.shown ? 1 : 0.45);
-    verdict(true, pick(['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : 'Press Enter for the next one.');
+    const fixedSlip = play.grace && !play.resolved && play.attempts === 1 && play.hints === 0 && !play.shown;
+    resolve(fixedSlip ? 1 : play.attempts === 0 && play.hints === 0 && !play.shown ? 1 : 0.45, fixedSlip);
+    if (fixedSlip) verdict(true, 'Fixed.', 'Counted as a slip: you still go up, and your streak is safe.');
+    else verdict(true, pick(['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : 'Press Enter for the next one.');
     anim($('glow'), [{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], { duration: 1100, easing: 'ease-out' });
     anim($('stack'), [{ transform: 'scale(1)' }, { transform: 'scale(1.012)' }, { transform: 'scale(1)' }], { duration: 420, easing: SPRING });
     return;
   }
   play.attempts++;
-  if (play.attempts === 1 && !play.hints) resolve(0);
-  const { msg } = diagnose(a);
-  verdict(false, msg[0], msg[1]);
+  const { bug, msg } = diagnose(a);
+  // a known rule mistake counts straight away; anything else might be a typo and gets one free retry
+  const slip = !bug || bug === 'sign' || bug === 'factor';
+  if (play.attempts === 1 && !play.hints && slip) { play.grace = true; verdict(false, msg[0], msg[1] + ' Typo? One free retry.'); }
+  else { if (!play.hints) resolve(0); verdict(false, msg[0], msg[1]); }
   anim($('stack'), [0, -10, 8, -5, 3, 0].map(x => ({ transform: `translateX(${x}px)` })), { duration: 420, easing: 'ease-out' });
 }
 function hint() {
   if (play.solved || play.shown) return;
   if (play.hints >= 2) { showSolution(); return; }
+  if (play.grace && !play.resolved) resolve(0);   // a hint ends the free retry
   play.hints++;
   $('hintCount').textContent = `${play.hints}/2`;
   if (play.hints === 1) {
