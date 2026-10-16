@@ -209,6 +209,12 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .skill .nm i { font: 700 1.05rem/1 var(--font-hand); font-style: normal; color: var(--orange-light); }
 .skill .lv { font: 900 1rem/1.1 var(--font-num); color: var(--cream); font-variant-numeric: tabular-nums; }
+.skill.locked { color: var(--quiet); }
+.skill.locked .nm, .skill.locked .lv { opacity: .55; }
+.skill .lk { width: 13px; height: 13px; flex: none; align-self: center; }
+.lockhint { grid-column: 1 / -1; font-size: .74rem; color: var(--quiet); margin-top: -3px; }
+.skill.unlocking { animation: unlockRow 1.6s .5s both; border-radius: 10px; }
+@keyframes unlockRow { 0% { background: transparent; transform: translateX(0); } 18% { background: rgba(255, 138, 61, .22); transform: translateX(6px); } 40% { transform: translateX(0); } 100% { background: transparent; } }
 .bar { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .1); }
 .bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
 .bar i { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ground-edge); opacity: .85; }
@@ -1080,7 +1086,21 @@ const st = {
 };
 const STORE = 'samkedemia-derivative-lab';
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.R) Object.assign(st, { R: { ...st.R, ...s.R }, best: s.best || 0, firsts: s.firsts || 0, total: s.total || 0, n: s.n || 0 }); } catch (e) {}
-const save = () => { try { localStorage.setItem(STORE, JSON.stringify({ R: st.R, best: st.best, firsts: st.firsts, total: st.total, n: st.n })); } catch (e) {} };
+// skills open one after another: polynomials first, then exponentials and logs, then the product and quotient rule, then the chain rule, then nested functions
+// each needs: the skills before it at a rating, and that many problems using them solved first try
+const UNLOCK = { power: [], roots: [['power', 58, 2]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]], nested: [['chain', 66, 4]] };
+st.unlocked = ['power']; st.done = {};
+try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) { st.unlocked = s.unlocked || ['power', ...SKILLS.map(k => k.id).filter(id => st.R[id] > 0)]; st.done = s.done || {}; } } catch (e) {}
+const isOpen = id => st.unlocked.includes(id);
+const solved = id => st.done[id] || 0;
+const missing = id => UNLOCK[id].filter(([req, at, n]) => !isOpen(req) || rating(st.R[req]) < at || solved(req) < n);
+function checkUnlocks() {
+  const fresh = [];
+  for (let changed = true; changed;) { changed = false;
+    for (const s of SKILLS) if (!isOpen(s.id) && !missing(s.id).length) { st.unlocked.push(s.id); fresh.push(s.id); changed = true; } }
+  return fresh;
+}
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify({ R: st.R, best: st.best, firsts: st.firsts, total: st.total, n: st.n, unlocked: st.unlocked, done: st.done })); } catch (e) {} };
 const level = r => 1 + Math.min(4, Math.floor(r * 5));
 const diff = t => (t.t - 1) / 4;
 const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
@@ -1088,8 +1108,8 @@ const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
 // score every family: wanted when it trains a weak skill, just above the level of its weakest part, and not seen lately
 function chooseType() {
   const due = st.queue.findIndex(q => q.due <= st.n);
-  if (due >= 0) { const q = st.queue.splice(due, 1)[0]; return { type: TYPE[q.id], why: 'twin' }; }
-  const scored = TYPES.map(t => {
+  if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen)) return { type: TYPE[q.id], why: 'twin' }; }
+  const scored = TYPES.filter(t => t.s.every(isOpen)).map(t => {
     const rmin = Math.min(...t.s.map(s => st.R[s]));
     const target = Math.min(1, rmin + 0.06 + (st.streak >= 3 ? 0.08 : 0));
     const fit = Math.exp(-((diff(t) - target) ** 2) / (2 * 0.13 ** 2));
@@ -1353,6 +1373,7 @@ function verdict(ok, title, detail) {
 const rating = r => Math.round(50 + 49 * r);
 const barPct = v => (v - 50) / 49 * 100;
 const overall = R => Math.round(SKILLS.reduce((t, s) => t + rating(R[s.id]), 0) / SKILLS.length);
+checkUnlocks();
 const TITLES = [[99, 'GOAT'], [95, 'Legend'], [90, 'World class'], [85, 'Ace'], [80, 'Star'], [75, 'Standout'], [70, 'Rising star'], [65, 'Talent'], [60, 'Prospect'], [0, 'Rookie']];
 const titleFor = o => TITLES.find(([min]) => o >= min)[1];
 const cardTitle = () => titleFor(overall(st.R));
@@ -1420,7 +1441,8 @@ function sparkle(el, tier) {
   };
   requestAnimationFrame(tick);
 }
-function renderCoach(prevLevels) {
+const LOCK = '<svg class="lk" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7.5" rx="1.6" fill="currentColor"/><path d="M5.2 7V5a2.8 2.8 0 0 1 5.6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+function renderCoach(prevLevels, opened = []) {
   const streak = $('streak');
   streak.textContent = st.streak; streak.classList.toggle('hot', st.streak >= 3);
   renderOverall(prevLevels);
@@ -1428,6 +1450,19 @@ function renderCoach(prevLevels) {
   $('skills').innerHTML = '';
   SKILLS.forEach(s => {
     const b = document.createElement('div'); b.className = 'skill';
+    if (!isOpen(s.id)) {
+      b.classList.add('locked');
+      const m = missing(s.id), closed = m.filter(([req]) => !isOpen(req));
+      let hint;
+      if (closed.length) hint = `After ${closed.map(([req]) => NAME[req]).join(' & ')}`;
+      else {
+        const low = m.filter(([req, at]) => rating(st.R[req]) < at).map(([req, at]) => `${NAME[req]} ${at}`), more = Math.max(0, ...m.map(([req, , n]) => n - solved(req)));
+        hint = 'Unlocks at ' + [...low, ...(more ? [`${more} more correct`] : [])].join(' · ');
+      }
+      b.innerHTML = `<span class="nm">${LOCK}${s.name}</span><span class="lv"></span><span class="lockhint">${hint}</span>`;
+      $('skills').appendChild(b); return;
+    }
+    if (opened.includes(s.id)) b.classList.add('unlocking');
     const now = rating(st.R[s.id]), was = prevLevels && prevLevels[s.id] !== undefined ? rating(prevLevels[s.id]) : now;
     b.innerHTML = `<span class="nm">${s.name}</span><span class="lv">${now}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
@@ -1448,7 +1483,7 @@ function toast(label, text) {
 function resolve(r) {
   if (play.resolved) return;
   play.resolved = true;
-  const prev = { ...st.R }, type = st.cur.type, d0 = diff(type), used = st.cur.skills;
+  const prev = { ...st.R }, type = st.cur.type, d0 = diff(type), used = st.cur.skills.filter(isOpen);
   used.forEach((s, i) => {
     const E = 1 / (1 + Math.exp(-6 * (st.R[s] - d0 + 0.1)));
     const pace = r - E > 0 ? PACE(st.R[s]) : LOSS;
@@ -1456,13 +1491,16 @@ function resolve(r) {
     st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E)));
   });
   st.total++;
+  if (r === 1) used.forEach(k => { st.done[k] = solved(k) + 1; });
   if (r === 1) { st.firsts++; st.streak++; st.best = Math.max(st.best, st.streak); } else st.streak = 0;
   if (r < 1 && !st.cur.twin && st.queue.length < 2 && !st.queue.some(q => q.id === type.id)) st.queue.push({ id: type.id, due: st.n + 4 });
-  save(); renderCoach(prev);
+  const opened = checkUnlocks();
+  save(); renderCoach(prev, opened);
   const up = used.find(s => level(st.R[s]) > level(prev[s]));
   const newTier = tierOf(overall(st.R));
   if (overall(st.R) >= 99 && overall(prev) < 99) setTimeout(showGoat, 1000);
   else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 1300);
+  else if (opened.length) setTimeout(() => toast('Unlocked', opened.map(id => NAME[id]).join(' & ')), 900);
   else if (titleFor(overall(st.R)) !== titleFor(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New title', titleFor(overall(st.R))), 900);
   else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
   else if (r === 1 && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
@@ -1574,7 +1612,7 @@ $('reset').addEventListener('click', () => { askReset(true); $('resetNo').focus(
 $('resetNo').addEventListener('click', () => askReset(false));
 $('resetYes').addEventListener('click', () => {
   askReset(false);
-  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [] });
+  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [], unlocked: ['power'], done: {} });
   save(); renderCoach(); nextProblem();
 });
 
