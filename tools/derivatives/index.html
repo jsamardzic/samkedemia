@@ -916,7 +916,12 @@ function polyN(k, exps) {
 const SQ = mono(1, Q(1, 2)), EX = RE(X), LX = RL(X);
 const cx = (c, n) => c === 1 ? n : mul(c, n);
 const FRAC = [Q(1, 2), Q(1, 3), Q(2, 3), Q(1, 4), Q(3, 4), Q(3, 2), Q(4, 3), Q(5, 3), Q(5, 2), Q(-1, 2), Q(-1, 3), Q(-2, 3), Q(-3, 2), Q(-1, 1), Q(-2, 1), Q(-3, 1)];
-const fracExp = () => pick(FRAC);
+// roots grow with the student: first √x and 1/x, then cube roots and simple fractions, then everything
+const FRAC_EARLY = [Q(1, 2), Q(-1, 2), Q(-1, 1), Q(-2, 1)];
+const FRAC_MID = [...FRAC_EARLY, Q(1, 3), Q(-1, 3), Q(2, 3), Q(3, 2), Q(-3, 1)];
+const fracPool = () => { const o = overall(st.R); return o < 60 ? FRAC_EARLY : o < 70 ? FRAC_MID : FRAC; };
+const fracExp = () => pick(fracPool());
+const fracPos = () => { const pos = fracPool().filter(e => e.n > 0 && e.d > 1); return pick(pos.length > 1 ? pos : [Q(1, 2), Q(3, 2)]); };
 const ROOTISH = [() => mono(nz(1, 9), fracExp()), () => mono(nz(1, 9), fracExp()), () => mono(nz(1, 9), pick([Q(1, 2), Q(-1, 1), Q(-2, 1)]))];
 
 // ---------- skills and problem families ----------
@@ -947,17 +952,18 @@ const innerNested = () => pick([() => add(EX, cmono(ri(1, 3))), () => add(SQ, C(
 const TYPES = [
   { id: 'pow1', s: ['power'], t: 1, b: () => polyN(ri(2, 3), [0, 1, 2, 3, 4, 5]) },
   { id: 'pow1b', s: ['power'], t: 1, b: () => pick([
-      () => P([[Q(nz(1, 3), ri(2, 6)), ri(3, 6)], [nz(1, 12), 1], [nz(1, 20), 0]]),
+      ...(overall(st.R) >= 60 ? [() => P([[Q(nz(1, 3), ri(2, 6)), ri(3, 6)], [nz(1, 12), 1], [nz(1, 20), 0]])] : []),
       () => P([[nz(1, 12), ri(4, 7)], [nz(1, 15), ri(2, 3)], [nz(1, 30), 1]]),
       () => P([[nz(2, 20), ri(2, 3)], [nz(1, 9), 1], [nz(1, 99), 0]]),
       () => P([[-ri(1, 6), ri(5, 8)], [ri(1, 20), ri(1, 4)]])])() },
   { id: 'pow2', s: ['roots', 'power'], t: 2, b: () => add(polyN(ri(1, 2), [1, 2, 3, 4, 5]), rootTerm()) },
+  { id: 'ln2', s: ['ln', 'power'], t: 2, b: () => pick([() => add(polyN(ri(1, 2), [1, 2, 3, 4]), cx(nz(1, 9), LX)), () => add(cx(nz(1, 12), LX), mono(nz(1, 9), 1), C(nz(1, 20))), () => add(cx(nz(1, 9), LX), cmono(ri(2, 5)))])() },
   { id: 'el2', s: ['exp', 'power'], t: 2, b: () => add(polyN(ri(1, 2), [1, 2, 3, 4]), pick([() => cx(nz(1, 9), EX), () => cx(nz(1, 9), LX)])()) },
   { id: 'mix3', s: ['roots', 'exp', 'ln'], t: 3, b: () => add(...[expLnTerm(), rootTerm(), pick([expLnTerm, () => cmono(ri(2, 4))])()]) },
   { id: 'mix4', s: ['roots', 'exp', 'ln'], t: 4, b: () => add(polyN(1, [2, 3, 4, 5]), expLnTerm(), rootTerm(), rootTerm()) },
   { id: 'prod1', s: ['product'], t: 1, b: () => { let a, b; do { a = smallPoly(); b = smallPoly(); } while (isMono(a) && isMono(b)); return RM(a, b); } },
   { id: 'prod2', s: ['product'], t: 2, b: () => RM(...order(pick([() => cmono(ri(1, 4)), lin])(), pick([() => EX, () => LX, () => SQ])())) },
-  { id: 'prod3', s: ['product', 'exp'], t: 3, b: () => pick([() => RM(anyPoly(), pick([EX, LX])), () => { const [a, b] = [EX, LX, SQ, mono(1, pick([Q(3, 2), Q(2, 3), Q(1, 3), Q(5, 2), Q(4, 3), Q(3, 4)]))].sort(() => Math.random() - 0.5); return RM(a, b); }])() },
+  { id: 'prod3', s: ['product', 'exp'], t: 3, b: () => pick([() => RM(anyPoly(), pick([EX, LX])), () => { const [a, b] = [EX, LX, SQ, mono(1, fracPos())].sort(() => Math.random() - 0.5); return RM(a, b); }])() },
   { id: 'prod4', s: ['product', 'chain'], t: 4, b: () => RM(...order(pick([() => cmono(ri(1, 3)), lin, () => SQ, () => EX, () => LX])(), chainEasy())) },
   { id: 'prod5', s: ['product', 'chain'], t: 5, b: () => RM(...order(pick([() => cmono(ri(1, 2)), () => EX, () => LX, chainEasy])(), chainHard())) },
   { id: 'quot1', s: ['quotient'], t: 1, b: () => RD(pick([lin, () => cmono(1)])(), linPos()) },
@@ -1055,7 +1061,7 @@ const EXAM = [
       () => RG(2, RD(P([[1, 1], [ri(1, 5), 0]]), P([[1, 2], [ri(2, 6), 1]]))),
       () => RL(RD(X, P([[1, 1], [ri(1, 9), 0]]))),
       () => RG(2, P([[1, 2], [ri(1, 9), 1]]))])() }
-].map(t => ({ ...t, dec: true, exam: true }));
+].map(t => ({ ovr: ['xexp2', 'xlog2'].includes(t.id) ? 70 : 65, ...t, dec: true, exam: true }));   // ovr: overall rating before it shows up (whole numbers first, then decimals, then other bases)
 TYPES.push(...EXAM);
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
 
@@ -1119,8 +1125,8 @@ const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
 // score every family: wanted when it trains a weak skill, just above the level of its weakest part, and not seen lately
 function chooseType() {
   const due = st.queue.findIndex(q => q.due <= st.n);
-  if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen)) return { type: TYPE[q.id], why: 'twin' }; }
-  const scored = TYPES.filter(t => t.s.every(isOpen)).map(t => {
+  if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen) && overall(st.R) >= (TYPE[q.id].ovr || 0)) return { type: TYPE[q.id], why: 'twin' }; }
+  const scored = TYPES.filter(t => t.s.every(isOpen) && overall(st.R) >= (t.ovr || 0)).map(t => {
     const rmin = Math.min(...t.s.map(s => st.R[s]));
     const target = Math.min(1, rmin + 0.06 + (st.streak >= 3 ? 0.08 : 0));
     const fit = Math.exp(-((diff(t) - target) ** 2) / (2 * 0.13 ** 2));
