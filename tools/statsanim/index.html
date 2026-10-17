@@ -155,12 +155,15 @@ const CREAM = '#f8f8f2', ORANGE = '255,85,0', QUIET = 'rgba(169,198,202,', FONT 
 const N = 400;
 const gauss = (x, m, s) => Math.exp(-((x - m) ** 2) / (2 * s * s));
 const gam = (x, k, th) => x <= 0 ? 0 : x ** (k - 1) * Math.exp(-x / th);
+// every population has a round mean (50, 30 or 70) so μ sits in the middle of a pile column
+const truncMean = f => { let a = 0, m = 0; for (let i = 0; i <= 2000; i++) { const x = i / 20, y = f(x); a += y; m += y * x; } return m / a; };
+const SKEW = (() => { let lo = 5, hi = 40; for (let i = 0; i < 50; i++) { const th = (lo + hi) / 2; if (truncMean(x => gam(x, 2, th)) < 30) lo = th; else hi = th; } return (lo + hi) / 2; })();
 const SHAPES = [
   { label: 'Uniform', f: () => 1 },
-  { label: 'Normal', f: x => gauss(x, 50, 14) },
-  { label: 'Right-skewed', f: x => gam(x, 2, 13) },
-  { label: 'Left-skewed', f: x => gam(100 - x, 2, 13) },
-  { label: 'Two peaks', f: x => gauss(x, 24, 8) + gauss(x, 76, 8) }
+  { label: 'Normal', f: x => gauss(x, 50, 15) },
+  { label: 'Right-skewed', f: x => gam(x, 2, SKEW) },
+  { label: 'Left-skewed', f: x => gam(100 - x, 2, SKEW) },
+  { label: 'Two peaks', f: x => gauss(x, 25, 8) + gauss(x, 75, 8) }
 ];
 SHAPES.forEach(s => {
   const raw = Array.from({ length: N + 1 }, (_, i) => s.f(100 * i / N)), mx = Math.max(...raw);
@@ -179,22 +182,24 @@ const NS = [1, 2, 5, 10, 30, 50];
 // ---- state ----
 let shape = SHAPES[2], n = 10;
 let popFrom = shape.ys, muFrom = shape.mu, popT0 = -1e9;
-let BINS = 50, means = [], counts = [], flash = [], unit = 0;
+let BW = 2, BINS = 51, means = [], counts = [], flash = [], unit = 0;
 let flights = [], ripples = [], queue = 0, k = 0, nextAt = 0, auto = false, drain = null;
 let W = 0, H = 0, L = {};
 const X = v => L.x0 + (L.x1 - L.x0) * v / 100;
-const binOf = m => Math.min(BINS - 1, Math.max(0, Math.floor(m / 100 * BINS)));
-const bw = () => (L.x1 - L.x0) / BINS;
+// bins are centred on round numbers (every 2 on wide screens, every 2.5 on phones), so they line up with the axis labels
+const binOf = m => Math.min(BINS - 1, Math.max(0, Math.round(m / BW)));
+const binX = b => X(b * BW);
+const bw = () => (L.x1 - L.x0) * BW / 100;
 
 function rebin() { counts = new Array(BINS).fill(0); flash = new Array(BINS).fill(0); means.forEach(m => counts[binOf(m)]++); }
 function layout() {
   const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
   W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); g.setTransform(dpr, 0, 0, dpr, 0, 0);
   const pad = W < 560 ? 16 : 34, narrow = W < 560;
-  L = { x0: pad, x1: W - pad, popTop: 58, popBase: Math.round(H * .3) + 16, narrow };
-  L.gatherY = L.popBase + Math.round(H * .085); L.pileLabel = L.gatherY + 34; L.pileTop = L.pileLabel + 14; L.base = H - 34;
+  L = { x0: pad, x1: W - pad, popTop: 78, popBase: Math.round(H * .3) + 30, narrow };
+  L.gatherY = L.popBase + Math.round(H * .085); L.pileLabel = L.gatherY + 34; L.pileTop = L.pileLabel + 34; L.base = H - 34;
   L.bead = narrow ? 5 : 7;
-  const bins = narrow ? 30 : 50; if (bins !== BINS || !counts.length) { BINS = bins; rebin(); }
+  const w = narrow ? 2.5 : 2; if (w !== BW || !counts.length) { BW = w; BINS = 100 / w + 1; rebin(); unit = 0; }
   if (!unit) unit = bw();
 }
 
@@ -229,7 +234,7 @@ function update(now, dt) {
     const t = (now - f.t0) * f.s;
     if (t >= DROP + f.D) {
       const b = binOf(f.mean); counts[b]++; means.push(f.mean); flash[b] = 1;
-      ripples.push({ x: f.mx, y: landY(b) + unit / 2, t0: now }); f.done = true;
+      ripples.push({ x: binX(b), y: landY(b) + unit / 2, t0: now }); f.done = true;
     }
   }
   flights = flights.filter(f => !f.done);
@@ -242,6 +247,7 @@ function update(now, dt) {
 }
 
 // ---- drawing ----
+const note = (s, x, y) => txt(s, x, y, `400 13px ${FONT}`, 'rgba(213,228,230,.78)');
 function txt(s, x, y, font, color, align = 'left') { g.font = font; g.fillStyle = color; g.textAlign = align; g.fillText(s, x, y); }
 function caption(label, x, y) { g.save(); if ('letterSpacing' in g) g.letterSpacing = '2px'; txt(label, x, y, `700 11px ${FONT}`, `rgb(${ORANGE})`); g.restore(); }
 
@@ -249,7 +255,7 @@ function drawPile(cnt, u, alpha, fl) {
   const w = bw(), cw = Math.max(1.5, w - (L.narrow ? 1.5 : 2.5));
   for (let b = 0; b < BINS; b++) {
     const c = cnt[b]; if (!c) continue;
-    const x = L.x0 + b * w + (w - cw) / 2, f = fl ? fl[b] : 0;
+    const x = binX(b) - cw / 2, f = fl ? fl[b] : 0;
     g.fillStyle = `rgba(${Math.round(lerp(255, 255, f))},${Math.round(lerp(85, 190, f))},${Math.round(lerp(0, 140, f))},${alpha * .92})`;
     g.beginPath();
     if (u >= 4) {   // beads while there is room, squeezing into a solid bar as the pile grows
@@ -266,6 +272,8 @@ function render(now) {
 
   // population
   caption('POPULATION', L.x0, 30);
+  const vals = n === 1 ? 'one random value' : `${n} random values`;
+  note(L.narrow ? `Each sample picks ${vals} from here` : `All the values we can pick from. Each sample picks ${vals} from here.`, L.x0, 50);
   g.beginPath(); g.moveTo(X(0), L.popBase);
   for (let i = 0; i <= N; i += 2) g.lineTo(X(100 * i / N), L.popBase - ys[i] * hgt);
   g.lineTo(X(100), L.popBase); g.closePath();
@@ -278,20 +286,20 @@ function render(now) {
   // the true mean runs through every layer
   g.save(); g.setLineDash([3, 5]); g.strokeStyle = `rgba(${ORANGE},.5)`; g.lineWidth = 1.2;
   g.beginPath(); g.moveTo(X(mu), L.popTop - 8); g.lineTo(X(mu), L.base); g.stroke(); g.restore();
-  txt('μ', X(mu), L.popTop - 13, `italic 700 13px ${FONT}`, `rgb(${ORANGE})`, 'center');
+  txt('μ', X(mu) + 6, L.popTop + 4, `italic 700 13px ${FONT}`, `rgb(${ORANGE})`, 'left');
 
   // mixing line
   g.fillStyle = 'rgba(255,255,255,.05)'; g.fillRect(L.x0, L.gatherY, L.x1 - L.x0, 1);
 
   // pile of means
   caption('SAMPLE MEANS', L.x0, L.pileLabel);
-  if (!means.length && !L.narrow) txt(`each sample of ${n} becomes one dot here`, L.x1, L.pileLabel, `600 12px ${NUM}`, QUIET + '.6)', 'right');
+  note(L.narrow ? 'Each dot is the average of one sample' : 'Each dot is the average of one sample. Keep drawing and watch them pile up into a bell shape.', L.x0, L.pileLabel + 20);
   if (drain) { const f = 1 - io(cl((now - drain.t0) / 380)); drawPile(drain.counts, drain.unit * f, f, null); }
   drawPile(counts, unit, 1, flash);
 
   // the normal curve the CLT predicts, fading in once there is something to compare
   if (means.length >= 12) {
-    const a = cl((means.length - 12) / 25), s = shape.sd / Math.sqrt(n), scale = means.length * (100 / BINS) * unit / (s * Math.sqrt(2 * Math.PI));
+    const a = cl((means.length - 12) / 25), s = shape.sd / Math.sqrt(n), scale = means.length * BW * unit / (s * Math.sqrt(2 * Math.PI));
     g.save(); g.globalAlpha = a; g.beginPath(); let first = true;
     for (let i = 0; i <= 300; i++) { const v = 100 * i / 300, y = L.base - scale * gauss(v, shape.mu, s); if (y > L.base - .5 && !first) { g.lineTo(X(v), L.base); continue; } g[first ? 'moveTo' : 'lineTo'](X(v), Math.max(L.pileTop - 10, y)); first = false; }
     g.strokeStyle = CREAM; g.lineWidth = 2; g.setLineDash([6, 5]); g.shadowColor = 'rgba(0,0,0,.4)'; g.shadowBlur = 6; g.stroke();
@@ -321,9 +329,9 @@ function render(now) {
     const b = binOf(f.mean), p = cl((t - DROP) / f.D), pe = p * p;
     const r0 = L.bead * (.45 + .55 * Math.sqrt(absorbed / f.parts.length)), r = lerp(r0, Math.min(bw() - 2, unit) / 2, pe);
     const y = p > 0 ? lerp(L.gatherY, landY(b), pe) : L.gatherY;
-    const glow = p > 0 ? 1 - p * .6 : 1;
-    g.fillStyle = `rgba(${ORANGE},${.22 * glow})`; g.beginPath(); g.arc(f.mx, y, r * 2.6, 0, 7); g.fill();
-    g.fillStyle = `rgb(${ORANGE})`; g.beginPath(); g.arc(f.mx, y, r, 0, 7); g.fill();
+    const glow = p > 0 ? 1 - p * .6 : 1, bx = lerp(f.mx, binX(b), io(p));   // drifts onto its column while it falls
+    g.fillStyle = `rgba(${ORANGE},${.22 * glow})`; g.beginPath(); g.arc(bx, y, r * 2.6, 0, 7); g.fill();
+    g.fillStyle = `rgb(${ORANGE})`; g.beginPath(); g.arc(bx, y, r, 0, 7); g.fill();
     if (f.label && absorbed === f.parts.length && p < .35) {
       g.globalCompositeOperation = 'source-over';
       const col = `rgba(248,248,242,${1 - p / .35})`, rest = ` = ${f.mean.toFixed(1)}`, ly = L.gatherY - 14;
