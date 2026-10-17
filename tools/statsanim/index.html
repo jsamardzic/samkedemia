@@ -65,11 +65,11 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .stage { position: relative; max-width: 1080px; margin: 0 auto; border-radius: 28px; overflow: hidden;
   background: linear-gradient(var(--glass-top), var(--glass-bottom)); border: 1.5px solid var(--glass-border);
   box-shadow: 0 30px 80px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .1); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-#cv { display: block; width: 100%; height: clamp(460px, 62vh, 620px); touch-action: pan-y; }
+#cv { display: block; width: 100%; height: 520px; touch-action: pan-y; }
+.shell { padding-bottom: 16px; } .brand-header { margin-bottom: 22px; }
 .dock { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: flex-end; justify-content: space-between; padding: 18px 24px 22px; border-top: 1px solid var(--glass-border); background: rgba(5, 22, 25, .28); }
 .group { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
 .glabel { font: 700 .7rem/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
-.glabel b { color: var(--cream); letter-spacing: .06em; font-weight: 700; text-transform: none; font-size: .82rem; margin-left: 6px; }
 .seg { position: relative; display: flex; padding: 4px; border-radius: 100px; background: rgba(0, 0, 0, .28); border: 1px solid var(--glass-border); max-width: 100%; }
 .seg button { position: relative; z-index: 1; appearance: none; border: 0; background: none; color: var(--quiet); font: 700 .86rem/1 var(--font-body); padding: 9px 14px; border-radius: 100px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; transition: color .3s; -webkit-tap-highlight-color: transparent; }
 .seg button:hover { color: var(--cream); }
@@ -89,7 +89,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .btn.primary:hover { background: #ff6a1f; }
 .btn.icon { width: 42px; padding: 0; justify-content: center; }
 .btn svg { width: 16px; height: 16px; }
-.btn.on { background: var(--cream); color: var(--ground); border-color: var(--cream); }
 @media (max-width: 700px) {
   .dock { padding: 16px 16px 18px; gap: 16px; }
   .group { width: 100%; }
@@ -97,7 +96,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
   #shapeSeg button span { display: none; }
   .actions { justify-content: space-between; padding-top: 0; border-top: 0; } .actions .btn { flex: 1; justify-content: center; padding: 0 10px; } .actions .btn.icon { flex: none; }
   .stage { border-radius: 22px; }
-  #cv { height: 470px; }
 }
 </style>
 </head>
@@ -126,18 +124,18 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <canvas id="cv" role="img" aria-label="Central Limit Theorem animation: samples are drawn from the population at the top, each sample is averaged into one mean, and the means pile up at the bottom."></canvas>
     <div class="dock">
       <div class="group">
-        <span class="glabel">Population <b id="shapeName"></b></span>
+        <span class="glabel">Population</span>
         <div class="seg" id="shapeSeg"><span class="ind"></span></div>
       </div>
       <div class="group">
-        <span class="glabel">Sample size <b>n</b></span>
+        <span class="glabel">Sample size</span>
         <div class="seg" id="nSeg"><span class="ind"></span></div>
       </div>
       <div class="group actions">
-        <button class="btn primary" data-k="1">Draw 1</button>
+        <button class="btn" data-k="1">Draw 1</button>
         <button class="btn" data-k="10">×10</button>
         <button class="btn" data-k="100">×100</button>
-        <button class="btn icon" id="autoBtn" aria-label="Keep drawing" aria-pressed="false"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg></button>
+        <button class="btn icon primary" id="autoBtn" aria-label="Keep drawing" aria-pressed="false"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg></button>
         <button class="btn icon" id="resetBtn" aria-label="Start over"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4"/><path d="M2.5 2v3.5H6"/></svg></button>
       </div>
     </div>
@@ -204,19 +202,17 @@ function layout() {
 const popT = now => io(cl((now - popT0) / 560));
 const popYs = now => { const t = popT(now); return t >= 1 ? shape.ys : shape.ys.map((y, i) => lerp(popFrom[i], y, t)); };
 
-// ---- one sample: n dots pop up under the curve, swoop together into their mean, and the mean drops onto the pile ----
-const GATHER = 330, GDUR = 360, DROP = 800;
+// ---- one sample: n dots pop up on the population line, drop together to the mixing line, slide together into their mean, and the mean drops onto the pile ----
+const FALL0 = 230, FALL1 = 450, SLIDE0 = 480, SLIDE1 = 800, DROP = 840;
 function spawn(now, speed) {
-  const ys = popYs(now), vals = Array.from({ length: n }, () => sample(shape)), mean = vals.reduce((a, b) => a + b, 0) / n;
-  const hgt = L.popBase - L.popTop;
-  const parts = vals.map((v, i) => ({ x: X(v), y: L.popBase - 3 - Math.random() * Math.max(0, hgt * ys[Math.round(v / 100 * N)] - 6), d: (n > 1 ? i / (n - 1) : 0) * 180 + Math.random() * 25 }));
+  const vals = Array.from({ length: n }, () => sample(shape)), mean = vals.reduce((a, b) => a + b, 0) / n;
+  const parts = vals.map((v, i) => ({ x: X(v), d: (n > 1 ? i / (n - 1) : 0) * 170 }));
   flights.push({ t0: now, s: speed, parts, mean, mx: X(mean), label: speed < 1.7, D: 260 + 160 * (L.base - L.gatherY) / H });
 }
 function partPos(p, f, t) {
-  const g0 = GATHER + p.d * .4, u = cl((t - g0) / GDUR);
-  if (u <= 0) return [p.x, p.y, 1, 0];
-  const e = io(u), m = 1 - e;   // quadratic Bezier: falls toward the mixing line, then glides sideways into the mean
-  return [m * m * p.x + 2 * m * e * p.x + e * e * f.mx, m * m * p.y + 2 * m * e * L.gatherY + e * e * L.gatherY, 1 - .45 * e, u];
+  const fall = cl((t - FALL0) / (FALL1 - FALL0)), u = cl((t - SLIDE0) / (SLIDE1 - SLIDE0));
+  const y = lerp(L.popBase, L.gatherY, fall * fall), x = lerp(p.x, f.mx, io(u));
+  return [x, y, 1 - .4 * io(u), u, fall];
 }
 const landY = b => L.base - counts[b] * unit - unit / 2;
 
@@ -248,7 +244,6 @@ function update(now, dt) {
 // ---- drawing ----
 function txt(s, x, y, font, color, align = 'left') { g.font = font; g.fillStyle = color; g.textAlign = align; g.fillText(s, x, y); }
 function caption(label, x, y) { g.save(); if ('letterSpacing' in g) g.letterSpacing = '2px'; txt(label, x, y, `700 11px ${FONT}`, `rgb(${ORANGE})`); g.restore(); }
-function stats(arr) { const m = arr.reduce((a, b) => a + b, 0) / arr.length; return [m, Math.sqrt(arr.reduce((a, b) => a + (b - m) ** 2, 0) / Math.max(1, arr.length - 1))]; }
 
 function drawPile(cnt, u, alpha, fl) {
   const w = bw(), cw = Math.max(1.5, w - (L.narrow ? 1.5 : 2.5));
@@ -271,7 +266,6 @@ function render(now) {
 
   // population
   caption('POPULATION', L.x0, 30);
-  txt(`mean ${shape.mu.toFixed(1)}   ·   SD ${shape.sd.toFixed(1)}`, L.x1, 30, `600 12px ${NUM}`, QUIET + '.85)', 'right');
   g.beginPath(); g.moveTo(X(0), L.popBase);
   for (let i = 0; i <= N; i += 2) g.lineTo(X(100 * i / N), L.popBase - ys[i] * hgt);
   g.lineTo(X(100), L.popBase); g.closePath();
@@ -291,10 +285,7 @@ function render(now) {
 
   // pile of means
   caption('SAMPLE MEANS', L.x0, L.pileLabel);
-  if (means.length) {
-    const [m, sd] = stats(means);
-    txt(`${means.length} ${means.length === 1 ? 'mean' : 'means'}   ·   mean ${m.toFixed(1)}` + (means.length > 1 ? `   ·   SD ${sd.toFixed(1)}` : ''), L.x1, L.pileLabel, `600 12px ${NUM}`, QUIET + '.85)', 'right');
-  } else txt(`each sample of ${n} becomes one dot here`, L.x1, L.pileLabel, `600 12px ${NUM}`, QUIET + '.6)', 'right');
+  if (!means.length && !L.narrow) txt(`each sample of ${n} becomes one dot here`, L.x1, L.pileLabel, `600 12px ${NUM}`, QUIET + '.6)', 'right');
   if (drain) { const f = 1 - io(cl((now - drain.t0) / 380)); drawPile(drain.counts, drain.unit * f, f, null); }
   drawPile(counts, unit, 1, flash);
 
@@ -322,7 +313,7 @@ function render(now) {
       if (t < p.d) continue;
       const [x, y, sc, u] = partPos(p, f, t); if (u >= 1) { absorbed++; continue; }
       const pop = back(cl((t - p.d) / 170)) * sc;
-      if (u > 0) { const [x2, y2] = partPos(p, f, t - 45 * f.s); g.strokeStyle = 'rgba(248,240,225,.22)'; g.lineWidth = 2.2 * sc; g.beginPath(); g.moveTo(x2, y2); g.lineTo(x, y); g.stroke(); }
+      if (u > 0 || t > FALL0) { const [x2, y2] = partPos(p, f, t - 40 * f.s); g.strokeStyle = 'rgba(248,240,225,.22)'; g.lineWidth = 2.2 * sc; g.beginPath(); g.moveTo(x2, y2); g.lineTo(x, y); g.stroke(); }
       g.fillStyle = 'rgba(255,236,215,.16)'; g.beginPath(); g.arc(x, y, 6.5 * pop, 0, 7); g.fill();
       g.fillStyle = '#fff6ea'; g.beginPath(); g.arc(x, y, 2.6 * pop, 0, 7); g.fill();
     }
@@ -366,7 +357,7 @@ function clearPile(now = performance.now()) {
   if (means.length) drain = { counts: counts.slice(), unit, t0: now };
   means = []; flights = []; ripples = []; queue = 0; k = 0; rebin(); unit = bw();
 }
-function setAuto(on) { auto = on; const b = document.getElementById('autoBtn'); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+function setAuto(on) { auto = on; const b = document.getElementById('autoBtn'); b.setAttribute('aria-pressed', on);
   b.innerHTML = on ? '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" rx="1"/><rect x="9.5" y="2.5" width="3" height="11" rx="1"/></svg>'
                    : '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>';
   b.setAttribute('aria-label', on ? 'Pause' : 'Keep drawing'); if (!on) queue = 0; kick(); }
@@ -385,13 +376,12 @@ function buildSeg(seg, items, current, onPick) {
 }
 const icon = s => { let d = ''; for (let i = 0; i <= N; i += 10) d += (i ? 'L' : 'M') + (28 * i / N).toFixed(1) + ',' + (13 - 11 * s.ys[i]).toFixed(1);
   return `<svg viewBox="0 0 28 14" aria-hidden="true"><path d="${d}L28,13L0,13Z" fill="currentColor" opacity=".25"/><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>`; };
-const shapeSeg = document.getElementById('shapeSeg'), nSeg = document.getElementById('nSeg'), shapeName = document.getElementById('shapeName');
+const shapeSeg = document.getElementById('shapeSeg'), nSeg = document.getElementById('nSeg');
 buildSeg(shapeSeg, SHAPES.map(s => ({ html: icon(s) + `<span>${s.label}</span>`, label: s.label })), SHAPES.indexOf(shape), i => {
   const now = performance.now(); popFrom = popYs(now); muFrom = lerp(muFrom, shape.mu, popT(now)); popT0 = now;
-  shape = SHAPES[i]; shapeName.textContent = shape.label; clearPile(now); kick();
+  shape = SHAPES[i]; clearPile(now); kick();
 });
 buildSeg(nSeg, NS.map(v => ({ html: String(v), label: 'n = ' + v })), NS.indexOf(n), i => { n = NS[i]; clearPile(); kick(); });
-shapeName.textContent = shape.label;
 document.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => {
   if (!queue && !flights.length) nextAt = performance.now();
   queue = Math.min(400, queue + Number(b.dataset.k)); kick();
@@ -399,8 +389,13 @@ document.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', (
 document.getElementById('autoBtn').addEventListener('click', () => setAuto(!auto));
 document.getElementById('resetBtn').addEventListener('click', () => { setAuto(false); clearPile(); kick(); });
 
-const relayout = () => { layout(); moveInd(shapeSeg); moveInd(nSeg); kick(); };
-new ResizeObserver(relayout).observe(cv);
+// the canvas takes whatever height is left, so the whole tool always fits on screen without scrolling
+function fit() {
+  const top = cv.getBoundingClientRect().top + scrollY, dock = document.querySelector('.dock').offsetHeight;
+  cv.style.height = Math.round(Math.max(260, Math.min(700, innerHeight - top - dock - 3 - 16))) + 'px';
+}
+const relayout = () => { fit(); layout(); moveInd(shapeSeg); moveInd(nSeg); kick(); };
+addEventListener('resize', relayout);
 relayout();
 document.fonts && document.fonts.ready.then(relayout);
 </script>
