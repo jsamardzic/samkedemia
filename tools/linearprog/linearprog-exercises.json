@@ -1,6 +1,6 @@
 {
  "29": {
-  "label": "Exercise 29",
+  "label": "Question 29",
   "group": "Chapter 2",
   "variables": {
    "var1": "q_1",
@@ -35,7 +35,7 @@
   ]
  },
  "32": {
-  "label": "Exercise 32",
+  "label": "Question 32",
   "group": "Chapter 2",
   "variables": {
    "var1": "Y",
@@ -137,7 +137,7 @@
     "sign": "le"
    }
   ],
-  "label": "Exercise 33",
+  "label": "Question 33",
   "group": "Chapter 2"
  },
  "34": {
@@ -184,7 +184,7 @@
     "sign": "le"
    }
   ],
-  "label": "Exercise 34",
+  "label": "Question 34",
   "group": "Chapter 2"
  },
  "35": {
@@ -231,7 +231,7 @@
     "sign": "ge"
    }
   ],
-  "label": "Exercise 35",
+  "label": "Question 35",
   "group": "Chapter 2"
  },
  "36": {
@@ -272,7 +272,7 @@
     "sign": "ge"
    }
   ],
-  "label": "Exercise 36",
+  "label": "Question 36",
   "group": "Chapter 2"
  },
  "37": {
@@ -325,7 +325,7 @@
     "sign": "ge"
    }
   ],
-  "label": "Exercise 37",
+  "label": "Question 37",
   "group": "Chapter 2"
  },
  "38": {
@@ -378,7 +378,7 @@
     "sign": "ge"
    }
   ],
-  "label": "Exercise 38",
+  "label": "Question 38",
   "group": "Chapter 2"
  },
  "39": {
@@ -419,7 +419,7 @@
     "sign": "le"
    }
   ],
-  "label": "Exercise 39",
+  "label": "Question 39",
   "group": "Chapter 2"
  },
  "40": {
@@ -478,7 +478,7 @@
     "sign": "le"
    }
   ],
-  "label": "Exercise 40",
+  "label": "Question 40",
   "group": "Chapter 2"
  },
  "41": {
@@ -525,7 +525,7 @@
     "sign": "ge"
    }
   ],
-  "label": "Exercise 41",
+  "label": "Question 41",
   "group": "Chapter 2"
  },
  "R2-1": {
