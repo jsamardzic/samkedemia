@@ -295,7 +295,7 @@ function render(now) {
 
   // pile of means
   caption('SAMPLE MEANS', L.x0, L.pileLabel);
-  note(L.narrow ? 'Each dot is the average of one sample' : 'Each dot is the average of one sample. Keep drawing and watch them pile up into a bell shape.', L.x0, L.pileLabel + 20);
+  note(L.narrow ? 'Each orange dot is the average of one sample' : 'Each orange dot is the average of one sample. Keep drawing samples and watch their averages form a bell shape.', L.x0, L.pileLabel + 20);
   if (drain) { const f = 1 - io(cl((now - drain.t0) / 380)); drawPile(drain.counts, drain.unit * f, f, null); }
   drawPile(counts, unit, 1, flash);
 
