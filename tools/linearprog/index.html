@@ -1164,12 +1164,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
           label: 'Feasible Vertices',
           data: feasibleVertices,
           backgroundColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#ff5500' : '#f8f8f2'),
-          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#f8f8f2' : '#0c3840'),
+          borderColor: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? '#a83200' : '#0c3840'),
           borderWidth: 1.5,
           pointRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 8 : 5), // Larger radius for optimal
           pointHoverRadius: feasibleVertices.map((_, i) => optimalVertexIndices.includes(i) ? 10 : 7),
           pointStyle: 'circle', 
-          order: 5, // Draw vertices on top of everything
+          order: -1, // Chart.js draws lower order on top, so this puts vertices above every line
           type: 'scatter',
         });
       }
