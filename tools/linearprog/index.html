@@ -147,8 +147,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .goal-toggle { position: relative; appearance: none; text-align: left; font: inherit; cursor: pointer; transition: background-color .2s, border-color .2s; }
 .goal-toggle:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .3); }
 .goal-toggle .bi { position: absolute; top: 10px; right: 12px; font-size: .85rem; color: var(--orange); }
-.chart-container { position: relative; height: 470px; border-radius: 18px; background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .06); padding: 12px 12px 6px; box-sizing: border-box; }
-.chart-controls { position: absolute; top: 12px; right: 14px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.chart-container { position: relative; display: flex; flex-direction: column; height: 510px; border-radius: 18px; background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .06); padding: 12px 12px 6px; box-sizing: border-box; }
+.chart-controls { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; margin: 2px 2px 8px; }
+.chart-canvas-wrap { position: relative; flex: 1; min-height: 0; }
 .chart-toggles { display: flex; gap: 6px; }
 .pill, .chart-toggle-btn, #resetZoomBtn { appearance: none; height: 30px; padding: 0 12px; border-radius: 100px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, .07); color: var(--quiet); font: 700 .78rem/1 var(--font-body); cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
 .chart-toggle-btn.active { background: var(--cream); border-color: var(--cream); color: var(--ground); }
@@ -166,7 +167,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   .op { margin: 0 3px; } .target-function-inputs input { width: 44px; } .goal-toggle .bi { top: 8px; right: 8px; font-size: .75rem; }
   .summary-item { padding: 10px; } .summary-item .label { font-size: .56rem; letter-spacing: .1em; } .summary-item .value { font-size: .9rem; }
 }
-@media (max-width: 600px) { .chart-container { height: 380px; } .variables { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .variables label:last-child { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .chart-container { height: 440px; } .chart-controls { justify-content: flex-start; gap: 5px; flex-wrap: nowrap; } .chart-toggles { gap: 5px; } .chart-toggle-btn, #resetZoomBtn { height: 28px; padding: 0 9px; font-size: .72rem; white-space: nowrap; } .variables { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .variables label:last-child { grid-column: 1 / -1; } }
 
 /* ---- the worked solution, on paper ---- */
 .sheet { margin-top: 26px; border-radius: 24px; padding: 26px 30px 30px; background: var(--paper); color: var(--ink); box-shadow: 0 30px 70px rgba(0, 0, 0, .35); }
@@ -325,7 +326,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
           </div>
           <button id="resetZoomBtn" style="display: none;">Reset zoom</button>
         </div>
-        <canvas id="feasibleRegionChart"></canvas>
+        <div class="chart-canvas-wrap"><canvas id="feasibleRegionChart"></canvas></div>
       </div>
     </section>
   </main>
@@ -585,16 +586,31 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      meta.data.forEach((el, index) => {
-        let dx = el.x - cx;
-        let dy = el.y - cy;
+      // each label starts just outside its vertex, pointing away from the centre of the region
+      const pos = meta.data.map(el => {
+        let dx = el.x - cx, dy = el.y - cy;
         const dist = Math.hypot(dx, dy) || 1;
-        dx /= dist;
-        dy /= dist;
+        return { x: el.x + dx / dist * offset, y: el.y + dy / dist * offset };
+      });
+      // vertices close together (e.g. C and D in Question 32) would print on top of each other: push those labels apart
+      const minGap = 20;
+      for (let round = 0; round < 12; round++) {
+        let moved = false;
+        for (let i = 0; i < pos.length; i++) for (let j = i + 1; j < pos.length; j++) {
+          let dx = pos[j].x - pos[i].x, dy = pos[j].y - pos[i].y, d = Math.hypot(dx, dy);
+          if (d >= minGap) continue;
+          if (d < 0.01) { dx = 0; dy = 1; d = 1; }
+          const push = (minGap - d) / 2;
+          pos[i].x -= dx / d * push; pos[i].y -= dy / d * push;
+          pos[j].x += dx / d * push; pos[j].y += dy / d * push;
+          moved = true;
+        }
+        if (!moved) break;
+      }
 
+      meta.data.forEach((el, index) => {
         ctx.fillStyle = optimalIndices.includes(index) ? '#ff5500' : (chart.$dark ? '#f8f8f2' : '#2f6a73');
-        const label = String.fromCharCode(65 + index);
-        ctx.fillText(label, el.x + dx * offset, el.y + dy * offset);
+        ctx.fillText(String.fromCharCode(65 + index), pos[index].x, pos[index].y);
       });
       ctx.restore();
     }
