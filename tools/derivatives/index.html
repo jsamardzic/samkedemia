@@ -161,7 +161,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .step .small { grid-column: 2; font-size: .85rem; color: var(--ink-mid); }
 @media (max-width: 640px) { .step { grid-template-columns: minmax(0, 1fr); } .step .small { grid-column: 1; } }
 
-.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
+.actions { position: relative; z-index: 1; display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
 .btn { font: 700 .95rem/1 var(--font-body); padding: 13px 22px; border-radius: 999px; border: 1.5px solid var(--glass-border); background: linear-gradient(var(--glass-top), var(--glass-bottom)); color: var(--cream); cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: transform .2s, border-color .2s, background-color .2s, box-shadow .2s; }
 .btn:hover { border-color: rgba(255, 255, 255, .38); transform: translateY(-1px); }
 .btn.primary { background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 0 44px rgba(255, 85, 0, .35); }
