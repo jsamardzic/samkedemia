@@ -911,7 +911,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         conclusion = `When the level goes up, the vertical line moves to the <strong>${a > 0 ? 'right' : 'left'}</strong>.`;
       } else conclusion = 'The target function is constant, so every feasible point gives the same value.';
       html += stepHTML(6, 'Direction of improvement', a !== 0 || b !== 0
-          ? `Draw two contour lines with different levels and see which way the line moves when the level grows. Any two levels work; here we take ${M(`${lv} = ${formatNumber(level1)}`)} and ${M(`${lv} = ${formatNumber(level2)}`)}. To draw each line, find two of its points: set one variable to 0 and solve for the other. The arrow on the graph points the way ${M(fnName)} grows.`
+          ? `Draw two contour lines with different levels and see which way the line moves when the level grows. Any two levels work; here we take ${M(`${lv} = ${formatNumber(level1)}`)} and ${M(`${lv} = ${formatNumber(level2)}`)}. To draw each line, find two of its points: set one variable to 0 and solve for the other.`
           : 'Draw two contour lines with different levels and see which way the line moves when the level grows.',
         (cards ? `<div class="cards">${cards}</div>` : '') + `<p class="callout">${conclusion}${a !== 0 || b !== 0 ? ` To <strong>${mode}</strong>, slide the line ${mode === 'maximize' ? 'that way' : 'the other way'} as far as it goes while it still touches the feasible region.` : ''}</p>`
         + `<div class="plot" style="margin-top:14px"><canvas id="step6FeasibleRegionChart"></canvas></div>`);
@@ -937,7 +937,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       }
       let sub7 = null;
       if (optimalVertexIndices.length && (a !== 0 || b !== 0)) {
-        const how = `Slide the contour line ${mode === 'maximize' ? 'in the direction of the arrow' : 'against the arrow'} as far as it goes while it still touches the feasible region.`;
+        const how = `Slide the contour line ${mode === 'maximize' ? `the way ${M(fnName)} grows` : `the way ${M(fnName)} shrinks`} as far as it goes while it still touches the feasible region.`;
         sub7 = optimalVertexIndices.length === 1
           ? `${how} The last point it touches is vertex ${String.fromCharCode(65 + optimalVertexIndices[0])}. That vertex is where two constraint lines cross, so solve their two equations together to get its coordinates. Then fill them into ${M(fnName)}.`
           : `${how} The last thing it touches is a whole edge of the region, not a single vertex.`;
@@ -954,9 +954,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
           return { label: faint ? 'Contour 1' : 'Contour 2', type: 'line', fill: false, order: 3, pointRadius: 0, data, borderColor: faint ? 'rgba(255, 85, 0, 0.45)' : '#ff5500', borderWidth: faint ? 1.5 : 2, borderDash: faint ? [5, 4] : [] };
         };
         if (a !== 0 || b !== 0) ds.push(line(level1, true), line(level2, false));
-        const plugins = [regionOverlay()];
-        if (a !== 0 || b !== 0) plugins.push(growthArrow(a, b, c0, level1, level2, feasibleVertices, fnName));
-        step6Chart = new Chart(step6Canvas, { type: 'scatter', data: { datasets: ds }, plugins, options: staticChartOptions(minX, maxX, minY, maxY) });
+        step6Chart = new Chart(step6Canvas, { type: 'scatter', data: { datasets: ds }, plugins: [regionOverlay()], options: staticChartOptions(minX, maxX, minY, maxY) });
         step6Chart.$optimalVertexIndices = optimalVertexIndices;
       }
     }
@@ -980,40 +978,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         if (k !== -1) { const m = chart.getDatasetMeta(k);
           if (m && m.data && m.data.length >= 3) { ctx.save(); ctx.beginPath(); m.data.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); ctx.fillStyle = 'rgba(131, 172, 178, 0.22)'; ctx.fill(); ctx.restore(); } }
         drawVertexLabels(chart); drawYAxisLabel(chart);
-      } };
-    }
-    // step 6: a short arrow at right angles to the contour lines, on line 2, pointing the way the target function grows
-    function growthArrow(a, b, c0, level1, level2, vertices, fnName) {
-      return { id: 'growthArrow', afterDraw: chart => {
-        const sx = chart.scales.x, sy = chart.scales.y, px = (x, y) => ({ x: sx.getPixelForValue(x), y: sy.getPixelForValue(y) });
-        const two = L => b !== 0 ? [px(0, (L - c0) / b), px(1, (L - a - c0) / b)] : [px((L - c0) / a, 0), px((L - c0) / a, 1)];
-        const [p, q] = two(level2), [r] = two(level1);
-        let dx = q.x - p.x, dy = q.y - p.y; const len = Math.hypot(dx, dy) || 1; dx /= len; dy /= len;
-        let nx = -dy, ny = dx;   // normal in screen space, turned away from line 1
-        if ((r.x - p.x) * nx + (r.y - p.y) * ny > 0) { nx = -nx; ny = -ny; }
-        if (level2 < level1) { nx = -nx; ny = -ny; }
-        const L = 54, area = chart.chartArea, inside = pt => pt.x > area.left + 8 && pt.x < area.right - 80 && pt.y > area.top + 14 && pt.y < area.bottom - 8;
-        const vpx = vertices.map(v => px(v.x, v.y)), span = Math.hypot(area.right - area.left, area.bottom - area.top);
-        const mid = vpx.length ? { x: vpx.reduce((t, v) => t + v.x, 0) / vpx.length, y: vpx.reduce((t, v) => t + v.y, 0) / vpx.length } : p;
-        let s = null, score = Infinity;
-        for (let k = -80; k <= 80; k++) {   // on line 2, near the region but clear of every vertex
-          const t = k * span / 80, a0 = { x: p.x + t * dx, y: p.y + t * dy }, e0 = { x: a0.x + nx * L, y: a0.y + ny * L };
-          if (!inside(a0) || !inside(e0)) continue;
-          const gap = vpx.length ? Math.min(...vpx.map(v => Math.min(...[0, .5, 1].map(u => Math.hypot(v.x - (a0.x + u * (e0.x - a0.x)), v.y - (a0.y + u * (e0.y - a0.y))))))) : Infinity;
-          const sc = Math.hypot(a0.x - mid.x, a0.y - mid.y) + (gap < 30 ? 1e6 - gap : 0);
-          if (sc < score) { score = sc; s = a0; }
-        }
-        if (!s) return;
-        const e = { x: s.x + nx * L, y: s.y + ny * L }, ang = Math.atan2(ny, nx), ctx = chart.ctx;
-        ctx.save();
-        ctx.strokeStyle = '#ff5500'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-        ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(e.x, e.y);
-        ctx.moveTo(e.x - 9 * Math.cos(ang - .5), e.y - 9 * Math.sin(ang - .5)); ctx.lineTo(e.x, e.y); ctx.lineTo(e.x - 9 * Math.cos(ang + .5), e.y - 9 * Math.sin(ang + .5));
-        ctx.stroke();
-        ctx.fillStyle = '#2f6a73'; ctx.font = '600 12px "Atkinson Hyperlegible", system-ui, sans-serif'; ctx.textBaseline = 'middle';
-        const right = Math.cos(ang) >= -0.2; ctx.textAlign = right ? 'left' : 'right';
-        ctx.fillText(`${fnName} grows`, e.x + (right ? 8 : -8), e.y + (Math.sin(ang) > 0 ? 6 : -6));
-        ctx.restore();
       } };
     }
     function staticChartOptions(minX, maxX, minY, maxY) {
