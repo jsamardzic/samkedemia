@@ -18,13 +18,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&family=Outfit:wght@500;700;900&family=Playfair+Display:ital@1&family=Vidaloka&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
-/* Layout: a teal desk under a spotlight. A taped sheet of squared paper holds the problem and your working; a dark glass coach card sits beside it. */
+/* Layout: a teal desk under a spotlight. A sheet of squared paper holds the problem and your working; a dark glass coach card sits beside it. */
 :root {
   --ground-light: #1a606c; --ground: #0c3840; --ground-shade: #092a30; --ground-edge: #051619;
   --cream: #f8f8f2; --body: #d5e4e6; --quiet: #a9c6ca; --teal-light: #83acb2;
   --orange: #ff5500; --orange-ink: #e04a00; --orange-pale: #ffe8df; --orange-light: #f5a87e;
   --paper: #fbfaf5; --paper-back: #e4e2d6; --ink: #0c3840; --ink-mid: #2f6a73; --ink-v: #1f7f8c;
-  --rule: rgba(12, 56, 64, .085); --tape: rgba(245, 168, 126, .82);
+  --rule: rgba(12, 56, 64, .085);
   --glass-top: rgba(5, 22, 25, .38); --glass-bottom: rgba(5, 22, 25, .62); --glass-border: rgba(255, 255, 255, .16);
   --bad: #b33c00;
   --font-display: Vidaloka, Georgia, serif;
@@ -62,7 +62,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .social-icon svg { width: 18px; height: 18px; }
 @media (max-width: 650px) { .header-socials a:nth-child(n+2) { display: none; } }
 @media (max-width: 520px) { .logo-page-title, .logo-separator { display: none; } .brand-header { padding-left: 22px; } }
-.label { font: 700 .72rem/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--orange); }
+.label { font: 700 .9rem/1 var(--font-body); color: var(--quiet); }
 
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: clamp(28px, 4vw, 52px); align-items: start; }
 @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); } }
@@ -82,11 +82,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
   padding: 46px clamp(18px, 4.4vw, 54px) 34px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, .25), 0 34px 70px rgba(0, 0, 0, .5);
 }
-.tape { position: absolute; top: -15px; left: 50%; width: 132px; height: 32px; background: var(--tape); transform: translateX(-50%) rotate(3deg); box-shadow: 0 3px 6px rgba(0, 0, 0, .25); }
 
 .p-top { display: flex; justify-content: space-between; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
-.p-count { font: 700 .72rem/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-mid); font-variant-numeric: tabular-nums; }
-.note { font: 700 clamp(1.35rem, 2.6vw, 1.7rem)/1.1 var(--font-hand); color: var(--orange-ink); margin: 14px 0 0; transform: rotate(-1.2deg); transform-origin: left; }
+.p-count { font: 700 .9rem/1 var(--font-body); color: var(--ink-mid); font-variant-numeric: tabular-nums; }
+.note { min-height: 1.1em; font: 700 clamp(1.35rem, 2.6vw, 1.7rem)/1.1 var(--font-hand); color: var(--orange-ink); margin: 14px 0 0; transform: rotate(-1.2deg); transform-origin: left; }
 .problem { font-size: clamp(1.35rem, 3.3vw, 2.25rem); text-align: center; padding: 28px 0 30px; overflow-x: auto; overflow-y: hidden; min-height: 2.6em; }
 .problem .katex-display { margin: 0; }
 
@@ -135,7 +134,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .goat-badge .emo.bob { animation: goatBob 1.6s ease-in-out infinite; }
 @keyframes goatBob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-4px) rotate(-8deg); } 75% { transform: translateY(-2px) rotate(6deg); } }
 .goat-copy { width: 100%; box-sizing: border-box; justify-content: center; }
-#goat .fol { margin-top: 10px; }
+#goat .fol { margin-top: 10px; box-shadow: none; }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
 @keyframes goatShine { 0% { transform: translateX(-120%); } 45%, 100% { transform: translateX(120%); } }
@@ -158,15 +157,15 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .step .tag.v { color: var(--ink-v); }
 .step .ml { font-size: 1.14rem; overflow-x: auto; overflow-y: hidden; min-width: 0; padding: 2px 0; }
 .step .ml .katex-display { margin: 0; text-align: left; }
-.step.final .ml > span { display: inline-block; background: var(--orange-pale); border-radius: 6px; padding: 10px 14px; }
+.step.final .ml > span { display: inline-block; padding: 2px 4px 12px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C38 3 82 8.5 118 5s56-2.5 80 .5' fill='none' stroke='%23ff5500' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") bottom / 100% 10px no-repeat; }
 .step .small { grid-column: 2; font-size: .85rem; color: var(--ink-mid); }
 @media (max-width: 640px) { .step { grid-template-columns: minmax(0, 1fr); } .step .small { grid-column: 1; } }
 
 .actions { position: relative; z-index: 1; display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
 .btn { font: 700 .95rem/1 var(--font-body); padding: 13px 22px; border-radius: 999px; border: 1.5px solid var(--glass-border); background: linear-gradient(var(--glass-top), var(--glass-bottom)); color: var(--cream); cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: transform .2s, border-color .2s, background-color .2s, box-shadow .2s; }
 .btn:hover { border-color: rgba(255, 255, 255, .38); transform: translateY(-1px); }
-.btn.primary { background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 0 44px rgba(255, 85, 0, .35); }
-.btn.primary:hover { box-shadow: 0 0 60px rgba(255, 85, 0, .5); }
+.btn.primary { background: var(--orange); border-color: var(--orange); color: #fff; }
+.btn.primary:hover { background: var(--orange-ink); border-color: var(--orange-ink); }
 .btn kbd { font: 700 .72rem/1 var(--font-body); opacity: .75; border: 1px solid currentColor; border-radius: 5px; padding: 3px 5px; }
 .btn .count { font: 700 .78rem/1 var(--font-num); opacity: .7; font-variant-numeric: tabular-nums; }
 @media (max-width: 560px) { .actions { margin-top: 44px; } .actions .btn { flex: 1 1 calc(50% - 10px); justify-content: center; } .btn kbd { display: none; } }
@@ -244,6 +243,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #moment[data-tier] .pcard .pc-title { font-size: 1.3rem; }
 #moment[data-tier] .pcard .pc-name { font-size: 1rem; }
 #moment[data-tier] .btn.primary { background: var(--m-ink); border-color: var(--m-ink); box-shadow: none; }
+#mGo:focus-visible { outline: none; }
 .m-small { font-size: .78rem !important; color: var(--quiet) !important; }
 .pc-name { cursor: pointer; }
 .pc-rating { position: relative; display: grid; justify-items: center; line-height: 1; }
@@ -256,11 +256,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-name:empty { display: none; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
 .skills-head { margin-top: 18px !important; }
-.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 2px 0 auto; padding: 4px 0; cursor: pointer; font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--quiet); transition: color .2s; }
+.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 2px 0 auto; padding: 4px 0; cursor: pointer; font: 700 .85rem/1 var(--font-body); color: var(--quiet); transition: color .2s; }
 .card-btn svg { width: 13px; height: 13px; flex: none; }
 .card-btn:hover { color: var(--cream); }
 .skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 6px; gap: 10px; }
-.skills-head .hand { font: 700 1.15rem/1 var(--font-hand); color: var(--orange-light); }
 .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 9px 0; color: var(--cream); }
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .skill .nm i { font: 700 1.05rem/1 var(--font-hand); font-style: normal; color: var(--orange-light); }
@@ -284,7 +283,12 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .stats b { display: inline-block; font: 900 .9rem/1 var(--font-num); color: var(--cream); margin-left: 3px; font-variant-numeric: tabular-nums; }
 .stats b.hot { color: var(--orange); }
 .confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--cream); font-weight: 700; font-size: .95rem; }
-.btn.ghost { background: transparent; color: var(--quiet); }
+#next.primary { order: -1; }
+.reset-row { margin-top: 10px; text-align: right; }
+.reset-link { all: unset; cursor: pointer; font: 400 .78rem/1 var(--font-body); color: var(--quiet); }
+.reset-link:hover { color: var(--cream); text-decoration: underline; }
+.reset-row .confirm { justify-content: flex-end; gap: 6px; flex-wrap: nowrap; font-size: .8rem; white-space: nowrap; }
+.reset-row .btn { padding: 7px 10px; font-size: .76rem; }
 .btn.danger { background: transparent; border-color: var(--orange); color: var(--orange); }
 
 .toast { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 10; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; max-width: min(340px, calc(100vw - 40px)); padding: 14px 20px 14px 14px; border-radius: 20px; background: linear-gradient(var(--glass-top), var(--glass-bottom)), var(--ground-shade); border: 1.5px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0, 0, 0, .5), 0 0 60px rgba(255, 85, 0, .25); }
@@ -323,7 +327,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
       <div class="sheet-back"></div>
       <div class="stack" id="stack">
         <article class="paper" id="paper">
-          <div class="tape" id="tape"></div>
           <div class="p-top">
             <span class="p-count" id="count">Question 01</span>
           </div>
@@ -352,12 +355,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         <button class="btn primary" id="check">Check <kbd>Enter</kbd></button>
         <button class="btn" id="hint">Hint <span class="count" id="hintCount">0/2</span></button>
         <button class="btn" id="solution">Show solution</button>
-        <button class="btn" id="next">Next problem →</button>
-        <button class="btn ghost" id="reset">Reset</button>
-        <span class="confirm" id="confirm" hidden>Reset all progress?
-          <button class="btn danger" id="resetYes">Yes, reset</button>
-          <button class="btn" id="resetNo">Cancel</button>
-        </span>
+        <button class="btn" id="next">Skip</button>
       </div>
     </div>
 
@@ -377,7 +375,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
       <button class="card-btn" id="cardBtn" type="button" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy card</span></button>
       <div class="skills-head">
         <span class="label">Skills</span>
-        <span class="hand">grows as you go</span>
+        
       </div>
       <div id="skills"></div>
       <div class="coach-foot">
@@ -388,6 +386,11 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         </div>
         <button class="sound-btn" id="sound" type="button" aria-label="Sound" title="Sound" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.6L12.5 19V5L7.6 9.5z"/><path class="on" d="M16 9a4.2 4.2 0 0 1 0 6M18.6 6.4a8 8 0 0 1 0 11.2"/><path class="off" d="m16.5 9.5 5 5m0-5-5 5"/></svg></button>
       </div>
+      <div class="reset-row"><button class="reset-link" id="reset">Reset</button>
+        <span class="confirm" id="confirm" hidden>Reset progress?
+          <button class="btn danger" id="resetYes">Yes, reset</button>
+          <button class="btn" id="resetNo">Cancel</button>
+        </span></div>
     </aside>
   </main>
 </div>
@@ -1201,7 +1204,7 @@ function coachNote(type, why) {
     return `${s} in a row. Here's a harder one.`;
   }
   if (type.exam && Math.random() < 0.6) return pick(['Exam level.', 'Exam-style numbers.', 'This is what the exam looks like.']);
-  return pick(['Right at your level.', 'Keep the rhythm going.', 'One more.', 'You know this one.', 'Next one.']);
+  return '';
 }
 
 // ---------- typical mistakes ----------
@@ -1267,14 +1270,14 @@ function diagnose(a) {
     const m = DB(f, bug);
     if (differs(m, d) && compare(a, m)) return { bug, msg: msg() };
   }
-  if (compare(a, mul(-1, d))) return { bug: 'sign', msg: [pick(['Right size, wrong sign.', 'One sneaky minus sign.', 'So close. A minus sign got you.']), 'Check every minus sign, especially in the quotient rule.'] };
+  if (compare(a, mul(-1, d))) return { bug: 'sign', msg: [pick(['Right size, wrong sign.', 'One sneaky minus sign.', 'So close. A minus sign got you.']), 'Check every minus sign.'] };
   const ratios = SAMPLES.map(x => aev(a, x) / ev(d, x)).filter(isFinite);
   if (ratios.length >= 5 && ratios.every(r => Math.abs(r - ratios[0]) < 1e-6 * Math.max(1, Math.abs(ratios[0]))) && Math.abs(ratios[0] - 1) > 1e-6 && Math.abs(ratios[0]) > 1e-9) {
     const k = Math.round(ratios[0] * 100) / 100;
-    return { bug: 'factor', msg: [pick(['Right shape, wrong constant.', 'Right shape. The number is off.']), `Your answer is ${k} times the derivative. Check the numbers you multiplied by.`] };
+    return { bug: 'factor', msg: [pick(['Right shape, wrong constant.', 'Right shape. The number is off.']), `Your answer is ${k} times the derivative.`] };
   }
   if (compare(a, f)) return { bug: 'same', msg: [pick(["That's f(x) itself.", 'That is what you started with.']), 'You still have to differentiate it.'] };
-  return { bug: null, msg: [pick(['Not quite.', 'Not this time.', 'Hmm, not quite.']), 'Take a hint, or check one part at a time.'] };
+  return { bug: null, msg: [pick(['Not quite.', 'Not this time.', 'Hmm, not quite.']), 'Try a hint.'] };
 }
 
 // ---------- hints and the worked solution ----------
@@ -1722,7 +1725,7 @@ function loadProblem() {
   $('ans').value = ''; $('ans').classList.remove('done'); $('ans').readOnly = false;
   $('verdict').hidden = true; $('work').hidden = true; $('work').innerHTML = '';
   $('hintCount').textContent = '0/2';
-  renderPreview(); save();
+  renderPreview(); save(); renderActions();
 }
 async function nextProblem() {
   if (!play.resolved && (play.attempts || play.hints)) resolve(0);
@@ -1732,17 +1735,27 @@ async function nextProblem() {
   await anim(stack, [{ transform: 'translate(80px, 46px) rotate(6deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 620, easing: SPRING });
   if (matchMedia('(hover: hover)').matches) $('ans').focus({ preventScroll: true });
 }
+// only the buttons that make sense right now
+function renderActions() {
+  const done = play.solved || play.shown;
+  $('check').hidden = done;
+  $('hint').hidden = done || play.hints >= 2;
+  $('solution').hidden = play.shown;
+  $('next').classList.toggle('primary', done);
+  $('next').innerHTML = done ? 'Next problem <kbd>Enter</kbd>' : 'Skip';
+}
 function check(typed) {
   if (play.solved) { nextProblem(); return; }
   const s = typeof typed === 'string' ? typed : answerText();
+  if (!s && play.shown) { nextProblem(); return; }
   if (!s) { $('ans').focus(); anim($('ans'), [{ transform: 'translateX(0)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 200 }); return; }
   let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); sfx('slip'); offerHelp(); return; }
   if (compare(a, st.cur.d)) {
-    play.solved = true; $('ans').classList.add('done'); $('infoBtn').classList.remove('nudge');
+    play.solved = true; $('ans').classList.add('done'); $('infoBtn').classList.remove('nudge'); renderActions();
     const fixedSlip = play.grace && !play.resolved && play.attempts === 1 && play.hints === 0 && !play.shown;
     resolve(fixedSlip ? 1 : play.attempts === 0 && play.hints === 0 && !play.shown ? 1 : 0.45, fixedSlip);
     if (fixedSlip) verdict(true, 'Fixed.', 'Counted as a slip: you still go up, and your streak is safe.');
-    else verdict(true, pick(st.streak >= 5 ? ['On fire.', 'Unstoppable.', 'Too easy.', 'Keep it going.'] : ['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.', 'Clean.', 'Beautiful.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : 'Press Enter for the next one.');
+    else verdict(true, pick(['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : '');
     anim($('glow'), [{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], { duration: 1100, easing: 'ease-out' });
     anim($('stack'), [{ transform: 'scale(1)' }, { transform: 'scale(1.012)' }, { transform: 'scale(1)' }], { duration: 420, easing: SPRING });
     return;
@@ -1751,7 +1764,7 @@ function check(typed) {
   const { bug, msg } = diagnose(a);
   // a known rule mistake counts straight away; anything else might be a typo and gets one free retry
   const slip = !bug || bug === 'sign' || bug === 'factor';
-  if (play.attempts === 1 && !play.hints && slip) { play.grace = true; verdict(false, msg[0], msg[1] + ' Typo? One free retry.'); }
+  if (play.attempts === 1 && !play.hints && slip) { play.grace = true; verdict(false, msg[0], bug ? msg[1] : 'Check it and try again. This one is free.'); }
   else { if (!play.hints) resolve(0); verdict(false, msg[0], msg[1]); }
   sfx(slip && play.grace && !play.resolved ? 'slip' : 'wrong');
   offerHelp();
@@ -1763,6 +1776,7 @@ function hint() {
   if (play.grace && !play.resolved) resolve(0);   // a hint ends the free retry
   play.hints++;
   $('hintCount').textContent = `${play.hints}/2`;
+  renderActions();
   if (play.hints === 1) {
     anim($('problem'), [{ opacity: 1 }, { opacity: .2 }], { duration: 160 }).then(() => { renderProblem(true); anim($('problem'), [{ opacity: .2, filter: 'blur(3px)' }, { opacity: 1, filter: 'blur(0)' }], { duration: 420, easing: 'ease-out' }); });
   }
@@ -1770,7 +1784,7 @@ function hint() {
 }
 function showSolution() {
   if (play.shown) return;
-  play.shown = true;
+  play.shown = true; renderActions();
   if (!play.solved) resolve(0);
   $('hintCount').textContent = '2/2';
   renderProblem(true);
@@ -1813,7 +1827,7 @@ mf.inlineShortcuts = { ...mf.inlineShortcuts, ln: '\\ln', sqrt: '\\sqrt{#0}', pi
 K("f'(x) =", $('flabel'), false);
 $('ans').addEventListener('input', renderPreview);
 mf.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); check(); } }, true);
-document.addEventListener('keydown', e => { if (e.key === 'Enter' && play.solved && document.activeElement !== $('ans') && !/BUTTON/.test(document.activeElement.tagName)) nextProblem(); });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && (play.solved || play.shown) && document.activeElement !== $('ans') && !/BUTTON/.test(document.activeElement.tagName)) nextProblem(); });
 $('check').addEventListener('click', check);
 $('hint').addEventListener('click', hint);
 $('solution').addEventListener('click', showSolution);
@@ -1985,7 +1999,6 @@ loadProblem();
 // the first thing anyone sees, students with progress included: the card becomes theirs
 try { if (localStorage.getItem(STORE + '-name') === null) askName(); } catch (e) {}
 anim($('stack'), [{ transform: 'translateY(34px) rotate(-3deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 800, easing: SPRING });
-anim($('tape'), [{ transform: 'translateX(-50%) rotate(3deg) scaleX(0)' }, { transform: 'translateX(-50%) rotate(3deg) scaleX(1)' }], { duration: 420, delay: 520, easing: 'ease-out', fill: 'backwards' });
 </script>
 </body>
 </html>
