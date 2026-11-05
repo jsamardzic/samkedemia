@@ -1078,7 +1078,7 @@ const EXAM = [
 ].map(t => ({ ovr: ['xexp2', 'xlog2'].includes(t.id) ? 70 : 65, ...t, dec: true, exam: true }));   // ovr: overall rating before it shows up (whole numbers first, then decimals, then other bases)
 TYPES.push(...EXAM);
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
-// the very first question: a plain x^n, kept out of TYPES so it never comes up in normal play
+// the first two questions: a plain x^n, kept out of TYPES so it never comes up in normal play
 TYPE.warm = { id: 'warm', s: ['power'], t: 1, b: () => mono(1, ri(2, 5)) };
 
 // which skills a finished problem really uses (credited after answering)
@@ -1121,7 +1121,7 @@ const STORE = 'samkedemia-derivative-lab';
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.R) Object.assign(st, { R: { ...st.R, ...s.R }, best: s.best || 0, firsts: s.firsts || 0, total: s.total || 0, n: s.n || 0 }); } catch (e) {}
 // skills open one after another: polynomials first, then exponentials and logs, then the product and quotient rule, and the chain rule last
 // each needs: the skills before it at a rating, and that many problems using them solved first try
-const UNLOCK = { power: [], roots: [['power', 58, 2]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]] };
+const UNLOCK = { power: [], roots: [['power', 58, 4]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]] };
 st.unlocked = ['power']; st.done = {}; st.shield = false; st.record = false;
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) { st.unlocked = s.unlocked || ['power', ...SKILLS.map(k => k.id).filter(id => st.R[id] > 0)]; st.done = s.done || {}; } } catch (e) {}
 const isOpen = id => st.unlocked.includes(id);
@@ -1140,7 +1140,7 @@ const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
 
 // score every family: wanted when it trains a weak skill, just above the level of its weakest part, and not seen lately
 function chooseType() {
-  if (st.total === 0) return { type: TYPE.warm, why: 'warm' };
+  if (solved('power') < 2 && rating(st.R.power) < 54) return { type: TYPE.warm, why: 'warm' };
   const due = st.queue.findIndex(q => q.due <= st.n);
   if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen) && overall(st.R) >= (TYPE[q.id].ovr || 0)) return { type: TYPE[q.id], why: 'twin' }; }
   // difficulty window from the overall rating: easy tiers drop out and hard ones come in as you climb
@@ -1187,7 +1187,7 @@ function buildFrom(type) {
 }
 function coachNote(type, why) {
   if (why === 'twin') return 'Same kind as one you missed. New numbers, try again.';
-  if (st.total === 0) return 'Warm-up. Type it like on paper, then press Enter.';
+  if (why === 'warm') return st.total === 0 ? 'Warm-up. Type it like on paper, then press Enter.' : 'One more warm-up.';
   if (st.R[weakest(type.s)] < 0.06 && !solved(weakest(type.s))) return 'Something new. Take your time.';
   if (st.streak >= 3) {
     const s = st.streak, left = st.best - s + 1;
@@ -1620,7 +1620,7 @@ function resolve(r, grace = false) {
     const w = (i === 0 ? 0.32 : (type.s.includes(s) ? 0.22 : 0.1)) * pace;
     st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E) * (grace ? 0.75 : 1)));
   });
-  if (type.id === 'warm' && st.total === 0 && r === 1) st.R.power = (rating(prev.power) + 1 - 50) / 49;   // the warm-up is worth exactly +1
+  if (type.id === 'warm' && r === 1 && rating(prev.power) < 54) st.R.power = (rating(prev.power) + 1 - 50) / 49;   // a warm-up is worth exactly +1
   st.total++;
   if (r === 1) used.forEach(k => { st.done[k] = solved(k) + 1; });
   if (grace) { /* streak survives, but doesn't grow; not a first try */ }
