@@ -796,8 +796,10 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
     // grammar: expr = term (± term)* ; term = unary ((*|/|implicit) unary)* ; unary = -unary | power ; power = atom (^ unary)?
     const WORDS = ['sqrt', 'exp', 'ln', 'log', 'pi', 'e', 'x'];
     function tokenize(s) {
-        s = s.toLowerCase().replace(/\*\*/g, '^').replace(/[−–]/g, '-').replace(/[·×]/g, '*').replace(/÷/g, '/')
-             .replace(/²/g, '^2').replace(/³/g, '^3').replace(/ˣ/g, '^x').replace(/√/g, 'sqrt').replace(/π/g, 'pi').replace(/[\[{]/g, '(').replace(/[\]}]/g, ')').replace(/,/g, '.');
+        // superscripts first: NFKC alone would turn x² into x2. NFKC then folds lookalikes from CJK keyboards (３ （ － ｘ) to plain ASCII
+        s = s.replace(/[⁰¹²³⁴-⁹⁻⁺]+/g, m => '^(' + m.replace(/[⁰¹²³⁴-⁹⁻⁺]/g, c => '0123456789-+'['⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺'.indexOf(c)]) + ')').replace(/ˣ/g, '^x')
+             .normalize('NFKC').toLowerCase().replace(/\*\*/g, '^').replace(/[−–—―‐‑‒ー]/g, '-').replace(/[·×・]/g, '*').replace(/[÷⁄]/g, '/')
+             .replace(/√/g, 'sqrt').replace(/π/g, 'pi').replace(/[\[{]/g, '(').replace(/[\]}]/g, ')').replace(/,/g, '.');
         const out = []; let i = 0;
         while (i < s.length) {
             const ch = s[i];
@@ -811,7 +813,8 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
                 out.push(['e', 'x', 'pi'].includes(w) ? { k: 'sym', v: w } : { k: 'fn', v: w === 'log' ? 'ln' : w });
                 i += w.length; continue;
             }
-            throw new Error(`Unexpected "${ch}".`);
+            const bad = String.fromCodePoint(s.codePointAt(i));
+            throw new Error(bad > '~' ? `"${bad}" isn't on the English keyboard. Switch your keyboard to English and retype it.` : `Unexpected "${ch}".`);
         }
         return out;
     }
