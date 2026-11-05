@@ -1088,6 +1088,8 @@ const EXAM = [
 ].map(t => ({ ovr: ['xexp2', 'xlog2'].includes(t.id) ? 70 : 65, ...t, dec: true, exam: true }));   // ovr: overall rating before it shows up (whole numbers first, then decimals, then other bases)
 TYPES.push(...EXAM);
 const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
+// the very first question: a plain x^n, kept out of TYPES so it never comes up in normal play
+TYPE.warm = { id: 'warm', s: ['power'], t: 1, b: () => mono(1, ri(2, 5)) };
 
 // which skills a finished problem really uses (credited after answering)
 function skillsOf(f, primary) {
@@ -1148,6 +1150,7 @@ const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
 
 // score every family: wanted when it trains a weak skill, just above the level of its weakest part, and not seen lately
 function chooseType() {
+  if (st.total === 0) return { type: TYPE.warm, why: 'warm' };
   const due = st.queue.findIndex(q => q.due <= st.n);
   if (due >= 0) { const q = st.queue.splice(due, 1)[0]; if (TYPE[q.id].s.every(isOpen) && overall(st.R) >= (TYPE[q.id].ovr || 0)) return { type: TYPE[q.id], why: 'twin' }; }
   // difficulty window from the overall rating: easy tiers drop out and hard ones come in as you climb
@@ -1195,7 +1198,7 @@ function buildFrom(type) {
 function coachNote(type, why) {
   if (why === 'twin') return 'Same kind as one you missed. New numbers, try again.';
   if (st.total === 0) return 'Warm-up. Type it like on paper, then press Enter.';
-  if (st.R[weakest(type.s)] < 0.06) return 'Something new. Take your time.';
+  if (st.R[weakest(type.s)] < 0.06 && !solved(weakest(type.s))) return 'Something new. Take your time.';
   if (st.streak >= 3) {
     const s = st.streak, left = st.best - s + 1;
     if (st.shield && s % 5 === 0) return `${s} in a row. Your next mistake won't break it.`;
@@ -1680,6 +1683,7 @@ function resolve(r, grace = false) {
     const w = (i === 0 ? 0.32 : (type.s.includes(s) ? 0.22 : 0.1)) * pace;
     st.R[s] = Math.max(0, Math.min(1, st.R[s] + w * (r - E) * (grace ? 0.75 : 1)));
   });
+  if (type.id === 'warm' && st.total === 0 && r === 1) st.R.power = (rating(prev.power) + 1 - 50) / 49;   // the warm-up is worth exactly +1
   st.total++;
   if (r === 1) used.forEach(k => { st.done[k] = solved(k) + 1; });
   if (grace) { /* streak survives, but doesn't grow; not a first try */ }
