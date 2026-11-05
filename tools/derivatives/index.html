@@ -134,7 +134,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .goat-badge .emo.bob { animation: goatBob 1.6s ease-in-out infinite; }
 @keyframes goatBob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-4px) rotate(-8deg); } 75% { transform: translateY(-2px) rotate(6deg); } }
 .goat-copy { width: 100%; box-sizing: border-box; justify-content: center; }
-#goat .fol { margin-top: 10px; box-shadow: none; }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
 @keyframes goatShine { 0% { transform: translateX(-120%); } 45%, 100% { transform: translateX(120%); } }
@@ -414,9 +413,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <button class="x" id="goatClose" aria-label="Close"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
     <div class="goat-badge"><span class="emo" aria-label="GOAT">🐐</span></div>
     <h2 id="goatTitle">You're the GOAT</h2>
-    <p>99 overall. Every derivative rule, mastered.<br>Copy your card and paste it in the chat.</p>
-    <button class="btn goat-copy" type="button" data-copy>Copy card</button>
-    <a class="fol" href="https://wa.me/32490100821?text=I%20reached%2099%20on%20Derivative%2099!" target="_blank" rel="noopener">Send it to Jovan on WhatsApp</a>
+    <p>99 overall. Every derivative rule, mastered.<br>Copy your card and show it off.</p>
+    <button class="btn primary goat-copy" type="button" data-copy>Copy card</button>
   </div>
 </div>
 
