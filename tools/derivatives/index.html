@@ -248,9 +248,11 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-name { font: 900 .74rem/1.1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pc-name:empty { display: none; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
-.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 0; padding: 0; cursor: pointer; font: 700 .85rem/1 var(--font-body); color: var(--quiet); transition: color .2s; }
+.card-btn { all: unset; position: absolute; right: 14px; bottom: 7px; display: flex; align-items: center; gap: 5px; cursor: pointer; font: 700 .78rem/1 var(--font-body); color: var(--ink-card); opacity: .8; transition: opacity .2s; }
 .card-btn svg { width: 13px; height: 13px; flex: none; }
-.card-btn:hover { color: var(--cream); }
+.card-btn:hover { opacity: 1; text-decoration: underline; }
+.card-btn:focus-visible { outline: 2px solid var(--ink-card); outline-offset: 3px; }
+.split { width: 56%; height: 1px; margin: 14px auto 0; border: 0; background: var(--glass-border); }
 .skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 2px; gap: 10px; }
 .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; padding: 7px 0; color: var(--cream); }
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
@@ -368,15 +370,16 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span class="pc-title" id="ptitle">Rookie</span>
           <span class="pc-name" id="pcName"></span>
         </div>
+        <button class="card-btn" id="cardBtn" type="button" data-copy aria-label="Share card, copies the image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M7 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1"/></svg><span>Share card</span></button>
       </div>
       <div class="stats" id="stats">
           <span>Streak <b id="streak">0</b></span>
           <span>Best <b id="best">0</b></span>
           <span>First try <b id="firsts">0/0</b></span>
         </div>
+      <hr class="split">
       <div class="skills-head">
         <span class="label">Skills</span>
-        <button class="card-btn" id="cardBtn" type="button" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy card</span></button>
       </div>
       <div id="skills"></div>
     </aside>
@@ -402,8 +405,8 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <button class="x" id="goatClose" aria-label="Close"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
     <div class="goat-badge"><span class="emo" aria-label="GOAT">🐐</span></div>
     <h2 id="goatTitle">You're the GOAT</h2>
-    <p>99 overall. Every derivative rule, mastered.<br>Copy your card and show it off.</p>
-    <button class="btn primary goat-copy" type="button" data-copy>Copy card</button>
+    <p>99 overall. Every derivative rule, mastered.<br>Share your card and show it off.</p>
+    <button class="btn primary goat-copy" type="button" data-copy>Share card</button>
   </div>
 </div>
 
