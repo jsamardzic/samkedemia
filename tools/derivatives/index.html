@@ -192,14 +192,10 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill .lv { position: relative; }
 .lv-gain { position: absolute; right: calc(100% + 8px); top: 0; font: 900 .95rem/1.1 var(--font-num); color: var(--orange-light); white-space: nowrap; opacity: 0; pointer-events: none; }
 /* the how-to-type button asks to be noticed on a first visit */
-.tool-btn.nudge { animation: nudge 1.8s ease-in-out infinite; }
-@keyframes nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, .45); } 60% { box-shadow: 0 0 0 9px rgba(255, 85, 0, 0); } }
+.reset-link.nudge { animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { color: var(--quiet); } 50% { color: var(--orange-light); } }
 /* how to type and reset, together beside the buttons */
-.tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-.tool-btn { all: unset; box-sizing: border-box; flex: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); transition: color .2s, background-color .2s; }
-.tool-btn:hover { color: var(--cream); background: rgba(255, 255, 255, .1); }
-.tool-btn:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 2px; }
-.tool-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tools { margin-left: auto; display: flex; align-items: center; gap: 22px; }
 /* big moments: first visit, a new tier, a new skill */
 #moment { position: fixed; inset: 0; z-index: 31; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: auto; background: rgba(3, 16, 19, .82); -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px); opacity: 0; pointer-events: none; transition: opacity .25s; }
 #moment.on { opacity: 1; pointer-events: auto; }
@@ -281,8 +277,9 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
 .stats b.hot { color: var(--orange); }
 .confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--cream); font-weight: 700; font-size: .95rem; }
 #next.primary { order: -1; }
-.reset-link { all: unset; cursor: pointer; margin-left: 6px; font: 400 .85rem/1 var(--font-body); color: var(--quiet); }
-.reset-link:hover { color: var(--cream); text-decoration: underline; }
+.reset-link { all: unset; cursor: pointer; font: 700 .9rem/1 var(--font-body); color: var(--quiet); }
+.reset-link:hover { color: var(--cream); }
+.reset-link:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 3px; }
 .tools .confirm { justify-content: flex-end; gap: 6px; flex-wrap: nowrap; font-size: .8rem; white-space: nowrap; }
 .tools .btn { padding: 7px 10px; font-size: .76rem; }
 .btn.danger { background: transparent; border-color: var(--orange); color: var(--orange); }
@@ -352,7 +349,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
         <button class="btn" id="solution">Show solution</button>
         <button class="btn" id="next">Skip</button>
         <div class="tools">
-          <button class="tool-btn" id="infoBtn" type="button" title="How to type" aria-label="How to type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".6"/></svg></button>
+          <button class="reset-link" id="infoBtn" type="button">How to type</button>
           <button class="reset-link" id="reset">Reset</button>
           <span class="confirm" id="confirm" hidden>Reset progress?
           <button class="btn danger" id="resetYes">Yes, reset</button>
@@ -1777,7 +1774,7 @@ $('check').addEventListener('click', check);
 $('hint').addEventListener('click', hint);
 $('solution').addEventListener('click', showSolution);
 $('next').addEventListener('click', nextProblem);
-const askReset = on => { $('reset').hidden = on; $('confirm').hidden = !on; };
+const askReset = on => { $('reset').hidden = on; $('infoBtn').hidden = on; $('confirm').hidden = !on; };
 $('reset').addEventListener('click', () => { askReset(true); $('resetNo').focus(); });
 $('resetNo').addEventListener('click', () => askReset(false));
 $('resetYes').addEventListener('click', () => {
