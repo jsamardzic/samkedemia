@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Samkedemia: Derivative Lab</title>
+<title>Samkedemia: Derivative 99</title>
 <meta name="description" content="Free derivative trainer: endless exercises that adapt to you, Desmos-style maths input, instant feedback on your mistakes and step-by-step solutions, by Samkedemia.">
-<meta property="og:title" content="Samkedemia: Derivative Lab">
+<meta property="og:title" content="Samkedemia: Derivative 99">
 <meta property="og:description" content="Endless derivative exercises that adapt to you, with feedback on your mistakes and step-by-step solutions, by Samkedemia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.samkedemia.com/tools/derivatives">
@@ -135,6 +135,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .goat-badge .emo.shown { opacity: 1; }
 .goat-badge .emo.bob { animation: goatBob 1.6s ease-in-out infinite; }
 @keyframes goatBob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-4px) rotate(-8deg); } 75% { transform: translateY(-2px) rotate(6deg); } }
+#goat .fol.wa { background: #1fa855; box-shadow: none; }
 .goat-badge span { font: 900 .7rem/1 var(--font-num); letter-spacing: .3em; margin-top: 4px; padding-left: .3em; }
 .goat-badge::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%); transform: translateX(-120%); animation: goatShine 2.6s 1s ease-in-out infinite; }
 @keyframes goatShine { 0% { transform: translateX(-120%); } 45%, 100% { transform: translateX(120%); } }
@@ -191,13 +192,68 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 @keyframes revealShine { from { transform: translateX(-70%); opacity: 1; } to { transform: translateX(70%); opacity: 1; } }
 .bar i.fresh { background: #b83a00; opacity: 1; animation: tickPop .8s .7s both; }
 @keyframes tickPop { 0% { background: var(--ground-edge); transform: none; } 35% { background: #fff; transform: scale(2.2, 2.6); box-shadow: 0 0 10px 2px rgba(255, 138, 61, .9); } 100% { background: #b83a00; transform: none; box-shadow: none; } }
-#sparkle { position: fixed; inset: 0; z-index: 25; pointer-events: none; }
+#sparkle { position: fixed; inset: 0; z-index: 35; pointer-events: none; }
+/* rating gains: a chip on the skill row, a bounce on its bar, a line in the verdict */
+.skill .lv { position: relative; }
+.lv-gain { position: absolute; right: calc(100% + 8px); top: -2px; font: 900 .78rem/1 var(--font-num); color: #fff; background: var(--orange); border-radius: 999px; padding: 3px 6px; white-space: nowrap; opacity: 0; pointer-events: none; }
+.v-gain { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.v-gain span { font: 800 .82rem/1 var(--font-num); color: var(--orange-ink); background: var(--orange-pale); border-radius: 999px; padding: 6px 10px; font-variant-numeric: tabular-nums; }
+/* the streak on the paper */
+.p-heat { display: inline-flex; align-items: center; gap: 8px; font: 700 .85rem/1 var(--font-body); color: var(--ink-mid); }
+.p-heat b { font: 900 .95rem/1 var(--font-num); color: var(--orange-ink); font-variant-numeric: tabular-nums; }
+.p-heat .run { display: inline-flex; align-items: center; gap: 5px; }
+.p-heat[data-heat="2"] b { font-size: 1.05rem; }
+.p-heat[data-heat="3"] b { font-size: 1.2rem; color: var(--orange); }
+.p-heat .fire { display: inline-block; transform-origin: 50% 90%; animation: flicker 1.5s ease-in-out infinite; }
+.p-heat[data-heat="3"] .fire { animation-duration: .9s; }
+.p-heat .sh { font-size: 1rem; line-height: 1; }
+@keyframes flicker { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.12) rotate(3deg); } }
+/* the how-to-type button asks to be noticed on a first visit */
+.info-btn.nudge { animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, .45); } 60% { box-shadow: 0 0 0 9px rgba(255, 85, 0, 0); } }
+/* sound toggle */
+.sound-btn { all: unset; flex: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); transition: color .2s, background-color .2s; }
+.sound-btn:hover { color: var(--cream); background: rgba(255, 255, 255, .1); }
+.sound-btn:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 2px; }
+.sound-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sound-btn .off, .sound-btn[aria-pressed="false"] .on { display: none; }
+.sound-btn[aria-pressed="false"] .off { display: inline; }
+/* copy the card or the result */
+.share { display: flex; gap: 8px; margin-top: 8px; }
+.share .btn { flex: 1 1 0; justify-content: center; padding: 9px 10px; font-size: .8rem; white-space: nowrap; }
+/* big moments: first visit, a new tier, a new skill */
+#moment { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: auto; background: rgba(3, 16, 19, .82); -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px); opacity: 0; pointer-events: none; transition: opacity .25s; }
+#moment.on { opacity: 1; pointer-events: auto; }
+.m-box { width: min(440px, 100%); display: grid; justify-items: center; gap: 14px; text-align: center; color: var(--cream); }
+.m-box h2 { margin: 0; font: 400 clamp(2rem, 5vw, 2.6rem)/1.1 var(--font-display); }
+.m-box p { margin: 0; font-size: 1rem; color: var(--body); max-width: 38ch; }
+.m-stage { width: min(320px, 100%); perspective: 1000px; margin: 6px 0; }
+.m-stage:empty { display: none; }
+.m-flip { position: relative; transform-style: preserve-3d; }
+.m-flip .pcard, .m-back { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.m-flip.covered .pcard { transform: rotateY(180deg); }
+.m-back { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 18px; color: var(--orange); font: 900 3.6rem/1 var(--font-num); background: linear-gradient(135deg, #123f47, #061a1e); border: 1.5px solid var(--glass-border); box-shadow: 0 14px 30px rgba(0, 0, 0, .35); }
+.pcard.m-card { margin: 0; padding: 26px 26px; gap: 22px; text-align: left; }
+.pcard.m-card .ovr-num { font-size: 5rem; }
+.pcard.m-card .pc-tier { font-size: 1.55rem; }
+.pcard.m-card .pc-title { font-size: 1.05rem; }
+.m-rules { width: 100%; display: grid; gap: 12px; }
+.m-rules:empty { display: none; }
+.m-rule { padding: 16px 16px 14px; border-radius: 16px; background: var(--paper, #fdfbf6); color: var(--ink); }
+.m-rule .f { display: grid; gap: 8px; font-size: 1.3rem; }
+.m-rule .f .katex-display { margin: 0; }
+.m-rule small { display: block; margin-top: 10px; font-size: .9rem; color: var(--ink-mid); }
+#mName { width: 100%; box-sizing: border-box; text-align: center; font: 400 1.05rem var(--font-body); color: var(--cream); background: rgba(255, 255, 255, .07); border: 1px solid var(--glass-border); border-radius: 999px; padding: 13px 18px; }
+#mName:focus { outline: none; border-color: var(--orange); }
+.m-small { font-size: .78rem !important; color: var(--quiet) !important; }
 .pc-rating { position: relative; display: grid; justify-items: center; line-height: 1; }
 .ovr-num { font: 900 clamp(3.6rem, 7vw, 4.4rem)/.85 var(--font-num); font-variant-numeric: tabular-nums; letter-spacing: -.03em; display: inline-block; transform-origin: 50% 80%; }
 .pc-ovr { font: 900 .78rem/1 var(--font-num); letter-spacing: .28em; margin-top: 6px; padding-left: .28em; opacity: .8; }
 .pc-side { position: relative; display: grid; gap: 6px; min-width: 0; padding-left: 18px; border-left: 2px solid color-mix(in srgb, var(--ink-card) 25%, transparent); }
 .pc-tier { font: 900 1.25rem/1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; }
 .pc-title { font: 700 .9rem/1.2 var(--font-body); opacity: .85; }
+.pc-name { font: 900 .74rem/1.1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc-name:empty { display: none; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
 .skills-head { margin-top: 18px !important; }
 .card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 2px 0 auto; padding: 4px 0; cursor: pointer; font: 700 .72rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--quiet); transition: color .2s; }
@@ -250,7 +306,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
     <a class="brand-logo" href="https://samkedemia.com" target="_blank" rel="noopener">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB3aWR0aD0iMzEwLjc5cHQiIGhlaWdodD0iNjguOTJwdCIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iNTYuMDUgNTUuOTUgMzEwLjc5IDY4LjkyIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KCgoKCgo8ZyBpZD0iTGF5ZXJfMV8xXyI+CiYjeDk7PGc+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZjhmOGYyIiBkPSJNMzY0LjUsOTIuM2MwLjIsMC0wLjIsMC43LTAuNCwxYy0xLjIsMS4zLTIuOCwyLjEtNC41LDIuM2MtMC4yLDAtMC4zLDAtMC41LDBzLTAuMywwLTAuNSwwICAgIGMtMS42LDAuMS0yLjgtMC4yLTMuNS0wLjVjLTAuMi0wLjEtMC4zLTAuMi0wLjUtMC4yYy0wLjEsMC0wLjItMC4xLTAuMy0wLjJoLTAuMWMtMC40LTAuMi0wLjctMC41LTEtMC44ICAgIGMtMS4xLTEuMS0xLjctMi43LTEuNy00LjZ2LTcuOWMtMC4yLDAuMi0wLjUsMC40LTEsMC44Yy0yLjcsMi00LDQuMS00LDYuMmMwLDIsMC44LDMuMiwyLjMsMy43YzAsMCwwLjEsMCwwLjIsMHMwLjIsMCwwLjMsMCAgICBjMC4yLDAsMC41LDAsMS0wLjJoMC4yYzAuMiwwLDAuNCwwLDAuNCwwLjJjMC4yLDAuMiwwLjIsMC4zLDAuMSwwLjVjLTAuNCwwLjktMS4yLDEuNy0yLjUsMi4zYy0xLjMsMC42LTIuNSwwLjktMy42LDAuOSAgICBjLTIuMS0wLjEtNC0wLjgtNS41LTJzLTIuMi0yLjktMi4xLTVjMC4xLTEuOCwwLjgtMy4zLDItNC40czMuMi0yLjIsNi0zLjRjMC4yLTAuMSwwLjYtMC4yLDEuMS0wLjRjMy4zLTEuMyw1LTIuOSw1LjItNC42ICAgIGMwLjEtMC45LTAuMS0xLjYtMC42LTIuMWMtMC40LTAuNC0xLjEtMC43LTEuOS0wLjdjLTAuOSwwLTEuNSwwLjMtMiwwLjljLTAuNCwwLjQtMC42LDAuOS0wLjYsMS40YzAuMSwwLjksMC41LDEuNSwxLjMsMS42ICAgIGMwLjEsMCwwLjIsMC4xLDAuMiwwLjNjLTAuMiwwLjctMC42LDEuMy0xLjQsMS44Yy0wLjgsMC42LTEuNywwLjktMi45LDAuOWMtMS42LDAtMi44LTAuNS0zLjYtMS40Yy0wLjctMC43LTEtMS42LTAuOS0yLjYgICAgYzAuMS0xLjQsMC43LTIuNiwxLjktMy42YzEuMi0xLDIuNC0xLjYsMy44LTJzMi44LTAuNSw0LjMtMC41YzMuOSwwLDYuOSwxLDguOSwzLjFjMS42LDEuNiwyLjMsMy45LDIuMiw2LjcgICAgYzAsMC4zLTAuMSwwLjktMC4xLDEuNnMwLDEuMy0wLjEsMS42Yy0wLjIsNC4yLTAuMSw3LDAuMyw4LjZjMCwwLDAsMCwwLDAuMWMwLDAsMCwwLjEsMC4xLDAuMmMwLDAsMCwwLDAsMC4xICAgIGMwLjIsMC40LDAuNSwwLjksMS4yLDAuOWMwLjEsMCwwLjIsMCwwLjMsMGMwLjEsMCwwLjIsMCwwLjMtMC4xQzM2My4yLDkyLjgsMzY0LjQsOTIuMywzNjQuNSw5Mi4zeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTg1LjIsODQuOWMwLDEuNi0wLjIsMy4xLTAuNyw0LjRzLTEuMywyLjQtMi4yLDMuMmMtMC45LDAuOC0xLjksMS41LTMuMSwyLjFzLTIuNCwxLTMuNSwxLjIgICAgcy0yLjMsMC4zLTMuNCwwLjNjLTEuNCwwLTMuMS0wLjMtNS0wLjdjLTItMC41LTMuMy0xLjItMy45LTJ2MC4xYzAsMC4yLDAsMC40LTAuMSwwLjZzLTAuMywwLjMtMC42LDAuM2wtMi4yLTAuMSAgICBjLTAuMywwLTAuNC0wLjEtMC40LTAuNEw1OS4zLDgwYzAtMC41LDAuMi0wLjgsMC43LTAuOGgwLjhjMC40LDAsMC42LDAuMiwwLjcsMC43YzAuMiwyLDAuNywzLjgsMS4yLDUuNGMwLjYsMS42LDEuNiwzLjEsMyw0LjQgICAgYzEuNCwxLjMsMy4xLDIsNSwyYzEuNiwwLDMtMC40LDMuOS0xLjNjMS0wLjgsMS40LTEuOSwxLjQtMy4zYy0wLjEtMS40LTEuMS0yLjgtMy4yLTQuMmMtMy43LTIuMi02LjctNC4xLTguOS01LjUgICAgYy0zLjctMi40LTUuNi01LjItNS42LTguMmMwLTMuMywxLjItNS43LDMuOS03LjNjMi42LTEuNiw1LjYtMi40LDguNy0yLjRjMS41LDAsMy4yLDAuMyw1LjIsMC45YzEuOSwwLjYsMy4zLDEuMyw0LDIuM3YtMC4xICAgIGMwLTAuNSwwLjMtMC44LDAuOC0wLjhsMi4xLDAuMWMwLjMsMCwwLjQsMC4xLDAuNCwwLjRMODQsNzRjMCwwLjUtMC4zLDAuOC0wLjgsMC44aC0wLjhjLTAuNCwwLTAuNy0wLjItMC43LTAuNyAgICBjLTAuMS0wLjktMC40LTEuOS0wLjYtMi44Yy0wLjMtMC45LTAuNy0xLjktMS4zLTMuMWMtMC42LTEuMi0xLjUtMi4yLTIuNy0zcy0yLjYtMS4yLTQuMy0xLjNjLTMuNywwLTUuNywxLjItNS45LDMuNiAgICBjMCwwLjIsMCwwLjUsMCwwLjdzMC4xLDAuNCwwLjIsMC42czAuMiwwLjQsMC4zLDAuNWMwLjEsMC4xLDAuMywwLjMsMC41LDAuNXMwLjQsMC4zLDAuNSwwLjRzMC4zLDAuMiwwLjYsMC40ICAgIGMwLjMsMC4yLDAuNCwwLjMsMC41LDAuM2MwLjEsMC4xLDAuMywwLjIsMC42LDAuNGwwLjQsMC4yYzAuNCwwLjIsMS43LDEsNCwyLjFjMi4yLDEuMiwzLjgsMiw0LjYsMi41ICAgIEM4My4xLDc4LjgsODUuMSw4MS42LDg1LjIsODQuOXoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0xMTMsOTMuMmMwLjEsMCwwLjEsMC4xLDAuMSwwLjNjLTAuMSwwLjUtMC42LDEtMS41LDEuNGMtMC44LDAuNC0xLjgsMC42LTIuOCwwLjZjLTEuNSwwLTIuOS0wLjUtNC0xLjYgICAgcy0xLjctMi42LTEuNy00LjZ2LTcuOWMtMC4xLDAuMS0wLjUsMC40LTEsMC44Yy0yLjcsMi00LDQuMS00LDYuMmMwLDIsMC44LDMuMiwyLjMsMy43YzAsMCwwLjEsMCwwLjIsMHMwLjIsMCwwLjMsMCAgICBjMC4yLDAsMC41LDAsMS0wLjFoMC4xYzAuMiwwLDAuMywwLjEsMC40LDAuMWMwLjEsMC4xLDAuMiwwLjMsMC4xLDAuNWMtMC40LDAuOS0xLjIsMS43LTIuNSwyLjNzLTIuNSwwLjktMy42LDAuOSAgICBjLTIuMS0wLjEtNC0wLjgtNS41LTJzLTIuMi0yLjktMi4xLTVjMC4xLTEuOCwwLjgtMy4zLDItNC40czMuMi0yLjIsNi0zLjRjMC4yLTAuMSwwLjUtMC4yLDEtMC40YzMuMy0xLjMsNS0yLjksNS4yLTQuNiAgICBjMC4xLTAuOC0wLjEtMS41LTAuNi0yLjFjLTAuNC0wLjQtMS4xLTAuNy0xLjktMC43cy0xLjUsMC4zLTEuOSwwLjlDOTguMiw3NC41LDk4LDc1LDk4LDc1LjVjMC4xLDAuOSwwLjUsMS41LDEuMywxLjYgICAgYzAuMSwwLDAuMiwwLjEsMC4yLDAuM2MtMC4xLDAuNi0wLjYsMS4zLTEuNCwxLjhjLTAuOCwwLjYtMS43LDAuOS0yLjksMC45Yy0xLjYsMC0yLjgtMC41LTMuNi0xLjRjLTAuNy0wLjctMS0xLjYtMC45LTIuNiAgICBjMC4xLTEuNCwwLjctMi42LDEuOS0zLjZjMS4yLTEsMi41LTEuNiwzLjktMmMxLjQtMC4zLDIuOC0wLjUsNC4zLTAuNWMzLjksMCw2LjksMSw4LjksMy4xYzEuNSwxLjYsMi4zLDMuOSwyLjIsNi43ICAgIGMtMC4xLDAuMy0wLjEsMC45LTAuMSwxLjZzMCwxLjMtMC4xLDEuNkMxMTEuNiw4OS41LDExMiw5Mi44LDExMyw5My4yeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTExNi41LDc0LjJjLTAuMiwwLTAuMy0wLjEtMC4zLTAuM3YtMC44YzAtMC4zLDAuMS0wLjUsMC40LTAuNWMxLjMsMCwyLjUtMC4yLDMuNy0wLjZzMi4zLTAuOSwzLjMtMS41ICAgIHMxLjctMC45LDIuMS0xYzAuMSwwLDAuMy0wLjEsMC42LTAuMWMwLjEsMCwwLjMsMCwwLjQsMC4xczAuMiwwLjEsMC4zLDAuM2MwLjEsMC4xLDAuMSwwLjMsMC4yLDAuNGMwLDAuMSwwLjEsMC4zLDAuMSwwLjUgICAgczAsMC40LDAsMC41czAsMC4zLDAsMC41czAsMC40LDAsMC40VjczYzEuNS0xLjcsMy43LTIuNiw2LjYtMi43YzIuNiwwLDQuNywwLjgsNi4yLDIuM2MwLjUsMC40LDEsMS4xLDEuNCwxLjkgICAgYzEuNC0yLjcsMy45LTQuMiw3LjYtNC4zYzIuNiwwLDQuNywwLjgsNi4yLDIuM2MxLjcsMS42LDIuNiwzLjgsMi41LDYuNWwwLjEsMTAuOGMwLDEuMSwwLjEsMiwwLjMsMi43czAuNSwxLjIsMC44LDEuNCAgICBjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjZjMC4yLDAuMSwwLjMsMC4zLDAuMywwLjRWOTVjMCwwLjItMC4xLDAuMy0wLjIsMC4zaC0xM2MtMC4xLDAtMC4yLTAuMS0wLjItMC4ydi0wLjQgICAgYzAtMC4xLDAuMi0wLjIsMC42LTAuNGMwLjQtMC4yLDAuOC0wLjYsMS4yLTEuM2MwLjQtMC43LDAuNi0xLjYsMC42LTIuOXYtOS45YzAtMi4yLTAuNC0zLjctMS4yLTQuNGMtMC40LTAuNS0xLjEtMC43LTEuOS0wLjcgICAgYy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjcsMC43LTEuMiwxLjktMS4zLDMuNWwwLjEsMTAuMmMwLDEuMSwwLjEsMiwwLjQsMi43YzAuMiwwLjcsMC41LDEuMiwwLjgsMS40YzAuMywwLjIsMC41LDAuNCwwLjgsMC42ICAgIGMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNIMTMyYy0wLjEsMC0wLjItMC4xLTAuMi0wLjJ2LTAuNGMwLTAuMSwwLjEtMC4yLDAuMy0wLjQgICAgYzAuMi0wLjEsMC41LTAuMywwLjgtMC41czAuNi0wLjYsMC44LTEuM2MwLjItMC42LDAuNC0xLjQsMC40LTIuNHYtOS45YzAtMi4yLTAuNC0zLjctMS4yLTQuNGMtMC40LTAuNS0xLjEtMC43LTEuOS0wLjcgICAgYy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjcsMC43LTEuMSwxLjgtMS4zLDMuMnYxMC41YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRzMC42LDAuNCwwLjgsMC42ICAgIGMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNoLTEyLjljLTAuMSwwLTAuMi0wLjEtMC4yLTAuMmwtMC4xLTAuNGMwLTAuMSwwLjItMC4yLDAuNi0wLjQgICAgYzAuNC0wLjIsMC44LTAuNiwxLjItMS4zYzAuNC0wLjcsMC42LTEuNiwwLjYtMi45Vjc2LjRjMC0wLjctMC4yLTEuMy0wLjYtMS43QzExNy41LDc0LjQsMTE3LDc0LjIsMTE2LjUsNzQuMnoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0xNjMuMyw5NS4xbC0wLjEtMC40YzAtMC4xLDAuMi0wLjIsMC42LTAuNGMwLjQtMC4yLDAuOC0wLjYsMS4yLTEuM2MwLjQtMC43LDAuNi0xLjYsMC42LTIuOVY2NS42ICAgIGMwLTAuNy0wLjItMS4yLTAuNi0xLjZjLTAuNC0wLjQtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjN2LTAuOGMwLTAuMywwLjEtMC41LDAuNC0wLjVjMSwwLDItMC4xLDMtMC4zICAgIHMxLjgtMC4zLDIuNC0wLjVjMC42LTAuMSwxLjMtMC40LDIuMi0wLjdzMS40LTAuNSwxLjUtMC42YzAuMy0wLjEsMC41LTAuMSwwLjctMC4xYzAuMSwwLDAuMywwLDAuNCwwLjFjMC4xLDAuMSwwLjIsMC4xLDAuMywwLjMgICAgYzAsMC4xLDAuMSwwLjIsMC4xLDAuNGMwLDAuMSwwLjEsMC4zLDAuMSwwLjVzMCwwLjQsMCwwLjVzMCwwLjMsMCwwLjVzMCwwLjMsMCwwLjR2MTYuM2w1LjItNGMxLjctMS40LDIuNi0yLjIsMi43LTIuNCAgICBjMC0wLjIsMC0wLjMtMC4xLTAuNHMtMC4zLTAuMS0wLjYtMC4xaC0wLjRjLTAuMiwwLTAuMywwLTAuMy0wLjFsLTAuMS0wLjZjMC0wLjIsMC4xLTAuMywwLjMtMC4zaDkuNmMwLjEsMCwwLjIsMC4xLDAuMiwwLjJ2MC44ICAgIGMwLDAuMS0wLjEsMC4xLTAuNCwwLjFjLTAuMywwLTAuNywwLjEtMS4xLDAuMXMtMC44LDAuMi0xLjEsMC40Yy0wLjEsMC4xLTEuOCwxLjQtNC45LDMuOGwtMy43LDNjMi4yLDAuMiwzLjcsMS4zLDQuNiwzLjMgICAgYzAsMC4xLDAuMywwLjcsMC43LDEuOGMwLjQsMS4xLDAuOCwxLjksMS4xLDIuNHMwLjcsMS4yLDEuMywyczEuMywxLjQsMiwxLjhzMS42LDAuNiwyLjUsMC42YzAsMCwwLjIsMCwwLjMsMGMwLjIsMCwwLjMsMCwwLjQsMCAgICBjMC4xLDAsMC4yLDAuMSwwLjIsMC4xYzAuMiwwLjYtMC40LDEuNi0xLjksMi44Yy0xLjUsMS4yLTMsMS44LTQuNywxLjhoLTAuNGMtMy0wLjItNS4zLTEuOC02LjgtNC44bC00LjMtNy44bC0wLjcsMC41djYuMiAgICBjMCwxLjEsMC4xLDIsMC40LDIuN2MwLjIsMC43LDAuNSwxLjIsMC44LDEuNGMwLjMsMC4yLDAuNiwwLjQsMC44LDAuNmMwLjIsMC4xLDAuNCwwLjMsMC40LDAuNFY5NWMwLDAuMi0wLjEsMC4zLTAuMywwLjNoLTEyLjkgICAgQzE2My4zLDk1LjMsMTYzLjMsOTUuMywxNjMuMyw5NS4xeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTE5Ni4xLDczLjhjMi4zLTIuNCw1LjMtMy43LDguOS0zLjdjMy42LDAsNi42LDEuMSw4LjgsMy40czMuMyw1LjMsMy4zLDguOWMwLDAuMy0wLjIsMC40LTAuNywwLjRoLTAuMyAgICBMMjAyLjUsODN2MC4xYzAuMiwyLjIsMC44LDQsMS45LDUuMmMxLjEsMS4yLDIuNCwxLjgsMy45LDEuOGMyLjQtMC4xLDQtMS4zLDQuNy0zLjVjMC4zLTEsMC45LTEuNSwxLjktMS41YzAuMiwwLDAuNCwwLDAuNSwwLjEgICAgYzEsMC4yLDEuNCwwLjksMS4zLDJjLTAuMywyLjUtMS41LDQuNi0zLjcsNi4ycy00LjYsMi40LTcuMywyLjRjLTMuOSwwLTcuMS0xLjItOS41LTMuNXMtMy42LTUuNC0zLjYtOS40ICAgIEMxOTIuNiw3OS4zLDE5My44LDc2LjMsMTk2LjEsNzMuOHogTTIwNS40LDczLjNjLTAuNywwLTEuNCwwLjYtMiwxLjlzLTAuOSwyLjktMSw0LjdoNmMwLTItMC4yLTMuNi0wLjgtNC44ICAgIEMyMDcsNzMuOSwyMDYuMyw3My4zLDIwNS40LDczLjN6Ij48L3BhdGg+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZjhmOGYyIiBkPSJNMjQ2LjQsOTNjMC4yLDAuMSwwLjIsMC4yLDAuMSwwLjNjLTAuMSwwLjUtMC43LDEtMS42LDEuNGMtMC45LDAuNC0xLjgsMC42LTIuOCwwLjZjLTIuMywwLTQtMS01LTIuOSAgICBjLTEuOCwyLjEtMy42LDMuMi01LjUsMy40aC0wLjljLTMuNCwwLTYtMS4zLTcuOS0zLjljLTEuOC0yLjYtMi43LTUuNy0yLjctOS4zYzAuMS0xLjgsMC40LTMuNywxLTUuNGMwLjYtMS44LDEuOC0zLjQsMy42LTQuOCAgICBjMS43LTEuNCwzLjktMi4yLDYuNS0yLjJjMC4xLDAsMC4zLDAsMC41LDBzMC40LDAsMC42LDBjMS4yLDAuMSwyLjYsMC41LDQsMS40di01LjljMC0wLjctMC4yLTEuMy0wLjYtMS44ICAgIGMtMC40LTAuNC0wLjktMC42LTEuNS0wLjZjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMnYtMC45YzAtMC4zLDAuMS0wLjQsMC40LTAuNGMxLDAsMi0wLjEsMy0wLjNzMS44LTAuMywyLjQtMC41ICAgIGMwLjYtMC4yLDEuMy0wLjQsMi4xLTAuN3MxLjMtMC41LDEuNS0wLjZjMC4xLDAsMC4zLTAuMSwwLjYtMC4xYzAuMiwwLDAuNCwwLDAuNSwwLjFzMC4yLDAuMSwwLjMsMC4zYzAuMSwwLjEsMC4xLDAuMywwLjIsMC40ICAgIGMwLDAuMSwwLjEsMC4zLDAuMSwwLjVzMCwwLjQsMCwwLjVzMCwwLjMsMCwwLjVzMCwwLjQsMCwwLjRjMCwwLjQsMCwxLjUsMCwzLjNjMCwxLjcsMCwzLjcsMCw1LjhjMCwyLjEsMCw0LjMsMCw2LjMgICAgYzAsMi4xLTAuMSwzLjgtMC4xLDUuMnYyLjJjMCwyLjksMC4xLDUsMC4zLDYuMkMyNDUuNCw5Mi4zLDI0NS44LDkyLjksMjQ2LjQsOTN6IE0yMzMuMiw5Mi4xYzAuOSwwLjEsMS42LTAuNywyLjEtMi4yICAgIHMwLjgtMy41LDAuOS02LjFWODBjLTAuMS00LjEtMS02LjItMi41LTYuMmMtMSwwLTEuOSwwLjgtMi42LDIuNWMtMC43LDEuNy0xLjEsMy44LTEuMiw2LjRjLTAuMSwyLjYsMC4yLDQuOCwwLjgsNi41ICAgIEMyMzEuNCw5MS4yLDIzMi4zLDkyLjEsMjMzLjIsOTIuMXoiPjwvcGF0aD4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmOGY4ZjIiIGQ9Ik0yNjAuOCw5NS43Yy0zLjUsMC02LjQtMS4yLTguNy0zLjZjLTIuMi0yLjQtMy40LTUuNC0zLjQtOWMwLTEuOSwwLjQtMy44LDEuMS01LjZjMC43LTEuOCwxLjgtMy4zLDMuMi00LjMgICAgYzIuMi0xLjksNS0yLjksOC4yLTIuOWMzLjYsMCw2LjYsMS4xLDguNywzLjRjMi4yLDIuMywzLjMsNS4zLDMuMyw4LjljMCwwLjMtMC4zLDAuNS0xLDAuNWMtNi43LDAtMTEuMSwwLTEzLDAuMSAgICBjLTAuNSwwLTAuNywwLjItMC42LDAuN2MwLjUsNC4zLDIuMiw2LjUsNSw2LjVjMi43LTAuMSw2LjYtMi45LDExLjgtOC4yYzAuMi0wLjIsMC42LTAuNSwxLTAuOXMwLjctMC43LDEtMC45bDAuMS0zLjQgICAgYzAtMC43LTAuMi0xLjItMC42LTEuNnMtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjJ2LTAuOWMwLTAuMywwLjEtMC41LDAuNC0wLjVjMS4zLDAsMi41LTAuMiwzLjctMC42ICAgIHMyLjMtMC45LDMuMy0xLjVzMS43LTAuOSwyLjEtMWMwLjMtMC4xLDAuNS0wLjEsMC43LTAuMWMwLjYsMCwxLDAuOCwxLDIuM3YwLjFjMS45LTEuMywzLjctMiw1LjMtMi4yYzEuMiwwLDIuMiwwLDIuOCwwLjEgICAgYzAuNiwwLjEsMS40LDAuMywyLjIsMC42YzAuOCwwLjMsMS42LDAuOSwyLjQsMS42YzAuNSwwLjQsMSwxLjEsMS40LDEuOWMxLjQtMi44LDMuOS00LjIsNy42LTQuM2MyLjYsMCw0LjcsMC44LDYuMiwyLjMgICAgYzEuNywxLjYsMi42LDMuOCwyLjUsNi41bDAuMSwxMC44YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjUsMC40LDAuOCwwLjZjMC4yLDAuMSwwLjQsMC4zLDAuNCwwLjQgICAgbC0wLjEsMC4zYzAsMC4yLTAuMSwwLjMtMC4yLDAuM2gtMTNjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMnYtMC40YzAtMC4xLDAuMS0wLjIsMC40LTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNXMwLjUtMC42LDAuOC0xLjMgICAgYzAuMi0wLjYsMC40LTEuNCwwLjQtMi40di02LjloMC4xYzAtMC4zLDAtMC42LDAtMC45czAtMC42LDAtMC45YzAtMC4yLDAtMC41LDAtMC42YzAtMC4yLDAtMC4zLDAtMC41di0wLjFjMC0zLjQtMS01LjItMy4xLTUuMiAgICBIMzA1Yy0wLjgsMC0xLjUsMC4zLTIsMC45Yy0wLjgsMC43LTEuMiwxLjktMS4zLDMuNmwwLjEsMTAuMmMwLDEuMSwwLjEsMiwwLjMsMi43YzAuMiwwLjcsMC41LDEuMiwwLjgsMS40ICAgIGMwLjMsMC4yLDAuNiwwLjQsMC44LDAuNmMwLjIsMC4xLDAuMywwLjMsMC4zLDAuNHYwLjNjMCwwLjItMC4xLDAuMy0wLjIsMC4zaC0xM2MtMC4xLDAtMC4yLTAuMS0wLjItMC4ydi0wLjQgICAgYzAtMC4xLDAuMS0wLjIsMC4zLTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNXMwLjYtMC42LDAuOC0xLjNjMC4yLTAuNiwwLjQtMS40LDAuNC0yLjR2LTkuOWMwLTMuNS0xLTUuMi0zLjEtNS4yICAgIGMtMC4yLDAtMC41LDAuMS0wLjksMC4xYy0wLjgsMC4yLTEuOCwwLjgtMywxLjljLTEuMiwxLTIuOCwyLjYtNC44LDQuN3MtMy43LDMuOC01LjEsNS4xYy0wLjMsMC4zLTEsMC45LTEuOCwxLjcgICAgYy0wLjksMC44LTEuNSwxLjQtMS45LDEuN2MtMC40LDAuMy0wLjksMC44LTEuNywxLjVjLTAuOCwwLjYtMS40LDEuMS0xLjksMS40cy0xLjEsMC42LTEuOSwxYy0wLjcsMC40LTEuNSwwLjctMi4yLDAuOSAgICBjLTAuNywwLjItMS41LDAuMy0yLjMsMC40QzI2Miw5NS43LDI2MS41LDk1LjcsMjYwLjgsOTUuN3ogTTI2MS42LDczLjRjLTAuNywwLTEuNCwwLjYtMiwxLjlzLTAuOSwyLjktMSw0LjdoNiAgICBjMC0yLTAuMi0zLjYtMC44LTQuOEMyNjMuMiw3NCwyNjIuNCw3My40LDI2MS42LDczLjR6IE0yNzUuMyw5NC44YzAtMC4xLDAuMS0wLjIsMC4zLTAuNGMwLjItMC4xLDAuNS0wLjMsMC44LTAuNSAgICBzMC42LTAuNiwwLjgtMS4zYzAuMi0wLjYsMC40LTEuNCwwLjQtMi40YzAtMS41LDAuNS0yLjgsMS42LTMuOGMwLjMtMC4zLDEtMC45LDEuOC0xLjljMC45LTAuOSwxLjUtMS42LDEuOS0xLjkgICAgYzAuNS0wLjQsMS0wLjcsMS42LTAuN2MxLjIsMCwxLjgsMC43LDEuOCwyLjF2NS42YzAsMS4xLDAuMSwyLDAuNCwyLjdjMC4yLDAuNywwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjYgICAgYzAuMiwwLjEsMC40LDAuMywwLjQsMC40Vjk1YzAsMC4yLTAuMSwwLjMtMC4yLDAuM2gtMTNjLTAuMSwwLTAuMi0wLjEtMC4yLTAuMkwyNzUuMyw5NC44TDI3NS4zLDk0Ljh6Ij48L3BhdGg+CiYjeDk7JiN4OTs8Zz4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTEzNi40LDEwOC41aDEwLjJ2MS41SDEzOHY0LjdoNy4zdjEuNEgxMzh2NC44aDguN3YxLjVoLTEwLjNWMTA4LjV6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0xNTIuNywxMDguNWg0LjhjNC41LDAsNy4yLDIuNiw3LjIsN2MwLDQuMy0yLjYsNi44LTcuMiw2LjhoLTQuOFYxMDguNXogTTE1Ny42LDEyMC45ICAgICBjMy42LDAsNS42LTEuOSw1LjYtNS40cy0yLTUuNS01LjYtNS41aC0zLjN2MTAuOUgxNTcuNnoiPjwvcGF0aD4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTE3MS4xLDExNi4ydi03LjdoMS42djcuNmMwLDMuMSwxLjUsNC44LDQsNC44YzIuNiwwLDQtMS43LDQtNC44di03LjZoMS42djcuN2MwLDQtMi4xLDYuNC01LjYsNi40ICAgICBDMTczLjIsMTIyLjUsMTcxLjEsMTIwLjEsMTcxLjEsMTE2LjJ6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0xODguNSwxMTUuNGMwLTQuNCwyLjktNyw2LjktN2MyLjQsMCw0LjMsMSw1LjQsMi44bC0xLjQsMC44Yy0wLjgtMS4zLTItMi4xLTQtMi4xYy0zLDAtNS4xLDItNS4xLDUuNSAgICAgczIuMyw1LjUsNS4yLDUuNWMxLjcsMCwzLTAuNywzLjgtMS45bDEuMywwLjljLTEuMSwxLjYtMi44LDIuNS01LjEsMi41QzE5MS40LDEyMi41LDE4OC41LDExOS44LDE4OC41LDExNS40eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjExLjcsMTA4LjRoMS4ybDUuOSwxMy45SDIxN2wtMS41LTMuN2gtNi43bC0xLjYsMy43aC0xLjhMMjExLjcsMTA4LjR6IE0yMTQuOSwxMTcuMmwtMi42LTYuNmwtMi44LDYuNiAgICAgSDIxNC45eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjI2LjQsMTEwaC00Ljh2LTEuNWgxMS4zdjEuNUgyMjh2MTIuNGgtMS42VjExMHoiPjwvcGF0aD4KJiN4OTsmI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTIzOC45LDEwOC41aDEuNnYxMy44aC0xLjZWMTA4LjV6Ij48L3BhdGg+CiYjeDk7JiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0yNDcuMiwxMTUuNWMwLTQuNCwyLjktNy4xLDcuMS03LjFjNC4xLDAsNy4xLDIuNyw3LjEsNy4xcy0yLjksNy4xLTcuMSw3LjEgICAgIEMyNTAuMiwxMjIuNiwyNDcuMiwxMTkuOCwyNDcuMiwxMTUuNXogTTI1OS43LDExNS41YzAtMy42LTIuMS01LjUtNS40LTUuNWMtMy4yLDAtNS40LDEuOS01LjQsNS41czIuMSw1LjUsNS40LDUuNSAgICAgUzI1OS43LDExOS4xLDI1OS43LDExNS41eiI+PC9wYXRoPgomI3g5OyYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMjY4LjEsMTA4LjVoMS41bDguOSwxMS4zdi0xMS4zaDEuNnYxMy44aC0xLjVsLTguOS0xMS4zdjExLjNoLTEuNlYxMDguNXoiPjwvcGF0aD4KJiN4OTsmI3g5OzwvZz4KJiN4OTsmI3g5OzxwYXRoIGZpbGw9IiNmZjU1MDAiIGQ9Ik0zMjEuMSw2NS45bDAuOCwzLjdjMCwwLjEsMC4xLDAuMSwwLjEsMC4xYzIuMy0wLjEsNC40LDAuMiw2LjMsMC42YzAuMiwwLDAuMywwLDAuNS0wLjEgICAgYzEuNi0xLjIsMy40LTIuMyw1LjUtMy4ybDAuMS0wLjFsLTAuOC0zLjdjMC0wLjEtMC4xLTAuMS0wLjItMC4xbC01LjUsM2MtMC4xLDAuMS0wLjMsMC4xLTAuNSwwLjFMMzIxLjEsNjUuOSAgICBDMzIxLjIsNjUuOCwzMjEuMSw2NS44LDMyMS4xLDY1Ljl6Ij48L3BhdGg+CiYjeDk7JiN4OTs8cGF0aCBmaWxsPSIjZmY1NTAwIiBkPSJNMzE1LDY0LjdsNC42LDAuM2MwLDAsMC4xLDAsMC4xLTAuMWMwLjEtMC4xLDAuMi0wLjMsMC40LTAuM2w2LjUtMy4xYzAuMS0wLjEsMC4zLDAsMC40LDAuMXMwLDAuMy0wLjEsMC40ICAgIGwtNi40LDNoMC40bDYuNCwwLjRjMC4yLDAsMC4zLDAsMC41LTAuMWw1LjYtMy4xbDUuMi0yLjljMC4xLTAuMSwwLjEtMC4yLDAtMC4ybC0xMi4xLTAuOGMtMC4zLDAtMC42LDAtMC45LDAuMkwzMTUsNjQuMyAgICBDMzE0LjgsNjQuNiwzMTQuOSw2NC43LDMxNSw2NC43eiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2ZmNTUwMCIgZD0iTTMxOS4xLDcxLjNjMCwwLjUtMC4xLDAuNy0wLjMsMS4yYzEuMS0wLjksMS4yLTIuMywxLjItMi45YzAuMi0wLjEsMC4zLTAuNCwwLjMtMC42YzAtMC4xLTAuMS0wLjItMC4xLTAuMiAgICBjMC40LTEsMC4zLTIuOSwwLjItMy42YzAsMCwwLTAuMS0wLjEtMC4xaC0wLjRjMCwwLTAuMSwwLTAuMSwwLjFjMCwwLjgsMC4xLDIuNi0wLjIsMy40Yy0wLjMsMC4xLTAuNSwwLjQtMC40LDAuNyAgICBjMCwwLjEsMCwwLjEsMC4xLDAuMmMtMC4yLDAuNS0wLjgsMS43LTIsMi41YzAuNi0wLjIsMS4xLTAuNSwxLjUtMC45YzAsMC40LTAuNCwxLTAuNywxLjNDMzE4LjIsNzIuMywzMTksNzEuOCwzMTkuMSw3MS4zeiI+PC9wYXRoPgomI3g5OyYjeDk7PHBhdGggZmlsbD0iI2Y4ZjhmMiIgZD0iTTMzNi4zLDk0LjdWOTVjMCwwLjItMC4xLDAuMy0wLjMsMC4zaC0xM2MtMC4yLDAtMC4yLTAuMS0wLjItMC4ybC0wLjEtMC40YzAtMC4xLDAuMi0wLjIsMC42LTAuNCAgICBjMC40LTAuMiwwLjgtMC42LDEuMi0xLjNjMC40LTAuNywwLjYtMS42LDAuNi0yLjlWNzYuNGMwLTAuNy0wLjItMS4zLTAuNi0xLjdjLTAuNC0wLjQtMC45LTAuNi0xLjUtMC42Yy0wLjIsMC0wLjMtMC4xLTAuMy0wLjMgICAgVjczYzAtMC40LDAuMi0wLjUsMC41LTAuNWgwLjFjMS44LDAsMy41LDAuMiw1LDAuNWMwLjYsMC4xLDEuMSwwLDEuNi0wLjNjMC44LTAuNiwxLjctMS4xLDIuNi0xLjdjMC4xLDAsMC4xLTAuMSwwLjItMC4xICAgIHMwLjItMC4xLDAuMy0wLjFjMC40LDAsMC44LDAuMywwLjksMC43djE4LjFjMCwxLjEsMC4xLDIsMC40LDIuN3MwLjUsMS4yLDAuOCwxLjRjMC4zLDAuMiwwLjYsMC40LDAuOCwwLjYgICAgQzMzNi4xLDk0LjUsMzM2LjMsOTQuNiwzMzYuMyw5NC43eiI+PC9wYXRoPgomI3g5OzwvZz4KJiN4OTsKJiN4OTsKJiN4OTsKPC9nPgo8L3N2Zz4=" alt="Samkedemia">
       <span class="logo-separator"></span>
-      <span class="logo-page-title">Derivative Lab</span>
+      <span class="logo-page-title">Derivative 99</span>
     </a>
     <div class="header-socials">
       <a class="social-icon" href="https://wa.me/32490100821" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -275,6 +331,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <div class="tape" id="tape"></div>
           <div class="p-top">
             <span class="p-count" id="count">Question 01</span>
+            <span class="p-heat" id="heat" hidden></span>
           </div>
           <p class="note" id="note"></p>
           <div class="problem" id="problem" aria-live="polite"></div>
@@ -290,6 +347,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
             <svg viewBox="0 0 60 60" aria-hidden="true"><path id="mark" pathLength="1" d=""></path></svg>
             <div class="v-title" id="vtitle"></div>
             <div class="v-detail" id="vdetail"></div>
+            <div class="v-gain" id="vgain" hidden></div>
           </div>
 
           <div class="work" id="work" hidden></div>
@@ -320,13 +378,18 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         <div class="pc-side">
           <span class="pc-tier" id="tier">Bronze</span>
           <span class="pc-title" id="ptitle">Rookie</span>
+          <span class="pc-name" id="pcName"></span>
         </div>
       </div>
-      <button class="card-btn" id="cardBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Save card</span></button>
+      <button class="card-btn" id="cardBtn" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Share card</span></button>
       <form class="card-form" id="cardForm" hidden>
         <input id="cardName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
         <button class="btn primary" type="submit" id="cardSave">Save</button>
       </form>
+      <div class="share" id="cardShare" hidden>
+        <button class="btn" type="button" data-copy="image" data-from="cardName">Copy image</button>
+        <button class="btn" type="button" data-copy="text">Copy result</button>
+      </div>
       <div class="skills-head">
         <span class="label">Skills</span>
         <span class="hand">grows as you go</span>
@@ -338,9 +401,23 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span>Best <b id="best">0</b></span>
           <span>First try <b id="firsts">0/0</b></span>
         </div>
+        <button class="sound-btn" id="sound" type="button" aria-label="Sound" title="Sound" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.6L12.5 19V5L7.6 9.5z"/><path class="on" d="M16 9a4.2 4.2 0 0 1 0 6M18.6 6.4a8 8 0 0 1 0 11.2"/><path class="off" d="m16.5 9.5 5 5m0-5-5 5"/></svg></button>
       </div>
     </aside>
   </main>
+</div>
+
+<div id="moment" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="m-box">
+    <span class="label" id="mLabel"></span>
+    <div class="m-stage" id="mStage"></div>
+    <h2 id="mTitle"></h2>
+    <p id="mText"></p>
+    <div class="m-rules" id="mRules"></div>
+    <input id="mName" type="text" maxlength="24" placeholder="Your name" autocomplete="given-name" aria-label="Name on your card" hidden>
+    <button class="btn primary" id="mGo" type="button"><span id="mGoText">Keep going</span> <kbd>Enter</kbd></button>
+    <p class="m-small" id="mSmall" hidden></p>
+  </div>
 </div>
 
 <div id="goat" role="dialog" aria-modal="true" aria-labelledby="goatTitle">
@@ -353,6 +430,11 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
       <input id="goatName" type="text" maxlength="24" placeholder="Name on your card" autocomplete="given-name" aria-label="Name on your card">
       <button class="btn primary" type="submit" id="goatSave">Save card</button>
     </form>
+    <div class="share">
+      <button class="btn" type="button" data-copy="image" data-from="goatName">Copy image</button>
+      <button class="btn" type="button" data-copy="text">Copy result</button>
+    </div>
+    <a class="fol wa" href="https://wa.me/32490100821?text=I%20reached%2099%20on%20Derivative%2099!" target="_blank" rel="noopener">Send it to Jovan on WhatsApp</a>
   </div>
 </div>
 
@@ -837,14 +919,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 
     
 
-// ================= Derivative Lab =================
+// ================= Derivative 99 =================
 const SAMPLES = [0.37, 0.61, 0.83, 1.13, 1.47, 1.79, 2.21, 2.63, 3.07];
 const U = '#e04a00', V = '#1f7f8c';
 const cu = s => `\\textcolor{${U}}{${s}}`, cv = s => `\\textcolor{${V}}{${s}}`;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
 const K = (s, el, display = true) => katex.render(s, el, { throwOnError: false, displayMode: display });
-// phones and tablets: MathLive ignores the phone keyboard, so they get a plain text box (same id) with the maths shown underneath
+// touch screens: MathLive ignores their keyboard, so they get a plain text box (same id) with the maths shown underneath
 const TOUCH = matchMedia('(pointer: coarse)').matches;
 if (TOUCH) {
   const box = document.createElement('input');
@@ -1066,7 +1148,7 @@ try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.R)
 // skills open one after another: polynomials first, then exponentials and logs, then the product and quotient rule, and the chain rule last
 // each needs: the skills before it at a rating, and that many problems using them solved first try
 const UNLOCK = { power: [], roots: [['power', 58, 2]], exp: [['power', 62, 3], ['roots', 58, 2]], ln: [['power', 62, 3], ['roots', 58, 2]], product: [['exp', 62, 2], ['ln', 62, 2]], quotient: [['product', 62, 3]], chain: [['product', 64, 3], ['quotient', 60, 2]] };
-st.unlocked = ['power']; st.done = {};
+st.unlocked = ['power']; st.done = {}; st.shield = false; st.record = false;
 try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) { st.unlocked = s.unlocked || ['power', ...SKILLS.map(k => k.id).filter(id => st.R[id] > 0)]; st.done = s.done || {}; } } catch (e) {}
 const isOpen = id => st.unlocked.includes(id);
 const solved = id => st.done[id] || 0;
@@ -1077,7 +1159,7 @@ function checkUnlocks() {
     for (const s of SKILLS) if (!isOpen(s.id) && !missing(s.id).length) { st.unlocked.push(s.id); fresh.push(s.id); changed = true; } }
   return fresh;
 }
-const save = () => { try { localStorage.setItem(STORE, JSON.stringify({ R: st.R, best: st.best, firsts: st.firsts, total: st.total, n: st.n, unlocked: st.unlocked, done: st.done })); } catch (e) {} };
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify({ R: st.R, best: st.best, firsts: st.firsts, total: st.total, n: st.n, unlocked: st.unlocked, done: st.done, peak: st.peak })); } catch (e) {} };
 const level = r => 1 + Math.min(4, Math.floor(r * 5));
 const diff = t => (t.t - 1) / 4;
 const weakest = ids => ids.reduce((a, b) => st.R[b] < st.R[a] ? b : a);
@@ -1130,7 +1212,7 @@ function buildFrom(type) {
 }
 function coachNote(type, why) {
   if (why === 'twin') return 'Same kind as one you missed. New numbers, try again.';
-  if (st.total === 0) return 'Warm-up. I adjust after every answer.';
+  if (st.total === 0) return 'Warm-up. Type it like on paper, then press Enter.';
   if (st.R[weakest(type.s)] < 0.06) return 'Something new. Take your time.';
   if (st.streak >= 3) return `${st.streak} in a row. Here's a harder one.`;
   if (type.exam && Math.random() < 0.6) return pick(['Exam level.', 'Exam-style numbers.', 'This is what the exam looks like.']);
@@ -1187,27 +1269,27 @@ function diagnose(a) {
   const { f, d } = st.cur;
   const BUGS = [
     ['chain-inner', () => { const c = firstChain(f);
-      return ['You did the outside, but forgot the inside.', c ? `Multiply by the derivative of the inner function: $u = ${tex(c.a)}$, so $u' = ${tex(D(c.a))}$.` : 'Multiply by the derivative of the inner function.']; }],
-    ['product-uv', () => ["The product rule isn't u′·v′.", "It has two terms: $u'v + uv'$."]],
-    ['product-half', () => ['You have half of the product rule.', "Add the second term, $u\\,v'$."]],
-    ['quot-sep', () => ["You can't differentiate the top and bottom separately.", "Use $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$."]],
-    ['quot-order', () => ['Right pieces, wrong order on top.', "The numerator is $u'v - uv'$, with $u'v$ first."]],
-    ['quot-nosq', () => ['Nearly. The bottom gets squared.', `Divide by $v^2 = ${paren(tex(f.b || C(1)))}^2$, not by $v$.`]],
-    ['noln', () => ['Almost. One factor is missing.', "$\\left(a^{x}\\right)' = a^{x}\\ln a$ and $\\left(\\log_a x\\right)' = \\frac{1}{x\\ln a}$: keep the $\\ln a$."]],
-    ['power-keep', () => ['Lower each power by one.', "$\\left(x^n\\right)' = n\\,x^{n-1}$: the exponent drops."]]
+      return [pick(['You did the outside, but forgot the inside.', 'So close. The inside feels left out.', "Don't forget the inside."]), c ? `Multiply by the derivative of the inner function: $u = ${tex(c.a)}$, so $u' = ${tex(D(c.a))}$.` : 'Multiply by the derivative of the inner function.']; }],
+    ['product-uv', () => [pick(["The product rule isn't u′·v′.", 'Classic trap: that is not the product rule.', 'Nice try, but u′·v′ is a myth.']), "It has two terms: $u'v + uv'$."]],
+    ['product-half', () => [pick(['You have half of the product rule.', 'Halfway there. Literally.', 'One term down, one to go.']), "Add the second term, $u\\,v'$."]],
+    ['quot-sep', () => [pick(["You can't differentiate the top and bottom separately.", "Top and bottom don't get to go solo.", 'Tempting, but no. Fractions need the quotient rule.']), "Use $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$."]],
+    ['quot-order', () => [pick(['Right pieces, wrong order on top.', 'All the right pieces, just swapped.']), "The numerator is $u'v - uv'$, with $u'v$ first."]],
+    ['quot-nosq', () => [pick(['Nearly. The bottom gets squared.', 'So close. Square that bottom.']), `Divide by $v^2 = ${paren(tex(f.b || C(1)))}^2$, not by $v$.`]],
+    ['noln', () => [pick(['Almost. One factor is missing.', 'Almost. Someone forgot ln a.']), "$\\left(a^{x}\\right)' = a^{x}\\ln a$ and $\\left(\\log_a x\\right)' = \\frac{1}{x\\ln a}$: keep the $\\ln a$."]],
+    ['power-keep', () => [pick(['Lower each power by one.', 'That exponent should drop by one.']), "$\\left(x^n\\right)' = n\\,x^{n-1}$: the exponent drops."]]
   ];
   for (const [bug, msg] of BUGS) {
     const m = DB(f, bug);
     if (differs(m, d) && compare(a, m)) return { bug, msg: msg() };
   }
-  if (compare(a, mul(-1, d))) return { bug: 'sign', msg: ['Right size, wrong sign.', 'Check every minus sign, especially in the quotient rule.'] };
+  if (compare(a, mul(-1, d))) return { bug: 'sign', msg: [pick(['Right size, wrong sign.', 'One sneaky minus sign.', 'So close. A minus sign got you.']), 'Check every minus sign, especially in the quotient rule.'] };
   const ratios = SAMPLES.map(x => aev(a, x) / ev(d, x)).filter(isFinite);
   if (ratios.length >= 5 && ratios.every(r => Math.abs(r - ratios[0]) < 1e-6 * Math.max(1, Math.abs(ratios[0]))) && Math.abs(ratios[0] - 1) > 1e-6 && Math.abs(ratios[0]) > 1e-9) {
     const k = Math.round(ratios[0] * 100) / 100;
-    return { bug: 'factor', msg: ['Right shape, wrong constant.', `Your answer is ${k} times the derivative. Check the numbers you multiplied by.`] };
+    return { bug: 'factor', msg: [pick(['Right shape, wrong constant.', 'Right shape. The number is off.']), `Your answer is ${k} times the derivative. Check the numbers you multiplied by.`] };
   }
-  if (compare(a, f)) return { bug: 'same', msg: ["That's f(x) itself.", 'You still have to differentiate it.'] };
-  return { bug: null, msg: ['Not quite.', 'Take a hint, or check one part at a time.'] };
+  if (compare(a, f)) return { bug: 'same', msg: [pick(["That's f(x) itself.", 'That is what you started with.']), 'You still have to differentiate it.'] };
+  return { bug: null, msg: [pick(['Not quite.', 'Not this time.', 'Hmm, not quite.']), 'Take a hint, or check one part at a time.'] };
 }
 
 // ---------- hints and the worked solution ----------
@@ -1357,6 +1439,9 @@ function verdict(ok, title, detail) {
   const v = $('verdict');
   v.hidden = false; v.className = 'verdict ' + (ok ? 'ok' : 'bad');
   $('vtitle').textContent = title; $('vdetail').innerHTML = inlineMath(detail || '');
+  const gain = $('vgain'), gains = ok ? play.gains || [] : [];
+  gain.hidden = !gains.length; gain.innerHTML = gains.map(([n, a, b]) => `<span>${n} ${a} → ${b}</span>`).join('');
+  if (gains.length) anim(gain, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 420, easing: SPRING });
   drawMark(ok);
   anim($('vtitle'), [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: 160, easing: 'ease-out' });
   anim($('vdetail'), [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: 260, easing: 'ease-out' });
@@ -1373,12 +1458,18 @@ const cardTitle = () => titleFor(overall(st.R));
 let PACE_K = 3.5, PACE_MIN = 0.65, LOSS = 0.08;
 const PACE = r => r < 0.3 ? 1.6 : Math.max(PACE_MIN, 1.6 * Math.exp(-(r - 0.3) * PACE_K));
 const tierOf = o => o >= 90 ? 'elite' : o >= 80 ? 'gold' : o >= 70 ? 'silver' : 'bronze';
+const TIERS = ['bronze', 'silver', 'gold', 'elite'];
+const cap = s => s[0].toUpperCase() + s.slice(1);
+// the highest tier ever reached: only the first time there gets the big moment
+st.peak = TIERS.indexOf(tierOf(overall(st.R)));
+try { const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s && s.peak > st.peak) st.peak = s.peak; } catch (e) {}
 function renderOverall(prevR) {
   const now = overall(st.R), was = prevR ? overall(prevR) : now, el = $('ovr'), tier = tierOf(now), card = $('pcard');
   const oldTier = card.dataset.tier, title = cardTitle(), oldTitle = $('ptitle').textContent;
   const apply = () => { card.dataset.tier = tier; $('tier').textContent = tier[0].toUpperCase() + tier.slice(1); $('ptitle').textContent = title; };
   const moment = prevR && !reduce && now > was;
-  if (moment && oldTier !== tier) tierMoment(apply, tier);
+  if (play.freshTier && oldTier !== tier) { play.freshTier = false; tierReveal(apply, tier); }
+  else if (moment && oldTier !== tier) tierMoment(apply, tier);
   else { apply(); if (moment && oldTitle !== title) titleMoment(); }
   if (reduce || now === was) { el.textContent = now; return; }
   const t0 = performance.now(), dur = 900;
@@ -1390,6 +1481,74 @@ function renderOverall(prevR) {
     anim(el, [{ transform: 'scale(1)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1)' }], { duration: 600, easing: SPRING });
     if (!reduce) $('pcard').animate([{ filter: 'brightness(1)' }, { filter: 'brightness(1.18)' }, { filter: 'brightness(1)' }], { duration: 900, easing: 'ease-out' });
   }
+}
+// the big screen: first visit, first time in a tier, a new skill. One at a time, one key to close.
+const moment = $('moment'), momentQueue = [];
+let momentAt = 0, momentClose = null;
+const momentOpen = () => moment.classList.contains('on');
+function showMoment(build) { if (momentOpen()) momentQueue.push(build); else build(); }
+function openMoment({ label, title, text = '', go = 'Keep going', stage = '', rules = [], name = false, small = '', onClose = null, wait = 700 }) {
+  $('mLabel').textContent = label; $('mTitle').textContent = title; $('mText').textContent = text; $('mText').hidden = !text;
+  $('mGoText').textContent = go; $('mStage').innerHTML = stage;
+  $('mRules').innerHTML = '';
+  rules.forEach(r => {
+    const box = document.createElement('div'); box.className = 'm-rule';
+    const f = document.createElement('div'); f.className = 'f';
+    r.tex.forEach(s => { const line = document.createElement('div'); K(s, line); f.appendChild(line); });
+    box.appendChild(f);
+    const note = document.createElement('small'); note.textContent = r.note; box.appendChild(note);
+    $('mRules').appendChild(box);
+  });
+  $('mName').hidden = !name; $('mSmall').hidden = !small; $('mSmall').textContent = small;
+  moment.classList.add('on'); momentAt = performance.now() + wait; momentClose = onClose;
+  (name ? $('mName') : $('mGo')).focus({ preventScroll: true });
+}
+function closeMoment() {
+  if (!momentOpen() || performance.now() < momentAt) return;
+  if (momentClose) { momentClose(); momentClose = null; }
+  moment.classList.remove('on');
+  const next = momentQueue.shift();
+  if (next) setTimeout(next, 260);
+  else if (matchMedia('(hover: hover)').matches && !$('goat').classList.contains('on')) $('ans').focus({ preventScroll: true });
+}
+$('mGo').addEventListener('click', closeMoment);
+// runs before the answer box sees the key, so closing with Enter never moves on to the next problem
+addEventListener('keydown', e => {
+  if (!momentOpen() || !['Enter', 'Escape'].includes(e.key)) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  if (!e.repeat) closeMoment();
+}, true);
+const cardFace = (tier, o, title, extra = '') => `<div class="pcard m-card" data-tier="${tier}"><div class="pc-rating"><span class="ovr-num">${o}</span><span class="pc-ovr">OVR</span></div><div class="pc-side"><span class="pc-tier">${cap(tier)}</span><span class="pc-title">${title}</span><span class="pc-name">${extra}</span></div></div>`;
+const safeName = () => $('cardName').value.trim().replace(/[<>&"]/g, '');
+// first time in a tier: a face-down card turns over
+function tierReveal(apply, tier) {
+  setTimeout(() => showMoment(async () => {
+    const o = overall(st.R), title = titleFor(o);
+    const stage = `<div class="m-flip${reduce ? '' : ' covered'}">${reduce ? '' : '<div class="m-back">99</div>'}${cardFace(tier, o, title, safeName())}</div>`;
+    openMoment({ label: 'New card', title: cap(tier) + ' card', text: `${o} overall. Keep climbing.`, stage, wait: 1300 });
+    if (reduce) { apply(); sfx('tier'); return; }
+    const flip = moment.querySelector('.m-flip');
+    await anim(flip, [0, -4, 4, -3, 3, 0].map(a => ({ transform: `rotate(${a}deg)` })), { duration: 500, easing: 'ease-in-out' });
+    sfx('tier');
+    await anim(flip, [{ transform: 'rotateY(0) scale(1)' }, { transform: 'rotateY(190deg) scale(1.1)', offset: .7 }, { transform: 'rotateY(180deg) scale(1)' }], { duration: 760, easing: 'cubic-bezier(.2, .8, .2, 1)' });
+    flip.style.transform = 'rotateY(180deg)';
+    apply();
+    sparkle(flip, tier);
+  }), 800);
+}
+const RULES = {
+  roots: { tex: ['\\sqrt{x} = x^{1/2}', '\\frac{1}{x^{n}} = x^{-n}'], note: 'Rewrite it as a power, then use the power rule.' },
+  exp: { tex: ["\\left(e^{x}\\right)' = e^{x}"], note: 'It stays exactly the same.' },
+  ln: { tex: ["\\left(\\ln x\\right)' = \\frac{1}{x}"], note: 'The natural log turns into one over x.' },
+  product: { tex: ["\\left(u\\cdot v\\right)' = u'v + uv'"], note: 'For two functions multiplied together.' },
+  quotient: { tex: ["\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}"], note: 'For one function divided by another. The order on top matters.' },
+  chain: { tex: ["\\left(f(g(x))\\right)' = f'(g(x))\\cdot g'(x)"], note: 'For a function inside a function: outside first, then times the derivative of the inside.' }
+};
+function unlockReveal(ids) {
+  setTimeout(() => showMoment(() => {
+    openMoment({ label: ids.length > 1 ? 'New skills unlocked' : 'New skill unlocked', title: ids.map(id => NAME[id]).join(' & '), rules: ids.map(id => RULES[id]) });
+    sfx('unlock');
+  }), 800);
 }
 // a new tier: the card flips over and comes back in its new colour
 async function tierMoment(apply, tier) {
@@ -1436,8 +1595,16 @@ function sparkle(el, tier) {
   requestAnimationFrame(tick);
 }
 const LOCK = '<svg class="lk" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7.5" rx="1.6" fill="currentColor"/><path d="M5.2 7V5a2.8 2.8 0 0 1 5.6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+function renderHeat() {
+  const el = $('heat'), s = st.streak, heat = s >= 10 ? 3 : s >= 5 ? 2 : s >= 3 ? 1 : 0, was = +(el.dataset.heat || 0), left = st.best - s + 1;
+  const chase = st.record ? 'new best' : heat && left <= 3 ? `${left} to beat your best` : '';
+  el.dataset.heat = heat; el.hidden = !heat && !st.shield;
+  el.innerHTML = (chase ? `<span>${chase}</span>` : '') + (heat ? `<span class="run"><span class="fire">${'🔥'.repeat(heat)}</span><b>${s}</b></span>` : '') + (st.shield ? '<span class="sh" title="Your next mistake will not break your streak" aria-label="Streak shield">🛡️</span>' : '');
+  if (heat > was) anim(el, [{ transform: 'scale(1)' }, { transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
+}
 function renderCoach(prevLevels, opened = []) {
   const streak = $('streak');
+  renderHeat();
   streak.textContent = st.streak; streak.classList.toggle('hot', st.streak >= 3);
   renderOverall(prevLevels);
   $('best').textContent = st.best; $('firsts').textContent = `${st.firsts}/${st.total}`;
@@ -1459,9 +1626,13 @@ function renderCoach(prevLevels, opened = []) {
     const fresh = opened.includes(s.id) && !reduce;
     if (fresh) b.classList.add('unlocking');
     const now = rating(st.R[s.id]), was = prevLevels && prevLevels[s.id] !== undefined ? rating(prevLevels[s.id]) : now;
-    b.innerHTML = `<span class="nm">${fresh ? LOCK.replace('class="lk"', 'class="lk out"') : ''}${s.name}${fresh ? '<b class="new">New</b>' : ''}</span><span class="lv">${now}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
+    b.innerHTML = `<span class="nm">${fresh ? LOCK.replace('class="lk"', 'class="lk out"') : ''}${s.name}${fresh ? '<b class="new">New</b>' : ''}</span><span class="lv">${now}${now > was ? `<b class="lv-gain">+${now - was}</b>` : ''}</span><span class="bar"><span></span>${[60, 70, 80, 90].map(c => `<i class="${now >= c ? (was < c && !reduce ? 'fresh' : 'hit') : ''}" style="left:${barPct(c).toFixed(2)}%"></i>`).join('')}</span>`;
     $('skills').appendChild(b);
     if (Math.floor(now / 10) > Math.floor(was / 10)) anim(b.querySelector('.lv'), [{ transform: 'scale(1)', color: 'var(--cream)' }, { transform: 'scale(1.45)', color: '#ff8a3d', offset: .35 }, { transform: 'scale(1)', color: 'var(--cream)' }], { duration: 800, delay: 700, easing: 'ease-out' });
+    if (now > was) {
+      anim(b.querySelector('.lv-gain'), [{ opacity: 0, transform: 'translateX(8px) scale(.6)' }, { opacity: 1, transform: 'none', offset: .15 }, { opacity: 1, transform: 'none', offset: .75 }, { opacity: 0, transform: 'translateX(-4px)' }], { duration: 1900, easing: 'ease-out' });
+      anim(b.querySelector('.bar'), [{ transform: 'scaleY(1)' }, { transform: 'scaleY(2.4)', boxShadow: '0 0 12px rgba(255, 138, 61, .9)', offset: .35 }, { transform: 'scaleY(.8)', offset: .65 }, { transform: 'scaleY(1)' }], { duration: 760, delay: 240, easing: 'ease-out' });
+    }
     const fill = b.querySelector('.bar > span');
     fill.style.width = barPct(rating(prevLevels && prevLevels[s.id] !== undefined ? prevLevels[s.id] : st.R[s.id])) + '%';
     requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(barPct(rating(st.R[s.id])), 2) + '%'; }));
@@ -1474,13 +1645,51 @@ function toast(label, text) {
   toast.timer = setTimeout(() => anim(t, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(20px)' }], { duration: 300 }).then(() => { t.hidden = true; }), 3600);
 }
 
+// ---------- sounds: made in the browser, no audio files ----------
+const SOUND_KEY = STORE + '-sound';
+let soundOn = true, audio = null;
+try { soundOn = localStorage.getItem(SOUND_KEY) !== 'off'; } catch (e) {}
+// browsers only allow audio after the first key press or click
+const wakeAudio = () => {
+  try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); if (audio.state === 'suspended') audio.resume(); } catch (e) {}
+};
+addEventListener('keydown', wakeAudio, true); addEventListener('pointerdown', wakeAudio, true);
+function tone(freq, at, len, vol = .13, type = 'triangle', to = 0) {
+  const t = audio.currentTime + at, o = audio.createOscillator(), g = audio.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, t);
+  if (to) o.frequency.exponentialRampToValueAtTime(to, t + len);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .012); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+  o.connect(g).connect(audio.destination); o.start(t); o.stop(t + len + .02);
+}
+const run = (notes, gap, len, vol) => notes.forEach((f, i) => tone(f, i * gap, len, vol));
+const SFX = {
+  // two notes that climb a semitone with every answer in a row
+  right: (s = 1) => { const up = Math.pow(2, Math.min(Math.max(s - 1, 0), 12) / 12); run([587 * up, 880 * up], .085, .2, .12); },
+  wrong: () => { tone(190, 0, .24, .24, 'sine', 85); },
+  slip: () => { tone(300, 0, .16, .12, 'sine', 210); },
+  shield: () => { tone(1320, 0, .22, .09); tone(1980, .05, .3, .06); },
+  streak: () => run([659, 880, 1109, 1319], .07, .24, .11),
+  unlock: () => run([523, 659, 784, 1047], .1, .42, .12),
+  tier: () => { run([523, 659, 784], .09, .3, .11); [1047, 1319, 1568].forEach(f => tone(f, .32, .9, .08)); tone(2093, .42, 1, .03, 'sine'); },
+  goat: () => { run([523, 659, 784, 1047, 1319, 1568], .09, .32, .11); [1047, 1319, 1568, 2093].forEach(f => tone(f, .6, 1.5, .07)); }
+};
+function sfx(name, arg) { if (soundOn && audio && audio.state === 'running') try { SFX[name](arg); } catch (e) {} }
+const showSound = () => $('sound').setAttribute('aria-pressed', soundOn);
+$('sound').addEventListener('click', () => {
+  soundOn = !soundOn; showSound();
+  try { localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off'); } catch (e) {}
+  sfx('right');
+});
+showSound();
+
 // ---------- flow ----------
 // r: 1 clean first try, 0.45 solved after help, 0 wrong; grace: a slip fixed on the retry
 function resolve(r, grace = false) {
   if (play.resolved) return;
   play.resolved = true;
   if (grace) r = 1;
-  const prev = { ...st.R }, type = st.cur.type, d0 = diff(type), used = st.cur.skills.filter(isOpen);
+  const prev = { ...st.R }, prevBest = st.best, type = st.cur.type, d0 = diff(type), used = st.cur.skills.filter(isOpen);
+  let shieldUsed = false, shieldEarned = false, newBest = false;
   used.forEach((s, i) => {
     const E = 1 / (1 + Math.exp(-6 * (st.R[s] - d0 + 0.1)));
     const pace = r - E > 0 ? PACE(st.R[s]) : LOSS;
@@ -1490,18 +1699,37 @@ function resolve(r, grace = false) {
   st.total++;
   if (r === 1) used.forEach(k => { st.done[k] = solved(k) + 1; });
   if (grace) { /* streak survives, but doesn't grow; not a first try */ }
-  else if (r === 1) { st.firsts++; st.streak++; st.best = Math.max(st.best, st.streak); } else st.streak = 0;
+  else if (r === 1) {
+    st.firsts++; st.streak++; st.best = Math.max(st.best, st.streak);
+    if (st.streak > prevBest && prevBest >= 3) { newBest = !st.record; st.record = true; }
+    if (st.streak % 5 === 0 && !st.shield) st.shield = shieldEarned = true;
+  }
+  else if (st.shield && st.streak > 0) { st.shield = false; shieldUsed = true; }   // the shield takes the hit, the streak lives
+  else { st.streak = 0; st.record = false; }
+  play.gains = used.filter(s => rating(st.R[s]) > rating(prev[s])).map(s => [NAME[s], rating(prev[s]), rating(st.R[s])]);
   if (r < 1 && !grace && !st.cur.twin && st.queue.length < 2 && !st.queue.some(q => q.id === type.id)) st.queue.push({ id: type.id, due: st.n + 4 });
-  const opened = checkUnlocks();
+  const opened = checkUnlocks(), ovrNow = overall(st.R), tierIdx = TIERS.indexOf(tierOf(ovrNow));
+  play.freshTier = ovrNow > overall(prev) && tierIdx > st.peak;
+  if (play.freshTier) st.peak = tierIdx;
+  const bigTier = play.freshTier;
   save(); renderCoach(prev, opened);
+  if (r > 0) sfx('right', st.streak);
+  if (r === 1 && !grace && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => sfx('streak'), 240);
+  if (shieldUsed) setTimeout(() => sfx('shield'), 180);
   const up = used.find(s => level(st.R[s]) > level(prev[s]));
   const newTier = tierOf(overall(st.R));
   if (overall(st.R) >= 99 && overall(prev) < 99) setTimeout(showGoat, 1000);
-  else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${newTier[0].toUpperCase() + newTier.slice(1)} · ${overall(st.R)} overall`), 1300);
-  else if (opened.length) setTimeout(() => toast('Unlocked', opened.map(id => NAME[id]).join(' & ')), 900);
-  else if (titleFor(overall(st.R)) !== titleFor(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New title', titleFor(overall(st.R))), 900);
-  else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
-  else if (r === 1 && !grace && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
+  else {
+    if (opened.length) unlockReveal(opened);
+    if (bigTier || opened.length) { /* the big screen says it */ }
+    else if (newTier !== tierOf(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New card', `${cap(newTier)} · ${overall(st.R)} overall`), 1300);
+    else if (shieldUsed) setTimeout(() => toast('Shield used', `Your streak of ${st.streak} lives on.`), 650);
+    else if (shieldEarned) setTimeout(() => toast('Shield earned', `${st.streak} in a row. Your next mistake won't break your streak.`), 650);
+    else if (newBest) setTimeout(() => toast('New best', `${st.streak} in a row is your record now`), 650);
+    else if (titleFor(overall(st.R)) !== titleFor(overall(prev)) && overall(st.R) > overall(prev)) setTimeout(() => toast('New title', titleFor(overall(st.R))), 900);
+    else if (up) setTimeout(() => toast('Level up', `${NAME[up]} ${rating(st.R[up])}`), 650);
+    else if (r === 1 && !grace && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => toast('Streak', `${st.streak} correct in a row`), 650);
+  }
   if (r === 1 && !grace) anim($('streak'), [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }], { duration: 520, easing: SPRING });
 }
 function loadProblem() {
@@ -1513,7 +1741,7 @@ function loadProblem() {
   st.recent = [pickd.type.id, ...st.recent.filter(id => id !== pickd.type.id)].slice(0, 6);
   st.shapes = [shapeOf(built.f), ...st.shapes].slice(0, 10);
   st.seen = [key(built.f), ...st.seen].slice(0, 80);
-  Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false });
+  Object.assign(play, { attempts: 0, hints: 0, solved: false, shown: false, resolved: false, grace: false, gains: [] });
   $('count').textContent = 'Question ' + String(st.n).padStart(2, '0');
   $('note').textContent = note;
   renderProblem(false);
@@ -1534,13 +1762,13 @@ function check(typed) {
   if (play.solved) { nextProblem(); return; }
   const s = typeof typed === 'string' ? typed : answerText();
   if (!s) { $('ans').focus(); anim($('ans'), [{ transform: 'translateX(0)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 200 }); return; }
-  let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); return; }
+  let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); sfx('slip'); offerHelp(); return; }
   if (compare(a, st.cur.d)) {
-    play.solved = true; $('ans').classList.add('done');
+    play.solved = true; $('ans').classList.add('done'); $('infoBtn').classList.remove('nudge');
     const fixedSlip = play.grace && !play.resolved && play.attempts === 1 && play.hints === 0 && !play.shown;
     resolve(fixedSlip ? 1 : play.attempts === 0 && play.hints === 0 && !play.shown ? 1 : 0.45, fixedSlip);
     if (fixedSlip) verdict(true, 'Fixed.', 'Counted as a slip: you still go up, and your streak is safe.');
-    else verdict(true, pick(['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : 'Press Enter for the next one.');
+    else verdict(true, pick(st.streak >= 5 ? ['On fire.', 'Unstoppable.', 'Too easy.', 'Keep it going.'] : ['Correct.', 'Spot on.', 'Exactly.', 'Nailed it.', 'Clean.', 'Beautiful.']), play.attempts || play.hints ? 'Got there. This type comes back soon for a clean first try.' : 'Press Enter for the next one.');
     anim($('glow'), [{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], { duration: 1100, easing: 'ease-out' });
     anim($('stack'), [{ transform: 'scale(1)' }, { transform: 'scale(1.012)' }, { transform: 'scale(1)' }], { duration: 420, easing: SPRING });
     return;
@@ -1551,6 +1779,8 @@ function check(typed) {
   const slip = !bug || bug === 'sign' || bug === 'factor';
   if (play.attempts === 1 && !play.hints && slip) { play.grace = true; verdict(false, msg[0], msg[1] + ' Typo? One free retry.'); }
   else { if (!play.hints) resolve(0); verdict(false, msg[0], msg[1]); }
+  sfx(slip && play.grace && !play.resolved ? 'slip' : 'wrong');
+  offerHelp();
   anim($('stack'), [0, -10, 8, -5, 3, 0].map(x => ({ transform: `translateX(${x}px)` })), { duration: 420, easing: 'ease-out' });
 }
 function hint() {
@@ -1580,7 +1810,7 @@ const mf = $('ans');
 mf.smartSuperscript = false;
 mf.smartFence = false;   // brackets are plain characters: a linked pair can trap the cursor inside fractions
 mf.mathVirtualKeyboardPolicy = 'manual';
-// MathLive marks its hidden typing element inputmode="none", which stops a phone from opening its keyboard; ask for the normal one
+// MathLive marks its hidden typing element inputmode="none", which stops a touch screen from opening its keyboard; ask for the normal one
 const nativeKeyboard = () => {
   const sink = mf.shadowRoot && mf.shadowRoot.querySelector('[part=keyboard-sink]');
   if (!sink || sink.getAttribute('inputmode') === 'text') return;
@@ -1616,28 +1846,33 @@ $('reset').addEventListener('click', () => { askReset(true); $('resetNo').focus(
 $('resetNo').addEventListener('click', () => askReset(false));
 $('resetYes').addEventListener('click', () => {
   askReset(false);
-  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [], seen: [], unlocked: ['power'], done: {} });
+  Object.assign(st, { R: Object.fromEntries(SKILLS.map(s => [s.id, 0])), streak: 0, best: 0, firsts: 0, total: 0, n: 0, queue: [], recent: [], shapes: [], seen: [], unlocked: ['power'], done: {}, shield: false, record: false, peak: 0 });
   save(); renderCoach(); nextProblem();
 });
 
 const help = $('help');
-const setHelp = on => { help.classList.toggle('on', on); if (on) $('helpClose').focus({ preventScroll: true }); else { try { localStorage.setItem(STORE + '-help', '1'); } catch (e) {} } };
+const setHelp = on => { help.classList.toggle('on', on); if (on) $('helpClose').focus({ preventScroll: true }); else { $('infoBtn').classList.remove('nudge'); try { localStorage.setItem(STORE + '-help', '1'); } catch (e) {} } };
 $('infoBtn').addEventListener('click', e => { e.stopPropagation(); setHelp(!help.classList.contains('on')); });
 help.addEventListener('click', e => { if (e.target === help || e.target.closest('.x')) setHelp(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && help.classList.contains('on')) setHelp(false); });
-try { if (!localStorage.getItem(STORE + '-help')) setTimeout(() => setHelp(true), 900); } catch (e) {}
+// a first-timer starts on a problem; the help opens by itself only after their first mistake
+const helpSeen = () => { try { return !!localStorage.getItem(STORE + '-help'); } catch (e) { return true; } };
+function offerHelp() { if (!helpSeen() && !help.classList.contains('on')) setTimeout(() => { if (!momentOpen()) setHelp(true); }, 1000); }
+if (!helpSeen() && !TOUCH) $('infoBtn').classList.add('nudge');
 
 // ---------- download your card as a PNG (just the card, transparent background) ----------
 const ABBR = { power: 'POW', roots: 'ROT', exp: 'EXP', ln: 'LOG', product: 'PRD', quotient: 'QUO', chain: 'CHN' };
 const CARD_COLORS = { bronze: ['#d99a62', '#8a5530', '#2b1606'], silver: ['#e9eff1', '#7d8b90', '#142227'], gold: ['#f8dc7f', '#b8861f', '#2a1d00'], elite: ['#f6f9ff', '#a9bccf', '#13202e'] };
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
-async function drawCard(name) {
+// flat: for pasting into chats, which turn transparency black or white, so it sits on the brand teal
+async function drawCard(name, flat = false) {
   await document.fonts.ready;
-  // just the card on a transparent background, with a "Derivative Lab | logo" header on the card itself
+  // just the card on a transparent background, with a "Derivative 99 | logo" header on the card itself
   const o = overall(st.R), tier = tierOf(o), [c1, c2, ink] = CARD_COLORS[tier];
   const PAD = 56, cw = 780, ch = 1080, SC = 1.25, cx = PAD, cy = PAD;
   const c = document.createElement('canvas'); c.width = Math.round((cw + PAD * 2) * SC); c.height = Math.round((ch + PAD * 2 + 24) * SC);
   const g = c.getContext('2d'); g.scale(SC, SC);
+  if (flat) { g.fillStyle = '#0c3840'; g.fillRect(0, 0, cw + PAD * 2, ch + PAD * 2 + 24); }
   g.save(); g.shadowColor = 'rgba(0,0,0,.38)'; g.shadowBlur = 44; g.shadowOffsetY = 20;
   const grad = g.createLinearGradient(cx, cy, cx + cw, cy + ch); grad.addColorStop(0, c1); grad.addColorStop(1, c2);
   roundRect(g, cx, cy, cw, ch, 56); g.fillStyle = grad; g.fill(); g.restore();
@@ -1654,7 +1889,7 @@ async function drawCard(name) {
   g.restore();
   roundRect(g, cx + 22, cy + 22, cw - 44, ch - 44, 40); g.strokeStyle = ink + '33'; g.lineWidth = 3; g.stroke();
   g.fillStyle = ink; g.textBaseline = 'alphabetic';
-  // header: Derivative Lab | logo (the logo recoloured in the card's ink)
+  // header: Derivative 99 | logo (the logo recoloured in the card's ink)
   const logo = document.querySelector('.brand-logo img');
   // the logo fills the space from the divider to the right end of the grey line under the header
   const sepX = cx + 402, gap = 30, hy = cy + 96, lineR = cx + cw - 90;
@@ -1669,7 +1904,7 @@ async function drawCard(name) {
   }
   // its divider sits on the same vertical line as the divider between the rating and the tier
   g.font = '400 46px Vidaloka, Georgia, serif';
-  g.textAlign = 'right'; g.fillText('Derivative Lab', sepX - gap, hy);
+  g.textAlign = 'right'; g.fillText('Derivative 99', sepX - gap, hy);
   g.globalAlpha = .45; g.fillRect(sepX - 1, hy - 42, 2, 56); g.globalAlpha = 1;   // thin here; the one under it, between rating and tier, stays thick
   if (mark) g.drawImage(mark, lineR - lw, hy - 14 - lh / 2, lw, lh);
   g.globalAlpha = .25; g.fillRect(cx + 90, cy + 140, cw - 180, 2); g.globalAlpha = 1;
@@ -1697,17 +1932,45 @@ async function drawCard(name) {
   });
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
-async function saveCard(name) {
-  name = name.trim(); $('cardName').value = $('goatName').value = name;
+function setName(name) {
+  name = name.trim(); $('cardName').value = $('goatName').value = name; $('pcName').textContent = name;
   try { localStorage.setItem(STORE + '-name', name); } catch (e) {}
-  const blob = await drawCard(name), file = `samkedemia-derivatives-card${name ? '-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''}.png`;
-  const f = new File([blob], file, { type: 'image/png' });
-  if (TOUCH && navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f], title: 'My derivatives card' }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  return name;
+}
+const cardFile = name => `samkedemia-derivative-99-card${name ? '-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''}.png`;
+function download(blob, file) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
+// the result as text, like Wordle: one row of squares per skill, a square for each band passed
+function resultText() {
+  const o = overall(st.R);
+  const rows = SKILLS.map(s => { const v = rating(st.R[s.id]), full = [60, 70, 80, 90, 99].filter(c => v >= c).length; return '🟧'.repeat(full) + '⬛'.repeat(5 - full) + ` ${v} ${s.name}`; });
+  return `Derivative 99: ${o} ${cap(tierOf(o))}\n\n${rows.join('\n')}\n\nBest streak: ${st.best}\nCan you reach 99?\nhttps://www.samkedemia.com/tools/derivatives`;
+}
+function flash(btn, text) {
+  btn.dataset.label = btn.dataset.label || btn.textContent; btn.textContent = text;
+  clearTimeout(btn.timer); btn.timer = setTimeout(() => { btn.textContent = btn.dataset.label; }, 1800);
+}
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  if (btn.dataset.copy === 'text') {
+    try { await navigator.clipboard.writeText(resultText()); flash(btn, 'Copied'); } catch (e) { flash(btn, "Couldn't copy"); }
+    return;
+  }
+  const name = setName($(btn.dataset.from).value), png = drawCard(name, true);
+  // the image promise goes straight in: Safari only allows the write inside the click itself
+  try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]); flash(btn, 'Copied'); }
+  catch (e) { download(await png, cardFile(name)); flash(btn, 'Downloaded'); }
+}));
+async function saveCard(name) {
+  name = setName(name);
+  const blob = await drawCard(name), file = cardFile(name);
+  const f = new File([blob], file, { type: 'image/png' });
+  if (TOUCH && navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f], title: 'My Derivative 99 card' }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  download(blob, file);
+}
 if (TOUCH) $('cardSave').textContent = 'Share';
-$('cardBtn').addEventListener('click', () => { $('cardForm').hidden = false; $('cardBtn').setAttribute('aria-expanded', 'true'); anim($('cardForm'), [{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' }); $('cardName').focus(); });
+$('cardBtn').addEventListener('click', () => { $('cardForm').hidden = false; $('cardShare').hidden = false; $('cardBtn').setAttribute('aria-expanded', 'true'); anim($('cardForm'), [{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' }); $('cardName').focus(); });
 $('cardForm').addEventListener('submit', e => { e.preventDefault(); saveCard($('cardName').value); });
 $('goatForm').addEventListener('submit', e => { e.preventDefault(); saveCard($('goatName').value); });
 if (TOUCH) $('goatSave').textContent = 'Share card';
@@ -1719,7 +1982,7 @@ goat.addEventListener('click', e => { if (e.target === goat || e.target.closest(
 addEventListener('keydown', e => { if (e.key === 'Escape' && goat.classList.contains('on')) setGoat(false); });
 function showGoat() {
   $('goatName').value = $('cardName').value;
-  setGoat(true);
+  setGoat(true); sfx('goat');
   if (!reduce) { confetti(); setTimeout(() => confetti(true), 650); setTimeout(() => confetti(true), 1500); }
   anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.2) rotate(-25deg)', opacity: 0 }, { transform: 'scale(1.25) rotate(8deg)', opacity: 1, offset: .5 }, { transform: 'scale(.95) rotate(-3deg)', offset: .75 }, { transform: 'none', opacity: 1 }], { duration: 1100, easing: SPRING });
   // the goat stays hidden until its entrance, grows in gently, and only then starts bobbing
@@ -1752,11 +2015,19 @@ function confetti(rain = false) {
   };
   requestAnimationFrame(tick);
 }
-try { $('cardName').value = localStorage.getItem(STORE + '-name') || ''; } catch (e) {}
+try { const n = localStorage.getItem(STORE + '-name') || ''; $('cardName').value = n; $('pcName').textContent = n; } catch (e) {}
 if (overall(st.R) >= 99) setTimeout(showGoat, 900);   // the GOAT moment shows again on every visit
 
 renderCoach();
 loadProblem();
+// first visit: the card becomes theirs before the first problem
+let brandNew = false;
+try { brandNew = !localStorage.getItem(STORE + '-name') && !st.total && !localStorage.getItem(STORE + '-help'); } catch (e) {}
+if (brandNew) {
+  const stage = cardFace('bronze', 50, 'Rookie');
+  openMoment({ label: 'Derivative 99', title: 'Whose card is this?', text: 'Every right answer raises your rating. Reach 99 on every rule and you are the GOAT.', go: "Let's go", stage, name: true, small: 'Your name stays in this browser.', wait: 0, onClose: () => setName($('mName').value) });
+  $('mName').addEventListener('input', () => { moment.querySelector('.pc-name').textContent = $('mName').value; });
+}
 anim($('stack'), [{ transform: 'translateY(34px) rotate(-3deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 800, easing: SPRING });
 anim($('tape'), [{ transform: 'translateX(-50%) rotate(3deg) scaleX(0)' }, { transform: 'translateX(-50%) rotate(3deg) scaleX(1)' }], { duration: 420, delay: 520, easing: 'ease-out', fill: 'backwards' });
 </script>
