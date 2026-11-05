@@ -103,11 +103,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #ans::part(content) { overflow: visible; padding-block: 10px 6px; }
 #ans::part(container) { overflow: visible; }
 .preview { min-height: 1.9em; font: 400 .88rem/1.4 var(--font-body); padding-top: 10px; color: var(--ink-mid); }
-.info-btn { all: unset; box-sizing: border-box; flex: none; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink-mid); border: 1px solid rgba(12, 56, 64, .22); background: rgba(12, 56, 64, .04); transition: background-color .2s, border-color .2s, color .2s, transform .15s; }
-.info-btn:hover { background: rgba(12, 56, 64, .1); border-color: rgba(12, 56, 64, .45); color: var(--ink); }
-.info-btn:active { transform: scale(.94); }
-.info-btn:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 2px; }
-.info-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* how-to-type popup, same pattern as the TI-84 tool */
 #help, #goat { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5, 22, 25, .5); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); opacity: 0; pointer-events: none; transition: opacity .2s; }
@@ -171,7 +166,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 :focus-visible { outline: 3px solid var(--orange-light); outline-offset: 3px; }
 
 /* ---- coach ---- */
-.coach { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); border-radius: 28px; padding: 26px 24px; background: linear-gradient(var(--glass-top), var(--glass-bottom)); border: 1.5px solid var(--glass-border); box-shadow: 0 40px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.coach { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); border-radius: 28px; padding: 22px 24px 16px; background: linear-gradient(var(--glass-top), var(--glass-bottom)); border: 1.5px solid var(--glass-border); box-shadow: 0 40px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 @media (max-width: 1000px) { .coach { position: relative; top: 0; } }
 /* FIFA-style player card, coloured by tier */
 .pcard { --c1: #8a5530; --c2: #d99a62; --ink-card: #2b1606; position: relative; overflow: hidden; display: flex; align-items: center; gap: 18px; padding: 18px 20px; margin-bottom: 4px; border-radius: 18px; color: var(--ink-card);
@@ -195,15 +190,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .skill .lv { position: relative; }
 .lv-gain { position: absolute; right: calc(100% + 8px); top: 0; font: 900 .95rem/1.1 var(--font-num); color: var(--orange-light); white-space: nowrap; opacity: 0; pointer-events: none; }
 /* the how-to-type button asks to be noticed on a first visit */
-.info-btn.nudge { animation: nudge 1.8s ease-in-out infinite; }
+.tool-btn.nudge { animation: nudge 1.8s ease-in-out infinite; }
 @keyframes nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, .45); } 60% { box-shadow: 0 0 0 9px rgba(255, 85, 0, 0); } }
-/* sound toggle */
-.sound-btn { all: unset; flex: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); transition: color .2s, background-color .2s; }
-.sound-btn:hover { color: var(--cream); background: rgba(255, 255, 255, .1); }
-.sound-btn:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 2px; }
-.sound-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.sound-btn .off, .sound-btn[aria-pressed="false"] .on { display: none; }
-.sound-btn[aria-pressed="false"] .off { display: inline; }
+/* how to type and reset, together beside the buttons */
+.tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.tool-btn { all: unset; box-sizing: border-box; flex: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); transition: color .2s, background-color .2s; }
+.tool-btn:hover { color: var(--cream); background: rgba(255, 255, 255, .1); }
+.tool-btn:focus-visible { outline: 3px solid var(--orange-light); outline-offset: 2px; }
+.tool-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 /* big moments: first visit, a new tier, a new skill */
 #moment { position: fixed; inset: 0; z-index: 31; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: auto; background: rgba(3, 16, 19, .82); -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px); opacity: 0; pointer-events: none; transition: opacity .25s; }
 #moment.on { opacity: 1; pointer-events: auto; }
@@ -254,19 +248,18 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .pc-name { font: 900 .74rem/1.1 var(--font-num); letter-spacing: .12em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pc-name:empty { display: none; }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
-.skills-head { margin-top: 18px !important; }
-.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 2px 0 auto; padding: 4px 0; cursor: pointer; font: 700 .85rem/1 var(--font-body); color: var(--quiet); transition: color .2s; }
+.card-btn { all: unset; display: flex; align-items: center; gap: 6px; width: fit-content; margin: 0; padding: 0; cursor: pointer; font: 700 .85rem/1 var(--font-body); color: var(--quiet); transition: color .2s; }
 .card-btn svg { width: 13px; height: 13px; flex: none; }
 .card-btn:hover { color: var(--cream); }
-.skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 6px; gap: 10px; }
-.skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 9px 0; color: var(--cream); }
+.skills-head { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 2px; gap: 10px; }
+.skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; padding: 7px 0; color: var(--cream); }
 .skill .nm { font: 700 .95rem/1.2 var(--font-body); display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .skill .nm i { font: 700 1.05rem/1 var(--font-hand); font-style: normal; color: var(--orange-light); }
 .skill .lv { font: 900 1rem/1.1 var(--font-num); color: var(--cream); font-variant-numeric: tabular-nums; }
 .skill.locked { color: var(--quiet); }
 .skill.locked .nm, .skill.locked .lv { opacity: .55; }
 .skill .lk { width: 13px; height: 13px; flex: none; align-self: center; }
-.lockhint { grid-column: 1 / -1; font-size: .74rem; color: var(--quiet); margin-top: -3px; }
+.lockhint { grid-column: 1 / -1; font-size: .72rem; color: var(--quiet); margin-top: -4px; }
 .skill.unlocking .nm { animation: unlockName 1.3s .5s both; }
 @keyframes unlockName { 0% { color: var(--quiet); } 35% { color: #ff8a3d; } 100% { color: var(--cream); } }
 .skill .lk.out { animation: lockOut .7s .35s both; }
@@ -277,17 +270,15 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 .bar > span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--orange); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
 .bar i { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ground-edge); opacity: .85; }
 .bar i.hit { background: #b83a00; opacity: 1; }
-.coach-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 12px; font-size: .78rem; color: var(--quiet); }
-.stats { flex: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; letter-spacing: .04em; }
+.stats { display: flex; margin-top: 14px; font-size: .78rem; color: var(--quiet); flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; letter-spacing: .04em; }
 .stats b { display: inline-block; font: 900 .9rem/1 var(--font-num); color: var(--cream); margin-left: 3px; font-variant-numeric: tabular-nums; }
 .stats b.hot { color: var(--orange); }
 .confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--cream); font-weight: 700; font-size: .95rem; }
 #next.primary { order: -1; }
-.reset-row { margin-top: 10px; text-align: right; }
-.reset-link { all: unset; cursor: pointer; font: 400 .78rem/1 var(--font-body); color: var(--quiet); }
+.reset-link { all: unset; cursor: pointer; margin-left: 6px; font: 400 .85rem/1 var(--font-body); color: var(--quiet); }
 .reset-link:hover { color: var(--cream); text-decoration: underline; }
-.reset-row .confirm { justify-content: flex-end; gap: 6px; flex-wrap: nowrap; font-size: .8rem; white-space: nowrap; }
-.reset-row .btn { padding: 7px 10px; font-size: .76rem; }
+.tools .confirm { justify-content: flex-end; gap: 6px; flex-wrap: nowrap; font-size: .8rem; white-space: nowrap; }
+.tools .btn { padding: 7px 10px; font-size: .76rem; }
 .btn.danger { background: transparent; border-color: var(--orange); color: var(--orange); }
 
 .toast { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 10; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; max-width: min(340px, calc(100vw - 40px)); padding: 14px 20px 14px 14px; border-radius: 20px; background: linear-gradient(var(--glass-top), var(--glass-bottom)), var(--ground-shade); border: 1.5px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0, 0, 0, .5), 0 0 60px rgba(255, 85, 0, .25); }
@@ -335,7 +326,6 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <div class="answer-line">
             <span class="lbl" id="flabel"></span>
             <math-field id="ans" aria-label="Your derivative"></math-field>
-            <button class="info-btn" id="infoBtn" type="button" title="How to type" aria-label="How to type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".6"/></svg></button>
           </div>
           <div class="preview" id="preview"></div>
 
@@ -355,6 +345,14 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
         <button class="btn" id="hint">Hint <span class="count" id="hintCount">0/2</span></button>
         <button class="btn" id="solution">Show solution</button>
         <button class="btn" id="next">Skip</button>
+        <div class="tools">
+          <button class="tool-btn" id="infoBtn" type="button" title="How to type" aria-label="How to type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".6"/></svg></button>
+          <button class="reset-link" id="reset">Reset</button>
+          <span class="confirm" id="confirm" hidden>Reset progress?
+          <button class="btn danger" id="resetYes">Yes, reset</button>
+          <button class="btn" id="resetNo">Cancel</button>
+        </span>
+        </div>
       </div>
     </div>
 
@@ -371,25 +369,16 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
           <span class="pc-name" id="pcName"></span>
         </div>
       </div>
-      <button class="card-btn" id="cardBtn" type="button" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy card</span></button>
-      <div class="skills-head">
-        <span class="label">Skills</span>
-        
-      </div>
-      <div id="skills"></div>
-      <div class="coach-foot">
-        <div class="stats" id="stats">
+      <div class="stats" id="stats">
           <span>Streak <b id="streak">0</b></span>
           <span>Best <b id="best">0</b></span>
           <span>First try <b id="firsts">0/0</b></span>
         </div>
-        <button class="sound-btn" id="sound" type="button" aria-label="Sound" title="Sound" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.6L12.5 19V5L7.6 9.5z"/><path class="on" d="M16 9a4.2 4.2 0 0 1 0 6M18.6 6.4a8 8 0 0 1 0 11.2"/><path class="off" d="m16.5 9.5 5 5m0-5-5 5"/></svg></button>
+      <div class="skills-head">
+        <span class="label">Skills</span>
+        <button class="card-btn" id="cardBtn" type="button" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy card</span></button>
       </div>
-      <div class="reset-row"><button class="reset-link" id="reset">Reset</button>
-        <span class="confirm" id="confirm" hidden>Reset progress?
-          <button class="btn danger" id="resetYes">Yes, reset</button>
-          <button class="btn" id="resetNo">Cancel</button>
-        </span></div>
+      <div id="skills"></div>
     </aside>
   </main>
 </div>
@@ -1508,7 +1497,6 @@ function tierReveal(apply, tier) {
     apply();
     moment.dataset.tier = tier;
     openMoment({ label: 'New card', title: cap(tier) + ' card', stage: cardFace(tier, o, title, safeName()), wait: 900 });
-    sfx('tier');
     if (reduce) return;
     anim($('mWash'), [{ clipPath: 'circle(0% at 50% 46%)' }, { clipPath: 'circle(130% at 50% 46%)' }], { duration: 800, easing: 'cubic-bezier(.5, 0, .2, 1)' });
     anim($('mShine'), [{ transform: 'translateX(-120%)' }, { transform: 'translateX(120%)' }], { duration: 1500, delay: 600, easing: 'ease-in-out', fill: 'none' });
@@ -1525,7 +1513,6 @@ const RULES = {
 };function unlockReveal(ids) {
   setTimeout(() => showMoment(() => {
     openMoment({ label: ids.length > 1 ? 'New skills unlocked' : 'New skill unlocked', title: ids.map(id => NAME[id]).join(' & '), text: ids.map(id => RULES[id].note).join(' '), rules: ids.flatMap(id => RULES[id].tex) });
-    sfx('unlock');
   }), 800);
 }
 // a new tier: the card flips over and comes back in its new colour
@@ -1616,56 +1603,6 @@ function toast(label, text) {
   toast.timer = setTimeout(() => anim(t, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(20px)' }], { duration: 300 }).then(() => { t.hidden = true; }), 3600);
 }
 
-// ---------- sounds: made in the browser, no audio files ----------
-const SOUND_KEY = STORE + '-sound';
-let soundOn = true, audio = null;
-try { soundOn = localStorage.getItem(SOUND_KEY) !== 'off'; } catch (e) {}
-// browsers only allow audio after the first key press or click
-let master = null;
-const wakeAudio = () => {
-  try {
-    if (!audio) {
-      audio = new (window.AudioContext || window.webkitAudioContext)();
-      const comp = audio.createDynamicsCompressor(); master = audio.createGain(); master.gain.value = 2;
-      master.connect(comp); comp.connect(audio.destination);
-      // Safari only starts a context that plays something inside the key press or click
-      const blip = audio.createBufferSource(); blip.buffer = audio.createBuffer(1, 1, 22050); blip.connect(audio.destination); blip.start(0);
-    }
-    if (audio.state !== 'running') audio.resume();
-  } catch (e) {}
-};
-['keydown', 'keyup', 'pointerdown', 'pointerup', 'click'].forEach(t => addEventListener(t, wakeAudio, true));
-function tone(freq, at, len, vol = .13, type = 'triangle', to = 0) {
-  const t = audio.currentTime + at, o = audio.createOscillator(), g = audio.createGain();
-  o.type = type; o.frequency.setValueAtTime(freq, t);
-  if (to) o.frequency.exponentialRampToValueAtTime(to, t + len);
-  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .012); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
-  o.connect(g); g.connect(master); o.start(t); o.stop(t + len + .02);
-}
-const run = (notes, gap, len, vol) => notes.forEach((f, i) => tone(f, i * gap, len, vol));
-const SFX = {
-  // two notes that climb a semitone with every answer in a row
-  right: (s = 1) => { const up = Math.pow(2, Math.min(Math.max(s - 1, 0), 12) / 12); run([587 * up, 880 * up], .085, .2, .12); },
-  wrong: () => { tone(190, 0, .24, .24, 'sine', 85); },
-  slip: () => { tone(300, 0, .16, .12, 'sine', 210); },
-  shield: () => { tone(1320, 0, .22, .09); tone(1980, .05, .3, .06); },
-  streak: () => run([659, 880, 1109, 1319], .07, .24, .11),
-  unlock: () => run([523, 659, 784, 1047], .1, .42, .12),
-  tier: () => { run([523, 659, 784], .09, .3, .11); [1047, 1319, 1568].forEach(f => tone(f, .32, .9, .08)); tone(2093, .42, 1, .03, 'sine'); },
-  goat: () => { run([523, 659, 784, 1047, 1319, 1568], .09, .32, .11); [1047, 1319, 1568, 2093].forEach(f => tone(f, .6, 1.5, .07)); }
-};
-function sfx(name, arg) {
-  if (!soundOn || !audio) return;
-  const go = () => { try { SFX[name](arg); } catch (e) {} };
-  if (audio.state === 'running') go(); else audio.resume().then(go, () => {});
-}
-const showSound = () => $('sound').setAttribute('aria-pressed', soundOn);
-$('sound').addEventListener('click', () => {
-  soundOn = !soundOn; showSound();
-  try { localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off'); } catch (e) {}
-  sfx('right');
-});
-showSound();
 
 // ---------- flow ----------
 // r: 1 clean first try, 0.45 solved after help, 0 wrong; grace: a slip fixed on the retry
@@ -1674,7 +1611,6 @@ function resolve(r, grace = false) {
   play.resolved = true;
   if (grace) r = 1;
   const prev = { ...st.R }, prevBest = st.best, type = st.cur.type, d0 = diff(type), used = st.cur.skills.filter(isOpen);
-  let shieldUsed = false;
   used.forEach((s, i) => {
     const E = 1 / (1 + Math.exp(-6 * (st.R[s] - d0 + 0.1)));
     const pace = r - E > 0 ? PACE(st.R[s]) : LOSS;
@@ -1690,7 +1626,7 @@ function resolve(r, grace = false) {
     if (st.streak > prevBest && prevBest >= 3) st.record = true;
     if (st.streak % 5 === 0 && !st.shield) st.shield = true;
   }
-  else if (st.shield && st.streak > 0) { st.shield = false; shieldUsed = play.saved = true; }   // the shield takes the hit, the streak lives
+  else if (st.shield && st.streak > 0) { st.shield = false; play.saved = true; }   // the shield takes the hit, the streak lives
   else { st.streak = 0; st.record = false; }
   if (r < 1 && !grace && !st.cur.twin && st.queue.length < 2 && !st.queue.some(q => q.id === type.id)) st.queue.push({ id: type.id, due: st.n + 4 });
   const opened = checkUnlocks(), ovrNow = overall(st.R), tierIdx = TIERS.indexOf(tierOf(ovrNow));
@@ -1698,9 +1634,6 @@ function resolve(r, grace = false) {
   if (play.freshTier) st.peak = tierIdx;
   const bigTier = play.freshTier;
   save(); renderCoach(prev, opened);
-  if (r > 0) sfx('right', st.streak);
-  if (r === 1 && !grace && [5, 10, 20, 30].includes(st.streak)) setTimeout(() => sfx('streak'), 240);
-  if (shieldUsed) setTimeout(() => sfx('shield'), 180);
   const newTier = tierOf(overall(st.R));
   if (overall(st.R) >= 99 && overall(prev) < 99) setTimeout(showGoat, 1000);
   else {
@@ -1751,7 +1684,7 @@ function check(typed) {
   const s = typeof typed === 'string' ? typed : answerText();
   if (!s && play.shown) { nextProblem(); return; }
   if (!s) { $('ans').focus(); anim($('ans'), [{ transform: 'translateX(0)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 200 }); return; }
-  let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); sfx('slip'); offerHelp(); return; }
+  let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); offerHelp(); return; }
   if (compare(a, st.cur.d)) {
     play.solved = true; $('ans').classList.add('done'); $('infoBtn').classList.remove('nudge'); renderActions();
     const fixedSlip = play.grace && !play.resolved && play.attempts === 1 && play.hints === 0 && !play.shown;
@@ -1768,7 +1701,6 @@ function check(typed) {
   const slip = !bug || bug === 'sign' || bug === 'factor';
   if (play.attempts === 1 && !play.hints && slip) { play.grace = true; verdict(false, msg[0], bug ? msg[1] : 'Check it and try again. This one is free.'); }
   else { if (!play.hints) resolve(0); verdict(false, msg[0], msg[1]); }
-  sfx(slip && play.grace && !play.resolved ? 'slip' : 'wrong');
   offerHelp();
   anim($('stack'), [0, -10, 8, -5, 3, 0].map(x => ({ transform: `translateX(${x}px)` })), { duration: 420, easing: 'ease-out' });
 }
@@ -1960,7 +1892,7 @@ const setGoat = on => goat.classList.toggle('on', on);
 goat.addEventListener('click', e => { if (e.target === goat || e.target.closest('.x')) setGoat(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && goat.classList.contains('on')) setGoat(false); });
 function showGoat() {
-  setGoat(true); sfx('goat');
+  setGoat(true);
   if (!reduce) { confetti(); setTimeout(() => confetti(true), 650); setTimeout(() => confetti(true), 1500); }
   anim(goat.querySelector('.goat-badge'), [{ transform: 'scale(.2) rotate(-25deg)', opacity: 0 }, { transform: 'scale(1.25) rotate(8deg)', opacity: 1, offset: .5 }, { transform: 'scale(.95) rotate(-3deg)', offset: .75 }, { transform: 'none', opacity: 1 }], { duration: 1100, easing: SPRING });
   // the goat stays hidden until its entrance, grows in gently, and only then starts bobbing
