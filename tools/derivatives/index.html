@@ -237,7 +237,13 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
 #moment[data-tier] .btn.primary { background: var(--m-ink); border-color: var(--m-ink); box-shadow: none; }
 #mGo:focus-visible { outline: none; }
 .m-small { font-size: .78rem !important; color: var(--quiet) !important; }
-.pc-name { cursor: pointer; }
+/* the name on the side card: a small pencil and a dotted line on hover say it can be changed */
+.pcard:not(.m-card) .pc-side { flex: 1; grid-template-columns: minmax(0, 1fr); }
+.pc-rating { flex: none; }
+#pcName { position: relative; justify-self: start; max-width: 100%; box-sizing: border-box; padding-right: 17px; cursor: pointer; }
+#pcName::after { content: ""; position: absolute; right: 0; top: 50%; width: 12px; height: 12px; margin-top: -6px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20l1-4L16 5l3 3L8 19z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20l1-4L16 5l3 3L8 19z'/%3E%3C/svg%3E") center / contain no-repeat; opacity: 0; transition: opacity .15s; }
+#pcName:hover { text-decoration: underline dotted; text-underline-offset: 3px; }
+#pcName:hover::after { opacity: .75; }
 .pc-rating { position: relative; display: grid; justify-items: center; line-height: 1; }
 .ovr-num { font: 900 clamp(3.6rem, 7vw, 4.4rem)/.85 var(--font-num); font-variant-numeric: tabular-nums; letter-spacing: -.03em; display: inline-block; transform-origin: 50% 80%; }
 .pc-ovr { font: 900 .78rem/1 var(--font-num); letter-spacing: .28em; margin-top: 6px; padding-left: .28em; opacity: .8; }
