@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@700;900&family=Playfair+Display:ital@1&family=Vidaloka&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@700;900&family=Vidaloka&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -1373,7 +1373,7 @@
         @media (min-width: 769px) {
             header.scrolled .hamburger-btn {
                 display: flex;
-                animation: hamburgerFadeIn 0.12s ease 0.18s both;
+                animation: hamburgerFadeIn 0.18s ease 0.42s both;
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -1742,7 +1742,7 @@
 
         /* ── One button at a time: the header's appears once the hero's has scrolled away ── */
         .header-actions .btn-whatsapp {
-            max-width: 190px;
+            max-width: 260px;
             overflow: hidden;
             transform-origin: right center;
             transition:
@@ -1771,7 +1771,7 @@
                 visibility 0s linear 0.35s;
         }
         @media (max-width: 768px) {
-            .header-actions { --cta-gap: -18px; }
+            .header-actions { gap: 24px; --cta-gap: -24px; }
             .header-actions .btn-whatsapp { max-width: 46px; }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -1895,21 +1895,12 @@
 
         /* ── Motion off: finished paper, still grid ── */
         @media (prefers-reduced-motion: reduce) {
-            .hero-title, .hero-subtitle, .hero .social-proof, .hero-actions, .hero-chat { animation: none; }
+            .hero-line > span, .hero-proof, .hero-title, .hero-subtitle, .hero .social-proof, .hero-actions, .hero-chat { animation: none; }
             .logo-scroller { animation: none !important; }
             .sr { opacity: 1; transform: none; transition: none; }
             .hero-cta { transition: none; }
         }
     
-        /* ── Italic accent (same Playfair italic as the post designs) ── */
-        .hero-title { margin-left: 0; font-weight: 400; }
-        .hero-em {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-        }
-
         /* ── Subtitle ── */
         .hero-subtitle {
             max-width: 560px;
@@ -2062,6 +2053,115 @@
         @media (max-width: 540px) {
             .proof-wall.moving { height: 540px; margin-top: 24px; overflow: hidden; }
         }
+    
+        /* ── Hero type: one serif statement, one sans for the rest ── */
+        .hero-title {
+            margin: 0 0 1.4rem;
+            font-family: var(--font-title);
+            font-weight: 400;
+            font-size: clamp(3.3rem, 7.2vw, 6.9rem);
+            line-height: 0.98;
+            letter-spacing: -0.025em;
+            animation: none;
+        }
+        .hero-line {
+            display: block;
+            overflow: hidden;
+            padding-bottom: 0.1em;
+            margin-bottom: -0.1em;
+        }
+        .hero-line > span {
+            display: inline-block;
+            transform: translateY(105%);
+            animation: hero-line 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .hero-line:nth-child(2) > span { animation-delay: 0.09s; }
+        @keyframes hero-line {
+            from { transform: translateY(105%); }
+            to   { transform: none; }
+        }
+        .hero-subtitle {
+            max-width: 500px;
+            margin-top: 0;
+            font-size: clamp(1.1rem, 1.45vw, 1.28rem);
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--teal-mid);
+        }
+        .hero-actions { margin-top: 2rem; }
+        .hero-subtitle > span { display: block; white-space: nowrap; }
+        .hero-actions { display: inline-flex; flex-direction: column; align-items: center; }
+        .hero-faces { display: inline-flex; margin-right: 10px; }
+        .hero-faces img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; box-shadow: 0 2px 6px rgba(12,56,64,.12); }
+        .hero-faces img + img { margin-left: -9px; }
+        .hero-proof {
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 1.1rem;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--teal-mid);
+            animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+        }
+        @media (max-width: 420px) {
+            .hero-subtitle { font-size: 0.98rem; }
+        }
+        @media (max-width: 350px) {
+            .hero-subtitle > span { white-space: normal; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-line > span { transform: none; animation: none; }
+        }
+        @media (max-width: 980px) {
+            .hero-title { font-size: clamp(3rem, 13vw, 5.6rem); margin: 0 0 1.1rem; }
+            .hero-subtitle { max-width: 420px; }
+            .hero-actions { margin-top: 1.6rem; }
+        }
+        /* Scrolled desktop pill: hamburger sits halfway between logo and button */
+        @media (min-width: 769px) {
+            header.scrolled .header-actions { flex: 1; gap: 0; --cta-gap: 0px; }
+            header.scrolled .hamburger-btn { position: static; transform: none; margin: 0 auto; }
+        }
+        /* ── Course chip inside the title ── */
+        .hero-copy { container-type: inline-size; }
+        .hero-title { font-size: min(6.9rem, 14cqi); }
+        .hero-title.shown .hero-line { overflow: visible; }
+        .hero-line > span { white-space: nowrap; }
+        .chip {
+            display: inline-flex; align-items: center; gap: 0.36em;
+            position: relative; top: -0.14em; vertical-align: middle;
+            font-size: 0.56em; height: 1.42em; padding: 0 0.5em 0 0.2em;
+            border-radius: 0.42em; background: #fff;
+            border: 1px solid rgba(12, 56, 64, 0.09);
+            box-shadow: 0 1px 2px rgba(12, 56, 64, 0.06), 0 8px 22px rgba(12, 56, 64, 0.09);
+            letter-spacing: -0.015em; overflow: hidden;
+        }
+        .chip-ic {
+            flex: none; position: relative; width: 1.08em; height: 1.08em; border-radius: 0.3em;
+            background: var(--teal-dark); color: #fff; overflow: hidden;
+        }
+        .chip-ic i { position: absolute; inset: 0; display: grid; place-items: center; font-size: 0.6em; line-height: 1; }
+        .chip-w { position: relative; flex: 1; height: 1.3em; overflow: hidden; }
+        .chip-w b { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 400; line-height: 1.3em; white-space: nowrap; }
+        .chip-ic i, .chip-w b { transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, filter 0.4s ease; }
+        .chip .in { transform: none; opacity: 1; filter: none; }
+        .chip .dn { transform: translateY(100%); opacity: 0; filter: blur(4px); }
+        .chip .up { transform: translateY(-100%); opacity: 0; filter: blur(4px); }
+        .chip .snap { transition: none; }
+
+        /* ── Load sequence: title, chip, subtitle, button, proof, reviews ── */
+        .hero-line:nth-child(2) > span { animation-delay: 0.08s; }
+        .hero-subtitle { animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both; }
+        .hero-actions { animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both; }
+        .hero-proof { animation: none; }
+        .hero-chat { animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+        .chip { opacity: 0; transform: scale(0.82); width: 5.3em; }
+        .chip.on { opacity: 1; transform: none; transition: opacity 0.3s ease, transform 0.55s cubic-bezier(0.34, 1.45, 0.5, 1); }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-subtitle, .hero-actions, .hero-chat { animation: none; }
+            .chip { opacity: 1; transform: none; }
+        }
     </style>
 </head>
 
@@ -2084,7 +2184,7 @@
                 <span></span>
             </button>
             <a href="https://wa.me/32490100821" target="_blank" class="btn-whatsapp">
-                <i class="bi bi-whatsapp"></i><span class="btn-label">Book Free Call</span>
+                <i class="bi bi-whatsapp"></i><span class="btn-label">Get Your Study Plan</span>
             </a>
         </div>
     </header>
@@ -2103,18 +2203,11 @@
         <canvas class="hero-grid" id="hero-grid" aria-hidden="true"></canvas>
         <div class="hero-main">
             <div class="hero-copy">
-                <a href="https://wa.me/32490100821" target="_blank" class="social-proof">
-                    <div class="social-proof-images">
-                        <img src="images/opt/student1.webp" alt="Student">
-                        <img src="images/opt/student2.webp" alt="Student">
-                        <img src="images/opt/student3.webp" alt="Student">
-                    </div>
-                    <span class="social-proof-text">200+ students passed. Join them.</span>
-                </a>
-                <h1 class="hero-title"><em class="hero-em">Result Driven</em><br>Tutoring.</h1>
-                <p class="hero-subtitle"><strong>Stop guessing what’s on the exam.</strong>I’ll show you exactly what it takes to pass.</p>
+                <h1 class="hero-title" aria-label="Result Driven Tutoring"><span class="hero-line" aria-hidden="true"><span>Result Driven</span></span><span class="hero-line" aria-hidden="true"><span><span class="chip" id="hero-chip"><span class="chip-ic"><i class="bi bi-graph-up in"></i><i class="bi bi-calculator dn"></i><i class="bi bi-bar-chart-line dn"></i><i class="bi bi-bar-chart-steps dn"></i><i class="bi bi-clipboard-data dn"></i><i class="bi bi-diagram-3 dn"></i></span><span class="chip-w"><b class="in">Math A</b><b class="dn">Math B</b><b class="dn">Stats 1</b><b class="dn">Stats 2</b><b class="dn">RM3</b><b class="dn">IMOR</b></span></span> Tutoring.</span></span></h1>
+                <p class="hero-subtitle"><span>Stop guessing what’s on the exam.</span><span>I’ll show you exactly what it takes to pass.</span></p>
                 <div class="hero-actions">
-                    <a href="https://wa.me/32490100821" target="_blank" class="hero-cta"><i class="bi bi-whatsapp"></i>Book Free Call</a>
+                    <a href="https://wa.me/32490100821" target="_blank" class="hero-cta"><i class="bi bi-whatsapp"></i>Get Your Study Plan</a>
+                    <p class="hero-proof"><span class="hero-faces"><img src="images/opt/student1.webp" alt="" width="28" height="28"><img src="images/opt/student2.webp" alt="" width="28" height="28"><img src="images/opt/student3.webp" alt="" width="28" height="28"></span>200+ students passed</p>
                 </div>
             </div>
             <div class="hero-chat" id="hero-chat" aria-hidden="true"></div>
@@ -4113,6 +4206,40 @@
 
 
     <script>
+        // Hero: swap the course in the title
+        (function() {
+            const chip = document.getElementById('hero-chip');
+            if (!chip) return;
+            const title = chip.closest('.hero-title');
+            const words = Array.from(chip.querySelectorAll('.chip-w b'));
+            const icons = Array.from(chip.querySelectorAll('.chip-ic i'));
+            const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let k = 0;
+            function set(el, c) { el.classList.remove('in', 'dn', 'up'); el.classList.add(c); }
+            if (calm) { chip.classList.add('on'); title.classList.add('shown'); return; }
+            // Name and icon wait below until the chip has popped in
+            [words[0], icons[0]].forEach(function(el) { el.classList.add('snap'); set(el, 'dn'); });
+            const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+            const landed = new Promise(function(r) { setTimeout(r, 620); });
+            Promise.all([fonts, landed]).then(function() {
+                title.classList.add('shown');
+                chip.classList.add('on');
+                setTimeout(function() {
+                    [words[0], icons[0]].forEach(function(el) { el.classList.remove('snap'); set(el, 'in'); });
+                }, 160);
+                setInterval(function() {
+                    if (document.hidden) return;
+                    const o = k; k = (k + 1) % words.length;
+                    [words, icons].forEach(function(list) {
+                        set(list[o], 'up');
+                        const n = list[k];
+                        n.classList.add('snap'); set(n, 'dn'); void n.offsetWidth;
+                        n.classList.remove('snap'); set(n, 'in');
+                    });
+                }, 2400);
+            });
+        })();
+
         // Hero: magnetic graph-paper grid + student messages
         (function() {
             const hero = document.getElementById('hero');
@@ -4329,7 +4456,7 @@
                 let started = false;
                 new IntersectionObserver(function(e) {
                     chatVisible = e[0].isIntersecting;
-                    if (chatVisible && !started) { started = true; setTimeout(nextBubble, 250); }
+                    if (chatVisible && !started) { started = true; setTimeout(nextBubble, 700); }
                     else if (chatVisible && waiting) { waiting = false; nextBubble(); }
                 }, { threshold: 0.3 }).observe(chat);
                 document.addEventListener('visibilitychange', function() {
