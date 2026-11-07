@@ -19,7 +19,9 @@
     <meta name="twitter:description" content="Pass your statistics or math exam with Samkedemia. 200+ university students passed, rated 9.7 / 10. Expert exam prep for KU Leuven, VUB & more.">
     <link rel="icon" type="image/png" href="images/icon.png?v=2">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=2">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -58,8 +60,8 @@
         /* ── Scroll-reveal utility (applied via JS) ── */
         .sr {
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(12px);
+            transition: opacity 0.32s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .sr.sr-on { opacity: 1; transform: none; }
 
@@ -259,7 +261,7 @@
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
             color: var(--teal-dark);
-            animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+            animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
         }
 
         .hero-subtitle {
@@ -273,12 +275,12 @@
             text-align: center;
             padding: 0 1rem;
             letter-spacing: -0.01em;
-            animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+            animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
         }
 
         .hero .social-proof {
             margin-top: 22vh;
-            animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+            animation: hero-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
 
@@ -1418,7 +1420,6 @@
             position: fixed;
             inset: 0;
             background: rgba(248, 248, 242, 0.97);
-            backdrop-filter: blur(20px);
             z-index: 998;
             display: flex;
             flex-direction: column;
@@ -1429,6 +1430,7 @@
             transition: opacity 0.3s ease;
         }
         .mobile-menu.open {
+            backdrop-filter: blur(20px);
             opacity: 1;
             pointer-events: all;
         }
@@ -1707,7 +1709,7 @@
 
         .hero-actions {
             margin-top: 1.9rem;
-            animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.58s both;
+            animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
         }
         .hero-cta,
         .hero-cta:visited {
@@ -1792,7 +1794,7 @@
             padding: 0 6px 22px;
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
             mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
-            animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+            animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
         }
         .bub {
             flex: none;
@@ -2025,13 +2027,22 @@
             columns: auto;
             overflow: hidden;
         }
-        .proof-wall.moving {
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0.16) 6%, rgba(0, 0, 0, 0.38) 10%, rgba(0, 0, 0, 0.66) 14%, rgba(0, 0, 0, 0.88) 18%, #000 23%, #000 77%, rgba(0, 0, 0, 0.88) 82%, rgba(0, 0, 0, 0.66) 86%, rgba(0, 0, 0, 0.38) 90%, rgba(0, 0, 0, 0.16) 94%, rgba(0, 0, 0, 0.04) 97%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0.16) 6%, rgba(0, 0, 0, 0.38) 10%, rgba(0, 0, 0, 0.66) 14%, rgba(0, 0, 0, 0.88) 18%, #000 23%, #000 77%, rgba(0, 0, 0, 0.88) 82%, rgba(0, 0, 0, 0.66) 86%, rgba(0, 0, 0, 0.38) 90%, rgba(0, 0, 0, 0.16) 94%, rgba(0, 0, 0, 0.04) 97%, transparent 100%);
+        .proof-wall.moving::before,
+        .proof-wall.moving::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 23%;
+            z-index: 1;
+            pointer-events: none;
         }
+        .proof-wall.moving::before { top: 0; background: linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, 0.96) 13%, rgba(255, 255, 255, 0.84) 26%, rgba(255, 255, 255, 0.62) 43%, rgba(255, 255, 255, 0.34) 61%, rgba(255, 255, 255, 0.12) 78%, rgba(255, 255, 255, 0.04) 87%, rgba(255, 255, 255, 0) 100%); }
+        .proof-wall.moving::after { bottom: 0; background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0.96) 13%, rgba(255, 255, 255, 0.84) 26%, rgba(255, 255, 255, 0.62) 43%, rgba(255, 255, 255, 0.34) 61%, rgba(255, 255, 255, 0.12) 78%, rgba(255, 255, 255, 0.04) 87%, rgba(255, 255, 255, 0) 100%); }
         .proof-col { flex: 1 1 0; min-width: 0; }
         .proof-track {
             animation: proof-up 60s linear infinite;
+            will-change: transform;
             animation-play-state: paused;
         }
         .proof-wall.run .proof-track { animation-play-state: running; }
@@ -2094,9 +2105,9 @@
             <div class="hero-copy">
                 <a href="https://wa.me/32490100821" target="_blank" class="social-proof">
                     <div class="social-proof-images">
-                        <img src="images/student1.jpg" alt="Student">
-                        <img src="images/student2.jpeg" alt="Student">
-                        <img src="images/student3.jpg" alt="Student">
+                        <img src="images/opt/student1.webp" alt="Student">
+                        <img src="images/opt/student2.webp" alt="Student">
+                        <img src="images/opt/student3.webp" alt="Student">
                     </div>
                     <span class="social-proof-text">200+ students passed. Join them.</span>
                 </a>
@@ -2116,26 +2127,26 @@
             <div
                 style="width: 100%; max-width: 56rem; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);">
                 <div class="logo-scroller">
-                    <div class="logo-track"><img src="images/logo1.png"
+                    <div class="logo-track"><img src="images/opt/logo1.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo2.png"
+                            alt="University Logo"><img src="images/opt/logo2.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo3.png"
+                            alt="University Logo"><img src="images/opt/logo3.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo4.png"
+                            alt="University Logo"><img src="images/opt/logo4.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo5.png"
+                            alt="University Logo"><img src="images/opt/logo5.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"></div>
-                    <div class="logo-track"><img src="images/logo1.png"
+                    <div class="logo-track"><img src="images/opt/logo1.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo2.png"
+                            alt="University Logo"><img src="images/opt/logo2.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo3.png"
+                            alt="University Logo"><img src="images/opt/logo3.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo4.png"
+                            alt="University Logo"><img src="images/opt/logo4.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/logo5.png"
+                            alt="University Logo"><img src="images/opt/logo5.webp"
                             style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
                             alt="University Logo"></div>
                 </div>
@@ -2156,7 +2167,7 @@
                 </div>
                 <div class="about-me-container" style="max-width: 1100px; gap: 60px; width: 100%;">
                     <div class="about-me-image">
-                        <img src="images/profile_image.jpg" alt="Jovan Samardzic">
+                        <img loading="lazy" decoding="async" src="images/opt/profile_image.webp" alt="Jovan Samardzic">
                     </div>
                     <div class="about-me-content" style="text-align: left; flex: 1;">
                         <div class="about-me-details">
@@ -2418,7 +2429,7 @@
                 </div>
                 <div id="course-timeline-content" class="ms-grid ms-grid--essential">
                     <div class="milestone" data-tiers="essential plus">
-                        <div class="milestone-img"><img src="images/feature1.png" alt="Practical Sessions"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature1.webp" alt="Practical Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-easel2-fill"></i></div>
                             <h4>Practical Tutoring Sessions</h4>
@@ -2426,7 +2437,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="plus">
-                        <div class="milestone-img"><img src="images/feature2.png" alt="Deep Dive Sessions"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature2.webp" alt="Deep Dive Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-people-fill"></i></div>
                             <h4>Deep Dive Tutoring Sessions</h4>
@@ -2434,7 +2445,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="vip">
-                        <div class="milestone-img"><img src="images/feature3.png" alt="1:1 Sessions"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature3.webp" alt="1:1 Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-person-fill"></i></div>
                             <h4>1:1 Tutoring Sessions</h4>
@@ -2442,7 +2453,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="essential plus vip">
-                        <div class="milestone-img"><img src="images/feature4.png" alt="Session Recordings"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature4.webp" alt="Session Recordings"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-camera-video-fill"></i></div>
                             <h4>Session Recordings</h4>
@@ -2450,7 +2461,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="essential plus vip">
-                        <div class="milestone-img"><img src="images/feature5.png" alt="Samkedemia Drive"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature5.webp" alt="Samkedemia Drive"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-folder-fill"></i></div>
                             <h4>Samkedemia Drive</h4>
@@ -2458,7 +2469,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="essential plus vip">
-                        <div class="milestone-img"><img src="images/feature6.png" alt="Support"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature6.webp" alt="Support"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-chat-dots-fill"></i></div>
                             <h4>Between-Session Support</h4>
@@ -2466,7 +2477,7 @@
                         </div>
                     </div>
                     <div class="milestone" data-tiers="vip">
-                        <div class="milestone-img"><img src="images/feature7.png" alt="Guarantee"></div>
+                        <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature7.webp" alt="Guarantee"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-shield-fill-check"></i></div>
                             <h4>Extended Service Guarantee</h4>
@@ -3438,7 +3449,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource1.png" alt="TI-84 Calculator">
+                                <img loading="lazy" decoding="async" src="images/opt/resource1.webp" alt="TI-84 Calculator">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
@@ -3451,7 +3462,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource12.png" alt="F'C - Learn Derivatives">
+                                <img loading="lazy" decoding="async" src="images/opt/resource12.webp" alt="F'C - Learn Derivatives">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
@@ -3464,7 +3475,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource2.png" alt="Linear Programming Solver">
+                                <img loading="lazy" decoding="async" src="images/opt/resource2.webp" alt="Linear Programming Solver">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
@@ -3477,7 +3488,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource3.png" alt="Excel Cheat Sheet">
+                                <img loading="lazy" decoding="async" src="images/opt/resource3.webp" alt="Excel Cheat Sheet">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
@@ -3490,7 +3501,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource4.png" alt="Central Limit Theorem">
+                                <img loading="lazy" decoding="async" src="images/opt/resource4.webp" alt="Central Limit Theorem">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
@@ -3510,7 +3521,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource5.png" alt="Math A">
+                                <img loading="lazy" decoding="async" src="images/opt/resource5.webp" alt="Math A">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3524,7 +3535,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource6.png" alt="Math B">
+                                <img loading="lazy" decoding="async" src="images/opt/resource6.webp" alt="Math B">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3538,7 +3549,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource7.png" alt="Descriptive Stats">
+                                <img loading="lazy" decoding="async" src="images/opt/resource7.webp" alt="Descriptive Stats">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3552,7 +3563,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource8.png" alt="Inferential Stats">
+                                <img loading="lazy" decoding="async" src="images/opt/resource8.webp" alt="Inferential Stats">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3566,7 +3577,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource9.png" alt="IMOR">
+                                <img loading="lazy" decoding="async" src="images/opt/resource9.webp" alt="IMOR">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3580,7 +3591,7 @@
 
                         <div class="resource-card-item">
                             <div class="resource-card-img">
-                                <img src="images/resource10.png" alt="Research Methods 3">
+                                <img loading="lazy" decoding="async" src="images/opt/resource10.webp" alt="Research Methods 3">
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
@@ -3643,7 +3654,7 @@
         <div class="footer-grid">
             <div class="footer-col logo-info">
                 <div class="footer-logo">
-                    <img src="images/logo-oneline-teal-orange.svg" alt="Samkedemia" class="footer-logo-img">
+                    <img loading="lazy" decoding="async" src="images/logo-oneline-teal-orange.svg" alt="Samkedemia" class="footer-logo-img">
                 </div>
                 <p>
                     JOVAN SAMARDZIC PR BEOGRAD (STARI GRAD)<br>
@@ -3988,13 +3999,13 @@
                 if (!items.length) return;
                 items.forEach((el, i) => {
                     el.classList.add('sr');
-                    el.style.transitionDelay = (base + i * step).toFixed(2) + 's';
+                    el.style.transitionDelay = ((base + i * step) * 0.5).toFixed(2) + 's';
                 });
                 const io = new IntersectionObserver(([e]) => {
                     if (!e.isIntersecting) return;
                     items.forEach((el, i) => {
                         el.classList.add('sr-on');
-                        const clearAfter = (base + i * step + 0.7) * 1000;
+                        const clearAfter = ((base + i * step) * 0.5 + 0.45) * 1000;
                         setTimeout(() => { el.style.transitionDelay = ''; }, clearAfter);
                     });
                     io.disconnect();
@@ -4117,17 +4128,17 @@
             let W = 0, H = 0, step = 20, radius = 200, cols = [], rows = [];
             const ripples = [];
             const mouse = { x: 0, y: 0, tx: 0, ty: 0, a: 0, ta: 0 };
-            let raf = 0, lastRipple = 0, lastFrame = 0;
+            let raf = 0, lastRipple = 0, lastFrame = 0, dirty = true;
 
             function size() {
                 const r = hero.getBoundingClientRect();
-                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
                 W = r.width; H = r.height;
                 canvas.width = Math.round(W * dpr);
                 canvas.height = Math.round(H * dpr);
                 ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 const small = W < 700;
-                step = small ? 28 : 18;
+                step = small ? 30 : 22;
                 radius = small ? 130 : 210;
                 cols = []; rows = [];
                 for (let x = (W % CELL) / 2; x <= W; x += CELL) cols.push(x);
@@ -4203,12 +4214,14 @@
                 mouse.x += (mouse.tx - mouse.x) * 0.16;
                 mouse.y += (mouse.ty - mouse.y) * 0.16;
                 mouse.a += (mouse.ta - mouse.a) * 0.08;
-                while (ripples.length && now - ripples[0].t > 5000) ripples.shift();
+                while (ripples.length && now - ripples[0].t > 3800) ripples.shift();
                 if (now - lastRipple > 4200) {
                     lastRipple = now;
                     if (mouse.ta === 0) ripple(W * (0.1 + Math.random() * 0.8), H * (0.1 + Math.random() * 0.6), W < 700 ? 7 : 11, 150);
                 }
-                draw(now);
+                const moving = ripples.length > 0 || mouse.a > 0.005 || mouse.ta > 0;
+                if (moving || dirty) draw(now);
+                dirty = moving;
             }
             function wake() { if (!raf && !calm && heroVisible && !document.hidden) raf = requestAnimationFrame(frame); }
 
@@ -4316,7 +4329,7 @@
                 let started = false;
                 new IntersectionObserver(function(e) {
                     chatVisible = e[0].isIntersecting;
-                    if (chatVisible && !started) { started = true; setTimeout(nextBubble, 700); }
+                    if (chatVisible && !started) { started = true; setTimeout(nextBubble, 250); }
                     else if (chatVisible && waiting) { waiting = false; nextBubble(); }
                 }, { threshold: 0.3 }).observe(chat);
                 document.addEventListener('visibilitychange', function() {
@@ -4338,9 +4351,10 @@
 
                 function addImg(track, s, clone) {
                     const img = new Image(s.w, s.h);
-                    img.src = s.src;
-                    img.alt = clone ? '' : s.alt;
+                    img.loading = 'lazy';
                     img.decoding = 'async';
+                    img.alt = clone ? '' : s.alt;
+                    img.src = s.src;
                     if (clone) img.setAttribute('aria-hidden', 'true');
                     track.appendChild(img);
                 }
