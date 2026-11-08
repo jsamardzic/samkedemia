@@ -2089,7 +2089,8 @@
             scroll-snap-align: none;
         }
         @media (max-width: 540px) {
-            .proof-wall.moving { height: 540px; margin-top: 24px; overflow: hidden; }
+            .proof-wall.moving { height: 580px; margin-top: 24px; overflow: hidden; gap: 10px; }
+            .proof-wall.moving img { margin-bottom: 10px; border-radius: 10px; }
         }
     
         /* ── Hero type: one serif statement, one sans for the rest ── */
@@ -4730,7 +4731,7 @@
                     track.appendChild(img);
                 }
                 function build() {
-                    const n = one.matches ? 1 : two.matches ? 2 : 3;
+                    const n = two.matches ? 2 : 3;   // phones get two columns too
                     const cols = [];
                     box.textContent = '';
                     for (let i = 0; i < n; i++) {
