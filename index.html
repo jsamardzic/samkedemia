@@ -2254,6 +2254,14 @@
         #hero-chip, #hero-chip.on { opacity: 1; transform: none; }
         #hero-chip .chip-w { display: block; height: 1.2em; overflow: hidden; }
         #hero-chip .chip-w b { right: auto; text-align: left; line-height: 1.2em; font-weight: 400; padding-right: 0.05em; }
+        /* Fixed slot: all names share one grid cell (as wide as the longest), right-aligned so the name always
+           sits next to "Tutoring.", which never moves. clip-path instead of overflow keeps the text on the title's baseline. */
+        #hero-chip { width: auto !important; height: auto; padding: 0; vertical-align: baseline; overflow: visible; }
+        #hero-chip .chip-w {
+            display: inline-grid; height: auto;
+            overflow-x: visible; overflow-y: clip; overflow-clip-margin: 0.06em;
+        }
+        #hero-chip .chip-w b { position: static; grid-area: 1 / 1; justify-self: end; }
 
         /* ── Header WhatsApp: round icon on the hero, opens into the full button once scrolled ── */
         :root { --pill-ease: cubic-bezier(0.4, 0, 0.2, 1); --pill-time: 0.5s; }
@@ -4433,10 +4441,7 @@
             const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let k = 0;
             function set(el, c) { el.classList.remove('in', 'dn', 'up'); el.classList.add(c); }
-            function fit(i) { chip.style.width = (words[i].offsetWidth + 2) + 'px'; }
-            fit(0);
-            window.addEventListener('resize', function() { fit(k); });
-            if (document.fonts) document.fonts.ready.then(function() { fit(k); });
+
             if (calm) { chip.classList.add('on'); title.classList.add('shown'); return; }
             // Course name is part of the title from the first frame: it rises in with the rest of the line
             chip.classList.add('on');
@@ -4447,7 +4452,6 @@
                 setInterval(function() {
                     if (document.hidden) return;
                     const o = k; k = (k + 1) % words.length;
-                    fit(k);
                     [words, icons].forEach(function(list) {
                         set(list[o], 'up');
                         const n = list[k];
