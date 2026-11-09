@@ -860,6 +860,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
                 if (!starts(peek())) throw new Error(`${t.v} needs something after it, like ${t.v}(x).`);
                 return { k: 'fn', f: t.v, a: power() };
             }
+            if (t.k === ')' && T[i - 2] && T[i - 2].k === '(') throw new Error('There is an empty box. Fill it in or delete it.');
             throw new Error(`Unexpected "${t.k}".`);
         }
         const r = expr();
@@ -1420,12 +1421,14 @@ function latexToInput(s) {
   }
   return run(undefined).trim();
 }
-const answerText = () => TOUCH ? $('ans').value.trim() : latexToInput($('ans').value || '');
+// an exponent opened by accident (x^{}) is invisible once the field loses focus: drop it instead of failing
+const ansLatex = () => ($('ans').value || '').replace(/[\^_]\{\}/g, '');
+const answerText = () => TOUCH ? $('ans').value.trim() : latexToInput(ansLatex());
 
 function renderPreview() {
   const el = $('preview'), s = answerText();
   if (!s) { el.className = 'preview'; el.textContent = ''; return; }
-  if (!TOUCH && /\{\}|\\placeholder/.test($('ans').value || '')) { el.className = 'preview'; el.textContent = ''; return; }   // still has empty boxes to fill
+  if (!TOUCH && /\{\}|\\placeholder/.test(ansLatex())) { el.className = 'preview'; el.textContent = ''; return; }   // still has empty boxes to fill
   try { const a = parse(s); el.className = 'preview'; if (TOUCH) K(`f'(x) = ${atex(a)}`, el); else el.textContent = ''; }
   catch (e) { el.className = 'preview err'; el.textContent = e.message === 'empty' ? '' : e.message; }
 }
@@ -1705,7 +1708,7 @@ function check(typed) {
   const s = typeof typed === 'string' ? typed : answerText();
   if (!s && play.shown) { nextProblem(); return; }
   if (!s) { $('ans').focus(); anim($('ans'), [{ transform: 'translateX(0)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 200 }); return; }
-  if (!TOUCH && /\\placeholder/.test($('ans').value || '')) { verdict(false, "Can't read that yet.", 'Fill in the empty box first.'); offerHelp(); return; }
+  if (!TOUCH && /\{\}|\\placeholder/.test(ansLatex())) { verdict(false, "Can't read that yet.", 'There is an empty box. Fill it in or delete it.'); offerHelp(); return; }
   let a; try { a = parse(s); } catch (e) { verdict(false, "Can't read that yet.", e.message); offerHelp(); return; }
   if (compare(a, st.cur.d)) {
     play.solved = true; $('ans').classList.add('done'); $('infoBtn').classList.remove('nudge'); renderActions();
