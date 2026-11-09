@@ -1740,6 +1740,43 @@
             outline-offset: 3px;
         }
 
+        /* A bright arc that travels around the button's edge */
+        @property --glow-a { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+        @keyframes hero-cta-orbit { to { --glow-a: 360deg; } }
+        .hero-cta,
+        .hero-cta:visited {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background:
+                linear-gradient(var(--orange), var(--orange)) padding-box,
+                conic-gradient(from var(--glow-a),
+                    var(--orange) 0deg,
+                    var(--orange) 110deg,
+                    #ff7a2e 210deg,
+                    #ff9a4d 290deg,
+                    #ffbf8c 332deg,
+                    #ffd9b8 348deg,
+                    var(--orange) 360deg) border-box;
+            animation: hero-cta-orbit 3.8s linear infinite;
+        }
+        /* the same light spilling onto the button face, strongest at the edge and fading toward the middle */
+        .hero-cta::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: conic-gradient(from var(--glow-a),
+                rgba(255, 190, 130, 0) 0deg,
+                rgba(255, 190, 130, 0) 200deg,
+                rgba(255, 190, 130, 0.14) 290deg,
+                rgba(255, 205, 150, 0.4) 348deg,
+                rgba(255, 190, 130, 0) 360deg);
+            -webkit-mask: radial-gradient(closest-side, transparent 55%, #000 105%);
+            mask: radial-gradient(closest-side, transparent 55%, #000 105%);
+        }
+
         /* ── One button at a time: the header's appears once the hero's has scrolled away ── */
         .header-actions .btn-whatsapp {
             max-width: 260px;
@@ -1899,6 +1936,8 @@
             .logo-scroller { animation: none !important; }
             .sr { opacity: 1; transform: none; transition: none; }
             .hero-cta { transition: none; }
+            .hero-cta, .hero-cta:visited { animation: none; }
+            .hero-cta::before { display: none; }
         }
     
         /* ── Subtitle ── */
@@ -2455,15 +2494,15 @@
                     position: absolute; left: 0; right: 0; bottom: 0;
                     height: 0;
                     border-radius: 8px 8px 0 0;
-                    transition: height 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+                    transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
                 }
                 .pass-bar.neutral { background: var(--cream-mid); }   /* warm grey: 'the others', no brand colour */
                 .pass-bar.samk-bar {
                     background: linear-gradient(180deg, #ff7a33 0%, var(--orange) 45%, var(--orange-dark) 140%);
                     box-shadow: 0 10px 28px -6px rgba(255, 85, 0, 0.55);
                 }
-                .pass-bar-group:nth-child(2) .pass-bar { transition-delay: 0.12s; }
-                .pass-bar-group:nth-child(3) .pass-bar { transition-delay: 0.24s; transition-duration: 1.5s; }
+                .pass-bar-group:nth-child(2) .pass-bar { transition-delay: 0.55s; transition-duration: 0.75s; }
+                .pass-bar-group:nth-child(3) .pass-bar { transition-delay: 1.15s; transition-duration: 1.1s; }
                 .pass-bar-pct {
                     position: absolute; left: 0; right: 0; bottom: 8px;
                     text-align: center;
@@ -2472,12 +2511,15 @@
                     font-size: 1.25rem;
                     color: #9a938c;
                     line-height: 1;
-                    transition: bottom 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+                    opacity: 0;   /* hidden until its bar has started to rise */
+                    transition: bottom 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
                 }
-                .pass-bar-group:nth-child(2) .pass-bar-pct { transition-delay: 0.12s; }
-                .pass-bar-group:nth-child(3) .pass-bar-pct { transition-delay: 0.24s; transition-duration: 1.5s; }
+                .pass-bar-pct.show { opacity: 1; }
+                .pass-bar-group:nth-child(2) .pass-bar-pct { transition-delay: 0.55s, 0s; transition-duration: 0.75s, 0.2s; }
+                .pass-bar-group:nth-child(3) .pass-bar-pct { transition-delay: 1.15s, 0s; transition-duration: 1.1s, 0.2s; }
                 .pass-bar-pct.samk { color: var(--orange); font-size: 1.6rem; }
-                /* on the Samkedemia bar the number sits inside the top of the bar, in white */
+                /* every number sits inside the top of its bar: darker grey on the neutral bars, white on the Samkedemia bar */
+                .pass-bar-pct.inside { color: #5a544e; }
                 .pass-bar-pct.samk.inside { color: var(--white); }
                 .pass-x {
                     position: absolute;
@@ -4018,8 +4060,8 @@
                 const track = g.querySelector('.pass-track'), bar = g.querySelector('.pass-bar'), lbl = g.querySelector('.pass-bar-pct');
                 const h = track.clientHeight * pct / 100;
                 bar.style.height = h + 'px';
-                if (lbl.classList.contains('samk')) { lbl.classList.add('inside'); lbl.style.bottom = (h - lbl.offsetHeight - 10) + 'px'; }
-                else lbl.style.bottom = (h + 8) + 'px';
+                lbl.classList.add('inside');
+                lbl.style.bottom = (h - lbl.offsetHeight - 10) + 'px';
             }
             function count(lbl, to, delay, dur) {
                 const t0 = performance.now() + delay;
@@ -4033,12 +4075,13 @@
             function run() {
                 groups.forEach((g, i) => {
                     const pct = +g.querySelector('.pass-bar').dataset.pct;
-                    const delay = i * 120, dur = i === 2 ? 1500 : 1100;
+                    const delay = [0, 550, 1150][i], dur = [700, 750, 1100][i];
+                    const lbl = g.querySelector('.pass-bar-pct');
                     place(g, pct);
-                    if (!calm) count(g.querySelector('.pass-bar-pct'), pct, delay, dur);
-                    else g.querySelector('.pass-bar-pct').textContent = pct + '%';
+                    if (!calm) { count(lbl, pct, delay, dur); setTimeout(() => lbl.classList.add('show'), delay + 250); }
+                    else { lbl.textContent = pct + '%'; lbl.classList.add('show'); }
                 });
-                setTimeout(() => tag().classList.add('in'), calm ? 0 : 1900);
+                setTimeout(() => tag().classList.add('in'), calm ? 0 : 2400);
             }
             const obs = new IntersectionObserver(entries => {
                 if (entries[0].isIntersecting) { run(); obs.disconnect(); }
