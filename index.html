@@ -2023,6 +2023,18 @@
         @media (max-width: 980px) {
             .hero-chat .bub-text { font-size: 15.5px; }
         }
+        /* Bigger, easier-to-read review card (2026-11-10): fills more of the hero's right half */
+        .hero-chat { max-width: 580px; height: 330px; }
+        .hero-chat .bub-body { padding: 22px 26px 18px; }
+        .hero-chat .bub-text { font-size: 20px; line-height: 1.42; }
+        .hero-chat .bub-foot { margin-top: 14px; font-size: 14.5px; }
+        .hero-chat .bub-foot i { font-size: 15px; }
+        @media (max-width: 980px) {
+            .hero-chat { max-width: 480px; }
+            .hero-chat .bub-body { padding: 18px 22px 16px; }
+            .hero-chat .bub-text { font-size: 17px; }
+            .hero-chat .bub-foot { font-size: 13.5px; }
+        }
         @media (max-width: 768px) {
             #trusted-logos > div img { height: 1.7rem !important; width: 6rem !important; }
             #trusted-logos p { font-size: 9px !important; }
@@ -2206,7 +2218,21 @@
             font-size: 16px; box-shadow: 0 2px 6px rgba(12,56,64,.12);
         }
         @media (max-width: 420px) { .hero-sub-proof .hero-more { width: 28px; height: 28px; margin-left: -9px; font-size: 14px; } }
+        /* "+200" pill in place of the "…" circle */
+        .hero-sub-proof .hero-more { width: auto; padding: 0 9px 0 8px; border-radius: 999px; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; }
+        @media (max-width: 420px) { .hero-sub-proof .hero-more { width: auto; padding: 0 7px 0 6px; font-size: 11.5px; } }
         .hero-sub-proof { margin-top: 0.2rem; }
+        /* "[3 faces][+200] passed their exams with us": bold, sized to sit with the 32px faces */
+        .hero-sub-proof > span:not(.hero-faces) { font-weight: 700; font-size: 20px; line-height: 1.2; white-space: nowrap; }
+        .hero-sub-proof { gap: 12px; }
+        /* "You're next." follows on the same line; on phones it gets its own centred line (too long otherwise) */
+        .hero-sub-proof .hero-next { margin-left: -6px; }
+        @media (max-width: 600px) {
+            .hero-sub-proof { flex-wrap: wrap; row-gap: 4px; }
+            .hero-sub-proof .hero-next { flex-basis: 100%; text-align: center; margin-left: 0; }
+        }
+        @media (max-width: 980px) { .hero-sub-proof { gap: 8px; } .hero-sub-proof > span:not(.hero-faces) { font-size: 15px; } }
+        @media (max-width: 370px) { .hero-sub-proof > span:not(.hero-faces) { font-size: 14px; } }
         .hero-sub-proof .hero-faces img { width: 32px; height: 32px; }
         .hero-sub-proof .hero-faces img + img { margin-left: -10px; }
         .hero-actions { margin-top: 1.6rem; }
@@ -2216,7 +2242,7 @@
             .hero-main { gap: 22px; }
             .hero-actions { width: 100%; max-width: 326px; margin-top: 1.4rem; }
             .hero-cta, .hero-cta:visited { width: 100%; justify-content: center; padding: 0 20px; }
-            .hero-chat { height: 210px; }
+            .hero-chat { height: 250px; }
         }
         @media (max-width: 420px) {
             .hero-sub-proof .hero-faces img { width: 28px; height: 28px; }
@@ -2245,6 +2271,11 @@
         /* ── Course chip inside the title ── */
         .hero-copy { container-type: inline-size; }
         .hero-title { font-size: min(6.9rem, 14cqi); }
+        /* Phones: sized so the wider line ("BBA Tutoring.") keeps ~38px sides, about the CTA button's; the top
+           margin lets the title breathe below the header pill. Re-measure if the rotating words change. */
+        @media (max-width: 600px) {
+            .hero-title { font-size: 14.5cqi; margin-top: 1.4rem; }
+        }
         .hero-title.shown .hero-line { overflow: visible; }
         .hero-line > span { white-space: nowrap; }
         .chip {
@@ -2294,14 +2325,18 @@
         #hero-chip, #hero-chip.on { opacity: 1; transform: none; }
         #hero-chip .chip-w { display: block; height: 1.2em; overflow: hidden; }
         #hero-chip .chip-w b { right: auto; text-align: left; line-height: 1.2em; font-weight: 400; padding-right: 0.05em; }
-        /* Fixed slot: all names share one grid cell (as wide as the longest), right-aligned so the name always
-           sits next to "Tutoring.", which never moves. clip-path instead of overflow keeps the text on the title's baseline. */
+        /* Fixed slot: all names share one grid cell (as wide as the longest), so "Tutoring." never moves; each
+           name is centred in it, so short ones (RM3) get even space both sides instead of hugging "Tutoring.".
+           clip-path instead of overflow keeps the text on the title's baseline. */
         #hero-chip { width: auto !important; height: auto; padding: 0; vertical-align: baseline; overflow: visible; }
         #hero-chip .chip-w {
             display: inline-grid; height: auto;
             overflow-x: visible; overflow-y: clip; overflow-clip-margin: 0.06em;
         }
-        #hero-chip .chip-w b { position: static; grid-area: 1 / 1; justify-self: end; }
+        #hero-chip .chip-w b { position: static; grid-area: 1 / 1; justify-self: center; }
+        /* Playfair sits its baseline lower than Vidaloka at this line height, which made line 2 ~0.08em taller
+           than line 1; negative margins (top and bottom) match them and keeps the name on the title's baseline. */
+        #hero-chip { margin: -0.2em 0 -0.03em; }
 
         /* ── Header WhatsApp: round icon on the hero, opens into the full button once scrolled ── */
         :root { --pill-ease: cubic-bezier(0.4, 0, 0.2, 1); --pill-time: 0.5s; }
@@ -2378,8 +2413,8 @@
         <canvas class="hero-grid" id="hero-grid" aria-hidden="true"></canvas>
         <div class="hero-main">
             <div class="hero-copy">
-                <h1 class="hero-title" aria-label="Result Driven Tutoring"><span class="hero-line" aria-hidden="true"><span>Result Driven</span></span><span class="hero-line" aria-hidden="true"><span><span class="chip" id="hero-chip"><span class="chip-ic"><i class="bi bi-graph-up in"></i><i class="bi bi-calculator dn"></i><i class="bi bi-bar-chart-line dn"></i><i class="bi bi-bar-chart-steps dn"></i><i class="bi bi-clipboard-data dn"></i><i class="bi bi-diagram-3 dn"></i></span><span class="chip-w"><b class="in">Math A</b><b class="dn">Math B</b><b class="dn">Stats 1</b><b class="dn">Stats 2</b><b class="dn">RM3</b><b class="dn">IMOR</b></span></span> Tutoring.</span></span></h1>
-                <p class="hero-subtitle hero-sub-proof"><span>More than 200 success stories</span><span class="hero-faces"><img src="images/opt/student1.webp" alt="" width="28" height="28"><img src="images/opt/student2.webp" alt="" width="28" height="28"><img src="images/opt/student3.webp" alt="" width="28" height="28"><span class="hero-more" aria-hidden="true"><i class="bi bi-three-dots"></i></span></span></p>
+                <h1 class="hero-title" aria-label="Result Driven Tutoring"><span class="hero-line" aria-hidden="true"><span>Result Driven</span></span><span class="hero-line" aria-hidden="true"><span><span class="chip" id="hero-chip"><span class="chip-ic"><i class="bi bi-graph-up in"></i><i class="bi bi-calculator dn"></i><i class="bi bi-bar-chart-line dn"></i></span><span class="chip-w"><b class="in">BBA</b><b class="dn">BBE</b><b class="dn">VUB</b></span></span> Tutoring.</span></span></h1>
+                <p class="hero-subtitle hero-sub-proof" aria-label="200+ students passed their exams with us. You’re next."><span class="hero-faces" aria-hidden="true"><img src="images/opt/student1.webp" alt="" width="28" height="28"><img src="images/opt/student2.webp" alt="" width="28" height="28"><img src="images/opt/student3.webp" alt="" width="28" height="28"><span class="hero-more">+200</span></span><span aria-hidden="true">passed their exams with us.</span><span class="hero-next" aria-hidden="true">You’re next.</span></p>
                 <div class="hero-actions">
                     <a href="https://wa.me/32490100821" target="_blank" class="hero-cta"><i class="bi bi-whatsapp"></i>Get Your Study Plan</a>
                 </div>
