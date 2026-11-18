@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&family=Outfit:wght@500;700;900&family=Playfair+Display:ital@1&family=Vidaloka&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Caveat:wght@700&family=JetBrains+Mono:wght@500;600;700&family=Vidaloka&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
 /* Layout: a teal desk under a spotlight. A sheet of squared paper holds the problem and your working; a dark glass coach card sits beside it. */
@@ -28,11 +28,10 @@
   --glass-top: rgba(5, 22, 25, .38); --glass-bottom: rgba(5, 22, 25, .62); --glass-border: rgba(255, 255, 255, .16);
   --bad: #b33c00;
   --font-display: Vidaloka, Georgia, serif;
-  --font-italic: "Playfair Display", Georgia, serif;
-  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
-  --font-num: Outfit, system-ui, sans-serif;
+  --font-body: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-num: "Bricolage Grotesque", system-ui, sans-serif;
   --font-hand: Caveat, "Comic Sans MS", cursive;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   color-scheme: dark;
 }
 html, body { min-height: 100%; } html { overflow-x: hidden; overflow-x: clip; }   /* clip: nothing can make the page scroll sideways, not even on iOS */
@@ -118,7 +117,7 @@ body::after { left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120
 #help .x, #goat .x { all: unset; position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--quiet); }
 #help .x:hover, #goat .x:hover { color: var(--cream); background: rgba(255, 255, 255, .12); }
 #help .x svg, #goat .x svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
-#help .fol, #goat .fol { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; margin-top: 14px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem; background: var(--orange); box-shadow: 0 0 36px rgba(255, 85, 0, .35); transition: transform .15s; }
+#help .fol, #goat .fol { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; margin-top: 14px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 700; font-size: .95rem; background: var(--orange); box-shadow: none; transition: transform .15s; }
 #help .fol:active, #goat .fol:active { transform: scale(.97); }
 #goat .card { text-align: center; padding-top: 30px; }
 #goat p { margin-bottom: 18px; }
@@ -290,7 +289,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
 .tools .btn { padding: 7px 10px; font-size: .76rem; }
 .btn.danger { background: transparent; border-color: var(--orange); color: var(--orange); }
 
-.toast { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 10; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; max-width: min(340px, calc(100vw - 40px)); padding: 14px 20px 14px 14px; border-radius: 20px; background: linear-gradient(var(--glass-top), var(--glass-bottom)), var(--ground-shade); border: 1.5px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0, 0, 0, .5), 0 0 60px rgba(255, 85, 0, .25); }
+.toast { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 10; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; max-width: min(340px, calc(100vw - 40px)); padding: 14px 20px 14px 14px; border-radius: 20px; background: linear-gradient(var(--glass-top), var(--glass-bottom)), var(--ground-shade); border: 1.5px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0, 0, 0, .5); }
 .toast img { width: 64px; height: 64px; object-fit: contain; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .5)); }
 .toast .label { display: block; margin-bottom: 6px; }
 .toast strong { font: 400 1.4rem/1.05 var(--font-display); color: var(--cream); }
@@ -1854,24 +1853,24 @@ async function drawCard(name) {
   // rating block
   const Y = 70;
   g.textAlign = 'center';
-  g.font = '900 230px Outfit, sans-serif'; g.fillText(String(o), cx + 215, cy + 300 + Y);
-  g.font = '900 44px Outfit, sans-serif'; g.letterSpacing = '14px'; g.fillText('OVR', cx + 222, cy + 362 + Y); g.letterSpacing = '0px';
+  g.font = '900 230px "Bricolage Grotesque", sans-serif'; g.fillText(String(o), cx + 215, cy + 300 + Y);
+  g.font = '900 44px "Bricolage Grotesque", sans-serif'; g.letterSpacing = '14px'; g.fillText('OVR', cx + 222, cy + 362 + Y); g.letterSpacing = '0px';
   // tier and title
   g.textAlign = 'left';
   g.fillRect(cx + 400, cy + 130 + Y, 4, 230);
-  g.font = '900 64px Outfit, sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210 + Y); g.letterSpacing = '0px';
-  g.font = '700 40px "Atkinson Hyperlegible", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 290 + Y); g.globalAlpha = 1;
+  g.font = '900 64px "Bricolage Grotesque", sans-serif'; g.letterSpacing = '6px'; g.fillText(tier.toUpperCase(), cx + 440, cy + 210 + Y); g.letterSpacing = '0px';
+  g.font = '700 40px "Bricolage Grotesque", sans-serif'; g.globalAlpha = .85; g.fillText(cardTitle(), cx + 440, cy + 290 + Y); g.globalAlpha = 1;
   // name
   g.textAlign = 'center';
   let size = 104; const label = (name || 'Student').toUpperCase();
-  do { g.font = `900 ${size}px Outfit, sans-serif`; size -= 4; } while (g.measureText(label).width > cw - 120 && size > 40);
+  do { g.font = `900 ${size}px "Bricolage Grotesque", sans-serif`; size -= 4; } while (g.measureText(label).width > cw - 120 && size > 40);
   g.fillText(label, cx + cw / 2, cy + 540 + Y);
   g.globalAlpha = .35; g.fillRect(cx + 90, cy + 590 + Y, cw - 180, 3); g.globalAlpha = 1;
   // skill ratings, two columns like a player card
   SKILLS.forEach((s, i) => {
     const col = i % 2, row = Math.floor(i / 2), alone = i === SKILLS.length - 1 && i % 2 === 0, x = alone ? cx + 310 : cx + (col ? 470 : 150), y = cy + 690 + Y + row * 82;
-    g.textAlign = 'right'; g.font = '900 58px Outfit, sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
-    g.textAlign = 'left'; g.font = '700 44px Outfit, sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
+    g.textAlign = 'right'; g.font = '900 58px "Bricolage Grotesque", sans-serif'; g.fillText(String(rating(st.R[s.id])), x + 70, y);
+    g.textAlign = 'left'; g.font = '700 44px "Bricolage Grotesque", sans-serif'; g.globalAlpha = .8; g.fillText(ABBR[s.id], x + 95, y); g.globalAlpha = 1;
   });
   return new Promise(res => c.toBlob(res, 'image/png'));
 }

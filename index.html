@@ -25,14 +25,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@700;900&family=Vidaloka&family=Playfair+Display:ital@1&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Vidaloka&family=Playfair+Display:ital@1&display=swap"
         rel="stylesheet">
     <style>
         :root {
             /* ── Fonts ── */
             --font-title:   'Vidaloka', serif;
-            --font-body:    'Atkinson Hyperlegible', sans-serif;
-            --font-numbers: 'Outfit', sans-serif;
+            --font-body:    'Bricolage Grotesque', sans-serif;
+            --font-numbers: 'Bricolage Grotesque', sans-serif;
 
             /* ── Orange  base: #ff5500 ── */
             --orange-dark:  #cc2200;
@@ -81,15 +81,6 @@
             }
         }
 
-        @keyframes scroll-logos {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
 
 
         * {
@@ -131,12 +122,8 @@
             margin-top: 0;
         }
 
-        h4 {
-            color: var(--teal-dark);
-            margin-top: 0;
-        }
 
-        footer h1, footer h2, footer h3, footer h4 {
+        footer h1, footer h2, footer h3 {
             color: white;
         }
 
@@ -297,23 +284,6 @@
             pointer-events: none;
         }
 
-        .logo-scroller {
-            display: flex;
-            width: max-content;
-            will-change: transform;
-            animation: scroll-logos 30s linear infinite;
-        }
-
-        .logo-track {
-            flex-shrink: 0;
-            display: flex;
-            gap: 4rem;
-            /* 16 * 0.25rem */
-            align-items: center;
-            padding-left: 2rem;
-            /* 8 * 0.25rem */
-            padding-right: 2rem;
-        }
 
         /* --- Social Proof Banner --- */
         .social-proof {
@@ -400,7 +370,7 @@
             display: block;
         }
 
-        .card-content h3 {
+        .card-content h2 {
             font-family: var(--font-title);
             font-size: clamp(1.8rem, 7vw, 3rem);
             font-weight: 400;
@@ -413,7 +383,7 @@
             justify-content: center;
             gap: 0.5em;
         }
-        .card-content h3 i {
+        .card-content h2 i {
             color: var(--teal-dark);
             font-size: 0.75em;
             flex-shrink: 0;
@@ -432,7 +402,7 @@
                 letter-spacing: 0.16em;
                 margin-bottom: 8px;
             }
-            .card-content h3 {
+            .card-content h2 {
                 font-size: 2rem;
                 margin-bottom: 10px;
             }
@@ -671,9 +641,10 @@
             align-items: center;
         }
 
-        .milestone h4 {
-            font-family: var(--font-title);
-            font-weight: 400;
+        .milestone h3 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            letter-spacing: -0.01em;
             font-size: 1.05rem;
             color: var(--teal-dark);
             margin-bottom: 0;
@@ -743,25 +714,48 @@
             margin: 0 auto;
         }
 
-        .milestone {
-            transition: opacity 0.15s ease, transform 0.15s ease;
-        }
+        /* Program switch: old cards fade in place, staying cards glide, new cards rise in softly */
         .milestone.ms-out {
-            opacity: 0 !important;
-            transform: translateY(12px) scale(0.96) !important;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            pointer-events: none;
         }
         @keyframes msEnter {
-            from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+            from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: none; }
         }
         .milestone.ms-in {
-            animation: msEnter 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation: msEnter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
+        #course-timeline-content.ms-sizing {
+            overflow: hidden;
+            transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        /* Descriptions share one spot, so switching never pushes the cards down */
+        #tier-description { display: grid; }
+        #tier-description [data-tier-text] {
+            grid-area: 1 / 1;
+            display: block !important;
+            text-wrap: balance;
+            transition: opacity 0.25s ease;
+        }
+        #tier-description [data-tier-text].tier-off { opacity: 0; visibility: hidden; transition: opacity 0.18s ease, visibility 0s linear 0.18s; }
+        #tier-description [data-tier-text] br { display: none; }
+        @media (prefers-reduced-motion: reduce) {
+            .milestone.ms-out, .milestone.ms-in, #tier-description [data-tier-text] { transition: none; animation: none; }
+        }
+
+
+        /* Bricolage is wider than Atkinson: keep card titles on one line on desktop, balance the rest */
+        .milestone h3 { font-size: 1rem; letter-spacing: -0.015em; text-wrap: balance; }
+        .milestone p, .pricing-disclaimers p, #tier-description p { text-wrap: pretty; }
+        @media (max-width: 700px) { .milestone h3 { font-size: 0.88rem; } }
 
         @media (max-width: 700px) {
             .ms-grid { grid-template-columns: repeat(2, 1fr); }
             .milestone-content { padding: 12px 14px 14px; column-gap: 8px; }
-            .milestone h4 { font-size: 0.88rem; }
+            .milestone h3 { font-size: 0.88rem; }
             .milestone p { font-size: 0.76rem; }
             .milestone-icon { font-size: 17px; }
         }
@@ -897,7 +891,7 @@
             letter-spacing: 0.1em;
         }
 
-        .footer-col h4 {
+        .footer-col h3 {
             font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -1015,8 +1009,8 @@
             position: absolute;
             z-index: -1;
             /* marker stroke in brand light teal: lower part of the word, ragged ends */
-            inset: 40% -0.12em 2% -0.1em;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='none'%3E%3Cpath fill='%2383acb2' fill-opacity='0.26' d='M4 9 C40 5 110 7 196 3 C199 12 195 22 198 33 C150 35 70 37 6 36 C1 28 6 18 4 9Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+            inset: 20% -0.16em -2% -0.14em;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='none'%3E%3Cpath fill='%2383acb2' fill-opacity='0.4' d='M4 9 C40 5 110 7 196 3 C199 12 195 22 198 33 C150 35 70 37 6 36 C1 28 6 18 4 9Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
             transform: rotate(-0.8deg);
             clip-path: inset(0 100% 0 0);
             transition: none;
@@ -1339,7 +1333,7 @@
 
         /* About Me scroll animation */
         #about-me-card .card-tag,
-        #about-me-card h3 {
+        #about-me-card h2 {
             opacity: 0;
             transform: translateY(22px);
             transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1358,7 +1352,7 @@
         }
 
         #about-me-card.about-animated .card-tag { opacity: 1; transform: none; }
-        #about-me-card.about-animated h3 { opacity: 1; transform: none; transition-delay: 0.1s; }
+        #about-me-card.about-animated h2 { opacity: 1; transform: none; transition-delay: 0.1s; }
         #about-me-card.about-animated .about-me-image { opacity: 1; transform: none; transition-delay: 0.18s; }
         #about-me-card.about-animated .detail-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.38s; }
         #about-me-card.about-animated .detail-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.56s; }
@@ -1510,7 +1504,7 @@
                 height: auto !important;
                 padding: 60px 5% !important;
             }
-            #about-me-card h3 {
+            #about-me-card h2 {
                 font-size: 2rem !important;
             }
             #about-me-card > .card-content {
@@ -1558,29 +1552,15 @@
             .pricing-table td:first-child {
                 padding-left: 2px !important;
             }
-            .pricing-table .tier-price {
-                font-size: 1.1rem !important;
-            }
             .pricing-table .tier-name {
                 font-size: 0.72rem !important;
-            }
-            .pricing-table .tier-sub {
-                font-size: 0.5rem !important;
             }
             .tier-badge {
                 font-size: 0.43rem !important;
                 padding: 3px 5px !important;
             }
-            .pt-btn {
-                padding: 7px 12px !important;
-                font-size: 0.52rem !important;
-                letter-spacing: 0.1em !important;
-            }
             .pt-yes, .pt-no {
                 font-size: 0.72rem !important;
-            }
-            .tier-price-row .tier-hr {
-                font-size: 0.5rem !important;
             }
 
             /* Section card padding — much tighter on mobile */
@@ -1933,7 +1913,6 @@
         /* ── Motion off: finished paper, still grid ── */
         @media (prefers-reduced-motion: reduce) {
             .hero-line > span, .hero-proof, .hero-title, .hero-subtitle, .hero .social-proof, .hero-actions, .hero-chat { animation: none; }
-            .logo-scroller { animation: none !important; }
             .sr { opacity: 1; transform: none; transition: none; }
             .hero-cta { transition: none; }
             .hero-cta, .hero-cta:visited { animation: none; }
@@ -2373,6 +2352,81 @@
             header, .header-nav, header .header-actions .btn-whatsapp, .btn-whatsapp .btn-label { transition: none !important; }
         }
     </style>
+    <!-- Cream backdrop 2026-11-18: noisy cream gradient like the Post Directions backgrounds, on the hero and behind the whole page -->
+    <style>
+        :root { --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        body { background-color: var(--cream); }
+
+        /* whole page: flat cream, the same cream as the boxes, with the faint dots */
+        .wavy-bg { background: var(--cream); opacity: 1; }
+        .wavy-bg::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(var(--teal-light) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.13; }
+
+        /* hero: its own light on the headline, under the grid, fading into the page */
+        #hero, .hero { background: transparent; }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 85% 75% at 32% 46%, var(--white) 0%, var(--cream) 38%, var(--cream-dark) 72%, var(--cream-mid) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: var(--grain);
+            background-size: 256px 256px;
+            opacity: 0.32;
+            mix-blend-mode: multiply;
+            -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+        }
+
+        /* big section cards: warm off-white (half white, half cream) instead of pure white; inner boxes stay light teal */
+        :root { --card: color-mix(in srgb, var(--white) 50%, var(--cream)); }
+        .stack-card { background: var(--card); }
+        /* the moving reviews fade into the card colour, not pure white */
+        .proof-wall.moving::before { background: linear-gradient(to bottom, color-mix(in srgb, var(--card) 100%, transparent) 0%, color-mix(in srgb, var(--card) 96%, transparent) 13%, color-mix(in srgb, var(--card) 84%, transparent) 26%, color-mix(in srgb, var(--card) 62%, transparent) 43%, color-mix(in srgb, var(--card) 34%, transparent) 61%, color-mix(in srgb, var(--card) 12%, transparent) 78%, color-mix(in srgb, var(--card) 4%, transparent) 87%, color-mix(in srgb, var(--card) 0%, transparent) 100%); }
+        .proof-wall.moving::after { background: linear-gradient(to top, color-mix(in srgb, var(--card) 100%, transparent) 0%, color-mix(in srgb, var(--card) 96%, transparent) 13%, color-mix(in srgb, var(--card) 84%, transparent) 26%, color-mix(in srgb, var(--card) 62%, transparent) 43%, color-mix(in srgb, var(--card) 34%, transparent) 61%, color-mix(in srgb, var(--card) 12%, transparent) 78%, color-mix(in srgb, var(--card) 4%, transparent) 87%, color-mix(in srgb, var(--card) 0%, transparent) 100%); }
+
+        /* trusted-by: one still row */
+        .trusted-row { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 18px clamp(28px, 5vw, 64px); max-width: 980px; }
+        .trusted-row img { display: block; width: auto; opacity: 0.5; }
+        @media (max-width: 600px) { .trusted-row { gap: 16px 28px; } .trusted-row img { transform: scale(0.8); } }
+
+        /* minimum readable sizes for the smallest labels */
+        #results-card .card-content p.results-footnote { font-size: 10px !important; }
+        .tier-badge { font-size: 9.5px !important; }
+        .pt-feature sup, .pricing-disclaimers sup { font-size: 9px !important; }
+        .info-btn { width: 16px !important; height: 16px !important; font-size: 10px !important; }
+        #trusted-logos p { font-size: 10px !important; }
+        @media (max-width: 768px) { .tier-badge { font-size: 9px !important; padding: 3px 6px !important; } }
+
+        /* header pill: links in the full brand teal, not the washed mid teal */
+        .header-nav-link, .mobile-nav-link { color: var(--teal-dark); }
+        .hamburger-btn span { background: var(--teal-dark); }
+
+        /* contact keeps its grid, the cream shows through */
+        .contact-row { background: var(--cream); border-color: var(--cream-dark); }
+        .stack-card .milestone, .stack-card .results-stat { background: var(--cream); border-color: var(--cream-dark); }
+        .contact-section { background: transparent; overflow: visible; }
+        footer { position: relative; z-index: 1; }
+        /* contact: the same noisy cream light as the hero, rising out of the flat cream above it */
+        .contact-light { position: absolute; inset: 0 0 -60px 0; z-index: -1; pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%); mask-image: linear-gradient(to bottom, transparent 0%, #000 35%); }
+        .contact-light::before, .contact-light::after { content: ''; position: absolute; inset: 0; }
+        .contact-light::before { background: radial-gradient(ellipse 80% 90% at 50% 45%, var(--white) 0%, var(--cream) 38%, var(--cream-dark) 72%, var(--cream-mid) 100%); }
+        .contact-light::after { background-image: var(--grain); background-size: 256px 256px; opacity: 0.2; mix-blend-mode: multiply; }
+
+        /* no orbiting light around the hero button; everything else as before */
+        .hero-cta, .hero-cta:visited { animation: none; border-color: transparent; background: var(--orange); }
+        .hero-cta::before { display: none; }
+    </style>
 </head>
 
 <body>
@@ -2423,36 +2477,14 @@
         </div>
         <!-- Trusted By Logos (Rotating) -->
         <div id="trusted-logos">
-            <p
-                style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--teal-mid);">
-                Trusted by students from</p>
-            <div
-                style="width: 100%; max-width: 56rem; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);">
-                <div class="logo-scroller">
-                    <div class="logo-track"><img src="images/opt/logo1.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo2.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo3.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo4.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo5.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"></div>
-                    <div class="logo-track"><img src="images/opt/logo1.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo2.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo3.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo4.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"><img src="images/opt/logo5.webp"
-                            style="height: 3rem; width: 10rem; filter: grayscale(1) sepia(0.5) hue-rotate(140deg) saturate(1.2) brightness(0.85); opacity: 0.38; object-fit: contain;"
-                            alt="University Logo"></div>
-                </div>
-            </div>
+            <p style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--teal-mid);">Trusted by students from</p>
+            <ul class="trusted-row">
+                <li><img src="images/opt/logo3-mono.webp" alt="KU Leuven" style="height:34px" decoding="async"></li>
+                <li><img src="images/opt/logo4-mono.webp" alt="Vrije Universiteit Brussel" style="height:34px" decoding="async"></li>
+                <li><img src="images/opt/logo5-mono.webp" alt="Erasmus University Rotterdam" style="height:38px" decoding="async"></li>
+                <li><img src="images/opt/logo2-mono.webp" alt="Bocconi University" style="height:26px" decoding="async"></li>
+                <li><img src="images/opt/logo1-mono.webp" alt="Imperial College London" style="height:16px" decoding="async"></li>
+            </ul>
         </div>
     </section>
 
@@ -2464,7 +2496,7 @@
                 style="display: flex; flex-direction: column; align-items: center; gap: 0px; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 40px;">
                     <span class="card-tag">Let Me Introduce Myself.</span>
-                    <h3>About Me<i class="bi bi-patch-check-fill"></i></h3>
+                    <h2>About Me<i class="bi bi-patch-check-fill"></i></h2>
                     <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">I'll make sure you pass this exam. I know exactly what it takes to get there.</p>
                 </div>
                 <div class="about-me-container" style="max-width: 1100px; gap: 60px; width: 100%;">
@@ -2531,7 +2563,7 @@
                     border-radius: 8px 8px 0 0;
                     transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
                 }
-                .pass-bar.neutral { background: var(--cream-mid); }   /* warm grey: 'the others', no brand colour */
+                .pass-bar.neutral { background: #e3ddd3; }   /* deep cream (from the Post Directions backgrounds): 'the others', no brand colour */
                 .pass-bar.samk-bar {
                     background: linear-gradient(180deg, #ff7a33 0%, var(--orange) 45%, var(--orange-dark) 140%);
                     box-shadow: 0 10px 28px -6px rgba(255, 85, 0, 0.55);
@@ -2571,6 +2603,10 @@
                     color: var(--orange); line-height: 1;
                 }
                 .pass-x span { display: block; font-size: 0.78rem; line-height: 1.3; color: var(--teal-mid); margin-top: 4px; }
+                /* the label breaks only between its two halves, never mid-phrase */
+                .pass-x span i { font-style: normal; white-space: nowrap; }
+                .pass-x-side { width: max-content; }
+                .pass-x-side span i { display: block; }
                 .pass-chart-base { border-top: 1.5px solid var(--cream-dark); }
                 .pass-bar-names {
                     display: flex;
@@ -2688,7 +2724,7 @@
             <div class="card-content" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 56px;">
                     <span class="card-tag">Proof that it works.</span>
-                    <h3>Results<i class="bi bi-trophy-fill"></i></h3>
+                    <h2>Results<i class="bi bi-trophy-fill"></i></h2>
                     <p style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Real feedback from real students. This is what structured preparation actually looks like.</p>
                 </div>
 
@@ -2705,7 +2741,7 @@
                         </div>
                         <div class="pass-bar-group">
                             <div class="pass-track"><div class="pass-bar samk-bar" data-pct="84"></div><div class="pass-bar-pct samk">0%</div></div>
-                            <div class="pass-x pass-x-side"><b>4.4×</b><span>more likely to pass than with no tutoring</span></div>
+                            <div class="pass-x pass-x-side"><b>4.4×</b><span><i>more likely to pass</i> <i>than with no tutoring</i></span></div>
                         </div>
                     </div>
                     <div class="pass-chart-base"></div>
@@ -2714,7 +2750,7 @@
                         <div class="pass-bar-name">Other Tutors*</div>
                         <div class="pass-bar-name samk">Samkedemia</div>
                     </div>
-                    <div class="pass-x pass-x-below"><b>4.4×</b><span>more likely to pass than with no tutoring</span></div>
+                    <div class="pass-x pass-x-below"><b>4.4×</b><span><i>more likely to pass</i> <i>than with no tutoring</i></span></div>
                 </div>
                 <p class="results-footnote">* Based on internal research conducted in 2026.</p>
 
@@ -2774,7 +2810,7 @@
             <div class="card-content" style="width: 100%; max-width: 1100px;">
                 <div style="text-align: center; margin-bottom: 30px;">
                     <span class="card-tag">Everything you need to pass.</span>
-                    <h3>What's Included<i class="bi bi-clipboard2-check-fill"></i></h3>
+                    <h2>What's Included<i class="bi bi-clipboard2-check-fill"></i></h2>
                     <p class="timeline-subtitle" style="color: var(--teal-mid); font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 0;">Direct support available at all times. From day one to exam day.</p>
                     <p class="faq-label" style="margin-top: 52px;">Programs</p>
                     <div class="tier-tabs" id="tier-tabs">
@@ -2783,7 +2819,7 @@
                         <button class="tier-tab" data-tier="vip">VIP Coaching</button>
                     </div>
                 </div>
-                <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 600px;">
+                <div id="tier-description" style="text-align: center; margin: 0 auto 32px; max-width: 640px;">
                     <p data-tier-text="essential" style="font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">This is our go-to path. You'll get practical sessions prepared by Jovan, <br> covering every crucial exercise and the latest exam patterns. <br> It's the full roadmap to secure your pass without the guesswork.</p>
                     <p data-tier-text="plus" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">Everything from Essential program, plus deep dive sessions capped at 4 students. <br> Just let me know what's confusing you, and we'll iron out those weak spots together.<br> Best option if you're looking to get a high grade.</p>
                     <p data-tier-text="vip" style="display: none; font-size: 1rem; color: var(--teal-mid); line-height: 1.65;">A completely private experience built around your pace. <br> We'll meet one-on-one to master tricky topics. You get total peace of mind. <br> Even if you don't pass on the first try, I'll tutor you for free until you do.</p>
@@ -2793,7 +2829,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature1.webp" alt="Practical Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-easel2-fill"></i></div>
-                            <h4>Practical Tutoring Sessions</h4>
+                            <h3>Practical Tutoring Sessions</h3>
                             <p>Led by Jovan. Crucial exercises only and recent past exams with minimal theory and full chat Q&A.</p>
                         </div>
                     </div>
@@ -2801,7 +2837,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature2.webp" alt="Deep Dive Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-people-fill"></i></div>
-                            <h4>Deep Dive Tutoring Sessions</h4>
+                            <h3>Deep Dive Tutoring Sessions</h3>
                             <p>Interactive sessions in groups of 4, strictly targeted to the specific topics you request.</p>
                         </div>
                     </div>
@@ -2809,7 +2845,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature3.webp" alt="1:1 Sessions"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-person-fill"></i></div>
-                            <h4>1:1 Tutoring Sessions</h4>
+                            <h3>1:1 Tutoring Sessions</h3>
                             <p>Completely private sessions built entirely around your pace, weak points, and exam timeline.</p>
                         </div>
                     </div>
@@ -2817,7 +2853,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature4.webp" alt="Session Recordings"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-camera-video-fill"></i></div>
-                            <h4>Session Recordings</h4>
+                            <h3>Session Recordings</h3>
                             <p>Full access to all session replays, ensuring you never miss a detail even if you can't attend.</p>
                         </div>
                     </div>
@@ -2825,7 +2861,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature5.webp" alt="Samkedemia Drive"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-folder-fill"></i></div>
-                            <h4>Samkedemia Drive</h4>
+                            <h3>Samkedemia Drive</h3>
                             <p>A complete digital library containing all slides, actual past exams, custom practice exams, and step-by-step Solution Books.</p>
                         </div>
                     </div>
@@ -2833,7 +2869,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature6.webp" alt="Support"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-chat-dots-fill"></i></div>
-                            <h4>Between-Session Support</h4>
+                            <h3>Between-Session Support</h3>
                             <p>Direct WhatsApp access for continuous guidance and quick clarifications to keep you on track between sessions.</p>
                         </div>
                     </div>
@@ -2841,7 +2877,7 @@
                         <div class="milestone-img"><img loading="lazy" decoding="async" src="images/opt/feature7.webp" alt="Guarantee"></div>
                         <div class="milestone-content">
                             <div class="milestone-icon"><i class="bi bi-shield-fill-check"></i></div>
-                            <h4>Extended Service Guarantee</h4>
+                            <h3>Extended Service Guarantee</h3>
                             <p>If you don't pass, you keep attending tutoring sessions at no extra cost until you do.</p>
                         </div>
                     </div>
@@ -2935,15 +2971,6 @@
                 }
 
 
-                .pricing-table .tier-price {
-                    font-family: var(--font-numbers);
-                    font-weight: 900;
-                    font-size: 1.5rem;
-                    color: var(--teal-dark);
-                    line-height: 1;
-                    display: block;
-                    margin-bottom: 3px;
-                }
 
                 .tier-name-row {
                     display: flex;
@@ -2964,6 +2991,7 @@
                     margin-bottom: 0;
                 }
 
+
                 .info-btn {
                     display: inline-flex;
                     align-items: center;
@@ -2974,10 +3002,9 @@
                     border: 1.5px solid var(--teal-light);
                     background: none;
                     color: var(--teal-light);
-                    font-size: 0.52rem;
+                    font-family: var(--font-body);
+                    font-size: 0.55rem;
                     font-weight: 700;
-                    font-style: italic;
-                    font-family: Georgia, serif;
                     cursor: pointer;
                     transition: border-color 0.15s, color 0.15s;
                     flex-shrink: 0;
@@ -2988,18 +3015,16 @@
                     border-color: var(--teal-dark);
                     color: var(--teal-dark);
                 }
+                .info-btn:focus-visible {
+                    outline: 2px solid var(--orange);
+                    outline-offset: 2px;
+                }
 
                 .pricing-table thead th .tier-badge {
                     margin-top: 10px;
                     margin-bottom: 0;
                 }
 
-                .pricing-table .tier-sub {
-                    font-size: 0.6rem;
-                    font-weight: 500;
-                    color: var(--teal-light);
-                    display: block;
-                }
 
                 /* Zebra rows */
                 .pricing-table tbody tr:nth-child(odd) td {
@@ -3023,12 +3048,6 @@
                     border-radius: 0 0 10px 0;
                 }
 
-                .pricing-table tr.row-cta td {
-                    padding-top: 22px;
-                    background: none !important;
-                    border-top: 1px solid var(--cream-dark);
-                    padding-bottom: 0;
-                }
 
                 /* Tick / cross */
                 .pt-yes {
@@ -3074,24 +3093,7 @@
                     font-size: 16px;
                 }
 
-                .pt-btn {
-                    display: inline-block;
-                    padding: 9px 22px;
-                    border-radius: 100px;
-                    font-size: 0.65rem;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    letter-spacing: 0.15em;
-                    text-decoration: none;
-                    transition: all 0.25s ease;
-                    background: var(--teal-dark);
-                    color: white;
-                }
 
-                .pt-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-                }
 
                 .pricing-disclaimers {
                     margin-top: 24px;
@@ -3155,79 +3157,15 @@
                     color: white;
                 }
 
-                .tier-price-row {
-                    display: flex;
-                    align-items: baseline;
-                    gap: 4px;
-                    margin-bottom: 3px;
-                    justify-content: center;
-                }
 
-                .tier-price-row .tier-price {
-                    margin: 0;
-                }
 
-                .tier-price-row .tier-hr {
-                    font-size: 0.55rem;
-                    font-weight: 500;
-                    color: var(--teal-light);
-                }
 
-                .pricing-tiers {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 16px;
-                    width: 100%;
-                    max-width: 1000px;
-                    margin: 36px auto 22px;
-                }
 
-                .pricing-tier-card {
-                    background: var(--bg);
-                    border-radius: 16px;
-                    padding: 18px 20px 20px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    text-align: center;
-                    border: 1px solid var(--cream-dark);
-                    gap: 3px;
-                }
 
-                .ptc-name {
-                    font-family: var(--font-title);
-                    font-weight: 400;
-                    font-size: 1rem;
-                    color: var(--teal-dark);
-                    margin-top: 4px;
-                    margin-bottom: 6px;
-                }
 
-                .ptc-price-row {
-                    display: flex;
-                    align-items: baseline;
-                    gap: 3px;
-                }
 
-                .ptc-price {
-                    font-family: var(--font-title);
-                    font-weight: 400;
-                    font-size: 1.7rem;
-                    color: var(--teal-dark);
-                    line-height: 1;
-                }
 
-                .ptc-unit {
-                    font-size: 0.65rem;
-                    font-weight: 500;
-                    color: var(--teal-light);
-                }
 
-                .ptc-total {
-                    font-size: 0.7rem;
-                    color: var(--teal-light);
-                    font-weight: 500;
-                }
 
                 .pt-feature sup {
                     color: var(--orange);
@@ -3239,113 +3177,7 @@
                     line-height: 1;
                 }
 
-                @media (max-width: 680px) {
-                    .pricing-tier-card {
-                        padding: 12px 10px 14px;
-                    }
-                    .ptc-price {
-                        font-size: 1.3rem;
-                    }
-                    .ptc-name {
-                        font-size: 0.72rem;
-                    }
-                }
             </style>
-                <hr class="faq-divider">
-                <p class="faq-label">Summary</p>
-                <div class="pricing-pills">
-                    <div class="referral-banner">
-                        <span class="referral-icon"><i class="bi bi-person-plus-fill"></i></span>
-                        <span class="referral-text">Refer a friend and get <strong>€50 off</strong> your program!</span>
-                    </div>
-                    <div class="referral-banner">
-                        <span class="referral-icon"><i class="bi bi-calendar-check-fill"></i></span>
-                        <span class="referral-text">Payment in <strong>installments</strong> possible!</span>
-                    </div>
-                </div>
-
-                <div class="pricing-table-wrap">
-                    <table class="pricing-table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>
-                                    <div class="tier-name-row"><span class="tier-name">Essential</span><button class="info-btn" data-tier="essential" aria-label="What's included in Essential">i</button></div>
-                                    <span class="tier-badge popular">Most Popular</span>
-                                </th>
-                                <th>
-                                    <div class="tier-name-row"><span class="tier-name">Plus</span><button class="info-btn" data-tier="plus" aria-label="What's included in Plus">i</button></div>
-                                    <span class="tier-badge best-value">Best Value</span>
-                                </th>
-                                <th>
-                                    <div class="tier-name-row"><span class="tier-name">VIP Coaching</span><button class="info-btn" data-tier="vip" aria-label="What's included in VIP Coaching">i</button></div>
-                                    <span class="tier-badge limited">Full Guarantee</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-easel2-fill"></i></span>Practical Tutoring Sessions</span></td>
-                                <td><span class="pt-yes">20</span></td>
-                                <td><span class="pt-yes">20</span></td>
-                                <td><span class="pt-no">0</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-people-fill"></i></span>Deep Dive Tutoring Sessions</span></td>
-                                <td><span class="pt-no">0</span></td>
-                                <td><span class="pt-yes">10</span></td>
-                                <td><span class="pt-no">0</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-person-fill"></i></span>1:1 Tutoring Sessions</span></td>
-                                <td><span class="pt-no">0</span></td>
-                                <td><span class="pt-no">0</span></td>
-                                <td><span class="pt-yes">20</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-camera-video-fill"></i></span>Session Recordings</span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-folder-fill"></i></span>Access to Samkedemia Drive</span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-chat-dots-fill"></i></span>Between-Session Support</span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
-                            </tr>
-                            <!-- SAMKE AI ROW — uncomment when ready to launch
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>1</sup></span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
-                                <td><span class="pt-soon">Coming Soon</span></td>
-                            </tr>
-                            Also uncomment footnote <sup>1</sup> in .pricing-disclaimers below, and change sup>2 on Extended Service back to sup>1.
-                            -->
-                            <tr>
-                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
-                                <td><span class="pt-no">—</span></td>
-                                <td><span class="pt-yes">6 months</span></td>
-                                <td><span class="pt-yes">Lifetime Coverage</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="pricing-disclaimers">
-                    <!-- SAMKE AI FOOTNOTE — restore when uncommenting the row above, and change sup>2 on Extended Service back to sup>2
-                    <p><sup>1</sup> Structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude). Coming in Oct 2026.</p>
-                    -->
-                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Plus program are entitled to retain full access to all completed sessions for 6 months. <br> Students in the VIP Coaching program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
-                </div>
-
                 <!-- FAQ -->
                 <style>
                     .faq-divider { border: none; border-top: 1.5px solid var(--cream-dark); margin: 52px 0 36px; }
@@ -3564,6 +3396,101 @@
                 </div>
 
                 <hr class="faq-divider">
+                <p class="faq-label">Summary</p>
+                <div class="pricing-pills">
+                    <div class="referral-banner">
+                        <span class="referral-icon"><i class="bi bi-person-plus-fill"></i></span>
+                        <span class="referral-text">Refer a friend and get <strong>€50 off</strong> your program!</span>
+                    </div>
+                    <div class="referral-banner">
+                        <span class="referral-icon"><i class="bi bi-calendar-check-fill"></i></span>
+                        <span class="referral-text">Payment in <strong>installments</strong> possible!</span>
+                    </div>
+                </div>
+
+                <div class="pricing-table-wrap">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">Essential</span><button class="info-btn" data-tier="essential" aria-label="What's included in Essential">i</button></div>
+                                    <span class="tier-badge popular">Most Popular</span>
+                                </th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">Plus</span><button class="info-btn" data-tier="plus" aria-label="What's included in Plus">i</button></div>
+                                    <span class="tier-badge best-value">Best Value</span>
+                                </th>
+                                <th>
+                                    <div class="tier-name-row"><span class="tier-name">VIP Coaching</span><button class="info-btn" data-tier="vip" aria-label="What's included in VIP Coaching">i</button></div>
+                                    <span class="tier-badge limited">Full Guarantee</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-easel2-fill"></i></span>Practical Tutoring Sessions</span></td>
+                                <td><span class="pt-yes">20</span></td>
+                                <td><span class="pt-yes">20</span></td>
+                                <td><span class="pt-no">0</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-people-fill"></i></span>Deep Dive Tutoring Sessions</span></td>
+                                <td><span class="pt-no">0</span></td>
+                                <td><span class="pt-yes">10</span></td>
+                                <td><span class="pt-no">0</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-person-fill"></i></span>1:1 Tutoring Sessions</span></td>
+                                <td><span class="pt-no">0</span></td>
+                                <td><span class="pt-no">0</span></td>
+                                <td><span class="pt-yes">20</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-camera-video-fill"></i></span>Session Recordings</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-folder-fill"></i></span>Access to Samkedemia Drive</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-chat-dots-fill"></i></span>Between-Session Support</span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                                <td><span class="pt-yes"><i class="bi bi-check2"></i></span></td>
+                            </tr>
+                            <!-- SAMKE AI ROW — uncomment when ready to launch
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-stars"></i></span>Samke AI<sup>1</sup></span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                                <td><span class="pt-soon">Coming Soon</span></td>
+                            </tr>
+                            Also uncomment footnote <sup>1</sup> in .pricing-disclaimers below, and change sup>2 on Extended Service back to sup>1.
+                            -->
+                            <tr>
+                                <td><span class="pt-feature"><span class="pt-icon"><i class="bi bi-shield-fill-check"></i></span>Extended Service Guarantee<sup>1</sup></span></td>
+                                <td><span class="pt-no">—</span></td>
+                                <td><span class="pt-yes">6 months</span></td>
+                                <td><span class="pt-yes">Lifetime Coverage</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pricing-disclaimers">
+                    <!-- SAMKE AI FOOTNOTE — restore when uncommenting the row above, and change sup>2 on Extended Service back to sup>2
+                    <p><sup>1</sup> Structured set of course-specific instructions designed to be applied within any AI assistant (e.g. ChatGPT, Gemini, Claude). Coming in Oct 2026.</p>
+                    -->
+                    <p><sup>1</sup> In the event of an unsuccessful examination outcome, students in the Plus program are entitled to retain full access to all completed sessions for 6 months. <br> Students in the VIP Coaching program are entitled to receive complimentary tutoring sessions within the Essential Group program until a passing grade is achieved.</p>
+                </div>
+
+                <hr class="faq-divider">
                 <p class="faq-label">Questions</p>
                 <div class="faq-tabs" id="faq-tabs">
                     <button class="faq-tab active" data-faq="outside">Outside Sessions</button>
@@ -3697,7 +3624,7 @@
                     padding: 14px 16px 12px;
                     flex: 1;
                 }
-                .resource-card-item h4 {
+                .resource-card-item h3 {
                     font-family: var(--font-numbers);
                     font-size: 0.95rem;
                     font-weight: 900;
@@ -3800,7 +3727,7 @@
             </style>
             <div class="card-content" style="width: 100%; max-width: 1100px; text-align: center;">
                 <span class="card-tag">Study smarter.</span>
-                <h3>Resources<i class="bi bi-bookmark-star-fill"></i></h3>
+                <h2>Resources<i class="bi bi-bookmark-star-fill"></i></h2>
                 <p style="color: var(--teal-mid); font-size: 1.05rem; margin-top: 0; margin-bottom: 24px;">
                     Custom-built tools and solution books, made with one goal: get you there faster.
                 </p>
@@ -3814,7 +3741,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
-                                <h4>TI-84 Calculator</h4>
+                                <h3>TI-84 Calculator</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="https://www.samkedemia.com/tools/ti84" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3827,7 +3754,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
-                                <h4>F'C - Learn Derivatives</h4>
+                                <h3>F'C - Learn Derivatives</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="https://www.samkedemia.com/tools/derivatives" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3840,7 +3767,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
-                                <h4>Linear Programming Solver</h4>
+                                <h3>Linear Programming Solver</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="https://www.samkedemia.com/tools/linearprog" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3853,7 +3780,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
-                                <h4>Excel Cheat Sheet</h4>
+                                <h3>Excel Cheat Sheet</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="https://www.samkedemia.com/tools/excel" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3866,7 +3793,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Tool</div>
-                                <h4>Central Limit Theorem</h4>
+                                <h3>Central Limit Theorem</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="https://www.samkedemia.com/tools/statsanim" target="_blank" rel="noopener" class="resource-go-btn">Go There <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3886,7 +3813,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>Math A</h4>
+                                <h3>Math A</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/mathA-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3900,7 +3827,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>Math B</h4>
+                                <h3>Math B</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/mathB-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3914,7 +3841,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>Descriptive Stats</h4>
+                                <h3>Descriptive Stats</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/stats1-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3928,7 +3855,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>Inferential Stats</h4>
+                                <h3>Inferential Stats</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/stats2-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3942,7 +3869,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>IMOR</h4>
+                                <h3>IMOR</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/imor-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3956,7 +3883,7 @@
                             </div>
                             <div class="resource-card-body">
                                 <div class="resource-book-label">Solution Book</div>
-                                <h4>Research Methods 3</h4>
+                                <h3>Research Methods 3</h3>
                             </div>
                             <div class="resource-card-footer">
                                 <a href="samplebooks/rm3-SolutionBook-Sample.pdf" target="_blank" rel="noopener" class="resource-go-btn resource-sample-btn">Sample <i class="bi bi-box-arrow-up-right"></i></a>
@@ -3972,6 +3899,7 @@
     </div>
 
     <section class="contact-section" id="contact">
+        <div class="contact-light" aria-hidden="true"></div>
         <div class="section-header">
             <span class="card-tag">Contact</span>
             <h2>Let's <span class="contact-highlight">Pass</span> That Exam!</h2>
@@ -4026,7 +3954,7 @@
             </div>
 
             <div class="footer-col links">
-                <h4>Navigation</h4>
+                <h3>Navigation</h3>
                 <div class="footer-links-grid">
                     <ul>
                         <li><a href="#about-me-card">About Me</a></li>
@@ -4038,7 +3966,7 @@
             </div>
 
             <div class="footer-col connect">
-                <h4>Contact</h4>
+                <h3>Contact</h3>
                 <div class="social-links">
                     <a href="https://wa.me/32490100821" target="_blank">
                         <i class="bi bi-whatsapp"></i>
@@ -4063,23 +3991,6 @@
     </footer>
 
     <script>
-        // Seamless logo marquee — measure exact track width to avoid sub-pixel stutter on loop reset
-        (function() {
-            function fixMarquee() {
-                const scroller = document.querySelector('.logo-scroller');
-                if (!scroller) return;
-                const track = scroller.querySelector('.logo-track');
-                if (!track) return;
-                const w = track.getBoundingClientRect().width;
-                if (!w) return;
-                const s = document.createElement('style');
-                s.textContent = '@keyframes scroll-logos{from{transform:translateX(0)}to{transform:translateX(-' + w + 'px)}}';
-                document.head.appendChild(s);
-            }
-            if (document.readyState === 'complete') fixMarquee();
-            else window.addEventListener('load', fixMarquee);
-        })();
-
         // Bar chart: bars fill their 100% track, numbers count up and ride the bar, then the 4× tag
         (function() {
             const chart = document.getElementById('pass-chart');
@@ -4135,83 +4046,77 @@
         (function() {
             const tabs = document.querySelectorAll('#tier-tabs .tier-tab');
             const grid = document.getElementById('course-timeline-content');
-            const milestones = grid.querySelectorAll('.milestone[data-tiers]');
-
+            const milestones = [...grid.querySelectorAll('.milestone[data-tiers]')];
             const descriptions = document.querySelectorAll('#tier-description [data-tier-text]');
+            const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const OUT = 180, MOVE = 420;
+            let currentTier = 'essential', run = 0, timers = [];
 
-            function switchDescription(tier) {
-                descriptions.forEach(d => { d.style.display = d.dataset.tierText === tier ? '' : 'none'; });
+            const has = (m, t) => m.dataset.tiers.split(' ').includes(t);
+            function clearAll() {
+                timers.forEach(clearTimeout); timers = [];
+                milestones.forEach(m => {
+                    m.classList.remove('ms-out', 'ms-in');
+                    m.style.transition = ''; m.style.transform = ''; m.style.animationDelay = '';
+                });
+                grid.classList.remove('ms-sizing'); grid.style.height = '';
             }
-
-            let currentTier = 'essential';
+            function show(tier) {
+                milestones.forEach(m => { m.style.display = has(m, tier) ? '' : 'none'; });
+            }
+            function switchDescription(tier) {
+                descriptions.forEach(d => d.classList.toggle('tier-off', d.dataset.tierText !== tier));
+            }
 
             function applyTier(tier, animate) {
                 tabs.forEach(t => t.classList.toggle('active', t.dataset.tier === tier));
                 switchDescription(tier);
+                if (tier === currentTier && animate) return;
 
-                if (!animate) {
-                    milestones.forEach(m => {
-                        m.style.display = m.dataset.tiers.split(' ').includes(tier) ? '' : 'none';
-                    });
-                    currentTier = tier;
-                    return;
-                }
+                // a new click finishes the previous switch at once instead of tangling with it
+                clearAll(); show(currentTier);
+                const from = currentTier; currentTier = tier;
+                if (!animate || calm) { show(tier); return; }
+                const id = ++run;
 
-                const inTier    = m => m.dataset.tiers.split(' ').includes(tier);
-                const inCurrent = m => m.dataset.tiers.split(' ').includes(currentTier);
-                const leaving   = [...milestones].filter(m => inCurrent(m) && !inTier(m));
-                const entering  = [...milestones].filter(m => !inCurrent(m) && inTier(m));
-                const staying   = [...milestones].filter(m => inCurrent(m) && inTier(m));
-
-                // FLIP step 1: snapshot positions of cards that will stay
+                const leaving  = milestones.filter(m => has(m, from) && !has(m, tier));
+                const entering = milestones.filter(m => !has(m, from) && has(m, tier));
+                const staying  = milestones.filter(m => has(m, from) && has(m, tier));
                 const firstRects = new Map(staying.map(m => [m, m.getBoundingClientRect()]));
+                const h0 = grid.offsetHeight;
 
-                // Fade out leaving cards together
                 leaving.forEach(m => m.classList.add('ms-out'));
 
-                setTimeout(() => {
-                    leaving.forEach(m => { m.classList.remove('ms-out'); m.style.display = 'none'; });
-
-                    // Show entering with animation — stagger capped so last card doesn't lag
-                    entering.forEach((m, i) => {
-                        m.style.display = '';
-                        m.style.animationDelay = (i * 0.03) + 's';
-                        m.classList.add('ms-in');
+                timers.push(setTimeout(() => {
+                    if (id !== run) return;
+                    show(tier);
+                    // the section grows or shrinks smoothly instead of jumping
+                    const h1 = grid.offsetHeight;
+                    if (h1 !== h0) {
+                        grid.style.height = h0 + 'px';
+                        grid.classList.add('ms-sizing');
+                        grid.offsetHeight;
+                        grid.style.height = h1 + 'px';
+                    }
+                    // staying cards glide from where they were to where they now belong
+                    staying.forEach(m => {
+                        const a = firstRects.get(m), b = m.getBoundingClientRect();
+                        const dx = a.left - b.left, dy = a.top - b.top;
+                        if (dx || dy) { m.style.transition = 'none'; m.style.transform = `translate(${dx}px, ${dy}px)`; }
                     });
-
-                    requestAnimationFrame(() => {
-                        // FLIP step 2: snap staying cards back to old positions
-                        staying.forEach(m => {
-                            const first = firstRects.get(m);
-                            const last  = m.getBoundingClientRect();
-                            const dx = first.left - last.left;
-                            const dy = first.top  - last.top;
-                            if (dx !== 0 || dy !== 0) {
-                                m.style.transition = 'none';
-                                m.style.transform  = `translate(${dx}px,${dy}px)`;
-                            }
-                        });
-
-                        requestAnimationFrame(() => {
-                            // FLIP step 3: slide to new positions
-                            staying.forEach(m => {
-                                m.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1)';
-                                m.style.transform  = '';
-                            });
-
-                            setTimeout(() => {
-                                entering.forEach(m => { m.classList.remove('ms-in'); m.style.animationDelay = ''; });
-                                staying.forEach(m => { m.style.transition = ''; m.style.transform = ''; });
-                            }, 320);
-                        });
+                    entering.forEach((m, i) => { m.style.animationDelay = (0.06 + i * 0.05) + 's'; m.classList.add('ms-in'); });
+                    grid.offsetHeight;
+                    staying.forEach(m => {
+                        m.style.transition = `transform ${MOVE}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+                        m.style.transform = '';
                     });
-
-                    currentTier = tier;
-                }, 150);
+                    timers.push(setTimeout(() => { if (id === run) clearAll(); }, MOVE + 60 + entering.length * 50));
+                }, OUT));
             }
 
             tabs.forEach(tab => tab.addEventListener('click', () => applyTier(tab.dataset.tier, true)));
-            applyTier('essential', false);
+            currentTier = 'essential'; show('essential'); switchDescription('essential');
+            tabs.forEach(t => t.classList.toggle('active', t.dataset.tier === 'essential'));
         })();
 
         // Courses Offered dropdowns
@@ -4411,10 +4316,10 @@
             }
 
             // What's Included
-            reveal('#timeline-card', '.card-tag, h3, .timeline-subtitle, .faq-label, .tier-tabs, #tier-description, #course-timeline-content', { step: 0.09 });
+            reveal('#timeline-card', '.card-tag, h2, .timeline-subtitle, .faq-label, .tier-tabs, #tier-description, #course-timeline-content', { step: 0.09 });
 
             // Results — heading, stat boxes, testimonials (bar chart keeps its own animation)
-            reveal('#results-card', '.card-tag, h3', { step: 0.08 });
+            reveal('#results-card', '.card-tag, h2', { step: 0.08 });
             reveal('#results-card', '.results-stat', { step: 0.1, base: 0.1 });
             reveal('#results-card', '.proof-wall', { step: 0.1, base: 0.15 });
 
@@ -4422,7 +4327,7 @@
             reveal('#timeline-card', '.pricing-pills, .pricing-table-wrap, .pricing-disclaimers', { step: 0.1, base: 0.12 });
 
             // Resources
-            reveal('#resources-card', '.card-tag, h3, p, .resource-scroll-wrap', { step: 0.09 });
+            reveal('#resources-card', '.card-tag, h2, p, .resource-scroll-wrap', { step: 0.09 });
 
             // Contact
             reveal('.contact-section', '.card-tag, h2, .contact-subtitle', { step: 0.09 });
@@ -4497,7 +4402,7 @@
             });
         })();
 
-        // Pricing info buttons → scroll to What's Included + select tier
+        // Summary table "i" buttons → scroll to What's Included + select that tier
         document.querySelectorAll('.info-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tab = document.querySelector(`#tier-tabs .tier-tab[data-tier="${btn.dataset.tier}"]`);
@@ -4505,6 +4410,8 @@
                 document.getElementById('timeline-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
+
+
 
     </script>
 

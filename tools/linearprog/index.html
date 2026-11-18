@@ -22,9 +22,7 @@
   <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -37,12 +35,9 @@
   --rule: rgba(12, 56, 64, .085); --tape: rgba(245, 168, 126, .82);
   --glass-top: rgba(5, 22, 25, .38); --glass-bottom: rgba(5, 22, 25, .62); --glass-border: rgba(255, 255, 255, .16);
   --bad: #b33c00;
-  --font-display: Vidaloka, Georgia, serif;
-  --font-italic: "Playfair Display", Georgia, serif;
-  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
-  --font-num: Outfit, system-ui, sans-serif;
-  --font-hand: Caveat, "Comic Sans MS", cursive;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-body: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-num: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   color-scheme: dark;
 }
 html, body { min-height: 100%; } html { overflow-x: hidden; overflow-x: clip; }   /* clip: nothing can make the page scroll sideways, not even on iOS */
@@ -356,7 +351,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 </div>
 
   <script>
-    Chart.defaults.font.family = '"Atkinson Hyperlegible", system-ui, sans-serif'; Chart.defaults.color = '#5b7378';
+    Chart.defaults.font.family = '"Bricolage Grotesque", system-ui, sans-serif'; Chart.defaults.color = '#5b7378';
     const constraintsDiv = document.getElementById("constraints");
     const var1Input = document.getElementById("var1");
     const var2Input = document.getElementById("var2");
@@ -585,7 +580,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       const offset = 18;
 
       ctx.save();
-      ctx.font = '700 15px "Atkinson Hyperlegible", sans-serif';
+      ctx.font = '700 15px "Bricolage Grotesque", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
@@ -635,7 +630,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       const ctx = chart.ctx;
       const y = (chart.chartArea.top + chart.chartArea.bottom) / 2;
       ctx.save();
-      ctx.font = 'italic 500 15px "STIX Two Text", serif';
+      ctx.font = 'italic 400 16px KaTeX_Math, "Times New Roman", serif';
       ctx.fillStyle = chart.$dark ? '#f8f8f2' : '#0c3840';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -984,7 +979,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       const grid = { lineWidth: c => (c.tick.value === 0 ? 1.5 : 1), color: c => (c.tick.value === 0 ? 'rgba(12, 56, 64, 0.5)' : 'rgba(12, 56, 64, 0.06)') };
       return {
         scales: {
-          x: { type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1, title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: 'STIX Two Text', style: 'italic', weight: '500' } }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } },
+          x: { type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1, title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: 'KaTeX_Math', style: 'italic', weight: '500' } }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } },
           y: { min: minY, max: maxY * 1.1, title: { display: false }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } }
         },
         layout: { padding: { left: 26 } },
@@ -1299,7 +1294,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
                   color: '#f8f8f2',
                   font: {
                     size: 15,
-                    family: "STIX Two Text",
+                    family: "KaTeX_Math",
                     style: 'italic',
                     weight: '500'
                   }
@@ -1536,7 +1531,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: "STIX Two Text", style: 'italic', weight: '500' } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: "KaTeX_Math", style: 'italic', weight: '500' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),

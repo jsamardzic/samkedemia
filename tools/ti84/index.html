@@ -21,6 +21,9 @@
 <meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
 <meta name="twitter:title" content="Samkedemia: TI-84 Calculator">
 <meta name="twitter:description" content="Free online TI-84 Plus and TI-84 Plus CE calculator: click the keys or just type, works on any device, by Samkedemia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap">
 <link rel="icon" type="image/png" href="../../images/icon.png?v=2">
 <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png?v=2">
 <style>
@@ -29,7 +32,7 @@
 html{background-color:#0a0b0d}   /* solid dark canvas: it is what shows behind the browser's translucent bars */
 html,body{margin:0;height:100%;position:fixed;inset:0;overscroll-behavior:none;overflow:hidden;touch-action:manipulation;
   -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;
-  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+  font-family:"Bricolage Grotesque",system-ui,sans-serif}
 body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,#272a30 0%,#121316 55%,#08090a 100%)}
 #stage{position:fixed;inset:0;overflow:auto;scrollbar-width:thin;touch-action:manipulation}
 #calc,#calc *{touch-action:manipulation}   /* no double-tap zoom on iPad; pinch-zoom still works */
@@ -107,7 +110,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z
 #exBtn svg{stroke-width:2.1}
 #help{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(6,8,12,.42);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .18s}
 #help.on{opacity:1;pointer-events:auto}
-#help .card{position:relative;width:min(340px,100%);max-height:100%;overflow:auto;padding:22px 22px 20px;border-radius:18px;color:#eef0f3;font:500 13px/1.5 "Helvetica Neue",Arial,sans-serif;
+#help .card{position:relative;width:min(340px,100%);max-height:100%;overflow:auto;padding:22px 22px 20px;border-radius:18px;color:#eef0f3;font:500 13px/1.5 "Bricolage Grotesque",system-ui,sans-serif;
   background:linear-gradient(160deg,rgba(38,42,52,.62),rgba(14,16,22,.62));border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);
   box-shadow:0 20px 60px rgba(0,0,0,.55);transform:translateY(8px) scale(.96);transition:transform .18s}
 #help.on .card{transform:none}
@@ -132,7 +135,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:-200px;bottom:-200px;z
 #help .fol:hover{background:rgba(255,255,255,.26)} #help .fol:active{transform:scale(.97)}
 #help .fol svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,12px);z-index:6;padding:10px 16px;border-radius:10px;background:rgba(20,22,26,.96);
-  border:1px solid #3a3e46;color:#eef0f3;font:600 13px/1 "Helvetica Neue",Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+  border:1px solid #3a3e46;color:#eef0f3;font:600 13px/1 "Bricolage Grotesque",system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* ---- model switch (click the name) ---- */
