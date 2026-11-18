@@ -1814,11 +1814,46 @@ if (mf.shadowRoot) {
     'span:has(> .ML__sqrt-sign) .slot{width:.62em;height:.62em;position:relative;top:.2em}' +
     // a root's small number sits at half size: scale its box up so it still reads as a box
     '.ML__base .ML__sqrt-index .slot{width:1.15em;height:1.15em;margin:0;border-width:1.25px;border-radius:2.5px;vertical-align:-.1em;position:relative;left:-.2em;top:-.35em}' +
-    '*:has(.slot.ML__selected) .ML__selection{background:transparent!important}';
+    '*:has(.slot.ML__selected) .ML__selection{background:transparent!important}' +
+    // a power right after a grown bracket: a little room so it does not touch the bracket
+    '[class*=ML__delim-size] + .ML__msubsup{margin-left:.06em}';
   mf.shadowRoot.appendChild(css);
   const markSlots = () => mf.shadowRoot.querySelectorAll('span').forEach(e => { if (!e.children.length && e.textContent === '\u25A2' && !e.classList.contains('slot')) e.classList.add('slot'); });
-  new MutationObserver(markSlots).observe(mf.shadowRoot, { subtree: true, childList: true, characterData: true });
-  markSlots();
+  // brackets stay plain characters (smartFence off), so they do not grow by themselves: after each render,
+  // give every matching pair the taller glyph MathLive uses for \left( \right), sized to what sits between them
+  const OPEN = { '(': ')', '[': ']' }, CLOSE = { ')': 1, ']': 1 };
+  const isFence = e => e.tagName === 'SPAN' && !e.children.length && (e.textContent in OPEN || e.textContent in CLOSE);
+  const sizeFences = () => {
+    const root = mf.shadowRoot.querySelector('.ML__base');
+    if (!root) return;
+    const fences = [...root.querySelectorAll('span')].filter(e => isFence(e) && (e.classList.contains('ML__cmr') || e.dataset.fence));
+    fences.forEach(e => { e.className = e.className.replace(/\bML__delim-size\d\b/g, '').trim(); if (!e.classList.contains('ML__cmr')) e.classList.add('ML__cmr'); e.dataset.fence = '1'; });
+    const parents = new Set(fences.map(e => e.parentElement));
+    parents.forEach(par => {
+      const kids = [...par.children], stack = [];
+      kids.forEach((k, i) => {
+        if (!fences.includes(k)) return;
+        if (k.textContent in OPEN) { stack.push(i); return; }
+        const j = stack.pop();
+        if (j === undefined || OPEN[kids[j].textContent] !== k.textContent) return;
+        const em = parseFloat(getComputedStyle(k).fontSize) || 16;
+        let top = Infinity, bot = -Infinity;
+        kids.slice(j + 1, i).forEach(s => {
+          if (fences.includes(s)) return;
+          const r = s.getBoundingClientRect();
+          if (r.height) { top = Math.min(top, r.top); bot = Math.max(bot, r.bottom); }
+        });
+        if (!(bot > top)) return;
+        const h = (bot - top) / em;
+        // glyph heights of MathLive's delimiter sizes 1-4, in em: take the smallest that covers the content
+        const size = h <= 1.15 ? 0 : h <= 1.1 + 0.1 ? 1 : h <= 2.15 ? 2 : h <= 2.3 ? 3 : 4;
+        if (!size) return;
+        [kids[j], k].forEach(f => { f.classList.remove('ML__cmr'); f.classList.add('ML__delim-size' + size); });
+      });
+    });
+  };
+  new MutationObserver(() => { markSlots(); sizeFences(); }).observe(mf.shadowRoot, { subtree: true, childList: true, characterData: true });
+  markSlots(); sizeFences();
 }
 if (mf.shadowRoot) new MutationObserver(nativeKeyboard).observe(mf.shadowRoot, { subtree: true, attributes: true, attributeFilter: ['inputmode'] });
 mf.inlineShortcuts = { ...mf.inlineShortcuts, ln: '\\ln', sqrt: '\\sqrt{#0}', cbrt: '\\sqrt[3]{#0}', root: '\\sqrt[#0]{#?}', nthroot: '\\sqrt[#0]{#?}', pi: '\\pi' };
