@@ -135,9 +135,10 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(248, 248, 242, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(248, 248, 242, 0.5);
+            -webkit-backdrop-filter: blur(18px) saturate(1.5);
+            backdrop-filter: blur(18px) saturate(1.5);
+            border: 1px solid rgba(12, 56, 64, 0.1);
             border-radius: 100px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
         }
@@ -605,7 +606,7 @@
             .milestone.ms-out, .milestone.ms-in, #tier-description [data-tier-text] { transition: none; animation: none; }
         }
 
-        /* Bricolage is wider than Atkinson: keep card titles on one line on desktop, balance the rest */
+        /* Bricolage is wide: keep card titles on one line on desktop, balance the rest */
         .milestone h3 { font-size: 1rem; letter-spacing: -0.015em; text-wrap: balance; }
         .milestone p, .pricing-disclaimers p, #tier-description p { text-wrap: pretty; }
 
@@ -1918,6 +1919,13 @@
         .info-btn { width: 16px !important; height: 16px !important; font-size: 10px !important; }
         #trusted-logos p { font-size: 10px !important; }
         @media (max-width: 768px) { .tier-badge { font-size: 9px !important; padding: 3px 6px !important; } }
+
+
+        /* header pill: transparent frosted glass; logo, links and menu follow the surface behind it (dark photo/section -> cream) */
+        header .logo-img, header .header-nav-link, header .hamburger-btn span { transition: color .25s, background-color .25s, opacity .25s; }
+        header .logo.on-dark .logo-img { content: url("images/logo-cream.svg"); }
+        header .header-nav.on-dark .header-nav-link { color: var(--cream); }
+        header .header-actions.on-dark .hamburger-btn span { background: var(--cream); }
 
         /* header pill: links in the full brand teal, not the washed mid teal */
         .header-nav-link, .mobile-nav-link { color: var(--teal-dark); }
@@ -4196,6 +4204,20 @@
             }).observe(hero);
         })();
     </script>
+<script>
+(function(){var hd=document.querySelector('header');if(!hd)return;
+ var zones=[hd.querySelector('.logo'),hd.querySelector('.header-nav'),hd.querySelector('.header-actions')];
+ function darkAt(x,y){var els=document.elementsFromPoint(x,y);
+  for(var i=0;i<els.length;i++){var e=els[i];if(hd.contains(e))continue;
+   var bg=getComputedStyle(e).backgroundColor,m=bg.match(/[\d.]+/g);
+   if(m){var k=bg.indexOf('color(')===0?255:1,a=bg.indexOf('/')>0?+m[m.length-1]:(m.length>3&&bg.indexOf('color(')!==0?+m[3]:1);
+    if(a>.6)return(0.299*m[0]*k+0.587*m[1]*k+0.114*m[2]*k)<110;}}
+  return false;}
+ function upd(){var hr=hd.getBoundingClientRect(),cy=hr.top+hr.height/2;
+  zones.forEach(function(z){if(!z)return;var zr=z.getBoundingClientRect();if(!zr.width)return;z.classList.toggle('on-dark',darkAt(zr.left+zr.width/2,cy));});}
+ addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);setInterval(upd,300);upd();
+})();
+</script>
 </body>
 
 </html>
