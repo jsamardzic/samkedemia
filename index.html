@@ -1539,6 +1539,72 @@
             .hero-chat .bub-text { font-size: 17px; }
             .hero-chat .bub-foot { font-size: 13.5px; }
         }
+        /* Message tail on the bottom-left corner (2026-11-19) */
+        .hero-chat > .bub::after {
+            content: "";
+            position: absolute;
+            left: -11px;
+            bottom: -0.5px;
+            width: 12px;
+            height: 20.5px;
+            background-size: 100% 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20.5' preserveAspectRatio='none'%3E%3Cpath d='M12 0H11C11 8.5 8.5 14.5 2.6 18C.9 19 1.6 20.5 3.4 20.5H12z' fill='%230c3840'/%3E%3C/svg%3E") no-repeat;
+            pointer-events: none;
+        }
+        .hero-chat > .bub .bub-body { border-radius: 38px 38px 38px 0; padding: 26px 36px 24px; }
+        @media (max-width: 980px) { .hero-chat > .bub .bub-body { border-radius: 30px 30px 30px 0; padding: 22px 30px 20px; } }
+        /* Dark bubble: teal-dark fill, cream text (2026-11-19) */
+        /* Typing bubble: block-level so the tail lines up with its bottom edge */
+        .hero-chat > .bub.typing .bub-body { display: block; width: fit-content; }
+        .hero-chat > .bub.typing .bub-body { background: var(--teal-dark); padding: 16px 22px; border-radius: 26px 26px 26px 0; }
+        .hero-chat .bub-body {
+            /* lighter at the top, ends exactly on the tail's colour */
+            background: linear-gradient(180deg, #0f4149 0%, var(--teal-dark) 100%);
+            /* crisp top edge + layered, teal-tinted shadow */
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 10px 0 -6px rgba(12, 56, 64, 0.2),      /* stacked card 1 */
+                0 20px 0 -12px rgba(12, 56, 64, 0.1),     /* stacked card 2 */
+                0 3px 8px rgba(6, 28, 33, 0.14),          /* contact shadow */
+                0 14px 26px -8px rgba(6, 28, 33, 0.24),   /* soft body shadow */
+                0 34px 56px -14px rgba(6, 28, 33, 0.36);  /* long diffuse shadow */
+        }
+        .hero-chat > .bub.typing .bub-body {
+            box-shadow: 0 2px 6px rgba(6, 28, 33, 0.12), 0 12px 22px -8px rgba(6, 28, 33, 0.28);
+        }
+        .hero-chat > .bub::after { background-size: 100% 100%; }
+
+        /* Room around the card so its shadow is never cut off at the sides */
+        .hero-chat { width: calc(100% + 40px); max-width: 620px; margin-left: -20px; margin-right: -20px; }
+        .hero-chat > .bub { left: 36px; right: 36px; }
+        @media (max-width: 980px) { .hero-chat { max-width: 520px; } }
+        @media (max-width: 560px) {
+            .hero-chat { width: calc(100% + 32px); max-width: none; margin-left: -16px; margin-right: -16px; }
+            .hero-chat > .bub { left: 32px; right: 32px; }
+        }
+
+        /* Verified badge: orange patch, white tick (white disc shows through the tick cut-out) */
+        .hero-chat .bub-foot i {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            background: radial-gradient(circle at 50% 50%, #fff 0 40%, transparent 42%);
+        }
+
+        /* Name on top, review below */
+        .hero-chat > .bub:not(.typing) .bub-body { display: flex; flex-direction: column; }
+        .hero-chat .bub-foot { order: -1; margin: 0 0 12px; }
+
+        /* Slow idle float (uses `translate`, so it doesn't fight the swap animation's transform) */
+        .hero-chat > .bub { animation: bub-float 5.5s ease-in-out infinite; }
+        @keyframes bub-float {
+            0%, 100% { translate: 0 0; }
+            50%      { translate: 0 -3px; }
+        }
+        @media (prefers-reduced-motion: reduce) { .hero-chat > .bub { animation: none; } }
+        .hero-chat .bub-text { color: var(--cream); }
+        .hero-chat .bub-foot { color: var(--teal-light); }
+        .hero-chat .bub-foot strong { color: var(--cream); }
         @media (max-width: 768px) {
 
             #trusted-logos p { font-size: 9px !important; }
@@ -1561,7 +1627,7 @@
             margin-bottom: 14px;
             border-radius: 12px;
             break-inside: avoid;
-            background: #111;
+            background: #ece7de;   /* WhatsApp light beige (was #111 for the dark screenshots, which showed as dark corner lines) */
         }
         @media (max-width: 900px) { .proof-wall { columns: 2; } }
         /* Phones: swipe through them instead of one very long column */
@@ -1946,6 +2012,12 @@
         /* no orbiting light around the hero button; everything else as before */
         .hero-cta, .hero-cta:visited { animation: none; border-color: transparent; background: var(--orange); }
         .hero-cta::before { display: none; }
+        /* hover: a deeper orange (and a softer, warmer glow) */
+        .hero-cta, .hero-cta:visited { transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; }
+        .hero-cta:hover, .hero-cta:visited:hover { background: #e04600; box-shadow: 0 16px 30px rgba(204, 34, 0, 0.34); }
+
+        /* Bubble swap: shadow + corners ease while the typing dots grow into the card (the tail follows via JS) */
+        .hero-chat .bub-body { transition: box-shadow 0.5s ease, border-radius 0.5s ease; }
     </style>
 </head>
 
@@ -2299,30 +2371,34 @@
 
                 <p class="results-label divider">What students say</p>
                 <div class="proof-wall" id="proof-wall" tabindex="0" role="region" aria-label="Messages from students">
-                    <img src="images/wa/IMG_2814.webp" width="900" height="1029" loading="lazy" alt="Student shows a Statistics grade going from 3/20 to 13/20 and writes: you should really use this as an advertisement">
-                    <img src="images/wa/IMG_2811.webp" width="900" height="1435" loading="lazy" alt="Student passes with 14 after a 6 before: you literally make me believe in myself again">
-                    <img src="images/wa/IMG_2813.webp" width="900" height="696" loading="lazy" alt="Student: I got a 13 on stats and passed all others, I get to stay at KUL">
-                    <img src="images/wa/IMG_1759.webp" width="900" height="769" loading="lazy" alt="Student shares results of 12/20 in Mathematics B and 14/20 in Statistics: I can’t thank you enough">
-                    <img src="images/wa/IMG_1765.webp" width="900" height="553" loading="lazy" alt="Student: I got 17/20 in IMOR, I couldn’t do it without you">
-                    <img src="images/wa/IMG_2800.webp" width="900" height="1266" loading="lazy" alt="Student: I got 14 on both math A and B and passed my other 2 courses, so I am staying at BBA">
-                    <img src="images/wa/IMG_1774.webp" width="900" height="471" loading="lazy" alt="Student passes Math B with 12/20 and Stats with 13/20: the efforts have paid off">
-                    <img src="images/wa/IMG_2804.webp" width="900" height="638" loading="lazy" alt="Student shares 17/20 in Inferential Statistics: thank you for all the work you put into the tutoring">
-                    <img src="images/wa/IMG_1771.webp" width="900" height="760" loading="lazy" alt="Student: yes I got 18, and I graduated cum laude">
-                    <img src="images/wa/IMG_2816.webp" width="900" height="1313" loading="lazy" alt="Student: I got 17 in math, you’re the goat">
-                    <img src="images/wa/IMG_2812.webp" width="900" height="510" loading="lazy" alt="Student passed all courses: I wouldn’t be able to pass without your help">
-                    <img src="images/wa/IMG_2805.webp" width="900" height="391" loading="lazy" alt="Student passed Stats 2 with 15/20: this would not happen without you">
-                    <img src="images/wa/IMG_1766_clean.webp" width="900" height="1198" loading="lazy" alt="Student shares passed BBA results: 14/20 in Mathematics B and 15/20 in Statistics">
-                    <img src="images/wa/IMG_2801.webp" width="900" height="1104" loading="lazy" alt="Student shares results including 13/20 in Mathematics A">
-                    <img src="images/wa/IMG_2806.webp" width="900" height="826" loading="lazy" alt="Student got 17: your lectures and cheatsheet are gold">
-                    <img src="images/wa/IMG_2817.webp" width="900" height="905" loading="lazy" alt="Student got 13 in stats: I couldn’t have done it without you">
-                    <img src="images/wa/IMG_2808.webp" width="900" height="579" loading="lazy" alt="Student: I got 16/20, thank you so much for your help">
-                    <img src="images/wa/IMG_2803.webp" width="900" height="553" loading="lazy" alt="Student passed both Math A and B with a 12">
-                    <img src="images/wa/IMG_2802.webp" width="900" height="301" loading="lazy" alt="Student got 11 on stats and 14 on Math A">
-                    <img src="images/wa/IMG_1762.webp" width="900" height="471" loading="lazy" alt="Student: I got 18">
-                    <img src="images/wa/IMG_2815.webp" width="900" height="800" loading="lazy" alt="Student: I got a 17, thank you so much for everything">
-                    <img src="images/wa/IMG_2810.webp" width="900" height="231" loading="lazy" alt="Student passed math and stats: thank you so much for tutoring me">
-                    <img src="images/wa/IMG_2807.webp" width="900" height="257" loading="lazy" alt="Student passed both IMOR and Stats 2">
-                    <img src="images/wa/IMG_2809.webp" width="900" height="335" loading="lazy" alt="Student passed with 12/20: if you do RM3 I will definitely join">
+                    <img src="images/wa/reaction1.webp" width="900" height="1063" loading="lazy" alt="Student shares results, Math B 12/20 and Statistics 14/20: JOVAN I CANT THANK YOU ENOUGH">
+                    <img src="images/wa/reaction2.webp" width="900" height="844" loading="lazy" alt="Student passed all first-year courses: my mom cried, what a comeback">
+                    <img src="images/wa/reaction3.webp" width="900" height="617" loading="lazy" alt="Student got an 18: DAAAMN GOAT">
+                    <img src="images/wa/reaction4.webp" width="900" height="903" loading="lazy" alt="Student scored 17/20 in IMOR: thank you so much, I couldnt do it without you">
+                    <img src="images/wa/reaction5.webp" width="900" height="981" loading="lazy" alt="Student shares results, nothing left for retake: thanks for everything man">
+                    <img src="images/wa/reaction6.webp" width="900" height="405" loading="lazy" alt="Student got an 18 and graduated cum laude">
+                    <img src="images/wa/reaction7.webp" width="900" height="844" loading="lazy" alt="Student passed Math B and Stats: the efforts have paid off thanks to you">
+                    <img src="images/wa/reaction8.webp" width="900" height="1027" loading="lazy" alt="Student got 14 on both Math A and B and is staying at BBA">
+                    <img src="images/wa/reaction9.webp" width="900" height="1008" loading="lazy" alt="Student shares results and gets 13: YOURE A LEGEND, congrats">
+                    <img src="images/wa/reaction10.webp" width="900" height="698" loading="lazy" alt="Student shares results, 13/20, 13/20 and 12/20: sign me up for math A">
+                    <img src="images/wa/reaction11.webp" width="900" height="645" loading="lazy" alt="Student passed with a 12: thank you so much Jovan, couldnt have done this without you">
+                    <img src="images/wa/reaction12.webp" width="900" height="496" loading="lazy" alt="Student got 11 on stats and 14 on math: thank you so much for everything">
+                    <img src="images/wa/reaction13.webp" width="900" height="855" loading="lazy" alt="Student passed both Math A and B with a 12">
+                    <img src="images/wa/reaction14.webp" width="900" height="695" loading="lazy" alt="Student got 17/20 in Inferential Statistics: thank you for all the work you put into the tutoring">
+                    <img src="images/wa/reaction15.webp" width="900" height="702" loading="lazy" alt="Student passed the Stats 2 exam with 15/20: thank you for everything">
+                    <img src="images/wa/reaction16.webp" width="900" height="885" loading="lazy" alt="Student got a 17: your lectures and cheatsheet are gold">
+                    <img src="images/wa/reaction17.webp" width="900" height="416" loading="lazy" alt="Student passed both IMOR and Stats 2: 10 for IMOR, 13 for stats">
+                    <img src="images/wa/reaction18.webp" width="900" height="752" loading="lazy" alt="Student got 16/20: thank you so much for your help">
+                    <img src="images/wa/reaction19.webp" width="900" height="431" loading="lazy" alt="Student passed with 12/20: thanks very much">
+                    <img src="images/wa/reaction20.webp" width="900" height="561" loading="lazy" alt="Student passed math and stats: thank you so much for tutoring me">
+                    <img src="images/wa/reaction21.webp" width="900" height="939" loading="lazy" alt="Student got a 14 after a 6 before: more than twice the previous grade">
+                    <img src="images/wa/reaction22.webp" width="900" height="550" loading="lazy" alt="Student: you literally make me believe in myself again">
+                    <img src="images/wa/reaction23.webp" width="900" height="569" loading="lazy" alt="Student passed all courses: I wouldnt be able to pass without your help">
+                    <img src="images/wa/reaction24.webp" width="900" height="763" loading="lazy" alt="Student got a 13 on stats and passed everything: I get to stay at KUL">
+                    <img src="images/wa/reaction25.webp" width="900" height="1042" loading="lazy" alt="Student shares results: you should really use this as an advertisement">
+                    <img src="images/wa/reaction26.webp" width="900" height="981" loading="lazy" alt="Student got a 17: there was not a second where I thought you would fail">
+                    <img src="images/wa/reaction27.webp" width="900" height="740" loading="lazy" alt="Student got 17 in math: the goat">
+                    <img src="images/wa/reaction28.webp" width="900" height="969" loading="lazy" alt="Student got 13 from stats: thank you for all your support and efforts">
                 </div>
             </div>
         </div>
