@@ -990,7 +990,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       const grid = { lineWidth: c => (c.tick.value === 0 ? 1.5 : 1), color: c => (c.tick.value === 0 ? 'rgba(12, 56, 64, 0.5)' : 'rgba(12, 56, 64, 0.06)') };
       return {
         scales: {
-          x: { type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1, title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: 'KaTeX_Math', style: 'italic', weight: '500' } }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } },
+          x: { type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1, title: { display: true, text: toSubscript(var1Input.value), font: { size: 16, family: 'KaTeX_Math', style: 'italic', weight: '400' } }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } },
           y: { min: minY, max: maxY * 1.1, title: { display: false }, grid, ticks: { callback: v => formatNumber(v), font: { size: 10 } } }
         },
         layout: { padding: { left: 26 } },
@@ -1242,7 +1242,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       if (feasibleRegionChart) {
         feasibleRegionChart.data.datasets = datasets;
         feasibleRegionChart.options.scales.x.title.text = toSubscript(var1Input.value);
-        feasibleRegionChart.options.scales.x.title.font.size = 15;
+        feasibleRegionChart.options.scales.x.title.font.size = 16;
         // The y-axis label is drawn by drawYAxisLabel (afterDraw), which reads
         // var2Input.value live, so there's nothing to update here for it.
         if (!preserveZoom) {
@@ -1304,10 +1304,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
                   text: toSubscript(var1Input.value),
                   color: '#f8f8f2',
                   font: {
-                    size: 15,
+                    size: 16,
                     family: "KaTeX_Math",
                     style: 'italic',
-                    weight: '500'
+                    weight: '400'
                   }
                 },
                 grid: {
@@ -1542,7 +1542,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             scales: {
               x: {
                 type: 'linear', position: 'bottom', min: minX, max: maxX * 1.1,
-                title: { display: true, text: toSubscript(var1Input.value), font: { size: 15, family: "KaTeX_Math", style: 'italic', weight: '500' } },
+                title: { display: true, text: toSubscript(var1Input.value), font: { size: 16, family: "KaTeX_Math", style: 'italic', weight: '400' } },
                 grid: {
                   lineWidth: (context) => (context.tick.value === 0 ? 1.5 : 1),
                   color: (context) => (context.tick.value === 0 ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.05)'),

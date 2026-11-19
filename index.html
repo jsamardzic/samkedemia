@@ -2119,9 +2119,9 @@
             <ul class="trusted-row">
                 <li><img src="images/opt/logo3-mono.webp" alt="KU Leuven" style="height:34px" decoding="async"></li>
                 <li><img src="images/opt/logo4-mono.webp" alt="Vrije Universiteit Brussel" style="height:34px" decoding="async"></li>
-                <li><img src="images/opt/logo5-mono.webp" alt="Erasmus University Rotterdam" style="height:38px" decoding="async"></li>
-                <li class="trusted-break" aria-hidden="true"></li>
                 <li><img src="images/opt/logo2-mono.webp" alt="Bocconi University" style="height:26px" decoding="async"></li>
+                <li class="trusted-break" aria-hidden="true"></li>
+                <li><img src="images/opt/logo5-mono.webp" alt="Erasmus University Rotterdam" style="height:38px" decoding="async"></li>
                 <li><img src="images/opt/logo1-mono.webp" alt="Imperial College London" style="height:16px" decoding="async"></li>
             </ul>
         </div>
@@ -2667,7 +2667,7 @@
 
                 /* Zebra rows */
                 .pricing-table tbody tr:nth-child(odd) td {
-                    background: var(--bg);
+                    background: var(--cream);
                 }
 
                 .pricing-table tbody tr:nth-child(odd) td:first-child {
@@ -2789,8 +2789,9 @@
                 }
 
                 .tier-badge.best-value {
-                    background: var(--teal-dark);
-                    color: white;
+                    background: transparent;
+                    color: var(--orange);
+                    border-color: var(--orange);
                 }
 
                 .pt-feature sup {
@@ -2945,7 +2946,7 @@
                         animation: course-row-in 0.22s ease both;
                     }
                     .course-row:last-child { border-bottom: none; }
-                    .course-row:nth-child(odd) { background: var(--bg); }
+                    .course-row:nth-child(odd) { background: var(--cream); }
                     .course-num {
                         font-size: 0.62rem;
                         font-weight: 700;
