@@ -1020,7 +1020,7 @@
         @media (min-width: 769px) {
             header.scrolled .hamburger-btn {
                 display: flex;
-                animation: hamburgerFadeIn 0.18s ease 0.42s both;
+                animation: hamburgerFadeIn 0.45s ease 0.4s both;
                 left: 50%;
                 top: 50%;
             }
@@ -1922,10 +1922,12 @@
         #hero-chip { margin: -0.2em 0 -0.03em; }
 
         /* ── Header WhatsApp: round icon on the hero, opens into the full button once scrolled ── */
-        :root { --pill-ease: cubic-bezier(0.4, 0, 0.2, 1); --pill-time: 0.5s; }
-        header { transition: max-width var(--pill-time) var(--pill-ease); }
-        .header-nav { transition: max-width var(--pill-time) var(--pill-ease), opacity 0.25s ease 0.25s; }
-        header.scrolled .header-nav { transition: opacity 0.15s ease, max-width var(--pill-time) var(--pill-ease); }
+        :root { --pill-ease: cubic-bezier(0.22, 1, 0.36, 1); --pill-time: 0.85s; }
+        header { transition: max-width var(--pill-time) var(--pill-ease); contain: layout style; will-change: max-width; }
+        /* nav links no longer fade: they stay visible and are clipped by the pill as it folds, then hidden for good once it is closed */
+        .header-nav { transition: max-width var(--pill-time) var(--pill-ease), visibility 0s; }
+        .header-nav-link { white-space: nowrap; }
+        header.scrolled .header-nav { opacity: 1; visibility: hidden; transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.4s; }
         header .header-actions .btn-whatsapp,
         header.hero-cta-on .header-actions .btn-whatsapp {
             max-width: none; opacity: 1; visibility: visible; pointer-events: auto;
@@ -1940,12 +1942,12 @@
         .btn-whatsapp .btn-label {
             display: inline-block; overflow: hidden; white-space: nowrap;
             max-width: 190px; opacity: 1;
-            transition: max-width var(--pill-time) var(--pill-ease), opacity 0.3s ease 0.08s;
+            transition: max-width var(--pill-time) var(--pill-ease), opacity 0.45s ease 0.4s;
         }
         header.hero-cta-on .header-actions .btn-whatsapp { padding: 0 13px; gap: 0; }
         header.hero-cta-on .btn-whatsapp .btn-label {
             max-width: 0; opacity: 0;
-            transition: max-width var(--pill-time) var(--pill-ease), opacity 0.3s ease 0.15s;
+            transition: max-width var(--pill-time) var(--pill-ease), opacity 0.12s ease;
         }
         @media (max-width: 768px) {
             header .header-actions .btn-whatsapp,
@@ -2050,6 +2052,31 @@
         /* hover: a deeper orange (and a softer, warmer glow) */
         .hero-cta, .hero-cta:visited { transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; }
         .hero-cta:hover, .hero-cta:visited:hover { background: #e04600; box-shadow: 0 16px 30px rgba(204, 34, 0, 0.34); }
+        /* TEST: Get Started Now: a liquid teal fill slides in from the left on hover and slides back out to the left; text cream, whatsapp icon orange only while hovered */
+        .hero-cta, .hero-cta:visited { isolation: isolate; border: 0; transition: color 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+        .hero-cta::before {
+            display: block; content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: auto; right: 100%; width: calc(100% + 100px);
+            /* solid teal plus a rippled leading edge (vertical wave), so it reads as liquid and always covers the corners */
+            background:
+                linear-gradient(var(--teal-dark), var(--teal-dark)) 0 0 / calc(100% - 46px) 100% no-repeat,
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 100' preserveAspectRatio='none'%3E%3Cpath fill='%230c3840' d='M0 0H18C34 10 4 22 22 34C40 46 6 58 24 70C40 82 10 90 18 100H0Z'/%3E%3C/svg%3E") 100% 0 / 46px 100% no-repeat;
+            transform: translateX(0);
+            transition: transform 0.65s cubic-bezier(0.2, 0.75, 0.25, 1);
+            pointer-events: none; -webkit-mask: none; mask: none;
+        }
+        .hero-cta:hover::before, .hero-cta:focus-visible::before { transform: translateX(calc(100% - 30px)); transition: transform 0.65s cubic-bezier(0.2, 0.75, 0.25, 1); }
+        .hero-cta:hover, .hero-cta:visited:hover, .hero-cta:focus-visible { background: var(--orange); color: var(--cream); box-shadow: 0 16px 30px rgba(12, 56, 64, 0.28); }
+        /* the header pill's button gets the same liquid fill (no enlarging) */
+        header .header-actions .btn-whatsapp { position: relative; isolation: isolate; }
+        header .header-actions .btn-whatsapp::before {
+            display: block; content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: auto; right: 100%; width: calc(100% + 100px);
+            background:
+                linear-gradient(var(--teal-dark), var(--teal-dark)) 0 0 / calc(100% - 46px) 100% no-repeat,
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 100' preserveAspectRatio='none'%3E%3Cpath fill='%230c3840' d='M0 0H18C34 10 4 22 22 34C40 46 6 58 24 70C40 82 10 90 18 100H0Z'/%3E%3C/svg%3E") 100% 0 / 46px 100% no-repeat;
+            transform: translateX(0); transition: transform 0.65s cubic-bezier(0.2, 0.75, 0.25, 1); pointer-events: none;
+        }
+        header .header-actions .btn-whatsapp:hover::before, header .header-actions .btn-whatsapp:focus-visible::before { transform: translateX(calc(100% - 30px)); transition: transform 0.65s cubic-bezier(0.2, 0.75, 0.25, 1); }
+        header .header-actions .btn-whatsapp:hover { transform: none; box-shadow: 0 12px 24px rgba(12, 56, 64, 0.28); }
 
         /* What students say: a tape rolling sideways at constant height; the fade is on the left and right */
         .proof-wall.moving { display: block; height: 440px; max-width: 1000px; margin: 28px auto 0; overflow: hidden; }
@@ -4370,7 +4397,8 @@
   return false;}
  function upd(){var hr=hd.getBoundingClientRect(),cy=hr.top+hr.height/2;
   zones.forEach(function(z){if(!z)return;var zr=z.getBoundingClientRect();if(!zr.width)return;z.classList.toggle('on-dark',darkAt(zr.left+zr.width/2,cy));});}
- addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);setInterval(upd,300);upd();
+ var raf=0;function sched(){if(!raf)raf=requestAnimationFrame(function(){raf=0;upd();});}
+ addEventListener('scroll',sched,{passive:true});addEventListener('resize',sched);setInterval(upd,300);upd();
 })();
 </script>
 </body>
