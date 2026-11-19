@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;600;700&family=Vidaloka&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
 @font-face { font-family: 'Libertinus Serif'; font-weight: 400; src: url('fonts/LibertinusSerif-Regular.woff2') format('woff2'); font-display: swap; }
@@ -256,7 +257,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
 .ovr-gain { position: absolute; right: -14px; top: -10px; font: 900 1rem/1 var(--font-num); color: var(--ink-card); background: rgba(255, 255, 255, .55); border-radius: 999px; padding: 3px 7px; pointer-events: none; }
 .pcard:not(.m-card) { padding-bottom: 32px; }
 .card-btn { all: unset; position: absolute; right: 14px; bottom: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer; font: 700 .78rem/1 var(--font-body); color: var(--ink-card); opacity: .8; transition: opacity .2s; }
-.card-btn svg { width: 13px; height: 13px; flex: none; }
+.card-btn i { font-size: 13px; line-height: 1; flex: none; }
 .card-btn:hover { opacity: 1; text-decoration: underline; }
 .card-btn:focus-visible { outline: 2px solid var(--ink-card); outline-offset: 3px; }
 .split { width: 90%; height: 1px; margin: 14px auto 0; border: 0; background: var(--glass-border); }
@@ -401,7 +402,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
           <span class="pc-title" id="ptitle">Rookie</span>
           <span class="pc-name" id="pcName"></span>
         </div>
-        <button class="card-btn" id="cardBtn" type="button" data-copy aria-label="Share card, copies the image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M7 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1"/></svg><span>Share card</span></button>
+        <button class="card-btn" id="cardBtn" type="button" data-copy aria-label="Share card, copies the image"><i class="bi bi-copy" aria-hidden="true"></i><span>Share card</span></button>
       </div>
       <div class="stats" id="stats">
           <span>Streak <b id="streak">0</b></span>
@@ -437,7 +438,7 @@ body:has(#moment[data-tier]) .shell { filter: blur(9px); }
     <div class="goat-badge"><span class="emo" aria-label="GOAT">🐐</span></div>
     <h2 id="goatTitle">You're the GOAT</h2>
     <p>99 overall. Every derivative rule, mastered.<br>Share your card and show it off.</p>
-    <button class="btn primary goat-copy" type="button" data-copy>Share card</button>
+    <button class="btn goat-copy" type="button" data-copy><i class="bi bi-copy" aria-hidden="true"></i><span>Share card</span></button>
   </div>
 </div>
 
