@@ -1606,6 +1606,14 @@
             .hero-chat > .bub { left: 32px; right: 32px; }
         }
 
+        /* Phones: the fade at the top is short, and the resting card always sits below it (see layout() in the script) */
+        @media (max-width: 700px) {
+            .hero-chat {
+                -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22px);
+                mask-image: linear-gradient(to bottom, transparent 0, #000 22px);
+            }
+        }
+
         /* Verified badge: orange patch, white tick (white disc shows through the tick cut-out) */
         .hero-chat .bub-foot i {
             display: inline-block;
@@ -1998,7 +2006,12 @@
         /* trusted-by: one still row */
         .trusted-row { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 18px clamp(28px, 5vw, 64px); max-width: 980px; }
         .trusted-row img { display: block; width: auto; opacity: 0.5; }
-        @media (max-width: 600px) { .trusted-row { gap: 16px 28px; } .trusted-row img { transform: scale(0.8); } }
+        /* Small screens: three logos on the first line, two centred on the second */
+        .trusted-break { display: none; }
+        @media (max-width: 959px) { .trusted-break { display: block; flex: 0 0 100%; height: 0; margin: -16px 0 0; } }
+        @media (max-width: 600px) { .trusted-row { gap: 16px 22px; } .trusted-row img { zoom: 0.8; } }
+        @media (max-width: 380px) { .trusted-row { gap: 16px 16px; padding: 0 8px; } .trusted-row img { zoom: 0.72; } }
+        @media (max-width: 340px) { .trusted-row { gap: 14px 12px; padding: 0 4px; } .trusted-row img { zoom: 0.62; } }
 
         /* minimum readable sizes for the smallest labels */
         #results-card .card-content p.results-footnote { font-size: 10px !important; }
@@ -2037,6 +2050,18 @@
         /* hover: a deeper orange (and a softer, warmer glow) */
         .hero-cta, .hero-cta:visited { transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; }
         .hero-cta:hover, .hero-cta:visited:hover { background: #e04600; box-shadow: 0 16px 30px rgba(204, 34, 0, 0.34); }
+
+        /* What students say: a tape rolling sideways at constant height; the fade is on the left and right */
+        .proof-wall.moving { display: block; height: 440px; max-width: 1000px; margin: 28px auto 0; overflow: hidden; }
+        @media (max-width: 540px) { .proof-wall.moving { height: 330px; margin-top: 24px; } }
+        .proof-track { display: flex; flex-wrap: nowrap; width: max-content; height: 100%; animation: proof-left 60s linear infinite; animation-play-state: paused; }
+        .proof-slot { flex: none; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-right: 14px; height: 100%; }
+        .proof-wall.moving .proof-slot img { flex: none; margin: 0; border-radius: 12px; }
+        @media (max-width: 540px) { .proof-wall.moving .proof-slot img { border-radius: 10px; } }
+        @keyframes proof-left { to { transform: translateX(-50%); } }
+        .proof-wall.moving::before, .proof-wall.moving::after { top: 0; bottom: 0; height: auto; width: clamp(26px, 6%, 60px); }
+        .proof-wall.moving::before { left: 0; right: auto; background: linear-gradient(to right, var(--card) 0%, color-mix(in srgb, var(--card) 78%, transparent) 35%, color-mix(in srgb, var(--card) 30%, transparent) 70%, color-mix(in srgb, var(--card) 0%, transparent) 100%); }
+        .proof-wall.moving::after { right: 0; left: auto; bottom: 0; background: linear-gradient(to left, var(--card) 0%, color-mix(in srgb, var(--card) 78%, transparent) 35%, color-mix(in srgb, var(--card) 30%, transparent) 70%, color-mix(in srgb, var(--card) 0%, transparent) 100%); }
 
     </style>
 </head>
@@ -2095,6 +2120,7 @@
                 <li><img src="images/opt/logo3-mono.webp" alt="KU Leuven" style="height:34px" decoding="async"></li>
                 <li><img src="images/opt/logo4-mono.webp" alt="Vrije Universiteit Brussel" style="height:34px" decoding="async"></li>
                 <li><img src="images/opt/logo5-mono.webp" alt="Erasmus University Rotterdam" style="height:38px" decoding="async"></li>
+                <li class="trusted-break" aria-hidden="true"></li>
                 <li><img src="images/opt/logo2-mono.webp" alt="Bocconi University" style="height:26px" decoding="async"></li>
                 <li><img src="images/opt/logo1-mono.webp" alt="Imperial College London" style="height:16px" decoding="async"></li>
             </ul>
@@ -4151,16 +4177,30 @@
                 body.querySelector('.bub-who').textContent = q.name;
                 body.querySelector('.bub-foot').insertAdjacentHTML('beforeend', '<span style="margin-left:-4px">· KU Leuven BBA</span>');
             }
-            // Cards sit absolutely in the box; one function decides where each one goes
+            // The box must hold the tallest quote at this width, below the top fade (so no card ever sits under it)
             const GAP = 12;
+            const fadePx = function() { return W < 700 ? 22 : 44; };
+            const topRoom = function() { return fadePx() + 8; };
+            function fitChat() {
+                const probe = makeBubble();
+                probe.style.visibility = 'hidden';
+                chat.style.height = '';
+                chat.appendChild(probe);
+                let tallest = 0;
+                QUOTES.forEach(function(q) { fillBubble(probe, q); tallest = Math.max(tallest, probe.offsetHeight); });
+                probe.remove();
+                const need = Math.ceil(tallest + topRoom() + 64);   // 64 = room below for the dots, layers and shadow
+                if (need > chat.clientHeight) chat.style.height = need + 'px';
+            }
+            // Cards sit absolutely in the box; one function decides where each one goes
             function layout(live, leaving) {
-                const H = chat.clientHeight;
+                const H = chat.clientHeight, TOP = topRoom();
                 const hOf = function(k) { return k._h || k.offsetHeight; };
                 const total = live.reduce(function(s, k) { return s + hOf(k); }, 0) + GAP * Math.max(0, live.length - 1);
                 let y = (H - total) / 2;
                 // while the dots are typing, lift the pair so the new message appears near the centre, not low
-                if (live.length > 1) y = Math.max(4, y - (hOf(live[live.length - 1]) + GAP) / 3);
-                else if (W < 700) y = Math.max(0, y - 22);   // phones: resting card sits closer to the button
+                if (live.length > 1) y = Math.max(TOP, y - (hOf(live[live.length - 1]) + GAP) / 3);
+                else y = Math.max(TOP, y - (W < 700 ? 22 : 0));   // phones: resting card sits a bit higher, but never up into the top fade
                 const prevFirst = live[0]._y;
                 live.forEach(function(k) { k.style.transform = 'translateY(' + y + 'px)'; k.style.opacity = '1'; k._y = y; y += hOf(k) + GAP; });
                 // leaving card scrolls up by the same distance as the new one (like a chat feed), then a bit more
@@ -4206,6 +4246,7 @@
                 }, first ? 500 : TYPING);
             }
             window.addEventListener('resize', function() {
+                fitChat();
                 const live = Array.from(chat.querySelectorAll('.bub:not(.leaving)'));
                 if (live.length) layout(live);
             });
@@ -4230,6 +4271,8 @@
                     if (!document.hidden && chatVisible && waiting) { waiting = false; nextBubble(); }
                 });
             }
+            fitChat();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(function() { fitChat(); const live = Array.from(chat.querySelectorAll('.bub:not(.leaving)')); if (live.length) layout(live); });
             startChat();
 
             /* What Students Say: endless moving columns */
@@ -4240,46 +4283,61 @@
                     return { src: i.getAttribute('src'), alt: i.alt, w: +i.getAttribute('width'), h: +i.getAttribute('height') };
                 });
                 const one = window.matchMedia('(max-width: 540px)');
-                const two = window.matchMedia('(max-width: 900px)');
-                const SPEEDS = [15, 18, 16.5];   // seconds per column-width of height: bigger = slower
+                const GAP_X = 14, GAP_Y = 10;
 
-                function addImg(track, s, clone) {
+                function addImg(slot, s, width, clone) {
                     const img = new Image(s.w, s.h);
                     img.loading = 'lazy';
                     img.decoding = 'async';
                     img.alt = clone ? '' : s.alt;
                     img.src = s.src;
+                    img.style.width = width + 'px';
+                    img.style.height = Math.round(width * s.h / s.w) + 'px';
                     if (clone) img.setAttribute('aria-hidden', 'true');
-                    track.appendChild(img);
+                    slot.appendChild(img);
                 }
+                // A tape of constant height: tall screenshots stand alone, short ones are stacked 2-3 per slot
+                // and each slot is sized so its stack exactly fills the height.
                 function build() {
-                    const n = two.matches ? 2 : 3;   // phones get two columns too
-                    const cols = [];
+                    const H = box.clientHeight || 440;
                     box.textContent = '';
-                    for (let i = 0; i < n; i++) {
-                        const col = document.createElement('div');
-                        col.className = 'proof-col' + (i === 1 ? ' down' : '');
-                        const track = document.createElement('div');
-                        track.className = 'proof-track';
-                        col.appendChild(track);
-                        box.appendChild(col);
-                        cols.push({ track: track, list: [], size: 0 });
+                    const track = document.createElement('div');
+                    track.className = 'proof-track';
+                    box.appendChild(track);
+                    const ratio = function(s) { return s.h / s.w; };
+                    const talls = shots.filter(function(s) { return ratio(s) >= 0.95; });
+                    const shorts = shots.filter(function(s) { return ratio(s) < 0.95; });
+                    const groups = [];
+                    let cur = [], sum = 0;
+                    shorts.forEach(function(s) {
+                        cur.push(s); sum += ratio(s);
+                        if (sum >= 0.9) { groups.push(cur); cur = []; sum = 0; }
+                    });
+                    if (cur.length) { if (groups.length) groups[groups.length - 1] = groups[groups.length - 1].concat(cur); else groups.push(cur); }
+                    const slots = [];
+                    for (let i = 0; i < Math.max(talls.length, groups.length); i++) {
+                        if (i < groups.length) slots.push(groups[i]);
+                        if (i < talls.length) slots.push([talls[i]]);
                     }
-                    shots.forEach(function(s) {
-                        const c = cols.reduce(function(a, b) { return b.size < a.size ? b : a; });
-                        c.list.push(s);
-                        c.size += s.h / s.w;
+                    let total = 0;
+                    [false, true].forEach(function(clone) {
+                        slots.forEach(function(list) {
+                            const sumR = list.reduce(function(t, s) { return t + ratio(s); }, 0);
+                            const width = Math.round((H - GAP_Y * (list.length - 1)) / sumR);
+                            const slot = document.createElement('div');
+                            slot.className = 'proof-slot';
+                            slot.style.width = width + 'px';
+                            list.forEach(function(s) { addImg(slot, s, width, clone); });
+                            track.appendChild(slot);
+                            if (!clone) total += width + GAP_X;
+                        });
                     });
-                    cols.forEach(function(c, i) {
-                        c.list.forEach(function(s) { addImg(c.track, s, false); });
-                        c.list.forEach(function(s) { addImg(c.track, s, true); });
-                        c.track.style.animationDuration = Math.round(c.size * SPEEDS[i]) + 's';
-                    });
+                    const SPEED = one.matches ? 34 : 42;   // pixels per second
+                    track.style.animationDuration = Math.round(total / SPEED) + 's';
                 }
                 box.classList.add('moving');
                 build();
                 one.addEventListener('change', build);
-                two.addEventListener('change', build);
                 box.addEventListener('click', function() { box.classList.toggle('paused'); });
                 new IntersectionObserver(function(e) {
                     box.classList.toggle('run', e[0].isIntersecting);
