@@ -1539,40 +1539,63 @@
             .hero-chat .bub-text { font-size: 17px; }
             .hero-chat .bub-foot { font-size: 13.5px; }
         }
-        /* Message tail on the bottom-left corner (2026-11-19) */
-        .hero-chat > .bub::after {
+        /* Bubble shape (2026-11-19): the body owns the tail (::after) and the layered cards (::before), so nothing
+           is positioned separately from the card; .bub-clip holds the padding and clips the content */
+        .hero-chat > .bub .bub-body {
+            position: relative;
+            overflow: visible;
+            padding: 0;
+            border-radius: 38px 38px 38px 0;
+            background: linear-gradient(180deg, #0f4149 0%, var(--teal-dark) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 3px 8px rgba(6, 28, 33, 0.14),            /* contact shadow */
+                0 14px 26px -8px rgba(6, 28, 33, 0.24);     /* soft body shadow */
+            transition: border-radius 0.5s ease;
+        }
+        .hero-chat > .bub .bub-clip {
+            box-sizing: border-box;
+            height: 100%;
+            overflow: hidden;
+            border-radius: inherit;
+            padding: 26px 36px 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 980px) {
+            .hero-chat > .bub .bub-body { border-radius: 30px 30px 30px 0; }
+            .hero-chat > .bub .bub-clip { padding: 22px 30px 20px; }
+        }
+        /* Typing bubble: compact solid pill */
+        .hero-chat > .bub.typing .bub-body { display: block; width: fit-content; background: var(--teal-dark); border-radius: 26px 26px 26px 0; }
+        .hero-chat > .bub.typing .bub-clip { display: block; padding: 16px 22px; }
+        /* Tail: starts a hair inside the card edge so the join has no seam, ends on the card's bottom line */
+        .hero-chat > .bub .bub-body::after {
             content: "";
             position: absolute;
             left: -11px;
-            bottom: -0.5px;
+            bottom: 0;
             width: 12px;
-            height: 20.5px;
+            height: 21px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 21' preserveAspectRatio='none'%3E%3Cpath d='M12 0H11.8C11.8 8 9 15 2.6 18.6C.9 19.6 1.6 21 3.4 21H12z' fill='%230c3840'/%3E%3C/svg%3E") no-repeat;
             background-size: 100% 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20.5' preserveAspectRatio='none'%3E%3Cpath d='M12 0H11C11 8.5 8.5 14.5 2.6 18C.9 19 1.6 20.5 3.4 20.5H12z' fill='%230c3840'/%3E%3C/svg%3E") no-repeat;
             pointer-events: none;
         }
-        .hero-chat > .bub .bub-body { border-radius: 38px 38px 38px 0; padding: 26px 36px 24px; }
-        @media (max-width: 980px) { .hero-chat > .bub .bub-body { border-radius: 30px 30px 30px 0; padding: 22px 30px 20px; } }
-        /* Dark bubble: teal-dark fill, cream text (2026-11-19) */
-        /* Typing bubble: block-level so the tail lines up with its bottom edge */
-        .hero-chat > .bub.typing .bub-body { display: block; width: fit-content; }
-        .hero-chat > .bub.typing .bub-body { background: var(--teal-dark); padding: 16px 22px; border-radius: 26px 26px 26px 0; }
-        .hero-chat .bub-body {
-            /* lighter at the top, ends exactly on the tail's colour */
-            background: linear-gradient(180deg, #0f4149 0%, var(--teal-dark) 100%);
-            /* crisp top edge + layered, teal-tinted shadow */
+        /* Stacked cards + long shadow behind the finished card; they fade in as the dots become the card */
+        .hero-chat > .bub:not(.typing) .bub-body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            pointer-events: none;
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 10px 0 -6px rgba(12, 56, 64, 0.2),      /* stacked card 1 */
-                0 20px 0 -12px rgba(12, 56, 64, 0.1),     /* stacked card 2 */
-                0 3px 8px rgba(6, 28, 33, 0.14),          /* contact shadow */
-                0 14px 26px -8px rgba(6, 28, 33, 0.24),   /* soft body shadow */
-                0 34px 56px -14px rgba(6, 28, 33, 0.36);  /* long diffuse shadow */
+                0 10px 0 -6px rgba(12, 56, 64, 0.2),        /* stacked card 1 */
+                0 20px 0 -12px rgba(12, 56, 64, 0.1),       /* stacked card 2 */
+                0 34px 56px -14px rgba(6, 28, 33, 0.36);    /* long diffuse shadow */
+            animation: bub-layers-in 0.5s ease both;
         }
-        .hero-chat > .bub.typing .bub-body {
-            box-shadow: 0 2px 6px rgba(6, 28, 33, 0.12), 0 12px 22px -8px rgba(6, 28, 33, 0.28);
-        }
-        .hero-chat > .bub::after { background-size: 100% 100%; }
+        @keyframes bub-layers-in { from { opacity: 0; } to { opacity: 1; } }
 
         /* Room around the card so its shadow is never cut off at the sides */
         .hero-chat { width: calc(100% + 40px); max-width: 620px; margin-left: -20px; margin-right: -20px; }
@@ -1592,7 +1615,6 @@
         }
 
         /* Name on top, review below */
-        .hero-chat > .bub:not(.typing) .bub-body { display: flex; flex-direction: column; }
         .hero-chat .bub-foot { order: -1; margin: 0 0 12px; }
 
         /* Slow idle float (uses `translate`, so it doesn't fight the swap animation's transform) */
@@ -2016,8 +2038,6 @@
         .hero-cta, .hero-cta:visited { transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; }
         .hero-cta:hover, .hero-cta:visited:hover { background: #e04600; box-shadow: 0 16px 30px rgba(204, 34, 0, 0.34); }
 
-        /* Bubble swap: shadow + corners ease while the typing dots grow into the card (the tail follows via JS) */
-        .hero-chat .bub-body { transition: box-shadow 0.5s ease, border-radius 0.5s ease; }
     </style>
 </head>
 
@@ -4120,13 +4140,13 @@
             function makeBubble() {
                 const el = document.createElement('div');
                 el.className = 'bub typing';
-                el.innerHTML = '<div class="bub-body"><span class="bub-dots"><i></i><i></i><i></i></span></div>';
+                el.innerHTML = '<div class="bub-body"><div class="bub-clip"><span class="bub-dots"><i></i><i></i><i></i></span></div></div>';
                 return el;
             }
             function fillBubble(el, q) {
                 el.classList.remove('typing');
                 const body = el.querySelector('.bub-body');
-                body.innerHTML = '<span class="bub-text"></span><div class="bub-foot"><i class="bi bi-patch-check-fill"></i><strong class="bub-who"></strong></div>';
+                body.innerHTML = '<div class="bub-clip"><span class="bub-text"></span><div class="bub-foot"><i class="bi bi-patch-check-fill"></i><strong class="bub-who"></strong></div></div>';
                 body.querySelector('.bub-text').textContent = q.text;
                 body.querySelector('.bub-who').textContent = q.name;
                 body.querySelector('.bub-foot').insertAdjacentHTML('beforeend', '<span style="margin-left:-4px">· KU Leuven BBA</span>');
