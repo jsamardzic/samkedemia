@@ -4,8 +4,15 @@
 <head>
     <script>
         // Hero intro: the math pattern draws alone first, then the page content comes in (see pattern script at the end)
-        try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('pat-intro', 'pat-after');
-            setTimeout(function() { if (document.documentElement.classList.contains('pat-intro')) { document.documentElement.classList.remove('pat-intro'); document.dispatchEvent(new Event('pat-intro-done')); } }, 4000); } } catch (e) {}
+        try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { if (location.hash.length > 1 || scrollY > 80) throw 0;   // opened on an anchor / already scrolled: no intro
+            document.documentElement.classList.add('pat-intro', 'pat-after', 'pat-head', 'pat-logo');
+            // the browser restores the scroll position a moment after load, and people can scroll mid-intro: either way, drop the intro at once
+            window.__patSkip = function() { var r = document.documentElement.classList; r.remove('pat-head', 'pat-logo'); var o = document.getElementById('logo-intro'); if (o) o.remove(); window.__logoIntro = false;
+                window.removeEventListener('scroll', chk); if (r.contains('pat-intro')) { r.remove('pat-intro'); document.dispatchEvent(new Event('pat-intro-done')); } };
+            var chk = function() { if (scrollY > 80) window.__patSkip(); };
+            window.addEventListener('scroll', chk, { passive: true }); window.addEventListener('load', chk); document.addEventListener('DOMContentLoaded', chk);
+            setTimeout(function() { var r = document.documentElement.classList; r.remove('pat-head', 'pat-logo'); var o = document.getElementById('logo-intro'); if (o) o.remove();
+                if (r.contains('pat-intro')) { r.remove('pat-intro'); document.dispatchEvent(new Event('pat-intro-done')); } }, 4500); } } catch (e) {}
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,7 +182,7 @@
             height: 28px;
             width: auto;
             display: block;
-            object-fit: contain;
+            object-fit: fill;   /* box and image share one shape; 'contain' made Safari draw the logo ~3% narrower than the real SVG */
             object-position: left center;
         }
 
@@ -2021,7 +2028,16 @@
         /* First load: (1) only the math draws itself in (formulas, graphs, objects), alone on the screen;
            (2) the page content comes in, the words fade in and all the ink settles to the same faint level;
            (3) the drawn copy crossfades into the repeating background, which looks identical. */
-        html.pat-intro header, html.pat-intro .hero-main, html.pat-intro #trusted-logos, html.pat-intro .hero-grid { opacity: 0; }
+        html.pat-head header, html.pat-intro .hero-main, html.pat-intro #trusted-logos, html.pat-intro .hero-grid { opacity: 0; }
+        /* The Samkedemia logo sketches itself in the middle, then glides up into the header pill's logo spot */
+        html.pat-logo header .logo-img { opacity: 0; transition: none; }
+        html.pat-logo-swap header .logo-img { opacity: 1; transition: none; }
+        #logo-intro { position: fixed; left: 0; top: 0; z-index: 1100; pointer-events: none; transform-origin: 0 0; will-change: transform; }
+        #logo-intro svg { display: block; width: 100%; height: auto; overflow: visible; }
+        #logo-intro path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: var(--len); fill-opacity: 0;
+            animation: logo-pen 0.65s cubic-bezier(0.33, 0, 0.2, 1) var(--d) forwards, logo-ink 0.5s ease calc(var(--d) + 0.35s) forwards; }
+        @keyframes logo-pen { to { stroke-dashoffset: 0; } }
+        @keyframes logo-ink { to { fill-opacity: 1; stroke-opacity: 0; } }
         html.pat-intro .hero-main, html.pat-intro .hero-main * { animation-play-state: paused !important; }
         html.pat-intro .pat-drift::before, .pat-drift.writing::before { opacity: 0.001; transition: none; }   /* hidden from the very first paint, so the ready tile never flashes before the drawing */   /* not 0: keeps it painted and ready for the hand-off */
         .pat-drift > .pat-layer { position: absolute; inset: 0; will-change: opacity; }
@@ -4526,15 +4542,25 @@
             const root = document.documentElement;
             const box = document.querySelector('.hero-pattern');
             const drift = box && box.querySelector('.pat-drift');
-            function reveal() {
+            function showHeader() {
+                if (!root.classList.contains('pat-head')) return;
+                root.classList.remove('pat-head');
+                const h = document.querySelector('header');
+                if (h && h.animate) h.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'backwards' });
+            }
+            window.__patShowHeader = showHeader;
+            function reveal(fromLogo) {
                 if (!root.classList.contains('pat-intro')) return;
+                if (fromLogo !== true && window.__logoCancel) window.__logoCancel();   // a late fallback reveal must not leave the logo mid-flight
                 root.classList.remove('pat-intro');
                 document.dispatchEvent(new Event('pat-intro-done'));
-                [['header', 0], ['.hero-grid', 0], ['#trusted-logos', 350]].forEach(function(x) {
+                showHeader();
+                [['.hero-grid', 0], ['#trusted-logos', 350]].forEach(function(x) {
                     const el = document.querySelector(x[0]);
                     if (el && el.animate) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay: x[1], easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'backwards' });
                 });
             }
+            window.__patReveal = reveal;
             if (!drift || !root.classList.contains('pat-intro') || !window.fetch || !window.DOMParser) { reveal(); return; }
             // pieces of images/math-pattern.svg that fade in with the content instead of being drawn: the confetti dots/crosses/stars (incl. wrap-around copies)
             const FADE = new Set([458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602]);
@@ -4630,9 +4656,69 @@
                     requestAnimationFrame(next);
                 })();
                 setTimeout(function() { drift.classList.add('settled'); }, LIGHTEN * 1000);
-                setTimeout(reveal, REVEAL * 1000);
+                setTimeout(function() { if (!window.__logoIntro) reveal(); }, REVEAL * 1000);   // with the logo intro, the logo glide triggers the reveal
                 setTimeout(done, Math.max(INKED, REVEAL) * 1000 + SETTLE * 1000);
             }).catch(done);
+        })();
+    </script>
+    <script>
+        // Logo intro: sketch the Samkedemia logo in the middle, then glide it into the header pill
+        (function() {
+            const root = document.documentElement;
+            if (!root.classList.contains('pat-logo') || !window.fetch || !window.DOMParser) { root.classList.remove('pat-logo', 'pat-head'); return; }
+            window.__logoIntro = true;
+            const NS = 'http://www.w3.org/2000/svg';
+            let box = null, flying = false;
+            function cleanup() { window.__logoIntro = false; root.classList.remove('pat-logo'); if (box) { box.remove(); box = null; } }
+            window.__logoCancel = function() { cleanup(); if (window.__patShowHeader) window.__patShowHeader(); };
+            function fail() { cleanup(); if (window.__patShowHeader) window.__patShowHeader(); }
+            fetch('images/logo-oneline-teal-orange.svg').then(function(r) { return r.text(); }).then(function(txt) {
+                if (!window.__logoIntro) return;
+                const doc = new DOMParser().parseFromString(txt, 'image/svg+xml').documentElement;
+                const vb = doc.getAttribute('viewBox').split(/\s+/).map(Number);
+                const colors = { st0: '#FF5500', st1: '#F7F7F1', st2: '#FFFFFF', st3: '#0C3840', st4: '#FF5500' };
+                const svg = document.createElementNS(NS, 'svg');
+                svg.setAttribute('viewBox', vb.join(' '));
+                doc.querySelectorAll('path').forEach(function(p) {
+                    const c = colors[p.getAttribute('class')] || '#0C3840', q = p.cloneNode(false);
+                    q.removeAttribute('class'); q.setAttribute('fill', c); q.setAttribute('stroke', c);
+                    q.setAttribute('stroke-width', '1'); q.setAttribute('stroke-linejoin', 'round');
+                    svg.appendChild(q);
+                });
+                box = document.createElement('div'); box.id = 'logo-intro'; box.appendChild(svg);
+                const W0 = Math.min(innerWidth * 0.74, 460), H0 = W0 * vb[3] / vb[2];
+                const x0 = (innerWidth - W0) / 2, y0 = (innerHeight - H0) / 2 - innerHeight * 0.04;
+                box.style.width = W0 + 'px';
+                box.style.transform = 'translate(' + x0 + 'px,' + y0 + 'px)';
+                document.body.appendChild(box);
+                // left-to-right pen order
+                Array.from(svg.children).forEach(function(p) {
+                    const bb = p.getBBox();
+                    p.style.setProperty('--len', Math.ceil(p.getTotalLength()) + 1);
+                    p.style.setProperty('--d', (0.1 + 0.5 * (bb.x - vb[0]) / vb[2]).toFixed(2) + 's');
+                });
+                const GLIDE_AT = 1500, GLIDE = 700;
+                setTimeout(function() {
+                    if (!box) return;
+                    flying = true;
+                    const t = document.querySelector('header .logo-img').getBoundingClientRect();
+                    if (window.__patShowHeader) window.__patShowHeader();   // header pill fades in while the logo travels
+                    // animate the real width (not a scale): the vector is re-drawn crisp at every size and lands pixel-identical to the header logo
+                    const a = box.animate([
+                        { width: W0 + 'px', transform: 'translate(' + x0 + 'px,' + y0 + 'px)' },
+                        { width: t.width + 'px', transform: 'translate(' + t.left + 'px,' + t.top + 'px)' }
+                    ], { duration: GLIDE, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'forwards' });
+                    setTimeout(function() { if (window.__patReveal) window.__patReveal(true); }, 450);   // page content follows mid-glide
+                    a.onfinish = function() {
+                        // one-frame swap, no crossfade: the real header logo appears at full strength exactly as the drawn one is removed
+                        root.classList.add('pat-logo-swap');
+                        root.classList.remove('pat-logo');
+                        window.__logoIntro = false;
+                        if (box) { box.remove(); box = null; }
+                        requestAnimationFrame(function() { requestAnimationFrame(function() { root.classList.remove('pat-logo-swap'); }); });
+                    };
+                }, GLIDE_AT);
+            }).catch(fail);
         })();
     </script>
 </body>
