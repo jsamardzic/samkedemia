@@ -1756,10 +1756,6 @@
         }
         .proof-wall.run .proof-track { animation-play-state: running; }
         .proof-col.down .proof-track { animation-direction: reverse; }
-        .proof-wall.moving.paused .proof-track { animation-play-state: paused; }
-        @media (hover: hover) {
-            .proof-wall.moving:hover .proof-track { animation-play-state: paused; }
-        }
         @keyframes proof-up { to { transform: translateY(-50%); } }
         .proof-wall.moving img {
             flex: none;
@@ -2048,6 +2044,13 @@
         html.pat-after .hero-copy > .hero-sub-proof { animation: hero-rise-soft 0.95s cubic-bezier(0.25, 0.8, 0.25, 1) 0s both; }
         html.pat-after .hero-actions { animation: hero-rise-soft 0.95s cubic-bezier(0.25, 0.8, 0.25, 1) 0.26s both; }
         html.pat-after .hero-chat { animation: hero-rise-soft 1.05s cubic-bezier(0.25, 0.8, 0.25, 1) 0.36s both; }
+        /* Phones: Programs + Questions pills stay on one line, like the About Me ones; badges never wrap (the table scrolls) */
+        .tier-badge { white-space: nowrap; }
+        @media (max-width: 440px) {
+            #tier-tabs, #faq-tabs { flex-wrap: nowrap; gap: 5px; }
+            #tier-tabs .tier-tab, #faq-tabs .faq-tab { padding: 8px 11px; font-size: 0.6rem; letter-spacing: 0.04em; white-space: nowrap; flex: none; }
+        }
+        @media (max-width: 360px) { #tier-tabs .tier-tab, #faq-tabs .faq-tab { padding: 8px 8px; letter-spacing: 0.02em; } }
         /* Proof line sits above the title as one quiet pill: faces + a single line */
         .hero-copy > .hero-sub-proof { order: -1; align-self: flex-start; margin: 6px 0 26px 2px; animation-delay: 0s;
             gap: 10px; padding: 4px 14px 4px 4px; border-radius: 999px;
@@ -2506,7 +2509,7 @@
                     </div>
                     <div class="pass-x pass-x-below"><b>4.4×</b><span><i>more likely to pass</i> <i>than with no tutoring</i></span></div>
                 </div>
-                <p class="results-footnote">* Based on internal research conducted in 2026.</p>
+                <p class="results-footnote">* Based on internal research from 2026.</p>
 
                 <p class="results-label divider">By the numbers</p>
 
@@ -4481,7 +4484,6 @@
                 box.classList.add('moving');
                 build();
                 one.addEventListener('change', build);
-                box.addEventListener('click', function() { box.classList.toggle('paused'); });
                 new IntersectionObserver(function(e) {
                     box.classList.toggle('run', e[0].isIntersecting);
                 }).observe(box);
