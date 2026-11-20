@@ -2067,8 +2067,9 @@
             #tier-tabs .tier-tab, #faq-tabs .faq-tab { padding: 8px 11px; font-size: 0.6rem; letter-spacing: 0.04em; white-space: nowrap; flex: none; }
         }
         @media (max-width: 360px) { #tier-tabs .tier-tab, #faq-tabs .faq-tab { padding: 8px 8px; letter-spacing: 0.02em; } }
+        .hero-copy > .hero-title { order: 0; } .hero-copy > .hero-actions { order: 2; margin-top: 1.2rem; }
         /* Proof line sits above the title as one quiet pill: faces + a single line */
-        .hero-copy > .hero-sub-proof { order: -1; align-self: flex-start; margin: 6px 0 26px 2px; animation-delay: 0s;
+        .hero-copy > .hero-sub-proof { order: 1; align-self: flex-start; margin: 0 0 4px 2px; animation-delay: 0s;
             gap: 10px; padding: 4px 14px 4px 4px; border-radius: 999px;
             background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(12, 56, 64, 0.08);
             box-shadow: 0 10px 24px rgba(12, 56, 64, 0.13), 0 1px 3px rgba(12, 56, 64, 0.06); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
@@ -2078,7 +2079,7 @@
         .hero-copy > .hero-sub-proof .hero-faces img + img { margin-left: -9px; }
         .hero-copy > .hero-sub-proof .hero-more { height: 28px; margin-left: -9px; font-size: 12px; }
         .hero-next-inline { font-weight: inherit; }
-        @media (max-width: 980px) { .hero-copy > .hero-sub-proof { align-self: center; margin: 22px 0 18px; padding: 3px 12px 3px 3px; gap: 8px; }
+        @media (max-width: 980px) { .hero-copy > .hero-sub-proof { align-self: center; margin: 0 0 4px; padding: 3px 12px 3px 3px; gap: 8px; }
             .hero-copy > .hero-sub-proof > span:not(.hero-faces) { font-size: 13.5px; }
             @media (max-width: 440px) { .hero-copy > .hero-sub-proof > span:not(.hero-faces) { font-size: 12px; letter-spacing: -0.01em; } }
             .hero-copy > .hero-sub-proof .hero-more { height: 24px; margin-left: -8px; font-size: 11px; padding: 0 7px 0 6px; }
