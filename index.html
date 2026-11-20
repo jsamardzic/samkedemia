@@ -2013,7 +2013,7 @@
             will-change: transform; animation: hero-pattern-drift 90s linear infinite; }
         .pat-drift::before { content: ''; position: absolute; inset: 0;
             background: url("images/math-pattern.svg") 0 0 / var(--tile) var(--tile) repeat;
-            opacity: 0.04; transition: opacity 0.7s linear; will-change: opacity; }
+            opacity: 0.065; transition: opacity 0.7s linear; will-change: opacity; }
         .hero-pattern.paused > .pat-drift { animation-play-state: paused; }
         @keyframes hero-pattern-drift { to { transform: translate3d(calc(-1 * var(--tile)), calc(-1 * var(--tile)), 0); } }
         @media (max-width: 700px) { .hero > .hero-pattern { --tile: 560px; } }
@@ -2023,13 +2023,13 @@
            (3) the drawn copy crossfades into the repeating background, which looks identical. */
         html.pat-intro header, html.pat-intro .hero-main, html.pat-intro #trusted-logos, html.pat-intro .hero-grid { opacity: 0; }
         html.pat-intro .hero-main, html.pat-intro .hero-main * { animation-play-state: paused !important; }
-        .pat-drift.writing::before { opacity: 0.001; }   /* not 0: keeps it painted and ready for the hand-off */
+        html.pat-intro .pat-drift::before, .pat-drift.writing::before { opacity: 0.001; transition: none; }   /* hidden from the very first paint, so the ready tile never flashes before the drawing */   /* not 0: keeps it painted and ready for the hand-off */
         .pat-drift > .pat-layer { position: absolute; inset: 0; will-change: opacity; }
         .pat-layer > svg { position: absolute; width: var(--tile); height: var(--tile); overflow: visible; }
-        .pat-layer.pat-f { opacity: 0.11; transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
+        .pat-layer.pat-f { opacity: 0.065;   /* drawn straight at its final faint level, no dimming */ transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
         .pat-layer.pat-r { opacity: 0; transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
-        .pat-drift.settled > .pat-layer { opacity: 0.04; }
-        .pat-drift.handoff > .pat-layer { opacity: 0; transition: opacity 0.7s linear; }
+        .pat-drift.settled > .pat-layer { opacity: 0.065; }
+        
         /* Pen outline first; the ink fills in slowly underneath while the pen is still moving, so solid words never "pop" bold */
         .pat-f path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: var(--len); fill-opacity: 0;
             animation: pat-pen 0.7s cubic-bezier(0.33, 0, 0.2, 1) var(--d) forwards,
@@ -4548,12 +4548,8 @@
                 clearTimeout(giveUp);
                 reveal();
                 if (!drift.querySelector('.pat-layer')) { drift.classList.remove('writing', 'settled'); return; }
-                drift.classList.add('handoff');
-                drift.classList.remove('writing');   // background fades in under the drawn copy as it fades out
-                setTimeout(function() {
-                    drift.classList.remove('settled', 'handoff');
-                    drift.querySelectorAll('.pat-layer').forEach(function(n) { n.remove(); });
-                }, HANDOFF * 1000 + 50);
+                // no hand-off: the drawn pattern stays; the off-screen tiles the drift will need are added quietly, one per frame
+                if (window.__patFill) window.__patFill();
             }
             fetch('images/math-pattern.svg').then(function(r) { return r.text(); }).then(function(txt) {
                 if (!drift.classList.contains('writing')) return;
@@ -4578,6 +4574,24 @@
                     return svg;
                 }
                 const lens = [], jobs = [], fJobs = [], rJobs = [];
+                const allCols = Math.ceil(drift.getBoundingClientRect().width / tile), allRows = Math.ceil(drift.getBoundingClientRect().height / tile);
+                window.__patFill = function() {
+                    const extra = [];
+                    for (let j = 0; j < allRows; j++) for (let i = 0; i < allCols; i++) {
+                        if (i < cols && j < rows) continue;
+                        extra.push(function() { const sv = tileSvg(i, j); all.forEach(function(p) { sv.appendChild(p.cloneNode(false)); }); layerR.appendChild(sv); });
+                    }
+                    (function step() { if (extra.length) { extra.shift()(); requestAnimationFrame(step); } })();
+                    // if the hero later grows past the drawn tiles, fall back to the plain repeating background
+                    const w0 = box.getBoundingClientRect().width, h0 = box.getBoundingClientRect().height;
+                    window.addEventListener('resize', function swap() {
+                        const r = box.getBoundingClientRect();
+                        if (r.width <= w0 + 1 && r.height <= h0 + 1) return;
+                        window.removeEventListener('resize', swap);
+                        drift.classList.remove('writing', 'settled');
+                        drift.querySelectorAll('.pat-layer').forEach(function(n) { n.remove(); });
+                    });
+                };
                 const k2px = tile / VB, PAD = 420;
                 for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
                     const skipped = [];
