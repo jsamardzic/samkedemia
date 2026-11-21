@@ -568,6 +568,8 @@
             text-transform: uppercase;
             letter-spacing: 0.12em;
             cursor: pointer;
+            touch-action: manipulation;   /* no double-tap-zoom wait, so the first tap is the click */
+            -webkit-tap-highlight-color: transparent;
             transition: background 0.18s, border-color 0.18s, color 0.18s;
         }
         .tier-tab.active {
@@ -575,9 +577,12 @@
             border-color: var(--orange);
             color: white;
         }
-        .tier-tab:hover:not(.active) {
-            border-color: var(--teal-dark);
-            color: var(--teal-dark);
+        /* hover only on devices that really hover: on phones a hover style makes the first tap count as "hover" and the click needs a second tap */
+        @media (hover: hover) {
+            .tier-tab:hover:not(.active) {
+                border-color: var(--teal-dark);
+                color: var(--teal-dark);
+            }
         }
 
         /* --- Milestone grid --- */
@@ -818,11 +823,12 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+                linear-gradient(to right, rgba(12, 56, 64, 0.075) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(12, 56, 64, 0.075) 1px, transparent 1px);
             background-size: 60px 60px;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 100%);
+            /* a bit stronger than the hero grid (0.0375 there, ~0.06 here at full strength), since this section has no pattern */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.8) 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.8) 100%);
             pointer-events: none;
             z-index: 0;
         }
@@ -1038,7 +1044,7 @@
         #about-me-card .about-me-details > .detail-item.active { opacity: 1; visibility: visible; transform: none; transition: opacity 0.4s ease 0.16s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, visibility 0s; }
         #about-me-card .detail-item .label { display: none; }
         #about-me-card .detail-check { opacity: 0; transform: translateY(8px); transition: opacity 0.15s ease, transform 0.15s ease; }
-        #about-me-card { --b: 0.6s; }
+        #about-me-card { --b: 0.2s; }
         #about-me-card .detail-check { transform: translateY(14px); }
         #about-me-card.bullets-in .detail-item.active .detail-check { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
         #about-me-card.bullets-in .detail-item.active .detail-check:nth-child(1) { transition-delay: calc(var(--b) + 0*0.16s); }
@@ -2862,20 +2868,20 @@
                 }
 
                 .tier-badge.popular {
-                    background: var(--orange);
+                    background: var(--teal-dark);
                     color: white;
                 }
 
                 .tier-badge.limited {
                     background: transparent;
-                    color: var(--orange);
-                    border-color: var(--orange);
+                    color: var(--teal-dark);
+                    border-color: var(--teal-dark);
                 }
 
                 .tier-badge.best-value {
                     background: transparent;
-                    color: var(--orange);
-                    border-color: var(--orange);
+                    color: var(--teal-dark);
+                    border-color: var(--teal-dark);
                 }
 
                 .pt-feature sup {
@@ -2927,9 +2933,11 @@
                         border-color: var(--orange);
                         color: white;
                     }
-                    .faq-tab:hover:not(.active) {
-                        border-color: var(--teal-dark);
-                        color: var(--teal-dark);
+                    @media (hover: hover) {
+                        .faq-tab:hover:not(.active) {
+                            border-color: var(--teal-dark);
+                            color: var(--teal-dark);
+                        }
                     }
                     .faq-panels { max-width: 600px; margin: 0 auto; text-align: left; }
                     .faq-panel { display: none; }
@@ -4004,11 +4012,11 @@
         (function() {
             const tabs = [...document.querySelectorAll('#about-tabs .tier-tab')];
             const panels = [...document.querySelectorAll('#about-me-card .about-me-details > .detail-item')];
-            // the bullets start only once the list itself is on screen (not when the top of the card appears)
+            // the bullets start once the top of the list itself is on screen (not when the top of the card appears)
             const list = document.querySelector('#about-me-card .about-me-details');
             new IntersectionObserver((e, o) => {
                 if (e[0].isIntersecting) { document.getElementById('about-me-card').classList.add('bullets-in'); o.disconnect(); }
-            }, { threshold: 0.5, rootMargin: '0px 0px -8% 0px' }).observe(list);
+            }, { threshold: 0, rootMargin: '0px 0px -4% 0px' }).observe(list);   // as soon as the top of the list is on screen (a tall list on a phone never reached 50% early)
             tabs.forEach(tab => tab.addEventListener('click', () => {
                 const i = +tab.dataset.about;
                 const card = document.getElementById('about-me-card');
@@ -4027,7 +4035,7 @@
                     card.classList.add('about-animated');
                     obs.disconnect();
                 }
-            }, { threshold: 0.12 });
+            }, { threshold: 0, rootMargin: '0px 0px -6% 0px' });   // top of the card on screen (12% of a tall phone card is a long scroll)
             obs.observe(card);
         })();
 
