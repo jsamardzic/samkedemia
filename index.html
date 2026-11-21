@@ -619,7 +619,7 @@
         }
 
         /* Bricolage is wide: keep card titles on one line on desktop, balance the rest */
-        .milestone h3 { font-size: 1rem; letter-spacing: -0.015em; text-wrap: balance; }
+        .milestone h3 { font-size: 1rem; letter-spacing: -0.015em; text-wrap: balance; display: flex; align-items: center; }
         .milestone p, .pricing-disclaimers p, #tier-description p { text-wrap: pretty; }
 
         @media (max-width: 700px) {
@@ -2012,7 +2012,7 @@
             mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
         }
         /* brand pattern, very faint (Post Directions angle -15deg, lowered to 7%) */
-        .hero > .hero-pattern { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; --tile: 820px;
+        .hero > .hero-pattern { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; --tile: 820px;
             -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 95%); mask-image: linear-gradient(to bottom, #000 60%, transparent 95%); }
         /* Seamless math tile drifting diagonally; one full tile per loop, so the restart is invisible */
         .hero-pattern > .pat-drift { position: absolute; left: 0; top: 0;
@@ -3074,6 +3074,8 @@
                         to   { opacity: 1; transform: translateY(0); }
                     }
                     #course-list { min-width: 540px; max-width: 660px; margin: 0 auto; text-align: left; }
+                    /* Phones: course names never wrap; the list grows to its longest name and the box scrolls sideways */
+                    @media (max-width: 768px) { #course-list { width: max-content; max-width: none; } .course-name { white-space: nowrap; } }
                     .course-row {
                         display: flex;
                         align-items: center;
@@ -3803,9 +3805,20 @@
                 });
                 grid.classList.remove('ms-sizing'); grid.style.height = '';
             }
+            // every card gets the title height of the tallest title, so bodies start at the same spot in all cards at any width
+            function equalTitles() {
+                const hs = milestones.map(m => m.querySelector('h3'));
+                hs.forEach(h => { h.style.minHeight = ''; });
+                let mx = 0;
+                hs.forEach(h => { if (h.offsetParent) mx = Math.max(mx, h.offsetHeight); });
+                if (mx) hs.forEach(h => { h.style.minHeight = mx + 'px'; });
+            }
             function show(tier) {
                 milestones.forEach(m => { m.style.display = has(m, tier) ? '' : 'none'; });
+                equalTitles();
             }
+            window.addEventListener('resize', equalTitles);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalTitles);
             function switchDescription(tier) {
                 descriptions.forEach(d => d.classList.toggle('tier-off', d.dataset.tierText !== tier));
             }
