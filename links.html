@@ -50,10 +50,15 @@
         background: radial-gradient(ellipse 85% 55% at 50% 55%, #1A606C 0%, #0C3840 52%, #051619 100%);
     }
     body::after {
-        left: 50%; top: 50%; width: 240vmax; height: 240vmax; margin: -120vmax 0 0 -120vmax; z-index: -1;
-        background: url("images/pattern-teal.svg") 0 0 / clamp(300px, 52vw, 560px) auto;
-        transform: rotate(-15deg); opacity: .055;
+        /* Same handwritten math pattern as the home page hero, light teal, drifting diagonally (one full tile per loop = seamless) */
+        --tile: clamp(520px, 62vw, 820px);
+        left: 0; top: 0; width: calc(100vw + var(--tile)); height: calc(100vh + var(--tile)); z-index: -1;
+        background: url("images/math-pattern-light.svg") 0 0 / var(--tile) var(--tile) repeat;
+        opacity: .065; will-change: transform;
+        animation: bg-drift 90s linear infinite;
     }
+    @keyframes bg-drift { to { transform: translate3d(calc(-1 * var(--tile)), calc(-1 * var(--tile)), 0); } }
+    @media (prefers-reduced-motion: reduce) { body::after { animation: none; } }
     main { width: 100%; max-width: 420px; text-align: center; }
     .logo { display: block; width: min(60%, 200px); height: auto; margin: 0 auto 14px; }
     .tagline { margin: 0 0 34px; font-size: 1.02rem; line-height: 1.4; opacity: .85; }
