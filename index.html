@@ -1276,6 +1276,7 @@
             text-align: left;
         }
         .hero .hero-grid {
+            opacity: 0.5;
             position: absolute;
             inset: 0;
             width: 100%;
@@ -1617,7 +1618,7 @@
             background-size: 100% 100%;
             pointer-events: none;
         }
-        /* Stacked cards + long shadow behind the finished card; they fade in as the dots become the card */
+        /* Soft shadow behind the finished card; it fades in as the dots become the card (no stacked cards) */
         .hero-chat > .bub:not(.typing) .bub-body::before {
             content: "";
             position: absolute;
@@ -1625,10 +1626,7 @@
             z-index: -1;
             border-radius: inherit;
             pointer-events: none;
-            box-shadow:
-                0 10px 0 -6px rgba(12, 56, 64, 0.2),        /* stacked card 1 */
-                0 20px 0 -12px rgba(12, 56, 64, 0.1),       /* stacked card 2 */
-                0 34px 56px -14px rgba(6, 28, 33, 0.36);    /* long diffuse shadow */
+            box-shadow: 0 22px 44px -12px rgba(6, 28, 33, 0.34);   /* one soft shadow, so the card reads as floating above the page */
             animation: bub-layers-in 0.5s ease both;
         }
         @keyframes bub-layers-in { from { opacity: 0; } to { opacity: 1; } }
@@ -2020,7 +2018,7 @@
             will-change: transform; animation: hero-pattern-drift 90s linear infinite; }
         .pat-drift::before { content: ''; position: absolute; inset: 0;
             background: url("images/math-pattern.svg") 0 0 / var(--tile) var(--tile) repeat;
-            opacity: 0.05; transition: opacity 0.7s linear; will-change: opacity; }
+            opacity: 0.06; transition: opacity 0.7s linear; will-change: opacity; }
         .hero-pattern.paused > .pat-drift { animation-play-state: paused; }
         @keyframes hero-pattern-drift { to { transform: translate3d(calc(-1 * var(--tile)), calc(-1 * var(--tile)), 0); } }
         @media (max-width: 700px) { .hero > .hero-pattern { --tile: 560px; } }
@@ -2042,9 +2040,9 @@
         html.pat-intro .pat-drift::before, .pat-drift.writing::before { opacity: 0.001; transition: none; }   /* hidden from the very first paint, so the ready tile never flashes before the drawing */   /* not 0: keeps it painted and ready for the hand-off */
         .pat-drift > .pat-layer { position: absolute; inset: 0; will-change: opacity; }
         .pat-layer > svg { position: absolute; width: var(--tile); height: var(--tile); overflow: visible; }
-        .pat-layer.pat-f { opacity: 0.05;   /* drawn straight at its final faint level, no dimming */ transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
+        .pat-layer.pat-f { opacity: 0.06;   /* drawn straight at its final faint level, no dimming */ transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
         .pat-layer.pat-r { opacity: 0; transition: opacity 0.55s cubic-bezier(0.45, 0, 0.55, 1); }
-        .pat-drift.settled > .pat-layer { opacity: 0.05; }
+        .pat-drift.settled > .pat-layer { opacity: 0.06; }
         
         /* Pen outline first; the ink fills in slowly underneath while the pen is still moving, so solid words never "pop" bold */
         .pat-f path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: var(--len); fill-opacity: 0;
@@ -4572,7 +4570,7 @@
                 showHeader();
                 [['.hero-grid', 0], ['#trusted-logos', 350]].forEach(function(x) {
                     const el = document.querySelector(x[0]);
-                    if (el && el.animate) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay: x[1], easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'backwards' });
+                    if (el && el.animate) el.animate([{ opacity: 0 }, { opacity: +getComputedStyle(el).opacity || 1 }], { duration: 900, delay: x[1], easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'backwards' });   // fade up to the element's own resting opacity (the grid rests at 50%)
                 });
             }
             window.__patReveal = reveal;
