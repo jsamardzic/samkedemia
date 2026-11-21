@@ -14,6 +14,10 @@
             setTimeout(function() { var r = document.documentElement.classList; r.remove('pat-head', 'pat-logo'); var o = document.getElementById('logo-intro'); if (o) o.remove();
                 if (r.contains('pat-intro')) { r.remove('pat-intro'); document.dispatchEvent(new Event('pat-intro-done')); } }, 4500); } } catch (e) {}
     </script>
+<script>
+        // Phones fire 'resize' while the address bar slides in/out (height only). Re-measuring layout then makes the page jump, so width-only listener:
+        window.onWidthResize = function(fn) { var w = innerWidth; addEventListener('resize', function(e) { if (innerWidth === w) return; w = innerWidth; fn(e); }); };
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samkedemia: University Math Tutoring & Exam Prep</title>
@@ -3775,7 +3779,7 @@
                 if (entries[0].isIntersecting) { run(); obs.disconnect(); }
             }, { threshold: 0.4 });
             obs.observe(chart);
-            window.addEventListener('resize', () => {
+            window.onWidthResize(() => {
                 if (!tag().classList.contains('in') && !chart.querySelector('.pass-x.in')) return;
                 chart.querySelector('.pass-x-below').style.display = narrow() ? '' : 'none';
                 chart.querySelector('.pass-x-side').style.display = narrow() ? 'none' : '';
@@ -3815,7 +3819,7 @@
                 milestones.forEach(m => { m.style.display = has(m, tier) ? '' : 'none'; });
                 equalTitles();
             }
-            window.addEventListener('resize', equalTitles);
+            window.onWidthResize(equalTitles);
             if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalTitles);
             function switchDescription(tier) {
                 descriptions.forEach(d => d.classList.toggle('tier-off', d.dataset.tierText !== tier));
@@ -4416,7 +4420,7 @@
                     setTimeout(nextBubble, READ);
                 }, first ? 500 : TYPING);
             }
-            window.addEventListener('resize', function() {
+            window.onWidthResize(function() {
                 fitChat();
                 const live = Array.from(chat.querySelectorAll('.bub:not(.leaving)'));
                 if (live.length) layout(live);
@@ -4716,10 +4720,11 @@
                     flying = true;
                     const t = document.querySelector('header .logo-img').getBoundingClientRect();
                     if (window.__patShowHeader) window.__patShowHeader();   // header pill fades in while the logo travels
-                    // animate the real width (not a scale): the vector is re-drawn crisp at every size and lands pixel-identical to the header logo
+                    // transform only (translate + scale): runs on the GPU, so the page content starting mid-glide can't make it stutter; lands on the header logo's exact box
+                    const k = t.width / W0;
                     const a = box.animate([
-                        { width: W0 + 'px', transform: 'translate(' + x0 + 'px,' + y0 + 'px)' },
-                        { width: t.width + 'px', transform: 'translate(' + t.left + 'px,' + t.top + 'px)' }
+                        { transform: 'translate(' + x0 + 'px,' + y0 + 'px) scale(1)' },
+                        { transform: 'translate(' + t.left + 'px,' + t.top + 'px) scale(' + k + ')' }
                     ], { duration: GLIDE, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'forwards' });
                     setTimeout(function() { if (window.__patReveal) window.__patReveal(true); }, 450);   // page content follows mid-glide
                     a.onfinish = function() {
