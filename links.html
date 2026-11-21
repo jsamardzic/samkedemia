@@ -2,134 +2,213 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+    // Loading: the math draws itself, the logo sketches and glides to its place, then the rest comes in. Skipped for reduced motion.
+    try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { var r = document.documentElement.classList; r.add('pat-intro', 'pat-logo');
+        setTimeout(function() { r.remove('pat-intro', 'pat-logo'); var o = document.getElementById('logo-intro'); if (o) o.remove(); }, 4500); } } catch (e) {}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0C3840">
 <title>Samkedemia | Links</title>
-<meta name="description" content="A free online TI-84 calculator and the Samkedemia website.">
-<meta property="og:title" content="Samkedemia | Links">
-<meta property="og:description" content="A free online TI-84 calculator and the Samkedemia website.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.samkedemia.com/links">
-<meta property="og:image" content="https://www.samkedemia.com/images/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.samkedemia.com/images/og-image.png">
 <link rel="icon" type="image/png" href="images/icon.png?v=2">
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Vidaloka&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Vidaloka&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --teal: #0C3840;
-        --cream: #F8F8F2;
-        --orange: #FF5500;
-        --line: rgba(248, 248, 242, .16);
-        --font-body: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        --font-title: 'Vidaloka', Georgia, serif;
+    :root { --teal:#0C3840; --teal-mid:#2f6a73; --cream:#F8F8F2; --orange:#FF5500; --font-body:'Bricolage Grotesque',system-ui,sans-serif; --font-title:'Vidaloka',Georgia,serif; }
+    * { box-sizing:border-box; }
+    html { background:#0C3840; -webkit-text-size-adjust:100%; }
+    body { margin:0; min-height:100dvh; display:flex; justify-content:center; align-items:center; text-align:center; padding:max(40px,env(safe-area-inset-top)) 24px max(40px,env(safe-area-inset-bottom)); font-family:var(--font-body); color:var(--cream); background:transparent; }
+    body::before { content:""; position:fixed; pointer-events:none; inset:0; z-index:-2; background:radial-gradient(ellipse 85% 55% at 50% 55%, #1a606c 0%, #0c3840 52%, #092a30 72%, #051619 100%); }
+    .pat { --tile:clamp(520px,62vw,820px); position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+    .pat-drift { position:absolute; left:0; top:0; width:calc(100% + var(--tile)); height:calc(100% + var(--tile)); will-change:transform; animation:drift 90s linear infinite; }
+    .pat-drift::before { content:""; position:absolute; inset:0; background:url("images/math-pattern-light.svg") 0 0 / var(--tile) var(--tile) repeat; opacity:.065; }
+    @keyframes drift { to { transform:translate3d(calc(-1*var(--tile)),calc(-1*var(--tile)),0); } }
+
+    /* --- loading sequence --- */
+    html.pat-intro .pat-drift::before, .pat-drift.writing::before { opacity:.001; }   /* the ready tile stays hidden while the drawn copy is on screen */
+    .pat-layer { position:absolute; inset:0; will-change:opacity; }
+    .pat-layer > svg { position:absolute; width:var(--tile); height:var(--tile); overflow:visible; }
+    .pat-layer.pat-f { opacity:.065; }
+    .pat-layer.pat-r { opacity:0; transition:opacity .55s cubic-bezier(.45,0,.55,1); }
+    .pat-drift.settled > .pat-layer { opacity:.065; }
+    .pat-f path { stroke-dasharray:var(--len) var(--len); stroke-dashoffset:var(--len); fill-opacity:0; animation:pat-pen .7s cubic-bezier(.33,0,.2,1) var(--d) forwards, pat-ink .8s cubic-bezier(.4,0,.6,1) calc(var(--d) + .2s) forwards; }
+    @keyframes pat-pen { to { stroke-dashoffset:0; } }
+    @keyframes pat-ink { to { fill-opacity:1; } }
+    html.pat-logo .logo { opacity:0; }
+    #logo-intro { position:fixed; left:0; top:0; z-index:1100; pointer-events:none; transform-origin:0 0; will-change:transform; }
+    #logo-intro svg { display:block; width:100%; height:auto; overflow:visible; }
+    #logo-intro path { stroke-dasharray:var(--len) var(--len); stroke-dashoffset:var(--len); fill-opacity:0; animation:logo-pen .65s cubic-bezier(.33,0,.2,1) var(--d) forwards, logo-ink .5s ease calc(var(--d) + .35s) forwards; }
+    @keyframes logo-pen { to { stroke-dashoffset:0; } }
+    @keyframes logo-ink { to { fill-opacity:1; stroke-opacity:0; } }
+    /* everything else rises in softly once the logo is on its way */
+    @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+    main > h1 { animation:rise 1s cubic-bezier(.25,.8,.25,1) 0s backwards; }
+    main > .proof { animation:rise 1s cubic-bezier(.25,.8,.25,1) .12s backwards; }
+    main > .wa { animation:rise 1s cubic-bezier(.25,.8,.25,1) .24s backwards; }
+    main > .more { animation:rise 1s cubic-bezier(.25,.8,.25,1) .36s backwards; }
+    html.pat-intro main > :not(.logo) { animation-play-state:paused; }
+
+    main { width:100%; max-width:420px; display:flex; flex-direction:column; align-items:center; container-type:inline-size; }
+    /* the logo leads; the slogan sits under it, clearly smaller */
+    .logo { width:min(70%,264px); height:auto; margin-bottom:64px; }
+    h1 { margin:0 0 26px; font-family:var(--font-title); font-weight:400; font-size:10cqi; white-space:nowrap; line-height:1.12; letter-spacing:-.012em; color:var(--cream); }   /* 10cqi = exactly as wide as the button */
+
+    /* same proof pill as the hero: faces, +200 bubble, bold line */
+    .proof { display:flex; align-items:center; justify-content:center; gap:10px; margin:0 0 30px; color:rgba(248,248,242,.82); font-weight:500; font-size:.95rem; white-space:nowrap; }
+    .faces { display:flex; align-items:center; }
+    .faces img { width:28px; height:28px; border-radius:50%; object-fit:cover; border:2px solid #14505a; }
+    .faces img + img { margin-left:-9px; }
+    .faces .plus { box-sizing:border-box; height:28px; margin-left:-9px; padding:0 9px 0 8px; display:inline-flex; align-items:center; border-radius:999px; border:2px solid #14505a; background:#2a6670; color:var(--cream); font-weight:700; font-size:12px; letter-spacing:-.01em; }
+    .faces > * { position:relative; } .faces > :nth-child(1){z-index:4} .faces > :nth-child(2){z-index:3} .faces > :nth-child(3){z-index:2} .faces > :nth-child(4){z-index:1}
+
+    /* same button as the hero: full pill, spaced caps, a teal liquid fill slides in from the left on hover */
+    .wa { position:relative; isolation:isolate; overflow:hidden; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:58px; padding:0 28px; border-radius:9999px; background:var(--orange); color:var(--cream); text-decoration:none; font-weight:900; font-size:13px; letter-spacing:.16em; text-transform:uppercase; white-space:nowrap; box-shadow:0 12px 26px rgba(255,85,0,.28); -webkit-tap-highlight-color:transparent; transition:color .3s ease, transform .25s ease, box-shadow .25s ease; }
+    .wa svg { width:18px; height:18px; fill:currentColor; transition:color .3s ease; }
+    .wa::before { content:""; position:absolute; z-index:-1; top:0; bottom:0; right:100%; width:calc(100% + 100px);
+        background:
+            linear-gradient(var(--cream), var(--cream)) 0 0 / calc(100% - 46px) 100% no-repeat,
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 100' preserveAspectRatio='none'%3E%3Cpath fill='%23f8f8f2' d='M0 0H18C34 10 4 22 22 34C40 46 6 58 24 70C40 82 10 90 18 100H0Z'/%3E%3C/svg%3E") 100% 0 / 46px 100% no-repeat;
+        transition:transform .65s cubic-bezier(.2,.75,.25,1); pointer-events:none; }
+    .wa:active { transform:scale(.99); }
+    @media (hover:hover) {
+        .wa:hover::before, .wa:focus-visible::before { transform:translateX(calc(100% - 30px)); }
+        .wa:hover, .wa:focus-visible { color:var(--teal); box-shadow:0 16px 30px rgba(0,0,0,.32); }
     }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: #0C3840; }
-    body {
-        margin: 0;
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: max(40px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
-        font-family: var(--font-body);
-        color: var(--cream);
-        /* Same background as the tools and the 404 page: spotlight (body::before) and icon pattern (body::after). */
-        background-color: transparent;
+    @media (max-width:440px) {
+        body { padding-left:16px; padding-right:16px; }
+        .wa { font-size:12px; letter-spacing:.1em; padding:0 18px; }
+        .proof { font-size:.82rem; gap:8px; }
+        .faces img, .faces .plus { height:24px; } .faces img { width:24px; } .faces img + img, .faces .plus { margin-left:-8px; } .faces .plus { font-size:11px; padding:0 7px 0 6px; }
     }
-    body::before, body::after { content: ""; position: fixed; pointer-events: none; }
-    body::before {
-        inset: 0; z-index: -2;
-        background: radial-gradient(ellipse 85% 55% at 50% 55%, #1A606C 0%, #0C3840 52%, #051619 100%);
-    }
-    body::after {
-        /* Same handwritten math pattern as the home page hero, light teal, drifting diagonally (one full tile per loop = seamless) */
-        --tile: clamp(520px, 62vw, 820px);
-        left: 0; top: 0; width: calc(100vw + var(--tile)); height: calc(100vh + var(--tile)); z-index: -1;
-        background: url("images/math-pattern-light.svg") 0 0 / var(--tile) var(--tile) repeat;
-        opacity: .065; will-change: transform;
-        animation: bg-drift 90s linear infinite;
-    }
-    @keyframes bg-drift { to { transform: translate3d(calc(-1 * var(--tile)), calc(-1 * var(--tile)), 0); } }
-    @media (prefers-reduced-motion: reduce) { body::after { animation: none; } }
-    main { width: 100%; max-width: 420px; text-align: center; }
-    .logo { display: block; width: min(60%, 200px); height: auto; margin: 0 auto 14px; }
-    .tagline { margin: 0 0 34px; font-size: 1.02rem; line-height: 1.4; opacity: .85; }
-    .links { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .link {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        min-height: 76px;
-        padding: 14px 18px;
-        border-radius: 14px;
-        text-align: left;
-        text-decoration: none;
-        color: var(--teal);
-        background: var(--cream);
-        -webkit-tap-highlight-color: transparent;
-        transition: background-color .15s ease, transform .12s ease;
-    }
-    .link.main { background: var(--orange); color: #fff; }
-    .link:active { transform: scale(.985); }
-    .link:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
-    @media (hover: hover) {
-        .link:hover { background: #fff; }
-        .link.main:hover { background: #e04a00; }
-    }
-    .icon { flex: 0 0 auto; width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .icon.fill { fill: currentColor; stroke: none; }
-    .text { flex: 1 1 auto; min-width: 0; }
-    .title { display: block; font-weight: 700; font-size: 1.12rem; line-height: 1.25; }
-    .sub { display: block; margin-top: 2px; font-size: .92rem; line-height: 1.3; opacity: .85; }
-    .arrow { flex: 0 0 auto; width: 20px; height: 20px; }
-    @media (prefers-reduced-motion: reduce) { .link { transition: none; } }
+    @media (max-width:360px) { .proof { white-space:normal; line-height:1.25; text-align:left; } }
+
+    .more { display:flex; align-items:center; gap:18px; margin-top:30px; font-size:1rem; font-weight:600; }
+    /* minimal hover: an orange line draws left to right over the quiet underline */
+    .more a { color:var(--cream); text-decoration:none; padding-bottom:5px; -webkit-tap-highlight-color:transparent;
+        background:linear-gradient(var(--orange),var(--orange)) 0 100%/0 1.5px no-repeat, linear-gradient(rgba(248,248,242,.35),rgba(248,248,242,.35)) 0 100%/100% 1.5px no-repeat;
+        transition:background-size .4s cubic-bezier(.22,1,.36,1); }
+    @media (hover:hover) { .more a:hover { background-size:100% 1.5px, 100% 1.5px; } }
+    .more a:focus-visible { background-size:100% 1.5px, 100% 1.5px; }
+    .more i { width:3px; height:3px; border-radius:50%; background:rgba(248,248,242,.45); }
+    a:focus-visible { outline:2px solid var(--cream); outline-offset:3px; border-radius:6px; }
+    ::selection { background:var(--orange); color:var(--cream); }
+    @media (prefers-reduced-motion:reduce) { .pat-drift { animation:none; } .wa, .wa::before, .more a { transition:none; } main > * { animation:none !important; } }
 </style>
 </head>
 <body>
+<div class="pat" aria-hidden="true"><div class="pat-drift"></div></div>
 <main>
-    <img class="logo" src="images/logo-cream.svg" alt="Samkedemia" width="108" height="24">
-    <p class="tagline">University math and statistics tutoring</p>
+    <img class="logo" src="images/logo-cream.svg" alt="Samkedemia">
+    <h1>Result Driven Tutoring.</h1>
+    <p class="proof"><span class="faces" aria-hidden="true"><img src="images/opt/student1.webp" alt=""><img src="images/opt/student2.webp" alt=""><img src="images/opt/student3.webp" alt=""><span class="plus">+200</span></span><span>passed their exams with me. You’re next.</span></p>
 
-    <ul class="links">
-        <li>
-            <a class="link main" href="https://wa.me/32490100821">
-                <svg class="icon fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
-                <span class="text">
-                    <span class="title">Message me on WhatsApp</span>
-                    <span class="sub">Questions? Chat with Jovan</span>
-                </span>
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </li>
-        <li>
-            <a class="link" href="https://www.samkedemia.com">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.7 2.7 4 6 4 9.5s-1.3 6.8-4 9.5c-2.7-2.7-4-6-4-9.5s1.3-6.8 4-9.5z"/></svg>
-                <span class="text">
-                    <span class="title">Website</span>
-                    <span class="sub">samkedemia.com</span>
-                </span>
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </li>
-        <li>
-            <a class="link" href="tools/ti84">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><rect x="8" y="5.5" width="8" height="4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16h.01M12 16h.01M15.5 16h.01M8.5 19h.01M12 19h.01M15.5 19h.01"/></svg>
-                <span class="text">
-                    <span class="title">TI-84 calculator</span>
-                    <span class="sub">Free online, works on any device</span>
-                </span>
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </li>
-    </ul>
+    <a class="wa" href="https://wa.me/32490100821">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+        Message me on WhatsApp
+    </a>
+
+    <p class="more"><a href="https://www.samkedemia.com">Website</a><i></i><a href="https://www.samkedemia.com/tools/ti84">Free TI-84 calculator</a></p>
 </main>
+<script>
+(function() {
+    const root = document.documentElement;
+    if (!root.classList.contains('pat-intro')) return;
+    const box = document.querySelector('.pat'), drift = box.querySelector('.pat-drift'), logoEl = document.querySelector('.logo');
+    const NS = 'http://www.w3.org/2000/svg';
+    function reveal() { root.classList.remove('pat-intro'); }
+    function endLogo() { root.classList.remove('pat-logo'); const o = document.getElementById('logo-intro'); if (o) o.remove(); }
+    function bail() { reveal(); endLogo(); }
+    if (!window.fetch || !window.DOMParser) { bail(); return; }
+    // pieces of the pattern that fade in (confetti) instead of being drawn
+    const FADE = new Set([458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602]);
+    const START = 0.05, SWEEP = 0.5, JITTER = 0.2, GLIDE_AT = 1500, GLIDE = 700;
+    drift.classList.add('writing');
+    const giveUp = setTimeout(bail, 2500);
+    Promise.all([fetch('images/math-pattern-light.svg').then(r => r.text()), fetch('images/logo-cream.svg').then(r => r.text())]).then(function(res) {
+        clearTimeout(giveUp);
+        const parse = t => new DOMParser().parseFromString(t, 'image/svg+xml').documentElement;
+
+        /* ---- the math draws itself ---- */
+        const src = parse(res[0]), VB = 1650;
+        const b = box.getBoundingClientRect();
+        const tile = drift.getBoundingClientRect().width - b.width;
+        const cols = Math.ceil((b.width + 40) / tile), rows = Math.ceil(b.height / tile);
+        const spanX = cols * VB, spanY = rows * VB;
+        const all = Array.from(src.querySelectorAll('path'));
+        const fPaths = all.filter((p, k) => !FADE.has(k)), rPaths = all.filter((p, k) => FADE.has(k));
+        const starts = fPaths.map(p => { const m = /M\s*([\d.-]+)[\s,]+([\d.-]+)/.exec(p.getAttribute('d') || ''); return m ? [+m[1], +m[2]] : [0, 0]; });
+        const layerF = document.createElement('div'), layerR = document.createElement('div');
+        layerF.className = 'pat-layer pat-f'; layerR.className = 'pat-layer pat-r';
+        drift.appendChild(layerR); drift.appendChild(layerF);
+        function tileSvg(i, j) { const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 ' + VB + ' ' + VB); svg.style.left = (i * tile) + 'px'; svg.style.top = (j * tile) + 'px'; return svg; }
+        const lens = [], jobs = [], k2px = tile / VB, PAD = 420;
+        const fJobs = [], rJobs = [];
+        for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+            const skipped = [];
+            fJobs.push(function(late) {
+                const sf = tileSvg(i, j), kept = [];
+                fPaths.forEach(function(p, k) {
+                    const px = i * tile + starts[k][0] * k2px, py = j * tile + starts[k][1] * k2px;
+                    if (px < -PAD * k2px || py < -PAD * k2px || px > b.width + 40 || py > b.height) { skipped.push(p); return; }
+                    kept.push(k);
+                    const c = p.cloneNode(false);
+                    const gx = i * VB + starts[k][0], gy = j * VB + starts[k][1];
+                    c.style.setProperty('--d', (START + SWEEP * (0.6 * gx / spanX + 0.4 * gy / spanY) + Math.random() * JITTER - late).toFixed(3) + 's');
+                    sf.appendChild(c);
+                });
+                layerF.appendChild(sf);
+                Array.from(sf.children).forEach(function(c, n) { const k = kept[n]; if (lens[k] == null) lens[k] = Math.ceil(c.getTotalLength ? c.getTotalLength() : 4000) + 1; c.style.setProperty('--len', lens[k]); });
+            });
+            rJobs.push(function() { const sr = tileSvg(i, j); rPaths.concat(skipped).forEach(p => sr.appendChild(p.cloneNode(false))); layerR.appendChild(sr); });
+        }
+        jobs.push.apply(jobs, fJobs.concat(rJobs));
+        const t0 = performance.now(); let q = 0;
+        (function next() { if (q >= jobs.length) return; jobs[q++]((performance.now() - t0) / 1000); requestAnimationFrame(next); })();
+
+        /* ---- the logo sketches itself in the middle ---- */
+        const lg = parse(res[1]), vb = lg.getAttribute('viewBox').split(/\s+/).map(Number);
+        const colors = { st0: '#FF5500', st1: '#F7F7F1', st2: '#FFFFFF', st3: '#F8F8F2', st4: '#FF5500' };
+        const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', vb.join(' '));
+        lg.querySelectorAll('path').forEach(function(p) {
+            const c = colors[p.getAttribute('class')] || '#F8F8F2', q2 = p.cloneNode(false);
+            q2.removeAttribute('class'); q2.setAttribute('fill', c); q2.setAttribute('stroke', c); q2.setAttribute('stroke-width', '1'); q2.setAttribute('stroke-linejoin', 'round');
+            svg.appendChild(q2);
+        });
+        const lbox = document.createElement('div'); lbox.id = 'logo-intro'; lbox.appendChild(svg);
+        const W0 = Math.min(innerWidth * 0.74, 460), H0 = W0 * vb[3] / vb[2];
+        const x0 = (innerWidth - W0) / 2, y0 = (innerHeight - H0) / 2 - innerHeight * 0.04;
+        lbox.style.width = W0 + 'px'; lbox.style.transform = 'translate(' + x0 + 'px,' + y0 + 'px)';
+        document.body.appendChild(lbox);
+        Array.from(svg.children).forEach(function(p) { const bb = p.getBBox(); p.style.setProperty('--len', Math.ceil(p.getTotalLength()) + 1); p.style.setProperty('--d', (0.1 + 0.5 * (bb.x - vb[0]) / vb[2]).toFixed(2) + 's'); });
+
+        /* ---- timeline ---- */
+        setTimeout(function() { drift.classList.add('settled'); }, GLIDE_AT - 300);          // confetti fades in once the drawing is done
+        setTimeout(function() {
+            const t = logoEl.getBoundingClientRect();
+            const sc = t.width / W0;   // scale on the GPU (a width animation re-lays-out and repaints the logo every frame)
+            const a = lbox.animate([
+                { transform: 'translate(' + x0 + 'px,' + y0 + 'px) scale(1)' },
+                { transform: 'translate(' + t.left + 'px,' + t.top + 'px) scale(' + sc + ')' }
+            ], { duration: GLIDE, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'forwards' });
+            setTimeout(reveal, 450);                                                           // the rest rises in mid-glide
+            a.onfinish = function() { endLogo(); };                                            // one-frame swap to the real logo
+        }, GLIDE_AT);
+        // keep the drawn pattern; quietly add the off-screen tiles the drift will need
+        setTimeout(function() {
+            const allCols = Math.ceil(drift.getBoundingClientRect().width / tile), allRows = Math.ceil(drift.getBoundingClientRect().height / tile), extra = [];
+            for (let j = 0; j < allRows; j++) for (let i = 0; i < allCols; i++) { if (i < cols && j < rows) continue; extra.push(function() { const sv = tileSvg(i, j); all.forEach(p => sv.appendChild(p.cloneNode(false))); layerR.appendChild(sv); }); }
+            (function step() { if (extra.length) { extra.shift()(); requestAnimationFrame(step); } })();
+            const w0 = b.width, h0 = b.height;
+            window.addEventListener('resize', function swap() {
+                const r = box.getBoundingClientRect();
+                if (r.width <= w0 + 1 && r.height <= h0 + 1) return;
+                window.removeEventListener('resize', swap);
+                drift.classList.remove('writing', 'settled'); drift.querySelectorAll('.pat-layer').forEach(n => n.remove());   // fall back to the plain tile
+            });
+        }, 3200);
+    }).catch(bail);
+})();
+</script>
 </body>
 </html>
